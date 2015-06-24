@@ -1,0 +1,353 @@
+[
+    {
+        "_id": "54dec524d5ee6e090047fcd8",
+        "user": {
+            "_id": "54dec43bd5ee6e090047fcd6",
+            "displayName": "Jérôme Petazzoni",
+            "slug": "jerome-petazzoni"
+        },
+        "sessionType": "4-Hour Workshop",
+        "abstractHtml": "<p>You have installed Docker, you know how to run containers, <span>and have written Dockerfiles to build container images for </span><span>your applications (or parts of your applications). Now what?</span></p><p><span>Now comes the next part: connecting multiple containers </span><span>together, and deploying them on a cluster of Docker hosts, </span><span>instead of your single development machine. </span></p><p>This is what we want to cover here, alongside with some <span>production-related questions: how to manage logs? Backups? </span><span>Remote access? Security upgrades?</span></p><p><span>In this workshop, we will present the networking model </span><span>of containers, with links an ambassadors. Then we will </span><span>introduce volumes, and explain how they can be used </span><span>to implement cleanly ops tasks like logging, backups, </span><span>and more. Finally, we will discuss orchestration, </span><span>and see solutions like Swarm and Mesos in action.</span></p><p><span>You won't need to pre-install Docker before the course: each student will </span><span>be given credentials to connect to an individual virtual machine. So all </span><span>you need is a computer with a SSH client!</span></p>",
+        "abstract": "You have installed Docker, you know how to run containers, and have written Dockerfiles to build container images for your applications (or parts of your applications). Now what?Now comes the next part: connecting multiple containers together, and deploying them on a cluster of Docker hosts, instead of your single development machine. This is what we want to cover here, alongside with some production-related questions: how to manage logs? Backups? Remote access? Security upgrades?In this workshop, we will present the networking model of containers, with links an ambassadors. Then we will introduce volumes, and explain how they can be used to implement cleanly ops tasks like logging, backups, and more. Finally, we will discuss orchestration, and see solutions like Swarm and Mesos in action.You won't need to pre-install Docker before the course: each student will be given credentials to connect to an individual virtual machine. So all you need is a computer with a SSH client!",
+        "__v": 1,
+        "slot": 2,
+        "room": 11,
+        "tags": [],
+        "confirmed": false,
+        "accepted": true,
+        "title": "Advanced Docker concepts and container orchestration",
+        "created": "2015-02-14T03:46:44.538Z"
+    },
+    {
+        "_id": "54e4ac2c55c0470b004b1279",
+        "user": {
+            "_id": "54e25de048e38a090008d349",
+            "displayName": "Tami Flowers",
+            "slug": "tami-flowers"
+        },
+        "sessionType": "8-Hour Workshop",
+        "abstractHtml": "<p>There are many books, trainings or conferences available for learning or implementing Agile practices – they focus on technical skills and practices. But how do you help people to better work together?</p><p>How do you create or enable high-performing teams that utilize Agile practices and principles to deliver value to the business and customers?</p><p>We will concentrate on the stages of team development - forming, storming, norming and performing – and provide activities to help improve teamwork or mature a team at each stage.</p><p>This full-day session will be full of discussions and hands-on activities to allow you to experience scenarios focused on highlighting and improving soft skills. These are some of our favorite activities that we’ve used over the years with multiple teams.</p><p>• Personality types and how they impact teams</p><p>• Giving and receiving feedback</p><p>• Fundamentals of Good Communication</p><p>• Multi-tasking</p><p>• Working together</p>",
+        "abstract": "There are many books, trainings or conferences available for learning or implementing Agile practices – they focus on technical skills and practices. But how do you help people to better work together?How do you create or enable high-performing teams that utilize Agile practices and principles to deliver value to the business and customers?We will concentrate on the stages of team development - forming, storming, norming and performing – and provide activities to help improve teamwork or mature a team at each stage.This full-day session will be full of discussions and hands-on activities to allow you to experience scenarios focused on highlighting and improving soft skills. These are some of our favorite activities that we’ve used over the years with multiple teams.• Personality types and how they impact teams• Giving and receiving feedback• Fundamentals of Good Communication• Multi-tasking• Working together",
+        "__v": 2,
+        "slot": 1,
+        "room": 2,
+        "tags": [
+            "Teamwork",
+            "agile",
+            "lean",
+            "HighPerformingTeam"
+        ],
+        "confirmed": false,
+        "accepted": true,
+        "title": "Creating and Enabling High Performing Teams",
+        "created": "2015-02-18T15:13:48.121Z"
+    },
+    {
+        "_id": "55203bc2e4b09942c39e8a10",
+        "user": {
+            "_id": "54aac89bc02cfb0800d8cd73",
+            "displayName": "Duane Newman",
+            "slug": "duane-newman"
+        },
+        "sessionType": "8-Hour Workshop",
+        "abstractHtml": "<p>What if there was a zombie apocalypse and the only way to save the brains of all humankind was for you to develop a cross-platform mobile app? Come learn how you can use Xamarin to leverage your existing C# skills to speed up mobile development and save the world from zombies.</p><p>Xamarin is already a great tool for decreasing the friction of app development in a multi-platform world, but with the advent of Xamarin Forms we are one step closer to  the holy grail of write once, run anywhere code.  In this course we will learn how to use the latest features of Xamarin to increase code sharing, reduce time to market, improve customer satisfaction, and boost potential revenue.</p><p>We will be using C# and Xamarin Forms XAML to create apps that look, feel, and run native on multiple platforms. This hands-on workshop will teach you how to make a cross-platform app that shares both the user interface design and business logic. We will also take a look at how to support platform specific features like live tiles on Windows Phone.</p><p>The class will start with an interactive presentation and discussion that will lead us into a hands-on workshop for the remainder of the session, so make sure you come ready to write some code. Development will be based around the use of the Android Emulator, but we'll work with you to use your device as long as your system meets the requirements and you have the other needed development licenses.</p><p>To speed up the session please come with the following:</p><ul><li>Laptop with Windows 8.1 with at least 4GB of RAM (8GB if using emulator)</li><li><span>Xamarin Android Player</span><br/></li><li>Visual Studio 2013 (Community Edition or better) with Update 4</li><li>A mobile device (not required, you can use the emulator)</li><li>If you do not have Xamarin Business edition for your target platform you will be signing up for the trial at the start of the session.</li></ul><p>Note: A Mac is required for iOS development and debugging on phone or emulator.</p><p>No Zombies please!</p>",
+        "abstract": "What if there was a zombie apocalypse and the only way to save the brains of all humankind was for you to develop a cross-platform mobile app? Come learn how you can use Xamarin to leverage your existing C# skills to speed up mobile development and save the world from zombies.Xamarin is already a great tool for decreasing the friction of app development in a multi-platform world, but with the advent of Xamarin Forms we are one step closer to  the holy grail of write once, run anywhere code.  In this course we will learn how to use the latest features of Xamarin to increase code sharing, reduce time to market, improve customer satisfaction, and boost potential revenue.We will be using C# and Xamarin Forms XAML to create apps that look, feel, and run native on multiple platforms. This hands-on workshop will teach you how to make a cross-platform app that shares both the user interface design and business logic. We will also take a look at how to support platform specific features like live tiles on Windows Phone.The class will start with an interactive presentation and discussion that will lead us into a hands-on workshop for the remainder of the session, so make sure you come ready to write some code. Development will be based around the use of the Android Emulator, but we'll work with you to use your device as long as your system meets the requirements and you have the other needed development licenses.To speed up the session please come with the following:Laptop with Windows 8.1 with at least 4GB of RAM (8GB if using emulator)Xamarin Android PlayerVisual Studio 2013 (Community Edition or better) with Update 4A mobile device (not required, you can use the emulator)If you do not have Xamarin Business edition for your target platform you will be signing up for the trial at the start of the session.Note: A Mac is required for iOS development and debugging on phone or emulator.No Zombies please!",
+        "__v": 2,
+        "slot": 1,
+        "room": 6,
+        "slidesUrl": "",
+        "tags": [
+            ".Net",
+            "Mobile"
+        ],
+        "confirmed": false,
+        "accepted": true,
+        "title": "Cross-Platform Mobile with C# & Xamarin",
+        "created": "2015-04-04T05:53:49.884Z"
+    },
+    {
+        "_id": "54e4bf1755c0470b004b127c",
+        "user": {
+            "_id": "54c6c56ef72e35090056c02a",
+            "displayName": "Jordan Kasper",
+            "slug": "jordan-kasper"
+        },
+        "sessionType": "4-Hour Workshop",
+        "abstractHtml": "<p>This tutorial will help developers quickly get up to speed in designing, developing, deploying, and monitoring robust REST APIs in Node.js. We'll discuss overarching principles in API development, best practices for deployment, and the pros and cons of various frameworks. <span>The workshop will begin with some useful information for developers from other backgrounds new to Node and the pros and cons of various Node frameworks. We'll dive into developing APIs from scratch with the open source Loopback framework, including connecting the application to various datasources whether they be simple MongoDB stores or enterprise Oracle instances. Other topics include aggregating data from third party sources, working with mobile application platforms, and enabling offline sync.</span></p><p>We'll finish up the workshop with best practices for deploying Node applications, how to monitor your new API, and working with a cluster. Developers will come out of this session ready to begin working on a robust, efficient API in Node.js and with the skills needed to deploy and manage those applications.</p><p><span>To get the most out of the workshop, attendees should have at least a basic understanding of how Node works in theory, basic JavaScript skills and a current stable version on Node.js installed.</span><br/></p>",
+        "abstract": "This tutorial will help developers quickly get up to speed in designing, developing, deploying, and monitoring robust REST APIs in Node.js. We'll discuss overarching principles in API development, best practices for deployment, and the pros and cons of various frameworks. The workshop will begin with some useful information for developers from other backgrounds new to Node and the pros and cons of various Node frameworks. We'll dive into developing APIs from scratch with the open source Loopback framework, including connecting the application to various datasources whether they be simple MongoDB stores or enterprise Oracle instances. Other topics include aggregating data from third party sources, working with mobile application platforms, and enabling offline sync.We'll finish up the workshop with best practices for deploying Node applications, how to monitor your new API, and working with a cluster. Developers will come out of this session ready to begin working on a robust, efficient API in Node.js and with the skills needed to deploy and manage those applications.To get the most out of the workshop, attendees should have at least a basic understanding of how Node works in theory, basic JavaScript skills and a current stable version on Node.js installed.",
+        "__v": 1,
+        "slot": 1,
+        "room": 13,
+        "tags": [],
+        "confirmed": false,
+        "accepted": true,
+        "title": "Develop, Deploy, Monitor, and Scale REST APIs in Node.js",
+        "created": "2015-02-18T16:34:31.633Z"
+    },
+    {
+        "_id": "54afff0aad66b10800f4f7f5",
+        "user": {
+            "_id": "54affd0bad66b10800f4f7f3",
+            "displayName": "James Falkner",
+            "slug": "james-falkner"
+        },
+        "abstractHtml": "<span><a href=\"http://en.wikipedia.org/wiki/Bluetooth\">Bluetooth</a> has long been used in a wide variety of applications due to its low cost and support across a wide variety of devices. Recent developments in <a href=\"http://en.wikipedia.org/wiki/Bluetooth_low_energy\">Bluetooth LE (Low Energy)</a> and support in modern mobile operating systems has made it possible to use Bluetooth for more than mice and telephony. In this tutorial, you will learn the basics of Bluetooth LE and <a href=\"http://en.wikipedia.org/wiki/IBeacon\">iBeacons</a> and how it can be used for interesting applications related to indoor positioning and location-aware apps. You'll build a cross-platform mobile app using <a href=\"http://www.appcelerator.com/\">Titanium Appcelerator</a> (an open source cross-device mobile app platform) which displays engaging notifications as you move throughout a space, and collects analytics along the way. Finally, you'll build a site using <a href=\"http://liferay.com\">Liferay</a> and build visualization plugins to be able to quickly see how you (and others!) are moving throughout the space using various visualizations like timelines, heatmaps, etc.</span><p></p><p></p><p>To get the most out of this workshop, you should have some programming experience in any language (we'll be primarily using JavaScript and Java), but it's not absolutely required</p><p>To be able to deploy apps to your phone during the workshop, you'll need a reasonably modern iOS or Android smartphone (one of <a href=\"http://en.wikipedia.org/wiki/IBeacon#Compatible_devices\">these</a>) running iOS 7.1+ or Android 4.3+. </p><p></p>",
+        "abstract": "Bluetooth has long been used in a wide variety of applications due to its low cost and support across a wide variety of devices. Recent developments in Bluetooth LE (Low Energy) and support in modern mobile operating systems has made it possible to use Bluetooth for more than mice and telephony. In this tutorial, you will learn the basics of Bluetooth LE and iBeacons and how it can be used for interesting applications related to indoor positioning and location-aware apps. You'll build a cross-platform mobile app using Titanium Appcelerator (an open source cross-device mobile app platform) which displays engaging notifications as you move throughout a space, and collects analytics along the way. Finally, you'll build a site using Liferay and build visualization plugins to be able to quickly see how you (and others!) are moving throughout the space using various visualizations like timelines, heatmaps, etc.To get the most out of this workshop, you should have some programming experience in any language (we'll be primarily using JavaScript and Java), but it's not absolutely requiredTo be able to deploy apps to your phone during the workshop, you'll need a reasonably modern iOS or Android smartphone (one of these) running iOS 7.1+ or Android 4.3+.",
+        "__v": 1,
+        "sessionType": "4-Hour Workshop",
+        "slot": 1,
+        "room": 9,
+        "tags": [],
+        "confirmed": false,
+        "accepted": true,
+        "title": "Developing cross-platform mobile apps using iBeacons",
+        "created": "2015-01-09T16:17:14.699Z"
+    },
+    {
+        "_id": "54dee2edd5ee6e090047fcdf",
+        "user": {
+            "_id": "54dedfd2d5ee6e090047fcdb",
+            "displayName": "Keith Dahlby",
+            "slug": "keith-dahlby"
+        },
+        "sessionType": "4-Hour Workshop",
+        "abstractHtml": "&#34;It's just version control.&#34; Or is it? When I started using git-svn more than five years ago, I never imagined how fundamentally Git would change the way I develop software. This session will cast new light on the basic Git commands you already know as a first step into a hands-on exploration of the more advanced tools at our disposal to develop software on our terms. Topics covered will include local and distributed workflows, history inspection and manipulation, and a glimpse into the power available through tools like filter-branch.<br/>",
+        "abstract": "&#34;It's just version control.&#34; Or is it? When I started using git-svn more than five years ago, I never imagined how fundamentally Git would change the way I develop software. This session will cast new light on the basic Git commands you already know as a first step into a hands-on exploration of the more advanced tools at our disposal to develop software on our terms. Topics covered will include local and distributed workflows, history inspection and manipulation, and a glimpse into the power available through tools like filter-branch.",
+        "__v": 1,
+        "slot": 2,
+        "room": 10,
+        "tags": [],
+        "confirmed": false,
+        "accepted": true,
+        "title": "Git master Class",
+        "created": "2015-02-14T05:53:49.884Z"
+    },
+    {
+        "_id": "54bd777b6aa50a0900d75038",
+        "user": {
+            "_id": "54bd11422f4d7c0900f6dd29",
+            "displayName": "Gaines Kergosien",
+            "slug": "gaines-kergosien"
+        },
+        "sessionType": "4-Hour Workshop",
+        "abstractHtml": "<p>Software and website developers are in extremely high demand and rates continue to climb, but many developers have not yet realized their potential. In this workshop we'll work together to measure your accomplishments, establish a personal brand, and walk away with a resume that conveys your true value!</p>",
+        "abstract": "Software and website developers are in extremely high demand and rates continue to climb, but many developers have not yet realized their potential. In this workshop we'll work together to measure your accomplishments, establish a personal brand, and walk away with a resume that conveys your true value!",
+        "__v": 1,
+        "slot": 1,
+        "room": 7,
+        "tags": [],
+        "confirmed": false,
+        "accepted": true,
+        "title": "How to be a Six Figure Developer",
+        "created": "2015-01-19T21:30:35.444Z"
+    },
+    {
+        "_id": "54dec4e3d5ee6e090047fcd7",
+        "user": {
+            "_id": "54dec43bd5ee6e090047fcd6",
+            "displayName": "Jérôme Petazzoni",
+            "slug": "jerome-petazzoni"
+        },
+        "sessionType": "4-Hour Workshop",
+        "abstractHtml": "<p>You keep hearing about Docker, but never had the opportunity to dive in <span>and see it in action? Now is the time! In this hands-on workshop, you </span><span>will learn about Docker basic concepts, how to run containers, create </span><span>your own images, interact with the &#34;Docker Hub&#34;, and more.</span></p><p>Course outline:</p><ul><li>What's Docker?</li><li>Running our first container</li><li>Introducing Docker Hub</li><li>Understanding Docker Images</li><li>Different types of containers</li><li>Building Images Interactively</li><li>Building Images with Dockerfile</li><li>Pushing and pulling images</li><li>Development workflow with Docker</li></ul><p>No previous knowledge of Docker or containers is required, but you will <span>need some basic UNIX command-line skills.</span></p><p>You won't need to pre-install Docker before the course: each student will <span>be given credentials to connect to an individual virtual machine. So all </span><span>you need is a computer with a SSH client!</span></p><p><br/></p>",
+        "abstract": "You keep hearing about Docker, but never had the opportunity to dive in and see it in action? Now is the time! In this hands-on workshop, you will learn about Docker basic concepts, how to run containers, create your own images, interact with the &#34;Docker Hub&#34;, and more.Course outline:What's Docker?Running our first containerIntroducing Docker HubUnderstanding Docker ImagesDifferent types of containersBuilding Images InteractivelyBuilding Images with DockerfilePushing and pulling imagesDevelopment workflow with DockerNo previous knowledge of Docker or containers is required, but you will need some basic UNIX command-line skills.You won't need to pre-install Docker before the course: each student will be given credentials to connect to an individual virtual machine. So all you need is a computer with a SSH client!",
+        "__v": 1,
+        "slot": 1,
+        "room": 11,
+        "tags": [],
+        "confirmed": false,
+        "accepted": true,
+        "title": "Introduction to Docker and containers",
+        "created": "2015-02-14T03:45:39.887Z"
+    },
+    {
+        "_id": "54dbe57b190adc0900408b65",
+        "user": {
+            "_id": "54dbe32a190adc0900408b64",
+            "displayName": "David Churchill",
+            "slug": "david-churchill"
+        },
+        "sessionType": "8-Hour Workshop",
+        "abstractHtml": "<p>Video games have come a long way from the blocks, bleeps, and bloops of their roots. They have grown exponentially both in expression and audience. They now rival Hollywood itself for a spot in the entertainment spectrum and as such demand the same facilities for artistic expression as any form of media deserves. The technological barrier to entry into the industry of video games is becoming smaller and smaller as new tools enter the scene to remove the burden of constantly reinventing the wheel so the true creative process of game design can remain the central focus. </p><p>In this workshop we will explore one such tool, Unity3D, and learn how easy it can be to rapidly build and tweak prototypes. Prototyping in this fashion ultimately leads to games spawned from and refined by idea exploration, avoiding the stifling limitations of bulky frameworks and steep learning curves. Unity3D further removes the onus of supporting multiple runtime environments with the integrated ability to build native game binaries for a plethora of platforms – both PC and console – from a single project.</p><p>We will develop a game from the ground up in C# using Unity3D and Visual Studio (or the included MonoDevelop environment if you perfer). Feel free to bring your own game pads, joysticks, or any form of HID that Windows recognizes as a standard game controller. At the conclusion of this session you should leave not only with a game that you created yourself but hopefully with the inspiration to bring those long-lost childhood game ambitions to life.</p>",
+        "abstract": "Video games have come a long way from the blocks, bleeps, and bloops of their roots. They have grown exponentially both in expression and audience. They now rival Hollywood itself for a spot in the entertainment spectrum and as such demand the same facilities for artistic expression as any form of media deserves. The technological barrier to entry into the industry of video games is becoming smaller and smaller as new tools enter the scene to remove the burden of constantly reinventing the wheel so the true creative process of game design can remain the central focus. In this workshop we will explore one such tool, Unity3D, and learn how easy it can be to rapidly build and tweak prototypes. Prototyping in this fashion ultimately leads to games spawned from and refined by idea exploration, avoiding the stifling limitations of bulky frameworks and steep learning curves. Unity3D further removes the onus of supporting multiple runtime environments with the integrated ability to build native game binaries for a plethora of platforms – both PC and console – from a single project.We will develop a game from the ground up in C# using Unity3D and Visual Studio (or the included MonoDevelop environment if you perfer). Feel free to bring your own game pads, joysticks, or any form of HID that Windows recognizes as a standard game controller. At the conclusion of this session you should leave not only with a game that you created yourself but hopefully with the inspiration to bring those long-lost childhood game ambitions to life.",
+        "__v": 1,
+        "slot": 1,
+        "room": 1,
+        "tags": [],
+        "confirmed": false,
+        "accepted": true,
+        "title": "Introduction to Game Development and Prototyping with Unity3D",
+        "created": "2015-02-11T23:27:55.222Z"
+    },
+    {
+        "_id": "54de8dfdb74798090073c7d2",
+        "user": {
+            "_id": "54dba9d9190adc0900408b5c",
+            "displayName": "Troy Tuttle",
+            "slug": "troy-tuttle"
+        },
+        "sessionType": "4-Hour Workshop",
+        "abstractHtml": "<p>Looking to learn more about the benefits of Kanban? We will use the GetKanban board game to learn about Kanban and Lean through experiential team play.  Then we explore the theory behind Kanban to better understand how it could benefit your team or organization. </p><p><b>Learning Goals:</b></p><p>-&#9;Benefits of visual management</p><p>-&#9;Application of work-in-progress limits</p><p>-&#9;How to identify system bottlenecks</p><p>-&#9;Actionable team metrics</p><p>-&#9;Implementing information feedback loops</p><p><br/></p>",
+        "abstract": "Looking to learn more about the benefits of Kanban? We will use the GetKanban board game to learn about Kanban and Lean through experiential team play.  Then we explore the theory behind Kanban to better understand how it could benefit your team or organization. Learning Goals:-&#9;Benefits of visual management-&#9;Application of work-in-progress limits-&#9;How to identify system bottlenecks-&#9;Actionable team metrics-&#9;Implementing information feedback loops",
+        "__v": 1,
+        "slot": 1,
+        "room": 12,
+        "tags": [],
+        "confirmed": false,
+        "accepted": true,
+        "title": "Learning Kanban Through Theory and Simulation",
+        "created": "2015-02-13T23:51:25.802Z"
+    },
+    {
+        "_id": "54b422f960762808005069a3",
+        "user": {
+            "_id": "54b421cb60762808005069a2",
+            "displayName": "Sam Basu",
+            "slug": "sam-basu"
+        },
+        "sessionType": "4-Hour Workshop",
+        "abstractHtml": "<p>You’ve heard the buzz around .NET vNext. Yes, lot of things are changing towards a more modular cross-platform modern development platform; but fret not – no one is moving your cheese. This will be a no-fluff developer-to-developer workshop to break down all that’s new. Here’s what we’ll cover:</p><p><br/></p><p>-&#9;.NET Core going Open Source | .NET Framework changes</p><p>-&#9;ASP.NET vNext | New Runtimes | MVC6 | OmniSharp.NET</p><p>-&#9;Cross-Platform Love | Homebrew | Yeoman | CLI</p><p>-&#9;Visual Studio 2015 | Integrations</p><p>-&#9;C# 6.0 | Roslyn</p><p><br/></p><p>You’ll walk away with hands-on playtime with latest bits and deeper understanding of all things new in .NET going forward!</p><p><br/></p><p>PS: Co-presented by Sam Basu &amp; Michael Crump</p>",
+        "abstract": "You’ve heard the buzz around .NET vNext. Yes, lot of things are changing towards a more modular cross-platform modern development platform; but fret not – no one is moving your cheese. This will be a no-fluff developer-to-developer workshop to break down all that’s new. Here’s what we’ll cover:-&#9;.NET Core going Open Source | .NET Framework changes-&#9;ASP.NET vNext | New Runtimes | MVC6 | OmniSharp.NET-&#9;Cross-Platform Love | Homebrew | Yeoman | CLI-&#9;Visual Studio 2015 | Integrations-&#9;C# 6.0 | RoslynYou’ll walk away with hands-on playtime with latest bits and deeper understanding of all things new in .NET going forward!PS: Co-presented by Sam Basu &amp; Michael Crump",
+        "__v": 1,
+        "slot": 2,
+        "room": 13,
+        "tags": [],
+        "confirmed": false,
+        "accepted": true,
+        "title": "Modern .NET Apps!",
+        "created": "2015-01-12T19:39:37.049Z"
+    },
+    {
+        "_id": "54d996e671cff60900a7c726",
+        "user": {
+            "_id": "54d98d3a71cff60900a7c723",
+            "displayName": "Bryan Nehl",
+            "slug": "bryan-nehl"
+        },
+        "sessionType": "4-Hour Workshop",
+        "abstractHtml": "<p>Discussion of MongoDB fundamentals.  Compared/contrasted with relational database systems.</p><p>Installation of MongoDB on your laptop.  </p><p>B<span>asic operations in the shell. </span></p><p><span>Advanced queries, indices and introduction to aggregation framework. </span></p><p>Discussion of setting up and working with replica sets and sharded environments.</p><p>Open lab time.</p><p>Pre-requisites: laptop, familiarity with JSON, comfort working in shell environment.</p>",
+        "abstract": "Discussion of MongoDB fundamentals.  Compared/contrasted with relational database systems.Installation of MongoDB on your laptop.  Basic operations in the shell. Advanced queries, indices and introduction to aggregation framework. Discussion of setting up and working with replica sets and sharded environments.Open lab time.Pre-requisites: laptop, familiarity with JSON, comfort working in shell environment.",
+        "__v": 1,
+        "slot": 2,
+        "room": 8,
+        "tags": [],
+        "confirmed": false,
+        "accepted": true,
+        "title": "MongoDB Workshop",
+        "created": "2015-02-10T05:28:06.008Z"
+    },
+    {
+        "_id": "54de7b61b74798090073c7cb",
+        "user": {
+            "_id": "54d0403ef5c8ca09006bd984",
+            "displayName": "Jimmy Bogard",
+            "slug": "jimmy-bogard"
+        },
+        "sessionType": "8-Hour Workshop",
+        "abstractHtml": "<p>Interested in learning how to build reliable systems? Curious to see what NServiceBus brings over technologies like WCF? Or just want to learn about reliable messaging? Bring your laptop, and we'll examine through hands-on coding how NServiceBus builds reliability in. We'll tour the major messaging patterns - One-way sending, request/reply, pub/sub, sagas and more. We'll also see what NServiceBus adds on top of messaging frameworks like Azure Queues and MSMQ. Finally, I'll share some of my experiences bringing unreliable systems under control with durable messaging.</p>",
+        "abstract": "Interested in learning how to build reliable systems? Curious to see what NServiceBus brings over technologies like WCF? Or just want to learn about reliable messaging? Bring your laptop, and we'll examine through hands-on coding how NServiceBus builds reliability in. We'll tour the major messaging patterns - One-way sending, request/reply, pub/sub, sagas and more. We'll also see what NServiceBus adds on top of messaging frameworks like Azure Queues and MSMQ. Finally, I'll share some of my experiences bringing unreliable systems under control with durable messaging.",
+        "__v": 1,
+        "slot": 1,
+        "room": 3,
+        "tags": [],
+        "confirmed": false,
+        "accepted": true,
+        "title": "NServiceBus Crash Course",
+        "created": "2015-02-13T22:32:01.535Z"
+    },
+    {
+        "_id": "54fc4c2b9177630b009ac483",
+        "user": {
+            "_id": "54aad33ac02cfb0800d8cd77",
+            "displayName": "Jesse Phelps",
+            "slug": "jesse-phelps"
+        },
+        "sessionType": "8-Hour Workshop",
+        "abstractHtml": "<p>Have you attended an Intro to Netduino talk but just aren’t sure how to get started on your own? Maybe you’ve thought about buying a Netduino but haven’t yet because you didn’t know what to do with it. Then this precompiler is for you! Don’t have a Netduino yet? No problem! We’ve included it in the special price of this session. Not only that, but also a kit of some basic sensors and components and a breadboard that you can use to build several projects. </p><p>In this precompiler we will build a small car which is controlled by a netduino receiving instruction via bluetooth from your computer. The car will also have an infrared sensor for collision detection.</p>",
+        "abstract": "Have you attended an Intro to Netduino talk but just aren’t sure how to get started on your own? Maybe you’ve thought about buying a Netduino but haven’t yet because you didn’t know what to do with it. Then this precompiler is for you! Don’t have a Netduino yet? No problem! We’ve included it in the special price of this session. Not only that, but also a kit of some basic sensors and components and a breadboard that you can use to build several projects. In this precompiler we will build a small car which is controlled by a netduino receiving instruction via bluetooth from your computer. The car will also have an infrared sensor for collision detection.",
+        "slot": 1,
+        "room": 5,
+        "__v": 0,
+        "tags": [],
+        "confirmed": false,
+        "accepted": true,
+        "title": "Netduino Powered Car",
+        "created": "2015-03-08T13:18:35.671Z"
+    },
+    {
+        "_id": "54b00ce9ad66b10800f4f80c",
+        "user": {
+            "_id": "54b007fbad66b10800f4f802",
+            "displayName": "Joel Tosi",
+            "slug": "joel-tosi"
+        },
+        "abstractHtml": "<p>This is a hands on the keyboard build a product workshop designed to help attendees understand how to decompose stories into smaller chunks that are vertical (across components / tiers) instead of focusing on one area, i.e. work on the services then the database then the UI.</p><p>The workshop can be done in a half-day.  We start with some concepts around stories and why decomposition matters.  We explore a variety of ways to decompose stories</p><p>We then propose a problem along with two stories.  It starts with having pairs decompose those stories into at least 10 deliverables.  The pairs choose how they will work (Full TDD, Some TDD, Test After, Forget the tests)The teams then work in 8-10 minute 'sprints' building their slices with a 1-minute demo in between.  We stop periodically along the way to share learning, observations, questions.</p><p>We wrap up with 4 scenarios as a user test to see who gets the correct outcomes - i.e. what tests weren't they thinking a user would try.</p><p>This could also be delivered as a presentation without the coding.  The presentation would cover 4 ways of decomposing stories.</p>",
+        "abstract": "This is a hands on the keyboard build a product workshop designed to help attendees understand how to decompose stories into smaller chunks that are vertical (across components / tiers) instead of focusing on one area, i.e. work on the services then the database then the UI.The workshop can be done in a half-day.  We start with some concepts around stories and why decomposition matters.  We explore a variety of ways to decompose storiesWe then propose a problem along with two stories.  It starts with having pairs decompose those stories into at least 10 deliverables.  The pairs choose how they will work (Full TDD, Some TDD, Test After, Forget the tests)The teams then work in 8-10 minute 'sprints' building their slices with a 1-minute demo in between.  We stop periodically along the way to share learning, observations, questions.We wrap up with 4 scenarios as a user test to see who gets the correct outcomes - i.e. what tests weren't they thinking a user would try.This could also be delivered as a presentation without the coding.  The presentation would cover 4 ways of decomposing stories.",
+        "__v": 1,
+        "sessionType": "4-Hour Workshop",
+        "slot": 2,
+        "room": 7,
+        "tags": [],
+        "confirmed": false,
+        "accepted": true,
+        "title": "Story Decomposition Workshop / Pre-compiler",
+        "created": "2015-01-09T17:16:25.314Z"
+    },
+    {
+        "_id": "54d39f2ef82ef2090004b266",
+        "user": {
+            "_id": "54b4152860762808005069a0",
+            "displayName": "Ondrej Balas",
+            "slug": "ondrej-balas"
+        },
+        "sessionType": "8-Hour Workshop",
+        "abstractHtml": "<p>Your dream has come true! You just got hired in as a game developer for Bad Snowstorm Inc. They are almost ready to launch their new text-based adventure game, but their development team (Billy, the CEO’s son) is having a hard time keeping up with changing requirements. Billy never learned about interfaces or loosely coupled code, so your job will be to implement better practices that will make adding requirements faster than an avalanche.</p><p>This workshop is divided into two parts. In part one, you will get an introduction to Dependency Injection through an interactive exercise. You will then inherit some tightly coupled source code, and begin refactoring in response to changing requirements. You will do this by writing your own simple “Poor man’s DI” engine, because what better way to understand what it is and how to use it than by rolling your own.</p><p>In part two, we will refactor again, taking our “Poor man’s DI” engine to the next level. You will be introduced to various techniques such as constructor injection, method injection, and property injection, and their practical application into your code base. You will end the day by looking at existing frameworks like Ninject, StructureMap and Castle Windsor.</p><p>You will leave this session with a solid understanding of DI, and how to use it in your current and future projects.</p>",
+        "abstract": "Your dream has come true! You just got hired in as a game developer for Bad Snowstorm Inc. They are almost ready to launch their new text-based adventure game, but their development team (Billy, the CEO’s son) is having a hard time keeping up with changing requirements. Billy never learned about interfaces or loosely coupled code, so your job will be to implement better practices that will make adding requirements faster than an avalanche.This workshop is divided into two parts. In part one, you will get an introduction to Dependency Injection through an interactive exercise. You will then inherit some tightly coupled source code, and begin refactoring in response to changing requirements. You will do this by writing your own simple “Poor man’s DI” engine, because what better way to understand what it is and how to use it than by rolling your own.In part two, we will refactor again, taking our “Poor man’s DI” engine to the next level. You will be introduced to various techniques such as constructor injection, method injection, and property injection, and their practical application into your code base. You will end the day by looking at existing frameworks like Ninject, StructureMap and Castle Windsor.You will leave this session with a solid understanding of DI, and how to use it in your current and future projects.",
+        "__v": 1,
+        "slot": 1,
+        "room": 4,
+        "tags": [],
+        "confirmed": false,
+        "accepted": true,
+        "title": "Understanding Dependency Injection in .NET",
+        "created": "2015-02-05T16:49:50.098Z"
+    },
+    {
+        "_id": "54de7a60b74798090073c7ca",
+        "user": {
+            "_id": "54b7ecb71f6af2080051a9b0",
+            "displayName": "Carl Chesser",
+            "slug": "carl-chesser"
+        },
+        "sessionType": "4-Hour Workshop",
+        "abstractHtml": "<p>As a Java developer, it is essentially to understand how your code behaves and the resources it utilizes through workloads. However, in many software development disciplines, there isn’t a strong focus to put energy into profiling, monitoring, and understanding all of the resource requirements that your code requires. In this workshop, we will show you a set of free tooling and approaches, which can be applied on profiling your JVM so you have clear visibility of what is occurring during execution.</p><p>Within this workshop, we will work by profiling a simple, but somewhat defective web based microservice by:</p><ul><li>Monitoring your JVM process from a Linux host by looking at native resources being consumed from the OS</li><li>Tying native thread usage to thread dumps of the JVM to track what code is executing and how it is impacting your performance</li><li>Connecting to your JVM with Oracle JDK tooling and monitoring thread and heap utilization</li><li>Leveraging the Oracle Flight Recorder on a JVM and determining where your code is spending its time</li><li>Inspect where exceptions are being thrown in your code and the costs included in exception creation / handling</li><li>Capturing a heap dump and exploring the graph of objects for large contributors and interesting values</li></ul><p>If you are a Java developer and want to know what is happening in your JVM under load, this workshop is for you!</p><p><br/></p>",
+        "abstract": "As a Java developer, it is essentially to understand how your code behaves and the resources it utilizes through workloads. However, in many software development disciplines, there isn’t a strong focus to put energy into profiling, monitoring, and understanding all of the resource requirements that your code requires. In this workshop, we will show you a set of free tooling and approaches, which can be applied on profiling your JVM so you have clear visibility of what is occurring during execution.Within this workshop, we will work by profiling a simple, but somewhat defective web based microservice by:Monitoring your JVM process from a Linux host by looking at native resources being consumed from the OSTying native thread usage to thread dumps of the JVM to track what code is executing and how it is impacting your performanceConnecting to your JVM with Oracle JDK tooling and monitoring thread and heap utilizationLeveraging the Oracle Flight Recorder on a JVM and determining where your code is spending its timeInspect where exceptions are being thrown in your code and the costs included in exception creation / handlingCapturing a heap dump and exploring the graph of objects for large contributors and interesting valuesIf you are a Java developer and want to know what is happening in your JVM under load, this workshop is for you!",
+        "__v": 1,
+        "slot": 2,
+        "room": 9,
+        "tags": [],
+        "confirmed": false,
+        "accepted": true,
+        "title": "What's in your JVM?",
+        "created": "2015-02-13T22:27:44.481Z"
+    },
+    {
+        "_id": "54deb3d7d5ee6e090047fcd5",
+        "user": {
+            "_id": "54da3b2b71cff60900a7c72b",
+            "displayName": "Michael Eaton",
+            "slug": "michael-eaton"
+        },
+        "sessionType": "4-Hour Workshop",
+        "abstractHtml": "<p><span>You're a web developer with years of experience creating amazing web applications, but </span><span>you've just been assigned to a *gasp* WPF project! Because you're an expert </span><span>developer, you're expected to love this new technology and be productive from day 1.</span><span>You click File | New | WPF project and feel completely lost as you open the </span><span>XAML files. Not only that, but you have to contend with new patterns like MVVM! Trust me, </span><span>it's not as bad as it appears and XAML is NOT as hard as you think. This session will cover </span><span>the things you need to know to be successful on your first XAML-based project.</span></p>",
+        "abstract": "You're a web developer with years of experience creating amazing web applications, but you've just been assigned to a *gasp* WPF project! Because you're an expert developer, you're expected to love this new technology and be productive from day 1.You click File | New | WPF project and feel completely lost as you open the XAML files. Not only that, but you have to contend with new patterns like MVVM! Trust me, it's not as bad as it appears and XAML is NOT as hard as you think. This session will cover the things you need to know to be successful on your first XAML-based project.",
+        "__v": 1,
+        "slot": 1,
+        "room": 8,
+        "tags": [],
+        "confirmed": false,
+        "accepted": true,
+        "title": "XAML: So easy, a web developer can do it",
+        "created": "2015-02-14T02:32:55.547Z"
+    }
+]

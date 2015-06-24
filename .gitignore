@@ -1,0 +1,24 @@
+# Maven project files
+.classpath
+.project
+.settings
+
+# IntelliJ project files
+.idea
+*.iml
+*.ipr
+*.iws
+
+bin
+target
+
+.clover
+.fbprefs
+*.orig
+
+dependency-reduced-pom.xml
+pom.xml.bak
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+
+.DS_Store
