@@ -84,3 +84,6 @@ Example results:
   } ]
 }
 ```
+
+### Reference
+* [KCDC 2015 workshop slides](https://github.com/cchesser/java-perf-workshop/wiki/slides/kcdc2015_whats_in_you_jvm.zip)
