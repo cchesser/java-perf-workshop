@@ -36,7 +36,7 @@ is still capable of being captured from a host.
 
 With different garbage collectors in the JVM, you will get slightly different GC log formats.
 
-### Parralel GC
+#### Parralel GC
 
 ```
 2015-09-30T10:57:20.215+0600: 0.847: [GC (Allocation Failure) [PSYoungGen: 65536K->10748K(76288K)] 65536K->12607K(251392K), 0.0118637 secs] [Times: user=0.03 sys=0.01, real=0.01 secs]
@@ -44,7 +44,7 @@ With different garbage collectors in the JVM, you will get slightly different GC
 2015-09-30T10:57:20.564+0600: 1.196: [Full GC (Metadata GC Threshold) [PSYoungGen: 10748K->0K(141824K)] [ParOldGen: 2038K->10444K(116736K)] 12786K->10444K(258560K), [Metaspace: 20976K->20976K(1067008K)], 0.0286381 secs] [Times: user=0.14 sys=0.01, real=0.03 secs]
 ```
 
-### CMS
+#### CMS
 
 ```
 2015-09-30T11:11:35.994+0600: 0.838: [GC (Allocation Failure) 0.838: [ParNew: 69952K->8703K(78656K), 0.0128204 secs] 69952K->12781K(253440K), 0.0128848 secs] [Times: user=0.04 sys=0.01, real=0.01 secs]
@@ -62,7 +62,7 @@ With different garbage collectors in the JVM, you will get slightly different GC
 2015-09-30T11:11:43.110+0600: 7.954: [CMS-concurrent-reset: 0.023/0.023 secs] [Times: user=0.01 sys=0.01, real=0.03 secs]
 ```
 
-### G1
+#### G1
 
 ```
 015-09-30T11:13:03.870+0600: 0.395: [GC pause (G1 Evacuation Pause) (young), 0.0052206 secs]
@@ -150,6 +150,23 @@ With different garbage collectors in the JVM, you will get slightly different GC
  [Times: user=0.01 sys=0.00, real=0.00 secs]
 ```
 
+#### Type of Collections
+
+A simple rule to watch for on your logs is the prefix of either:
+
+```
+[GC ...      <- Minor GC cycle (young gen)
+[Full GC ... <- Full GC cycle
+```
+
+(:exclamation:) Explicit GCs can also be identified, which is when something is invoking the `System.gc()` API. Note, this is not good thing, as
+something is forcing a GC cycle to occur, rather than letting the JVM trigger this on its own (what should naturally occur).
+
+```
+2015-09-30T12:23:44.425+0600: 195.699: [GC (System.gc()) [PSYoungGen: 39223K->3562K(76288K)] 49685K->14032K(190464K), 0.0047880 secs] [Times: user=0.02 sys=0.00, real=0.01 secs]
+2015-09-30T12:23:44.430+0600: 195.704: [Full GC (System.gc()) [PSYoungGen: 3562K->0K(76288K)] [ParOldGen: 10469K->9174K(114176K)] 14032K->9174K(190464K), [Metaspace: 25137K->25137K(1071104K)], 0.0724521 secs] [Times: user=0.38 sys=0.01, real=0.07 secs]
+```
+
 ### Enabling GC logging
 
 With our service, let's go ahead and start it up with GC logging enabled:
@@ -185,7 +202,7 @@ matches
 gc.df <- data.frame(na.omit(matches[,-1]), stringsAsFactors=FALSE)
 
 # Add a column header to describe fields
-colnames(gc.df) <- c("HeapUsedBeforeGC_KB","HeapUsedAfterGC_KB", "HeapSize_KB", "GCPauseTime_Sec", "GCUserTime_Sec", "GCSysTime_Sec", "GCRealTime_Sec")
+colnames(gc.df) <- c("HeapUsedBeforeGC_KB","HeapUsedAfterGC_KB", "HeapCapacity_KB", "GCPauseTime_Sec", "GCUserTime_Sec", "GCSysTime_Sec", "GCRealTime_Sec")
 
 # List out the contents of the data frame
 gc.df
@@ -194,15 +211,17 @@ gc.df
 Example output:
 
 ```
-  HeapUsedBeforeGC_KB HeapUsedAfterGC_KB HeapSize_KB GCPauseTime_Sec GCUserTime_Sec GCSysTime_Sec GCRealTime_Sec
-1               65536              12554      251392       0.0091645           0.03          0.01           0.01
-2               45883              12707      316928       0.0092271           0.03          0.01           0.0
+  HeapUsedBeforeGC_KB HeapUsedAfterGC_KB HeapCapacity_KB GCPauseTime_Sec GCUserTime_Sec GCSysTime_Sec GCRealTime_Sec
+1               65536              12554          251392       0.0091645           0.03          0.01           0.01
+2               45883              12707          316928       0.0092271           0.03          0.01           0.01
 ```
 
 Reminder on the types of time being collected:
 
-* _GCUserTime_Sec_: User space time
-* _GCSysTime_Sec_: Kernel space time (operating system)
-* _GCRealTime_Sec_: Complete time taken
+* `GCUserTime_Sec`: User space time
+* `GCSysTime_Sec`: Kernel space time (operating system)
+* `GCRealTime_Sec`: Complete time taken
 
-
+Notice that the `GCRealTime_Sec` should closely align with the `GCPauseTime_Sec` value (just rounded up). If you notice that the
+`GCUserTime_Sec` is much larger than the `GCRealTime_Sec`, you can conclude that multiple threads are executing garbage collection,
+as `GCUserTime_Sec` is just the sum time of all the threads.
