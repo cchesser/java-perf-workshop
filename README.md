@@ -7,6 +7,7 @@ This workshop has the following components:
 * [Part 2](part_2/README.md): Java Mission Control and Flight Recorder
 * [Part 3](part_3/README.md): Advanced Flight Recorder
 * [Part 4](part_4/README.md): Java Heap Analysis
+* [Part 5](part_5/README.md): Garbage Collections
 
 This workshop is utilizing a basic web service that is included, which isn't exactly optimal
 in how it performs. The goal is to use this service as an interactive example and identify
