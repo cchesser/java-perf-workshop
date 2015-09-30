@@ -168,7 +168,8 @@ Small is considered: size <= default (ex. 16 for HashMap).
 Large is considered: Size > default.
 * __Boxed__: Contains boxed Numbers (ex. java.lang.Integer). Each of these boxed
 number has overhead as compared to their primitive counterpart due to object references.
-* __Small Collections__: Collections with 1 to 4 elements. There are fixed costs of 
+* __Small Collections__: Collections with 1 to 4 elements. There are fixed costs of collections, which may lend this
+set of data better hosted in an array vs. a full Java collection type.
 * __Vertical Bar Collections__: Collection which is a list of lists, where the outer collection
 is large, and it's elements are all small collections (ex. List(1000) of List(100))
 * __Zero Size Arrays__: Array where length == 0 (still consumers 12 - 16 bytes).
