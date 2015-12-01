@@ -5,7 +5,6 @@ cycles.
 
 ## Prerequisites
 
-* Java Mission Control (Oracle Java 7u40+)
 * [R environment](https://www.r-project.org/) _(If you want to try parsing some of the logs)_
 
 ## Garbage Collection Logs
