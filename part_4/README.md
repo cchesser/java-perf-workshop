@@ -260,7 +260,7 @@ the title or the abstract:
 
 ```sql
 SELECT c.title.toString(), c.@retainedHeapSize FROM INSTANCEOF cchesser.javaperf.workshop.data.ConferenceSession c 
-WHERE c.title.toString() LIKE ".*(J|j)ava.*" OR c.abstract.toString() LIKE ".*(J|j)ava.*")
+WHERE c.title.toString() LIKE ".*(J|j)ava.*" OR c.abstract.toString() LIKE ".*(J|j)ava.*"
 ```
 
 
