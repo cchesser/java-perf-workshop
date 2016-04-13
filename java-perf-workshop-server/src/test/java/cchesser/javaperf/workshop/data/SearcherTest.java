@@ -14,7 +14,7 @@ public class SearcherTest {
     @Test
     public void testSearch() {
         Searcher searcher = new Searcher(new ConferenceSessionLoader());
-        SearchResult result = searcher.search("jvm");
+        SearchResult result = searcher.search("clojure");
         assertNotNull(result);
         assertTrue(result.getResults().size() > 0);
     }
