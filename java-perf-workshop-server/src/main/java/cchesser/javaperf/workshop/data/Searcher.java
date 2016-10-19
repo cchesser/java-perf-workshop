@@ -1,16 +1,19 @@
 package cchesser.javaperf.workshop.data;
 
+import java.util.Collections;
+import java.util.List;
+
+import javax.annotation.Nullable;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.RateLimiter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import javax.annotation.Nullable;
-import java.util.Collections;
-import java.util.List;
 
 /**
  * An inefficient searcher for KCDC conference sessions and precompilers.
@@ -68,7 +71,7 @@ public class Searcher {
             @Nullable
             @Override
             public SearchResultElement apply(ConferenceSession input) {
-                return new SearchResultElement(input.getTitle(), input.getPresenter().getName(), input.getSessionType());
+                return new SearchResultElement(input.getTitle(), input.getPresenter().getName(), input.getSessionType(), input.getAsciiArt());
             }
         })));
     }
@@ -98,11 +101,13 @@ public class Searcher {
         private String title;
         private String presenter;
         private String sessionType;
+        private String asciiArt;
 
-        public SearchResultElement(String title, String presenter, String sessionType) {
+        public SearchResultElement(String title, String presenter, String sessionType, String asciiArt) {
             this.title = title;
             this.presenter = presenter;
             this.sessionType = sessionType;
+            this.asciiArt = asciiArt;
         }
 
         /**
@@ -125,5 +130,8 @@ public class Searcher {
         public String getSessionType() {
             return sessionType;
         }
+
+        @JsonIgnore
+        public String getAsciiArt() { return asciiArt; }
     }
 }

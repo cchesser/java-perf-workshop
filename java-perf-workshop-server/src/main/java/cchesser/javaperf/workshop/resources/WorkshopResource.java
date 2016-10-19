@@ -1,14 +1,14 @@
 package cchesser.javaperf.workshop.resources;
 
-import cchesser.javaperf.workshop.data.ConferenceSessionLoader;
-import cchesser.javaperf.workshop.data.Searcher;
-import com.codahale.metrics.annotation.Timed;
-
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
+
+import com.codahale.metrics.annotation.Timed;
+import cchesser.javaperf.workshop.data.ConferenceSessionLoader;
+import cchesser.javaperf.workshop.data.Searcher;
 
 @Path("/")
 public class WorkshopResource {
@@ -25,5 +25,19 @@ public class WorkshopResource {
     @Timed
     public Searcher.SearchResult searchConference(@QueryParam("q") String term) {
        return searcher.search(term);
+    }
+
+    @GET
+    @Path("/ascii")
+    @Produces(MediaType.TEXT_PLAIN)
+    @Timed
+    public String getAscii(@QueryParam("q") String term) {
+        StringBuilder sb = new StringBuilder();
+        Searcher.SearchResult result = searcher.search(term);
+        for(Searcher.SearchResultElement element : result.getResults()) {
+            sb.append(element.getAsciiArt());
+            sb.append("\n\n");
+        }
+        return sb.toString();
     }
 }

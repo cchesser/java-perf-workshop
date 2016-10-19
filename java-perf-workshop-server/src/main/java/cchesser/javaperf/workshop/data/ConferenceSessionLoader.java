@@ -1,19 +1,25 @@
 package cchesser.javaperf.workshop.data;
 
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
+import java.util.concurrent.TimeUnit;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.List;
-import java.util.concurrent.*;
 
 /**
  * Loads conference session data. This caches data which is loaded from a remote service instance and
@@ -101,6 +107,10 @@ public class ConferenceSessionLoader {
                 sessions = mapper.readValue(new URL(BASE_URL + target).openStream(), new TypeReference<List<ConferenceSession>>(){});
             } catch (IOException e) {
                 throw new RuntimeException(e);
+            }
+
+            for (ConferenceSession session : sessions) {
+                session.setAsciiArt(AsciiArtConvertor.convert(session.getTitle()));
             }
             return sessions;
         }

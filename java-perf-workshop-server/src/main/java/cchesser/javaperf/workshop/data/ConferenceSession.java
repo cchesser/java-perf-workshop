@@ -1,9 +1,9 @@
 package cchesser.javaperf.workshop.data;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Represents a session at the KCDC 2015 conference. This type is utilized to map to JSON content from the backing
@@ -26,6 +26,8 @@ public class ConferenceSession {
     @JsonProperty
     private String sessionType;
 
+    private String asciiArt;
+
     public String getTitle() {
         return title;
     }
@@ -37,6 +39,15 @@ public class ConferenceSession {
     public String getAbstract() {
         return sessionAbstract;
     }
+
+    public String getAsciiArt() { return asciiArt; }
+
+    /**
+     * This API is exposed to allow some silly use-case of adding a completely un-necessary
+     * attribute, to this, otherwise, type which could be immutable and doesn't need this content.
+     * @param asciiArt ASCII art string to take.
+     */
+    public void setAsciiArt(String asciiArt) { this.asciiArt = asciiArt; };
 
     public List<String> getTags() {
         // Returning null when tags may be empty. Note, this pattern is being applied
