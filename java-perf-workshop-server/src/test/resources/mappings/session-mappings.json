@@ -1,0 +1,10 @@
+{
+    "request": {
+        "method": "GET",
+        "url": "/sessions"
+    },
+    "response": {
+        "status": 200,
+        "bodyFileName": "sessions.json"
+    }
+}

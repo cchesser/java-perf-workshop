@@ -22,3 +22,5 @@ pom.xml.releaseBackup
 pom.xml.versionsBackup
 
 .DS_Store
+
+*.jar

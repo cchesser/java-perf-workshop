@@ -19,6 +19,7 @@ the following notes.
 The web service is a [simple dropwizard server](http://www.dropwizard.io/), which has a single API to search for talks
 from [kcdc.info](http://www.kcdc.info/), and returns results about these talks.
 
+
 #### Running
 Assemble the service:
 
@@ -26,7 +27,24 @@ Assemble the service:
 mvn clean package
 ```
 
-Start the service:
+To simulate responses of kcdc.info (as the service may change over time), we will first run a mock 
+instance of this service using [WireMock](http://wiremock.org/).
+
+```bash
+mvn dependency:copy -Dartifact=com.github.tomakehurst:wiremock-standalone:2.5.1 \
+                    -Dmdep.stripVersion=true -DoutputDirectory=.
+
+```
+
+Run the mock service, which will provide the essential end-points to support the service we will be
+testing:
+
+```bash
+java -jar wiremock-standalone.jar --port 9090 --root-dir java-perf-workshop-server/src/test/resources
+
+```
+
+In another terminal session, go ahead and start the workshop service:
 
 ```bash
 java -jar java-perf-workshop-server/target/java-perf-workshop-server-1.0-SNAPSHOT.jar server server.yml
@@ -70,7 +88,7 @@ logging:
 The service will return back results from the KCDC website on sessions that are available which contain 
 a substring in their title, abstract, or tags. Example:
 
-http://localhost:8080/search?q=clojure
+[http://localhost:8080/search?q=clojure](http://localhost:8080/search?q=clojure)
 
 Example results:
 

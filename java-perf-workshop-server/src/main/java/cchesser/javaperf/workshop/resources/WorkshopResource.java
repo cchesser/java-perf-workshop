@@ -7,6 +7,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import com.codahale.metrics.annotation.Timed;
+import cchesser.javaperf.workshop.WorkshopConfiguration;
 import cchesser.javaperf.workshop.data.ConferenceSessionLoader;
 import cchesser.javaperf.workshop.data.Searcher;
 
@@ -15,8 +16,8 @@ public class WorkshopResource {
 
     private Searcher searcher;
 
-    public WorkshopResource() {
-        searcher = new Searcher(new ConferenceSessionLoader());
+    public WorkshopResource(WorkshopConfiguration conf) {
+        searcher = new Searcher(new ConferenceSessionLoader(conf));
     }
 
     @GET

@@ -20,6 +20,7 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import cchesser.javaperf.workshop.WorkshopConfiguration;
 
 /**
  * Loads conference session data. This caches data which is loaded from a remote service instance and
@@ -32,29 +33,43 @@ public class ConferenceSessionLoader {
             .setNameFormat("wkshp-conf-loader-%d").setDaemon(true).build());
 
     // Simple self-loading in-memory cache to load content.
-    private static LoadingCache<String, List<ConferenceSession>> CACHE = CacheBuilder.newBuilder()
-            .maximumSize(1)
-            .expireAfterWrite(30, TimeUnit.SECONDS)
-            .build(
-                    new CacheLoader<String, List<ConferenceSession>>() {
-                        public List<ConferenceSession> load(String key)
-                                throws ExecutionException, InterruptedException {
-                            Future<List<ConferenceSession>> sessions = EXECUTOR
-                                    .submit(new SessionLoadCallable(SessionLoadCallable.TARGET_SESSIONS));
-                            Future<List<ConferenceSession>> precompilers = EXECUTOR
-                                    .submit(new SessionLoadCallable(SessionLoadCallable.TARGET_PRECOMPILERS));
-                            final List<ConferenceSession> results = sessions.get();
-                            results.addAll(precompilers.get());
+    private static LoadingCache<String, List<ConferenceSession>> CACHE = null;
 
-                            // Applying a sort by title name. This is not necessary, but applied to provide additional
-                            // cost overhead when analyzing the JVM.
-                            results.sort((ConferenceSession o1, ConferenceSession o2) -> o1.getTitle()
-                                    .compareTo(o2.getTitle()));
+    private final WorkshopConfiguration conf;
 
-                            LOGGER.debug("Loading results from remote service: {}", results.size());
-                            return results;
-                        }
-                    });
+    public ConferenceSessionLoader(WorkshopConfiguration conf) {
+        this.conf = conf;
+
+        synchronized (ConferenceSessionLoader.class) {
+            if (CACHE == null) {
+                CACHE = CacheBuilder.newBuilder()
+                        .maximumSize(1)
+                        .expireAfterWrite(30, TimeUnit.SECONDS)
+                        .build(
+                                new CacheLoader<String, List<ConferenceSession>>() {
+                                    public List<ConferenceSession> load(String key)
+                                            throws ExecutionException, InterruptedException {
+                                        Future<List<ConferenceSession>> sessions = EXECUTOR
+                                                .submit(new SessionLoadCallable(conf.getConferenceServiceHost(),
+                                                        SessionLoadCallable.TARGET_SESSIONS));
+                                        Future<List<ConferenceSession>> precompilers = EXECUTOR
+                                                .submit(new SessionLoadCallable(conf.getConferenceServiceHost(),
+                                                        SessionLoadCallable.TARGET_PRECOMPILERS));
+                                        final List<ConferenceSession> results = sessions.get();
+                                        results.addAll(precompilers.get());
+
+                                        // Applying a sort by title name. This is not necessary, but applied to provide additional
+                                        // cost overhead when analyzing the JVM.
+                                        results.sort((ConferenceSession o1, ConferenceSession o2) -> o1.getTitle()
+                                                .compareTo(o2.getTitle()));
+
+                                        LOGGER.debug("Loading results from remote service: {}", results.size());
+                                        return results;
+                                    }
+                                });
+            }
+        }
+    }
 
     /**
      * @return Indicates if the remote service is available.
@@ -63,7 +78,7 @@ public class ConferenceSessionLoader {
         try {
             HttpURLConnection.setFollowRedirects(false);
             HttpURLConnection con =
-                    (HttpURLConnection) new URL(SessionLoadCallable.BASE_URL).openConnection();
+                    (HttpURLConnection) new URL(conf.getConferenceServiceHost()).openConnection();
             con.setRequestMethod("HEAD");
             return (con.getResponseCode() == HttpURLConnection.HTTP_OK);
         }
@@ -88,14 +103,14 @@ public class ConferenceSessionLoader {
      * Callable to support the operation of loading KCDC conference session data.
      */
     private static class SessionLoadCallable implements Callable<List<ConferenceSession>> {
-
-        static final String BASE_URL = "http://www.kcdc.info/";
         static final String TARGET_SESSIONS = "sessions";
         static final String TARGET_PRECOMPILERS = "precompilers";
 
+        private final String baseUrl;
         private final String target;
-        SessionLoadCallable(String target) {
+        SessionLoadCallable(String host, String target) {
             this.target = target;
+            this.baseUrl = String.format("http://%s/", host);
         }
 
         @Override
@@ -104,7 +119,7 @@ public class ConferenceSessionLoader {
             List<ConferenceSession> sessions = null;
             try {
                 ObjectMapper mapper = new ObjectMapper();
-                sessions = mapper.readValue(new URL(BASE_URL + target).openStream(), new TypeReference<List<ConferenceSession>>(){});
+                sessions = mapper.readValue(new URL(baseUrl + target).openStream(), new TypeReference<List<ConferenceSession>>(){});
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
