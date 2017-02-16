@@ -21,14 +21,24 @@ from [kcdc.info](http://www.kcdc.info/), and returns results about these talks.
 
 
 #### Running
+
 Assemble the service:
 
 ```bash
 mvn clean package
 ```
 
+Start the workshop service:
+
+```bash
+java -jar java-perf-workshop-server/target/java-perf-workshop-server-1.0-SNAPSHOT.jar server server.yml
+```
+
+#### Mocking Service Dependency
+
 To simulate responses of kcdc.info (as the service may change over time), we will first run a mock 
-instance of this service using [WireMock](http://wiremock.org/).
+instance of this service using [WireMock](http://wiremock.org/). Go ahead and start another terminal
+session where we will run another service to mock a remote dependency of the workshop service.
 
 ```bash
 mvn dependency:copy -Dartifact=com.github.tomakehurst:wiremock-standalone:2.5.1 \
@@ -44,11 +54,6 @@ java -jar wiremock-standalone.jar --port 9090 --root-dir java-perf-workshop-serv
 
 ```
 
-In another terminal session, go ahead and start the workshop service:
-
-```bash
-java -jar java-perf-workshop-server/target/java-perf-workshop-server-1.0-SNAPSHOT.jar server server.yml
-```
 
 #### Configuration
 
