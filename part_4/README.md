@@ -244,7 +244,7 @@ SELECT *
 FROM INSTANCEOF cchesser.javaperf.workshop.data.ConferenceSession
 ```
 
-:bulb: To execute the query, you click on the red exclamation mark (:exclamation:).
+:bulb: To execute the query, you click on the red exclamation mark (:exclamation:). Alternatively, you can press `CTRL+ENTER` on Windows to execute a query.
 
 ![MAT OQL](https://github.com/cchesser/java-perf-workshop/wiki/images/mat_oql_studio.png)
 
