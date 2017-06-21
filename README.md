@@ -41,9 +41,7 @@ instance of this service using [WireMock](http://wiremock.org/). Go ahead and st
 session where we will run another service to mock a remote dependency of the workshop service.
 
 ```bash
-mvn dependency:copy -Dartifact=com.github.tomakehurst:wiremock-standalone:2.5.1 \
-                    -Dmdep.stripVersion=true -DoutputDirectory=.
-
+mvn dependency:copy -Dartifact=com.github.tomakehurst:wiremock-standalone:2.5.1 -Dmdep.stripVersion=true -DoutputDirectory=.
 ```
 
 Run the mock service, which will provide the essential end-points to support the service we will be
@@ -51,7 +49,6 @@ testing:
 
 ```bash
 java -jar wiremock-standalone.jar --port 9090 --root-dir java-perf-workshop-server/src/test/resources
-
 ```
 
 
