@@ -38,12 +38,11 @@ java -jar java-perf-workshop-server/target/java-perf-workshop-server-1.0-SNAPSHO
 
 To simulate responses of kcdc.info (as the service may change over time), we will first run a mock 
 instance of this service using [WireMock](http://wiremock.org/). Go ahead and start another terminal
-session where we will run another service to mock a remote dependency of the workshop service.
+session where we will run another service to mock a remote dependency of the workshop service. Navigate
+to the same directory where you cloned this repository, then execute the following commands:
 
 ```bash
-mvn dependency:copy -Dartifact=com.github.tomakehurst:wiremock-standalone:2.5.1 \
-                    -Dmdep.stripVersion=true -DoutputDirectory=.
-
+mvn dependency:copy -Dartifact=com.github.tomakehurst:wiremock-standalone:2.5.1 -Dmdep.stripVersion=true -DoutputDirectory=.
 ```
 
 Run the mock service, which will provide the essential end-points to support the service we will be
@@ -51,7 +50,6 @@ testing:
 
 ```bash
 java -jar wiremock-standalone.jar --port 9090 --root-dir java-perf-workshop-server/src/test/resources
-
 ```
 
 
