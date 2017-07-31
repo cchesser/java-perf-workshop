@@ -224,3 +224,7 @@ Reminder on the types of time being collected:
 Notice that the `GCRealTime_Sec` should closely align with the `GCPauseTime_Sec` value (just rounded up). If you notice that the
 `GCUserTime_Sec` is much larger than the `GCRealTime_Sec`, you can conclude that multiple threads are executing garbage collection,
 as `GCUserTime_Sec` is just the sum time of all the threads.
+
+# GC Easy
+
+There's an existing tool [GC Easy](http://gceasy.io/) which will do GC log parsing and analysis as well. 
