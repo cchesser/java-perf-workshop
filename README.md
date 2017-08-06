@@ -52,6 +52,7 @@ testing:
 java -jar wiremock-standalone.jar --port 9090 --root-dir java-perf-workshop-server/src/test/resources
 ```
 
+Alternatively, you can run the `mockservice.sh` script which will do both commands, ie: `sh mockservice.sh`
 
 #### Configuration
 
@@ -106,6 +107,18 @@ Example results:
   } ]
 }
 ```
+
+#### Troubleshooting
+
+If you get a `500` error message when trying to test the service, verify that the wiremock server is running.
+```
+{
+  "code" : 500,
+  "message" : "There was an error processing your request. It has been logged (ID d8998189f8d4ee8c)."
+}
+```
+
+
 
 ### Reference
 * [KCDC 2015 workshop slides](https://github.com/cchesser/java-perf-workshop/wiki/slides/kcdc2015_whats_in_you_jvm.zip)
