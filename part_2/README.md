@@ -146,7 +146,7 @@ From a Java Flight Recording, there are several categories of information you ca
 
 ### Code
 
-Our first walkthrough of the Flight Recording will begging with the __Code__ view to give context of where we might be spending time with our code.
+Our first walkthrough of the Flight Recording will begin with the __Code__ view to give context of where we might be spending time with our code.
 
 When you first open the __Code__ tab, you will be brought to the __Overview__ sub tab. This will give you a breakdown of where you are spending your time by code package and classes.
 
