@@ -133,7 +133,7 @@ sort(map(filter(heap.objects('cchesser.javaperf.workshop.data.ConferenceSession'
  '{ conference: it, tag_count: it.tags.size, tags: toArray(it.tags.elementData) }'), 'rhs.tag_count - lhs.tag_count')
 ```
 
-Reference: [VisualVM OQL Help](https://visualvm.java.net/oqlhelp.html)
+Reference: [VisualVM OQL Help](https://htmlpreview.github.io/?https://raw.githubusercontent.com/visualvm/visualvm.java.net.backup/master/www/oqlhelp.html)
 
 :bulb: Note, the OQL which you use between this tool (and others), isn't necessarily _standard_, and therefore cannot be used between tooling without issues. VisualVM gives you
 the ability to leverage Javascript, which is unique to other tools supporting heap dump analysis.
