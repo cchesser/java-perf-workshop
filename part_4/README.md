@@ -20,6 +20,8 @@ are running as the same OS user as the target JVM process.
 jcmd <PID> GC.heap_dump my_little_heap_dump.hprof
 ```
 
+**Note:** If a full path is not specified, the heap_dump will be created relative to the location from where the process was started (when generated with jcmd)
+
 ### jmap
 
 A more traditional approach is using `jmap` and invoking the command on the target process. 
