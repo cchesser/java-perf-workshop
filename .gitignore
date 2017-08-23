@@ -28,6 +28,3 @@ pom.xml.versionsBackup
 # Eclipse Project files
 .metadata
 .recommenders
-
-# dumps directory
-dumps
