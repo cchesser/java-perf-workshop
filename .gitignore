@@ -24,3 +24,7 @@ pom.xml.versionsBackup
 .DS_Store
 
 *.jar
+
+# Eclipse Project files
+.metadata
+.recommenders
