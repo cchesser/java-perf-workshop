@@ -125,7 +125,7 @@ public class ConferenceSessionLoader {
             }
 
             for (ConferenceSession session : sessions) {
-                session.setAsciiArt(AsciiArtConvertor.convert(session.getTitle()));
+                session.setAsciiArt(AsciiArtConverter.convert(session.getTitle()));
             }
             return sessions;
         }

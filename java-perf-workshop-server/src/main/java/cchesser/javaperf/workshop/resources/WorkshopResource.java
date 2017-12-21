@@ -8,37 +8,53 @@ import javax.ws.rs.core.MediaType;
 
 import com.codahale.metrics.annotation.Timed;
 import cchesser.javaperf.workshop.WorkshopConfiguration;
+import cchesser.javaperf.workshop.cache.CleverCache;
 import cchesser.javaperf.workshop.data.ConferenceSessionLoader;
 import cchesser.javaperf.workshop.data.Searcher;
+import cchesser.javaperf.workshop.data.Searcher.SearchResult;
 
 @Path("/")
 public class WorkshopResource {
 
-    private Searcher searcher;
+	private Searcher searcher;
 
-    public WorkshopResource(WorkshopConfiguration conf) {
-        searcher = new Searcher(new ConferenceSessionLoader(conf));
-    }
+	private CleverCache<String, SearchResult> resultsByContext;
 
-    @GET
-    @Path("/search")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Timed
-    public Searcher.SearchResult searchConference(@QueryParam("q") String term) {
-       return searcher.search(term);
-    }
+	public WorkshopResource(WorkshopConfiguration conf) {
+		searcher = new Searcher(new ConferenceSessionLoader(conf));
+		resultsByContext = new CleverCache<>(conf.getCacheLimit());
+	}
 
-    @GET
-    @Path("/ascii")
-    @Produces(MediaType.TEXT_PLAIN)
-    @Timed
-    public String getAscii(@QueryParam("q") String term) {
-        StringBuilder sb = new StringBuilder();
-        Searcher.SearchResult result = searcher.search(term);
-        for(Searcher.SearchResultElement element : result.getResults()) {
-            sb.append(element.getAsciiArt());
-            sb.append("\n\n");
-        }
-        return sb.toString();
-    }
+	@GET
+	@Path("/search")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Timed
+	public Searcher.SearchResult searchConference(@QueryParam("q") String term, @QueryParam("c") String context) {
+
+		// fetch it!
+		if (context != null && !context.isEmpty()) {
+			if (resultsByContext.exists(context)) {
+				return resultsByContext.fetch(context);
+			}
+		}
+
+		// does not exist in cache, compute and store
+		SearchResult results = searcher.search(term);
+		resultsByContext.store(results.getResultsContext(), results);
+		return results;
+	}
+
+	@GET
+	@Path("/ascii")
+	@Produces(MediaType.TEXT_PLAIN)
+	@Timed
+	public String getAscii(@QueryParam("q") String term) {
+		StringBuilder sb = new StringBuilder();
+		Searcher.SearchResult result = searcher.search(term);
+		for (Searcher.SearchResultElement element : result.getResults()) {
+			sb.append(element.getAsciiArt());
+			sb.append("\n\n");
+		}
+		return sb.toString();
+	}
 }

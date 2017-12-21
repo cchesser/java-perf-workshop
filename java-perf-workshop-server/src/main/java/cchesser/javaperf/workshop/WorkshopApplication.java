@@ -1,7 +1,7 @@
 package cchesser.javaperf.workshop;
 
 import com.fasterxml.jackson.databind.SerializationFeature;
-import cchesser.javaperf.workshop.health.RemoveServiceHealthCheck;
+import cchesser.javaperf.workshop.health.RemoteServiceHealthCheck;
 import cchesser.javaperf.workshop.resources.WorkshopResource;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
@@ -26,7 +26,7 @@ public class WorkshopApplication extends Application<WorkshopConfiguration> {
     public void run(WorkshopConfiguration configuration, Environment environment) {
         final WorkshopResource resource = new WorkshopResource(configuration);
         environment.jersey().register(resource);
-        environment.healthChecks().register("remoteService", new RemoveServiceHealthCheck(configuration));
+        environment.healthChecks().register("remoteService", new RemoteServiceHealthCheck(configuration));
         environment.getObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
     }
 }

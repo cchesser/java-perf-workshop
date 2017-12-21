@@ -2,6 +2,7 @@ package cchesser.javaperf.workshop.data;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 import javax.annotation.Nullable;
 
@@ -15,123 +16,144 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.RateLimiter;
 
+import cchesser.javaperf.workshop.cache.CleverCache;
+
 /**
  * An inefficient searcher for KCDC conference sessions and precompilers.
  */
 public class Searcher {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Searcher.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(Searcher.class);
 
-    // Injecting a synthetic bottleneck which only allows 50 requests per second. The
-    // goals is to expose this on tests which throw more concurrent load at service.
-    private static final RateLimiter THROTTLE = RateLimiter.create(50.0);
-    private ConferenceSessionLoader loader;
+	// Injecting a synthetic bottleneck which only allows 50 requests per
+	// second. The
+	// goals is to expose this on tests which throw more concurrent load at
+	// service.
+	private static final RateLimiter THROTTLE = RateLimiter.create(50.0);
+	private ConferenceSessionLoader loader;
 
-    public Searcher(ConferenceSessionLoader loader) {
-        this.loader = loader;
-    }
+	public Searcher(ConferenceSessionLoader loader) {
+		this.loader = loader;
+	}
 
-    public SearchResult search(String term) {
+	public SearchResult search(String term) {
 
-        if (term == null || term.trim().isEmpty()) {
-            LOGGER.debug("No query term supplied, returning empty results.");
-            return new SearchResult();
-        }
+		if (term == null || term.trim().isEmpty()) {
+			LOGGER.debug("No query term supplied, returning empty results.");
+			return new SearchResult();
+		}
 
-        THROTTLE.acquire();
-        String normalizedTerm = term.toLowerCase();
-        final List<ConferenceSession> content = loader.load();
-        Iterable<ConferenceSession> filteredResults = Iterables.filter(content, new Predicate<ConferenceSession>(){
-            @Override
-            public boolean apply(@Nullable ConferenceSession input) {
+		THROTTLE.acquire();
+		String normalizedTerm = term.toLowerCase();
+		final List<ConferenceSession> content = loader.load();
 
-                boolean tagsContainTerm = false;
+		// TODO turn to j8?
 
-                // Utilizing exceptions to expose exceptions thrown during profiling
-                try {
-                    for (String tag : input.getTags()) {
-                        if (tag.toLowerCase().contains(normalizedTerm)) {
-                            tagsContainTerm = true;
-                            break;
-                        }
-                    }
-                } catch (Exception ex) {
-                    // For whatever reason, sometimes exceptions occur here. We want to log
-                    // and ignore (treat them as not a pattern match for tags).
-                    LOGGER.debug("Unable to search tags as part of the [{}] result (for query: [{}])", input.getTitle(), term);
-                }
+		Iterable<ConferenceSession> filteredResults = Iterables.filter(content, new Predicate<ConferenceSession>() {
+			@Override
+			public boolean apply(@Nullable ConferenceSession input) {
 
-                return input.getTitle().toLowerCase().contains(normalizedTerm) ||
-                        input.getAbstract().toLowerCase().contains(normalizedTerm) ||
-                        tagsContainTerm;
-            }
-        });
+				boolean tagsContainTerm = false;
 
-        return new SearchResult(Lists.newArrayList(Iterables.transform(filteredResults, new Function<ConferenceSession, SearchResultElement>() {
-            @Nullable
-            @Override
-            public SearchResultElement apply(ConferenceSession input) {
-                return new SearchResultElement(input.getTitle(), input.getPresenter().getName(), input.getSessionType(), input.getAsciiArt());
-            }
-        })));
-    }
+				// Utilizing exceptions to expose exceptions thrown during
+				// profiling
+				try {
+					for (String tag : input.getTags()) {
+						if (tag.toLowerCase().contains(normalizedTerm)) {
+							tagsContainTerm = true;
+							break;
+						}
+					}
+				} catch (Exception ex) {
+					// For whatever reason, sometimes exceptions occur here. We
+					// want to log
+					// and ignore (treat them as not a pattern match for tags).
+					LOGGER.debug("Unable to search tags as part of the [{}] result (for query: [{}])", input.getTitle(),
+							term);
+				}
 
-    /**
-     * Base type of results (single element of "results" with a list of conference results).
-     */
-    public static class SearchResult {
+				return input.getTitle().toLowerCase().contains(normalizedTerm)
+						|| input.getAbstract().toLowerCase().contains(normalizedTerm) || tagsContainTerm;
+			}
+		});
 
-        private List<SearchResultElement> results;
+		return new SearchResult(Lists.newArrayList(
+				Iterables.transform(filteredResults, new Function<ConferenceSession, SearchResultElement>() {
+					@Nullable
+					@Override
+					public SearchResultElement apply(ConferenceSession input) {
+						return new SearchResultElement(input.getTitle(), input.getPresenter().getName(),
+								input.getSessionType(), input.getAsciiArt());
+					}
+				})));
+	}
 
-        SearchResult() {
-            this.results = Collections.emptyList();
-        }
+	/**
+	 * Base type of results (single element of "results" with a list of
+	 * conference results).
+	 */
+	public static class SearchResult {
 
-        SearchResult(List<SearchResultElement> results) {
-            this.results = results;
-        }
+		private List<SearchResultElement> results;
 
-        public List<SearchResultElement> getResults() {
-            return results;
-        }
-    }
+		private String resultsContext = UUID.randomUUID().toString();
 
-    public static class SearchResultElement {
+		SearchResult() {
+			this.results = Collections.emptyList();
+		}
 
-        private String title;
-        private String presenter;
-        private String sessionType;
-        private String asciiArt;
+		SearchResult(List<SearchResultElement> results) {
+			this.results = results;
+		}
 
-        public SearchResultElement(String title, String presenter, String sessionType, String asciiArt) {
-            this.title = title;
-            this.presenter = presenter;
-            this.sessionType = sessionType;
-            this.asciiArt = asciiArt;
-        }
+		public List<SearchResultElement> getResults() {
+			return results;
+		}
 
-        /**
-         * @return Title of conference session.
-         */
-        public String getTitle() {
-            return title;
-        }
+		public String getResultsContext() {
+			return resultsContext;
+		}
+	}
 
-        /**
-         * @return Full name of the presenter.
-         */
-        public String getPresenter() {
-            return presenter;
-        }
+	public static class SearchResultElement {
 
-        /**
-         * @return Label for session type (ex. regular session, 4-hour workshop).
-         */
-        public String getSessionType() {
-            return sessionType;
-        }
+		private String title;
+		private String presenter;
+		private String sessionType;
+		private String asciiArt;
 
-        @JsonIgnore
-        public String getAsciiArt() { return asciiArt; }
-    }
+		public SearchResultElement(String title, String presenter, String sessionType, String asciiArt) {
+			this.title = title;
+			this.presenter = presenter;
+			this.sessionType = sessionType;
+			this.asciiArt = asciiArt;
+		}
+
+		/**
+		 * @return Title of conference session.
+		 */
+		public String getTitle() {
+			return title;
+		}
+
+		/**
+		 * @return Full name of the presenter.
+		 */
+		public String getPresenter() {
+			return presenter;
+		}
+
+		/**
+		 * @return Label for session type (ex. regular session, 4-hour
+		 *         workshop).
+		 */
+		public String getSessionType() {
+			return sessionType;
+		}
+
+		@JsonIgnore
+		public String getAsciiArt() {
+			return asciiArt;
+		}
+	}
 }

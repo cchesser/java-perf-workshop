@@ -14,7 +14,7 @@ import javax.imageio.ImageIO;
  * This is a trival example of doing something unnecessary in the service and using up some heap.
  * Example was obtained from StackOverflow: http://stackoverflow.com/questions/7098972/ascii-art-java
  */
-class AsciiArtConvertor  {
+class AsciiArtConverter  {
 
     static String convert(String text) {
 
