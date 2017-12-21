@@ -22,11 +22,18 @@ from [kcdc.info](http://www.kcdc.info/), and returns results about these talks.
 
 #### Running
 
+**Prerequisites:**
+* [Maven 3.x](https://maven.apache.org/index.html)
+* [Java 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+
 Assemble the service:
 
 ```bash
 mvn clean package
 ```
+
+:bulb: If you have issues with building it locally due to your setup, you can download the
+server assembly [here](https://github.com/cchesser/java-perf-workshop/wiki/java-perf-workshop-server-1.0-SNAPSHOT.jar).
 
 Start the workshop service:
 

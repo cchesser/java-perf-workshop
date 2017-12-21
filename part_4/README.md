@@ -20,6 +20,8 @@ are running as the same OS user as the target JVM process.
 jcmd <PID> GC.heap_dump my_little_heap_dump.hprof
 ```
 
+**Note:** If a full path is not specified, the heap_dump will be created relative to the location from where the process was started (when generated with jcmd)
+
 ### jmap
 
 A more traditional approach is using `jmap` and invoking the command on the target process. 
@@ -133,7 +135,7 @@ sort(map(filter(heap.objects('cchesser.javaperf.workshop.data.ConferenceSession'
  '{ conference: it, tag_count: it.tags.size, tags: toArray(it.tags.elementData) }'), 'rhs.tag_count - lhs.tag_count')
 ```
 
-Reference: [VisualVM OQL Help](https://visualvm.java.net/oqlhelp.html)
+Reference: [VisualVM OQL Help](https://htmlpreview.github.io/?https://raw.githubusercontent.com/visualvm/visualvm.java.net.backup/master/www/oqlhelp.html)
 
 :bulb: Note, the OQL which you use between this tool (and others), isn't necessarily _standard_, and therefore cannot be used between tooling without issues. VisualVM gives you
 the ability to leverage Javascript, which is unique to other tools supporting heap dump analysis.

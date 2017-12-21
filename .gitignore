@@ -28,6 +28,9 @@ pom.xml.versionsBackup
 # Eclipse Project files
 .metadata
 .recommenders
+<<<<<<< HEAD
 
 # dumps directory
 dumps
+=======
+>>>>>>> 28600053d2a9288c5834081c83f220bfdf58a03a
