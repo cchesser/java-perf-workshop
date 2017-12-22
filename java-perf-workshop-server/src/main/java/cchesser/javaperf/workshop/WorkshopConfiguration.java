@@ -15,9 +15,14 @@ public class WorkshopConfiguration extends Configuration {
 	private String conferenceServiceHost = "localhost:9090";
 
 	@Min(32)
-	@Max(2048)
+	@Max(65536)
 	@JsonProperty
-	private int cacheLimit = 1024;
+	private int cacheLimit = 2048;
+
+	@Min(1024)
+	@Max(65536)
+	@JsonProperty
+	private int discardLimit = 65536;
 
 	@JsonProperty
 	public String getConferenceServiceHost() {
@@ -32,6 +37,10 @@ public class WorkshopConfiguration extends Configuration {
 	@JsonProperty
 	public int getCacheLimit() {
 		return cacheLimit;
+	}
+
+	public int getDiscardLimit() {
+		return discardLimit;
 	}
 
 }

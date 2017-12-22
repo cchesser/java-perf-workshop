@@ -16,8 +16,6 @@ import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.RateLimiter;
 
-import cchesser.javaperf.workshop.cache.CleverCache;
-
 /**
  * An inefficient searcher for KCDC conference sessions and precompilers.
  */
@@ -83,9 +81,14 @@ public class Searcher {
 					@Override
 					public SearchResultElement apply(ConferenceSession input) {
 						return new SearchResultElement(input.getTitle(), input.getPresenter().getName(),
-								input.getSessionType(), input.getAsciiArt());
+								input.getSessionType(), input.getAsciiArt(), input.getSessionId());
 					}
 				})));
+	}
+
+	public ConferenceSession getSession(String sessionId) {
+		List<ConferenceSession> content = loader.load();
+		return content.stream().filter(cs -> sessionId.equals(cs.getSessionId())).findFirst().get();
 	}
 
 	/**
@@ -113,6 +116,7 @@ public class Searcher {
 		public String getResultsContext() {
 			return resultsContext;
 		}
+
 	}
 
 	public static class SearchResultElement {
@@ -121,12 +125,15 @@ public class Searcher {
 		private String presenter;
 		private String sessionType;
 		private String asciiArt;
+		private String sessionId;
 
-		public SearchResultElement(String title, String presenter, String sessionType, String asciiArt) {
+		public SearchResultElement(String title, String presenter, String sessionType, String asciiArt,
+				String sessionId) {
 			this.title = title;
 			this.presenter = presenter;
 			this.sessionType = sessionType;
 			this.asciiArt = asciiArt;
+			this.sessionId = sessionId;
 		}
 
 		/**
@@ -155,5 +162,14 @@ public class Searcher {
 		public String getAsciiArt() {
 			return asciiArt;
 		}
+
+		/**
+		 * @return identifier of the conference session
+		 */
+		public String getSessionId() {
+			return sessionId;
+		}
+
 	}
+
 }

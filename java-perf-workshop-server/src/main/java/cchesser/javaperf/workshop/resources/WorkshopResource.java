@@ -2,13 +2,15 @@ package cchesser.javaperf.workshop.resources;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import com.codahale.metrics.annotation.Timed;
 import cchesser.javaperf.workshop.WorkshopConfiguration;
-import cchesser.javaperf.workshop.cache.CleverCache;
+import cchesser.javaperf.workshop.cache.RecoverableCache;
+import cchesser.javaperf.workshop.data.ConferenceSession;
 import cchesser.javaperf.workshop.data.ConferenceSessionLoader;
 import cchesser.javaperf.workshop.data.Searcher;
 import cchesser.javaperf.workshop.data.Searcher.SearchResult;
@@ -18,11 +20,11 @@ public class WorkshopResource {
 
 	private Searcher searcher;
 
-	private CleverCache<String, SearchResult> resultsByContext;
+	private RecoverableCache<String, SearchResult> resultsByContext;
 
 	public WorkshopResource(WorkshopConfiguration conf) {
 		searcher = new Searcher(new ConferenceSessionLoader(conf));
-		resultsByContext = new CleverCache<>(conf.getCacheLimit());
+		resultsByContext = new RecoverableCache<>(conf.getCacheLimit(), conf.getDiscardLimit());
 	}
 
 	@GET
@@ -56,5 +58,13 @@ public class WorkshopResource {
 			sb.append("\n\n");
 		}
 		return sb.toString();
+	}
+
+	@GET
+	@Path("/sessions/{id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	@Timed
+	public ConferenceSession getSessionDetails(@PathParam("id") String sessionId) {
+		return searcher.getSession(sessionId);
 	}
 }

@@ -6,88 +6,105 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Represents a session at the KCDC 2015 conference. This type is utilized to map to JSON content from the backing
- * conference service.
+ * Represents a session at the KCDC 2015 conference. This type is utilized to
+ * map to JSON content from the backing conference service.
  */
-@JsonIgnoreProperties(ignoreUnknown=true)
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ConferenceSession {
-    @JsonProperty
-    private String title;
+	@JsonProperty
+	private String title;
 
-    @JsonProperty("user")
-    private Presenter presenter;
+	@JsonProperty("user")
+	private Presenter presenter;
 
-    @JsonProperty("abstract")
-    private String sessionAbstract;
+	@JsonProperty("abstract")
+	private String sessionAbstract;
 
-    @JsonProperty
-    private List<String> tags;
+	@JsonProperty
+	private List<String> tags;
 
-    @JsonProperty
-    private String sessionType;
+	@JsonProperty
+	private String sessionType;
 
-    private String asciiArt;
+	private String asciiArt;
 
-    public String getTitle() {
-        return title;
-    }
+	@JsonProperty("_id")
+	private String sessionId;
 
-    public Presenter getPresenter() {
-        return presenter;
-    }
+	public String getTitle() {
+		return title;
+	}
 
-    public String getAbstract() {
-        return sessionAbstract;
-    }
+	public Presenter getPresenter() {
+		return presenter;
+	}
 
-    public String getAsciiArt() { return asciiArt; }
+	public String getAbstract() {
+		return sessionAbstract;
+	}
 
-    /**
-     * This API is exposed to allow some silly use-case of adding a completely un-necessary
-     * attribute, to this, otherwise, type which could be immutable and doesn't need this content.
-     * @param asciiArt ASCII art string to take.
-     */
-    public void setAsciiArt(String asciiArt) { this.asciiArt = asciiArt; };
+	public String getAsciiArt() {
+		return asciiArt;
+	}
 
-    public List<String> getTags() {
-        // Returning null when tags may be empty. Note, this pattern is being applied
-        // to expose a poor pattern of not defining expectations well and the cost
-        // of exception handling.
-        return tags != null && tags.isEmpty() ? null : tags;
-    }
+	public String getSessionId() {
+		return sessionId;
+	}
 
-    public String getSessionType() {
-        return sessionType;
-    }
+	/**
+	 * This API is exposed to allow some silly use-case of adding a completely
+	 * un-necessary attribute, to this, otherwise, type which could be immutable
+	 * and doesn't need this content.
+	 * 
+	 * @param asciiArt
+	 *            ASCII art string to take.
+	 */
+	public void setAsciiArt(String asciiArt) {
+		this.asciiArt = asciiArt;
+	};
 
-    @Override
-    public String toString() {
-        final StringBuilder sb = new StringBuilder("ConferenceSession{");
-        sb.append("title='").append(title).append('\'');
-        sb.append(", presenter=").append(presenter);
-        sb.append(", sessionAbstract='").append(sessionAbstract).append('\'');
-        sb.append(", tags=").append(tags);
-        sb.append(", sessionType='").append(sessionType).append('\'');
-        sb.append('}');
-        return sb.toString();
-    }
+	public List<String> getTags() {
+		// Returning null when tags may be empty. Note, this pattern is being
+		// applied
+		// to expose a poor pattern of not defining expectations well and the
+		// cost
+		// of exception handling.
+		return tags != null && tags.isEmpty() ? null : tags;
+	}
 
-    @JsonIgnoreProperties(ignoreUnknown=true)
-    public static class Presenter {
+	public String getSessionType() {
+		return sessionType;
+	}
 
-        @JsonProperty("displayName")
-        private String name;
+	@Override
+	public String toString() {
+		final StringBuilder sb = new StringBuilder("ConferenceSession{");
+		sb.append("title='").append(title).append('\'');
+		sb.append(", presenter=").append(presenter);
+		sb.append(", sessionAbstract='").append(sessionAbstract).append('\'');
+		sb.append(", tags=").append(tags);
+		sb.append(", sessionType='").append(sessionType).append('\'');
+		sb.append(", sessionId='").append(sessionId).append('\'');
+		sb.append('}');
+		return sb.toString();
+	}
 
-        public String getName() {
-            return name;
-        }
+	@JsonIgnoreProperties(ignoreUnknown = true)
+	public static class Presenter {
 
-        @Override
-        public String toString() {
-            final StringBuilder sb = new StringBuilder("Presenter{");
-            sb.append("name='").append(name).append('\'');
-            sb.append('}');
-            return sb.toString();
-        }
-    }
+		@JsonProperty("displayName")
+		private String name;
+
+		public String getName() {
+			return name;
+		}
+
+		@Override
+		public String toString() {
+			final StringBuilder sb = new StringBuilder("Presenter{");
+			sb.append("name='").append(name).append('\'');
+			sb.append('}');
+			return sb.toString();
+		}
+	}
 }
