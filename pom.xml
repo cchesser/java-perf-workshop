@@ -42,6 +42,7 @@
     </developers>
     <modules>
         <module>java-perf-workshop-server</module>
+        <module>java-perf-workshop-tester</module>
     </modules>
     <dependencyManagement>
         <dependencies>
