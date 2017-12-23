@@ -17,7 +17,7 @@ public class WorkshopConfiguration extends Configuration {
 	@Min(32)
 	@Max(65536)
 	@JsonProperty
-	private int cacheLimit = 2048;
+	private int cacheLimit = 65536;
 
 	@Min(1024)
 	@Max(65536)

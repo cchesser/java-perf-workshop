@@ -74,11 +74,11 @@
                     <artifactId>scala-maven-plugin</artifactId>
                     <version>${scala-maven-plugin.version}</version>
                 </plugin>
-                   <plugin>
+                <plugin>
                     <groupId>io.gatling</groupId>
                     <artifactId>gatling-maven-plugin</artifactId>
                     <version>${gatling-maven-plugin.version}</version>
-            </plugin>
+                </plugin>
             </plugins>
         </pluginManagement>
         <plugins>
@@ -106,13 +106,12 @@
                 </executions>
             </plugin>
             <plugin>
-    <groupId>io.gatling</groupId>
-    <artifactId>gatling-maven-plugin</artifactId>
+                <groupId>io.gatling</groupId>
+                <artifactId>gatling-maven-plugin</artifactId>
                 <configuration>
-  <runMultipleSimulations>true</runMultipleSimulations>
-</configuration>
+                    <simulationClass>cchesser.javaperf.workshop.WorkshopSimulation</simulationClass>
+                </configuration>
             </plugin>
-
         </plugins>
     </build>
 </project>
