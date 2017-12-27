@@ -6,6 +6,7 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
 import com.google.common.util.concurrent.RateLimiter;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -117,11 +118,7 @@ public class Searcher {
 
         @Override
         public String toString() {
-            final StringBuilder sb = new StringBuilder("SearchResult{");
-            sb.append("results=").append(results);
-            sb.append(", resultsContext='").append(resultsContext).append('\'');
-            sb.append('}');
-            return sb.toString();
+            return ReflectionToStringBuilder.toString(this);
         }
     }
 
@@ -178,14 +175,7 @@ public class Searcher {
 
         @Override
         public String toString() {
-            final StringBuilder sb = new StringBuilder("SearchResultElement{");
-            sb.append("title='").append(title).append('\'');
-            sb.append(", presenter='").append(presenter).append('\'');
-            sb.append(", sessionType='").append(sessionType).append('\'');
-            sb.append(", asciiArt='").append(asciiArt).append('\'');
-            sb.append(", sessionId='").append(sessionId).append('\'');
-            sb.append('}');
-            return sb.toString();
+            return ReflectionToStringBuilder.toString(this);
         }
     }
 

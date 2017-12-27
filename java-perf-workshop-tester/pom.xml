@@ -9,16 +9,11 @@
     </parent>
     <groupId>cchesser.javaperf</groupId>
     <artifactId>java-perf-workshop-tester</artifactId>
-    <version>1.0-SNAPSHOT</version>
 
     <properties>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <scala.version>2.12.3</scala.version>
         <encoding>UTF-8</encoding>
-        <gatling.version>2.3.0</gatling.version>
-        <scala-maven-plugin.version>3.2.2</scala-maven-plugin.version>
-        <gatling-maven-plugin.version>2.2.4</gatling-maven-plugin.version>
     </properties>
 
     <dependencyManagement>

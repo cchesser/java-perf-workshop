@@ -20,6 +20,12 @@
         <scm.connection>scm:git:git://github.com:cchesser/java-perf-workshop.git</scm.connection>
         <scm.developerConnection>scm:git:git@github.com:cchesser/java-perf-workshop.git</scm.developerConnection>
         <scm.url>http://github.com/cchesser/java-perf-workshop</scm.url>
+
+        <!-- tester dependencies -->
+        <gatling.version>2.3.0</gatling.version>
+        <scala-maven-plugin.version>3.2.2</scala-maven-plugin.version>
+        <gatling-maven-plugin.version>2.2.4</gatling-maven-plugin.version>
+        <scala.version>2.12.3</scala.version>
     </properties>
     <scm>
         <connection>${scm.connection}</connection>
