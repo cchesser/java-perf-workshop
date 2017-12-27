@@ -28,3 +28,9 @@ pom.xml.versionsBackup
 # Eclipse Project files
 .metadata
 .recommenders
+
+# Intellij
+*.iml
+
+# dumps directory
+dumps/

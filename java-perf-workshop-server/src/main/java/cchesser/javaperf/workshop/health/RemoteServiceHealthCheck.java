@@ -7,12 +7,11 @@ import cchesser.javaperf.workshop.data.ConferenceSessionLoader;
 /**
  * Health check to inspect that remote service dependency is available.
  */
-public class RemoveServiceHealthCheck extends HealthCheck {
+public class RemoteServiceHealthCheck extends HealthCheck {
 
-    private WorkshopConfiguration conf;
     private ConferenceSessionLoader loader;
 
-    public RemoveServiceHealthCheck(WorkshopConfiguration conf) {
+    public RemoteServiceHealthCheck(WorkshopConfiguration conf) {
        this.loader = new ConferenceSessionLoader(conf);
     }
 
