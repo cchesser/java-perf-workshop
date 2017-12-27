@@ -1,20 +1,18 @@
 package cchesser.javaperf.workshop.data;
 
-import java.awt.Font;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
+import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
-
-import javax.imageio.ImageIO;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
 /**
  * This is a trival example of doing something unnecessary in the service and using up some heap.
  * Example was obtained from StackOverflow: http://stackoverflow.com/questions/7098972/ascii-art-java
  */
-class AsciiArtConverter  {
+class AsciiArtConverter {
 
     static String convert(String text) {
 
@@ -28,7 +26,11 @@ class AsciiArtConverter  {
 
         StringBuilder rendered = new StringBuilder();
         try {
-            ImageIO.write(image, "png", new File("text.png"));
+            Path tempFilePath = Files.createTempFile("text", "png");
+            File tempFile = tempFilePath.toFile();
+            tempFile.deleteOnExit();
+
+            ImageIO.write(image, "png", tempFile);
 
             for (int y = 0; y < 32; y++) {
                 StringBuilder sb = new StringBuilder();

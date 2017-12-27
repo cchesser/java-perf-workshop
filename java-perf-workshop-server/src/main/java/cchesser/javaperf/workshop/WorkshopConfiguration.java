@@ -1,46 +1,35 @@
 package cchesser.javaperf.workshop;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-
-import org.hibernate.validator.constraints.NotEmpty;
-
+import cchesser.javaperf.workshop.cache.CacheConfiguration;
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import io.dropwizard.Configuration;
+import org.hibernate.validator.constraints.NotEmpty;
 
 public class WorkshopConfiguration extends Configuration {
 
-	@NotEmpty
-	private String conferenceServiceHost = "localhost:9090";
+    @NotEmpty
+    private String conferenceServiceHost = "localhost:9090";
 
-	@Min(32)
-	@Max(65536)
-	@JsonProperty
-	private int cacheLimit = 65536;
+    @JsonProperty
+    private CacheConfiguration historicalCache = new CacheConfiguration();
 
-	@Min(1024)
-	@Max(65536)
-	@JsonProperty
-	private int discardLimit = 65536;
+    @JsonProperty
+    public String getConferenceServiceHost() {
+        return conferenceServiceHost;
+    }
 
-	@JsonProperty
-	public String getConferenceServiceHost() {
-		return conferenceServiceHost;
-	}
+    @JsonProperty
+    public void setSonferenceServiceHost(String host) {
+        this.conferenceServiceHost = host;
+    }
 
-	@JsonProperty
-	public void setSonferenceServiceHost(String host) {
-		this.conferenceServiceHost = host;
-	}
+    @JsonProperty
+    public CacheConfiguration getHistoricalCache() {
+        return historicalCache;
+    }
 
-	@JsonProperty
-	public int getCacheLimit() {
-		return cacheLimit;
-	}
-
-	public int getDiscardLimit() {
-		return discardLimit;
-	}
-
+    @JsonProperty
+    public void setHistoricalCache(CacheConfiguration historicalCache) {
+        this.historicalCache = historicalCache;
+    }
 }
