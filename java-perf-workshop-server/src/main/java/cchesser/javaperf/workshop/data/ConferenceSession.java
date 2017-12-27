@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
 
 /**
  * Represents a session at the KCDC 2015 conference. This type is utilized to
@@ -76,18 +77,10 @@ public class ConferenceSession {
 		return sessionType;
 	}
 
-	@Override
-	public String toString() {
-		final StringBuilder sb = new StringBuilder("ConferenceSession{");
-		sb.append("title='").append(title).append('\'');
-		sb.append(", presenter=").append(presenter);
-		sb.append(", sessionAbstract='").append(sessionAbstract).append('\'');
-		sb.append(", tags=").append(tags);
-		sb.append(", sessionType='").append(sessionType).append('\'');
-		sb.append(", sessionId='").append(sessionId).append('\'');
-		sb.append('}');
-		return sb.toString();
-	}
+    @Override
+    public String toString() {
+        return ReflectionToStringBuilder.toString(this);
+    }
 
 	@JsonIgnoreProperties(ignoreUnknown = true)
 	public static class Presenter {
@@ -101,10 +94,7 @@ public class ConferenceSession {
 
 		@Override
 		public String toString() {
-			final StringBuilder sb = new StringBuilder("Presenter{");
-			sb.append("name='").append(name).append('\'');
-			sb.append('}');
-			return sb.toString();
+			return ReflectionToStringBuilder.toString(this);
 		}
 	}
 }
