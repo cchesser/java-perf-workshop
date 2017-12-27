@@ -10,7 +10,7 @@ public class CacheConfiguration {
     @Min(32)
     @Max(65536)
     @JsonProperty
-    private int cacheLimit = 2048;
+    private int cacheLimit = 10000;
 
     @Min(1024)
     @Max(65536)
