@@ -166,6 +166,11 @@ something is forcing a GC cycle to occur, rather than letting the JVM trigger th
 2015-09-30T12:23:44.430+0600: 195.704: [Full GC (System.gc()) [PSYoungGen: 3562K->0K(76288K)] [ParOldGen: 10469K->9174K(114176K)] 14032K->9174K(190464K), [Metaspace: 25137K->25137K(1071104K)], 0.0724521 secs] [Times: user=0.38 sys=0.01, real=0.07 secs]
 ```
 
+It is generally recommended to use the `-XX:+DisableExplicitGC` JVM option to disable forceful GC events. This will allow
+the JVM to still have garbage collections, but it disables them from being triggered explicitly. The description of this option:
+
+> By default calls to System.gc() are enabled (-XX:-DisableExplicitGC). Use -XX:+DisableExplicitGC to disable calls to System.gc(). Note that the JVM still performs garbage collection when necessary.
+
 ### Enabling GC logging
 
 With our service, let's go ahead and start it up with GC logging enabled:
