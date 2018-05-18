@@ -32,22 +32,6 @@ public class WorkshopResource {
     }
 
     @GET
-    @Path("/ascii")
-    @Produces(MediaType.TEXT_PLAIN)
-    @Timed
-    public String getAscii(@QueryParam("q") String term, @QueryParam("c") String context) {
-        Searcher.SearchResult result = fetchResults(term, context);
-
-        StringBuilder sb = new StringBuilder();
-        for (Searcher.SearchResultElement element : result.getResults()) {
-            sb.append(element.getAsciiArt());
-            sb.append("\n\n");
-        }
-
-        return sb.toString();
-    }
-
-    @GET
     @Path("/sessions/{id}")
     @Produces(MediaType.APPLICATION_JSON)
     @Timed
