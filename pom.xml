@@ -23,9 +23,11 @@
 
         <!-- tester dependencies -->
         <gatling.version>2.3.0</gatling.version>
+        <scala.version>2.12.3</scala.version>
+
+        <!-- plugin versions -->
         <scala-maven-plugin.version>3.2.2</scala-maven-plugin.version>
         <gatling-maven-plugin.version>2.2.4</gatling-maven-plugin.version>
-        <scala.version>2.12.3</scala.version>
     </properties>
     <scm>
         <connection>${scm.connection}</connection>
@@ -43,6 +45,15 @@
                 <role>developer</role>
             </roles>
             <timezone>-6</timezone>
+        </developer>
+        <developer>
+          <id>AnEmortalKid</id>
+          <name>Jan Monterrubio</name>
+          <email>janmonterrubio@gmail.com</email>
+          <url>http://github.com/anemortalkid</url>
+          <roles>
+            <role>developer</role>
+          </roles>
         </developer>
     </developers>
     <modules>
@@ -106,14 +117,52 @@
                 <artifactId>junit-dep</artifactId>
                 <version>4.10</version>
             </dependency>
+            <dependency>
+                <groupId>io.gatling</groupId>
+                <artifactId>gatling-app</artifactId>
+                <version>${gatling.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.gatling</groupId>
+                <artifactId>gatling-recorder</artifactId>
+                <version>${gatling.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.gatling.highcharts</groupId>
+                <artifactId>gatling-charts-highcharts</artifactId>
+                <version>${gatling.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.scala-lang</groupId>
+                <artifactId>scala-library</artifactId>
+                <version>${scala.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <build>
+      <pluginManagement>
+        <plugins>
+          <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-compiler-plugin</artifactId>
+              <version>2.3.2</version>
+          </plugin>
+          <plugin>
+              <groupId>io.gatling</groupId>
+              <artifactId>gatling-maven-plugin</artifactId>
+              <version>${gatling-maven-plugin.version}</version>
+          </plugin>
+          <plugin>
+              <groupId>net.alchim31.maven</groupId>
+              <artifactId>scala-maven-plugin</artifactId>
+              <version>${scala-maven-plugin.version}</version>
+          </plugin>
+        </plugins>
+      </pluginManagement>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.3.2</version>
                 <configuration>
                     <showDeprecation>true</showDeprecation>
                     <showWarnings>true</showWarnings>

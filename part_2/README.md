@@ -127,11 +127,17 @@ loadtest -n 1000 -c 15 "http://localhost:8080/search?q=a"
 
 Alternatively, you can use [gatling](https://gatling.io/) (a performance library with a scala dsl ).
 
-Navigate to the `java-perf-workshop-tester` directory and run `mvn gatling:test`. This should launch the `WorkshopSimulation`. 
+:warning: **This should be run from the `java-perf-workshop-tester` directory**
+
+This should launch the `WorkshopSimulation`.
+
+```bash
+mvn gatling:test
+```
 
 Sample output while running:
 ```bash
-$ mvn gatling:test
+[~/java-perf-workshop/java-perf-workshop-tester]$ mvn gatling:test
 [INFO] Scanning for projects...
 [INFO]
 [INFO] ------------------------------------------------------------------------
