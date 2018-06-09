@@ -16,31 +16,6 @@
         <encoding>UTF-8</encoding>
     </properties>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>io.gatling</groupId>
-                <artifactId>gatling-app</artifactId>
-                <version>${gatling.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.gatling</groupId>
-                <artifactId>gatling-recorder</artifactId>
-                <version>${gatling.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.gatling.highcharts</groupId>
-                <artifactId>gatling-charts-highcharts</artifactId>
-                <version>${gatling.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.scala-lang</groupId>
-                <artifactId>scala-library</artifactId>
-                <version>${scala.version}</version>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
-
     <dependencies>
         <dependency>
             <groupId>io.gatling.highcharts</groupId>
@@ -62,20 +37,6 @@
 
     <build>
         <testSourceDirectory>src/test/scala</testSourceDirectory>
-        <pluginManagement>
-            <plugins>
-                <plugin>
-                    <groupId>net.alchim31.maven</groupId>
-                    <artifactId>scala-maven-plugin</artifactId>
-                    <version>${scala-maven-plugin.version}</version>
-                </plugin>
-                <plugin>
-                    <groupId>io.gatling</groupId>
-                    <artifactId>gatling-maven-plugin</artifactId>
-                    <version>${gatling-maven-plugin.version}</version>
-                </plugin>
-            </plugins>
-        </pluginManagement>
         <plugins>
             <plugin>
                 <groupId>net.alchim31.maven</groupId>
