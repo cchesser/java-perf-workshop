@@ -1,7 +1,7 @@
 package cchesser.javaperf.workshop.resources;
 
 import cchesser.javaperf.workshop.WorkshopConfiguration;
-import cchesser.javaperf.workshop.cache.HistoricalCache;
+import cchesser.javaperf.workshop.cache.CleverCache;
 import cchesser.javaperf.workshop.data.ConferenceSession;
 import cchesser.javaperf.workshop.data.ConferenceSessionLoader;
 import cchesser.javaperf.workshop.data.Searcher;
@@ -16,11 +16,11 @@ public class WorkshopResource {
 
     private Searcher searcher;
 
-    private HistoricalCache<String, SearchResult> resultsByContext;
+    private CleverCache<String, SearchResult> resultsByContext;
 
     public WorkshopResource(WorkshopConfiguration conf) {
         searcher = new Searcher(new ConferenceSessionLoader(conf));
-        resultsByContext = new HistoricalCache<>(conf.getHistoricalCache().getCacheLimit(), conf.getHistoricalCache().getDiscardLimit());
+        resultsByContext = new CleverCache<>(conf.getHistoricalCache().getCacheLimit());
     }
 
     @GET
