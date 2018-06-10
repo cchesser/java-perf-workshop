@@ -127,9 +127,11 @@ loadtest -n 1000 -c 15 "http://localhost:8080/search?q=a"
 
 Alternatively, you can use [gatling](https://gatling.io/) (a performance library with a scala dsl ).
 
-:warning: **This should be run from the `java-perf-workshop-tester` directory**
-
 This should launch the `WorkshopSimulation`.
+
+```bash
+ mvn -f java-perf-workshop-tester/ gatling:test
+```
 
 ```bash
 mvn gatling:test
