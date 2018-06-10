@@ -23,8 +23,8 @@ class WorkshopSimulation extends Simulation {
   var scn = scenario("Conference Day")
     .feed(feeder)
     .randomSwitch(
-      90d -> Search.search("${searchTerm}"),
-      10d -> Search.withContext("${searchTerm}")
+      99d -> Search.search("${searchTerm}"),
+      1d -> Search.withContext("${searchTerm}")
     )
 
   /**
@@ -57,10 +57,10 @@ class WorkshopSimulation extends Simulation {
 
   setUp(
     scn.inject(
-      atOnceUsers(5),
-      constantUsersPerSec(5) during (30 seconds), // go up to 150, something popular happens
-      rampUsersPerSec(10) to (50) during (1 minutes), // more visitors
-      constantUsersPerSec(50) during (30 seconds)
+      atOnceUsers(200),
+      constantUsersPerSec(10) during (30 seconds), // go up to 300, something popular happens
+      rampUsersPerSec(20) to (100) during (1 minutes), // more visitors
+      constantUsersPerSec(100) during (30 seconds)
     )
   ).protocols(httpConf)
 }
