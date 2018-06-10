@@ -12,11 +12,12 @@ import java.util.stream.Collectors;
  */
 public class CleverCache<K, V> {
 
-    private Map<K, CacheEntry<V>> innerCache = new LinkedHashMap<>();
+    private Map<K, CacheEntry<V>> innerCache;
     private int cacheLimit;
 
     public CleverCache(int cacheLimit) {
         this.cacheLimit = cacheLimit;
+        innerCache = new HashMap<>(cacheLimit);
     }
 
     /**
