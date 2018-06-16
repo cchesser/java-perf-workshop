@@ -31,14 +31,6 @@ public class WorkshopResource {
         return fetchResults(term, context);
     }
 
-    @GET
-    @Path("/sessions/{id}")
-    @Produces(MediaType.APPLICATION_JSON)
-    @Timed
-    public ConferenceSession getSessionDetails(@PathParam("id") String sessionId) {
-        return searcher.getSession(sessionId);
-    }
-
     private Searcher.SearchResult fetchResults(String term, String context) {
         // fetch it!
         if (context != null && !context.isEmpty()) {
