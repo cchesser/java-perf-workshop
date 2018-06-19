@@ -85,11 +85,6 @@ public class Searcher {
                 })));
     }
 
-    public ConferenceSession getSession(String sessionId) {
-        List<ConferenceSession> content = loader.load();
-        return content.stream().filter(cs -> sessionId.equals(cs.getSessionId())).findFirst().get();
-    }
-
     /**
      * Base type of results (single element of "results" with a list of
      * conference results).

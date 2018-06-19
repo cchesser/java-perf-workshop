@@ -10,17 +10,14 @@ import java.util.stream.Collectors;
  *
  * @author JMonterrubio
  */
-public class HistoricalCache<K, V> {
+public class CleverCache<K, V> {
 
-    private Map<K, CacheEntry<V>> innerCache = new LinkedHashMap<>();
+    private Map<K, CacheEntry<V>> innerCache;
     private int cacheLimit;
 
-    private Deque<String> historyLog = new LinkedList<>();
-    private int historyLimit;
-
-    public HistoricalCache(int cacheLimit, int historyLimit) {
+    public CleverCache(int cacheLimit) {
         this.cacheLimit = cacheLimit;
-        this.historyLimit = historyLimit;
+        innerCache = new HashMap<>(cacheLimit);
     }
 
     /**
@@ -32,12 +29,7 @@ public class HistoricalCache<K, V> {
     public void store(K key, V value) {
         if (isFull()) {
             K keyToRemove = getLFUKey();
-            HistoricalCache<K, V>.CacheEntry<V> removedEntry = innerCache.remove(keyToRemove);
-
-            if (historyLog.size() >= historyLimit) {
-                historyLog.removeLast();
-            }
-            historyLog.add(removedEntry.toString());
+            CleverCache<K, V>.CacheEntry<V> removedEntry = innerCache.remove(keyToRemove);
         }
 
         CacheEntry<V> newEntry = new CacheEntry<V>();
@@ -78,7 +70,7 @@ public class HistoricalCache<K, V> {
     }
 
     private K getLFUKey() {
-        Optional<Entry<K, HistoricalCache<K, V>.CacheEntry<V>>> lfuEntry = innerCache.entrySet().stream()
+        Optional<Entry<K, CleverCache<K, V>.CacheEntry<V>>> lfuEntry = innerCache.entrySet().stream()
                 .collect(Collectors.minBy(Comparator.comparingInt(entry -> entry.getValue().frequency)));
 
         return lfuEntry.get().getKey();

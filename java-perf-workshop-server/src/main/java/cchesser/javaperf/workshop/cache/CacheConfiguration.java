@@ -10,12 +10,7 @@ public class CacheConfiguration {
     @Min(32)
     @Max(65536)
     @JsonProperty
-    private int cacheLimit = 10000;
-
-    @Min(1024)
-    @Max(65536)
-    @JsonProperty
-    private int discardLimit = 65536;
+    private int cacheLimit = 250;
 
     @JsonProperty
     public int getCacheLimit() {
@@ -25,15 +20,5 @@ public class CacheConfiguration {
     @JsonProperty
     public void setCacheLimit(int cacheLimit) {
         this.cacheLimit = cacheLimit;
-    }
-
-    @JsonProperty
-    public int getDiscardLimit() {
-        return discardLimit;
-    }
-
-    @JsonProperty
-    public void setDiscardLimit(int discardLimit) {
-        this.discardLimit = discardLimit;
     }
 }
