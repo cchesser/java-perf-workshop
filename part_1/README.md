@@ -129,6 +129,8 @@ I can then cross reference this thread to my thread dump via the `nid` (native t
    java.lang.Thread.State: RUNNABLE
 ```
 
+An alternative tool [`fastthread.io`](https://fastthread.io/) also has a blog on other ways to capture a [thread dump](https://blog.fastthread.io/2016/06/06/how-to-take-thread-dumps-7-options/)
+
 ## jcmd PerfCounter
 
 A very simple and quick collection of stats on a JVM can be collected via:
