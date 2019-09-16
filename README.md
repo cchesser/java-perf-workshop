@@ -43,13 +43,13 @@ java -jar java-perf-workshop-server/target/java-perf-workshop-server-1.0-SNAPSHO
 
 #### Mocking Service Dependency
 
-To simulate responses of kcdc.info (as the service may change over time), we will first run a mock 
+To simulate responses of kcdc.info (as the service may change over time), we will first run a mock
 instance of this service using [WireMock](http://wiremock.org/). Go ahead and start another terminal
 session where we will run another service to mock a remote dependency of the workshop service. Navigate
 to the same directory where you cloned this repository, then execute the following commands:
 
 ```bash
-mvn dependency:copy -Dartifact=com.github.tomakehurst:wiremock-standalone:2.5.1 -Dmdep.stripVersion=true -DoutputDirectory=.
+mvn dependency:copy -Dartifact=com.github.tomakehurst:wiremock-standalone:2.24.1 -Dmdep.stripVersion=true -DoutputDirectory=.
 ```
 
 Run the mock service, which will provide the essential end-points to support the service we will be
@@ -96,7 +96,7 @@ logging:
 
 #### Testing
 
-The service will return back results from the KCDC website on sessions that are available which contain 
+The service will return back results from the KCDC website on sessions that are available which contain
 a substring in their title, abstract, or tags. Example:
 
 [http://localhost:8080/search?q=clojure](http://localhost:8080/search?q=clojure)
