@@ -178,7 +178,7 @@ With our service, let's go ahead and start it up with GC logging enabled:
 ```bash
 # Navigate to the root directory of this project
 java -XX:+PrintGCDetails -XX:+PrintGCDateStamps -Xloggc:gc.log -XX:GCLogFileSize=5M -XX:NumberOfGCLogFiles=2 \
- -jar java-perf-workshop-server/target/java-perf-workshop-server-1.0-SNAPSHOT.jar server server.yml 
+ -jar java-perf-workshop-server/target/java-perf-workshop-server-1.1.0-SNAPSHOT.jar server server.yml 
 ```
 
 ### Parsing the log

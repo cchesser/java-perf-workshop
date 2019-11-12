@@ -38,7 +38,7 @@ server assembly [here](https://github.com/cchesser/java-perf-workshop/wiki/java-
 Start the workshop service:
 
 ```bash
-java -jar java-perf-workshop-server/target/java-perf-workshop-server-1.0-SNAPSHOT.jar server server.yml
+java -jar java-perf-workshop-server/target/java-perf-workshop-server-1.1.0-SNAPSHOT.jar server server.yml
 ```
 
 #### Mocking Service Dependency
