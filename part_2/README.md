@@ -47,7 +47,7 @@ Let's start profiling our service. Start the service up by enabling JFR:
 ```bash
 # Note, if you are running this server from a different folder, consider changing the SERVER_HOME
 SERVER_HOME=java-perf-workshop-server/target
-java -XX:+UnlockCommercialFeatures -XX:+FlightRecorder -XX:+UnlockDiagnosticVMOptions -XX:+DebugNonSafepoints -jar $SERVER_HOME/java-perf-workshop-server-1.0-SNAPSHOT.jar server server.yml
+java -XX:+UnlockCommercialFeatures -XX:+FlightRecorder -XX:+UnlockDiagnosticVMOptions -XX:+DebugNonSafepoints -jar $SERVER_HOME/java-perf-workshop-server-1.1.0-SNAPSHOT.jar server server.yml
 ```
 
 :bulb: Starting with Java Mission Control 5.5 _(included in Oracle Java 8u40)_, you no longer have to enable JFR prior to capturing the recording (it will dynamically enable it, after prompting about it).
@@ -143,7 +143,7 @@ Sample output while running:
 [INFO] Scanning for projects...
 [INFO]
 [INFO] ------------------------------------------------------------------------
-[INFO] Building java-perf-workshop-tester 1.0-SNAPSHOT
+[INFO] Building java-perf-workshop-tester 1.1.0-SNAPSHOT
 [INFO] ------------------------------------------------------------------------
 [INFO]
 [INFO] --- gatling-maven-plugin:2.2.4:test (default-cli) @ java-perf-workshop-tester ---
