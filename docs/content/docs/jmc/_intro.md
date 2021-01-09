@@ -1,7 +1,9 @@
-# Part 2: Java Mission Control & Flight Recorder
-
-In this workshop, we will be getting more familiar with using Java Mission Control and the Flight Recorder. As we have been running our service, we want to gather more insight of the code in the service by running series of simple tests and measuring the service.
-
+---
+title: "Introduction"
+weight: 10
+description: >
+    Introduction into Java Mission Control with Flight Recorder
+---
 
 ## Java Flight Recorder
 

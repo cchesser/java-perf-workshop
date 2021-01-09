@@ -1,4 +1,9 @@
-# Part 3: Advanced Flight Recorder
+---
+title: "Advanced Flight Recorder"
+weight: 20
+description: Take the next step in learning more with Flight Recorder
+---
+
 In this workshop we are going to expand what we profiled earlier to all the different areas of the JVM. The JFR has an extensive amount of data which it captures, we will not dive into each of these areas, but hit on a couple more common areas to inspect on your code base.
 
 ## Exceptions

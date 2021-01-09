@@ -1,4 +1,8 @@
-# Part 4: Heap Analysis
+---
+title: "Memory Heap Analysis"
+weight: 10
+description: Analyzing the heap of the JVM.
+---
 
 In this workshop, we are going to do some analysis of the JVM's heap dump.
 

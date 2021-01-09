@@ -1,0 +1,36 @@
+---
+title: "Java Performance Workshop"
+linkTitle: "Java Performance Workshop"
+---
+
+{{< blocks/cover title="Welcome to the Java Performance Workshop!" image_anchor="top" height="full" color="orange" >}}
+<div class="mx-auto">
+	<a class="btn btn-lg btn-primary mr-3 mb-4" href="{{< relref "/docs" >}}">
+		Get Started <i class="fas fa-arrow-alt-circle-right ml-2"></i>
+	</a>
+	<a class="btn btn-lg btn-secondary mr-3 mb-4" href="https://github.com/cchesser/java-perf-workshop">
+		Download <i class="fab fa-github ml-2 "></i>
+	</a>
+	<p class="lead mt-5">Learn how your Java applications are performing with free available tooling for the JVM.</p>
+	{{< blocks/link-down color="info" >}}
+</div>
+{{< /blocks/cover >}}
+
+{{% blocks/lead color="primary" %}}
+This workshop focuses on taking an example Java web service, which performs suboptimally, and explores its behavior with open source tooling. This workshop is intended to empower developers with essential skills of measuring how the an application in the JVM performs. While this can become an advanced topic for tuning application, this workshop focuses on simple approaches with free available tooling.
+{{% /blocks/lead %}}
+
+{{< blocks/section >}}
+
+{{% blocks/feature icon="fas fa-microchip" title="Basics with OS, processes, and thread" url="docs/intro" %}}
+Start with basic knowledge of how to assess your Java application from the perspective of the operating system with processes, threads, and system calls.
+{{% /blocks/feature %}}
+
+{{% blocks/feature icon="fas fa-search" title="Java Mission Control" url="docs/jmc" %}}
+Learn how to levarage Java Mission Control with Flight Recorder to get insight into your running application.
+{{% /blocks/feature %}}
+{{% blocks/feature icon="fas fa-memory" title="Memory Analysis" url="docs/jmc" %}}
+Learn how to explore the memory utilized in your Java application. This includes how to enable and explore the garbage collection logs.
+{{% /blocks/feature %}}
+
+{{< /blocks/section >}}

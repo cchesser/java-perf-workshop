@@ -1,3 +1,9 @@
+---
+title: "Garbage Collections"
+weight: 20
+description: Analyzing garbage collections of the JVM
+---
+
 # Part 5: Garbage Collections
 
 In this workshop, we are going to do some analysis on the JVM in regards to it's garbage collection (GC)

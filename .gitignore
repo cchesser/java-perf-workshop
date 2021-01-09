@@ -34,3 +34,8 @@ pom.xml.versionsBackup
 
 # dumps directory
 dumps/
+
+# docs
+docs/resources/
+docs/public/
+docs/node_modules/
