@@ -1,28 +1,20 @@
 ## Java Performance Workshop
-A tutorial workshop that will dive in understanding "what's going on in your JVM".
 
-This workshop has the following components:
-
-* [Part 1](part_1/README.md): Basics with OS, processes, and thread
-* [Part 2](part_2/README.md): Java Mission Control and Flight Recorder
-* [Part 3](part_3/README.md): Advanced Flight Recorder
-* [Part 4](part_4/README.md): Java Heap Analysis
-* [Part 5](part_5/README.md): Garbage Collections
-
-This workshop is utilizing a basic web service that is included, which isn't exactly optimal
-in how it performs. The goal is to use this service as an interactive example and identify
-its poor performing elements. To learn more about this web service that is included, see
-the following notes.
+A tutorial workshop that will dive in understanding "what's going on in your
+JVM". This workshop is utilizing a basic web service that is included, which
+isn't exactly optimal in how it performs. The goal is to use this service as an
+interactive example and identify its poor performing elements. To learn more
+about this web service that is included, see [the site](https://jvmperf.net/).
 
 ### Service
 
 The web service is a [simple dropwizard server](http://www.dropwizard.io/), which has a single API to search for talks
 from [kcdc.info](http://www.kcdc.info/), and returns results about these talks.
 
-
 #### Running
 
 **Prerequisites:**
+
 * [Maven 3.x](https://maven.apache.org/index.html)
 * [Java 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
 
@@ -124,8 +116,6 @@ If you get a `500` error message when trying to test the service, verify that th
   "message" : "There was an error processing your request. It has been logged (ID d8998189f8d4ee8c)."
 }
 ```
-
-
 
 ### Reference
 * [KCDC 2015 workshop slides](https://github.com/cchesser/java-perf-workshop/wiki/slides/kcdc2015_whats_in_you_jvm.zip)
