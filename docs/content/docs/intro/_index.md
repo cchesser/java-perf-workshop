@@ -3,6 +3,7 @@ title: "Process and Threads"
 weight: 10
 description: >
     Initial look at the JVM from its native perspective.
+hide_readingtime: true
 ---
 
 This first part of the workshop, we will begin to learn about looking at the JVM from its native perspective, and begin obtaining JVM based information to correlate to it's native representation.
