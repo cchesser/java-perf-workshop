@@ -38,6 +38,8 @@ jobs:
 
       - run: npm ci
       - run: hugo
+        env:
+          HUGO_ENV: production
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
