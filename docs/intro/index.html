@@ -4,7 +4,7 @@
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="generator" content="Hugo 0.79.1" /><link rel="alternate" type="text/html" href="https://jvmperf.net/docs/intro/_print/">
-<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+<META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
 
 
 <link rel="shortcut icon" href="/favicons/favicon.ico" >
@@ -31,6 +31,19 @@
 <meta name="twitter:title" content="Process and Threads"/>
 <meta name="twitter:description" content="Initial look at the JVM from its native perspective.
 "/>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-187218497-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
 
 
 
@@ -352,6 +365,8 @@
 	<h1>Process and Threads</h1>
         <div class="lead">Initial look at the JVM from its native perspective.</div>
 	
+            <p class="reading-time"><i class="fa fa-clock" aria-hidden="true"></i> 6 minute read</p>
+        
 	<p>This first part of the workshop, we will begin to learn about looking at the JVM from its native perspective, and begin obtaining JVM based information to correlate to it&rsquo;s native representation.</p>
 <h2 id="top">top</h2>
 <p>A very common utility as to monitor processes in Linux. For our case, we will want to monitor our JVM process. When just executing <code>top</code>, you will see all processes on the host:</p>

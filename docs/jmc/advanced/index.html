@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="generator" content="Hugo 0.79.1" /><META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+<meta name="generator" content="Hugo 0.79.1" /><META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
 
 
 <link rel="shortcut icon" href="/favicons/favicon.ico" >
@@ -33,6 +33,19 @@
 <meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Advanced Flight Recorder"/>
 <meta name="twitter:description" content="Take the next step in learning more with Flight Recorder"/>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-187218497-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
 
 
 
@@ -374,7 +387,9 @@
 <div class="td-content">
 	<h1>Advanced Flight Recorder</h1>
     <div class="lead">Take the next step in learning more with Flight Recorder</div>
-	       
+	
+        <p class="reading-time"><i class="fa fa-clock" aria-hidden="true"></i> 3 minute read</p>
+           
 	<p>In this workshop we are going to expand what we profiled earlier to all the different areas of the JVM. The JFR has an extensive amount of data which it captures, we will not dive into each of these areas, but hit on a couple more common areas to inspect on your code base.</p>
 <h2 id="exceptions">Exceptions</h2>
 <p>Go into the <strong>Code</strong> tab, and then navigate to the <strong>Exceptions</strong> sub tab. Here you can get context of what exceptions are thrown, and when. Exceptions are not necessarily a cheap operation, as there are costs in producing the stack trace.</p>

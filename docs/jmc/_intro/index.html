@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="generator" content="Hugo 0.79.1" /><META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+<meta name="generator" content="Hugo 0.79.1" /><META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
 
 
 <link rel="shortcut icon" href="/favicons/favicon.ico" >
@@ -36,6 +36,19 @@
 <meta name="twitter:title" content="Introduction"/>
 <meta name="twitter:description" content="Introduction into Java Mission Control with Flight Recorder
 "/>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-187218497-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
 
 
 
@@ -388,7 +401,9 @@
 <div class="td-content">
 	<h1>Introduction</h1>
     <div class="lead">Introduction into Java Mission Control with Flight Recorder</div>
-	       
+	
+        <p class="reading-time"><i class="fa fa-clock" aria-hidden="true"></i> 7 minute read</p>
+           
 	<h2 id="java-flight-recorder">Java Flight Recorder</h2>
 <p>The Java Flight Recorder (JFR) is a very low overhead profiling and diagnostics tool. It was inherited from the JRockit JVM, and it is now offered as part of the HotSpot JVM. It is designed to be &ldquo;black box&rdquo; data recorder of the the run-time, which can be used in production environments, making it an attractive tool for profiling code since it has low overhead on the JVM.</p>
 <p>To enable the Flight Recorder on the JVM, the following options need to be included on the JVM:</p>
