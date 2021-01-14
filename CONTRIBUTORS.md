@@ -15,3 +15,4 @@ To edit and preview the site locally, follow these steps:
 ```bash
 git submodule update --init --recursive --depth 1
 ```
+3. Run `hugo server` in the `docs/` folder
