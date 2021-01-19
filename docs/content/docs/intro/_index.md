@@ -106,7 +106,7 @@ To capture a thread dump of the JVM, there are many tools that can achieve this.
 jcmd <PID> Thread.print
 ```
 
-:bulb: You need to be the same OS user when invoking the command as the target JVM.
+💡 You need to be the same OS user when invoking the command as the target JVM.
 
 So, using our earlier example, this would be:
 

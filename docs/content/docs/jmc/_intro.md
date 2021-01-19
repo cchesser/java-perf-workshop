@@ -38,7 +38,7 @@ We will be using Java Mission Control _(included in Oracle JDK 7u40)_ to monitor
 jmc
 ```
 
-:bulb: In order to be able to invoke `jmc` (Java Mission Control) from your console, it assumes `$JAVA_HOME/bin` is on your `$PATH`. If it is not included, go ahead and update your profile to include this so you can easily invoke `jmc` from your terminal.
+💡 In order to be able to invoke `jmc` (Java Mission Control) from your console, it assumes `$JAVA_HOME/bin` is on your `$PATH`. If it is not included, go ahead and update your profile to include this so you can easily invoke `jmc` from your terminal.
 
 ## Start Service with JFR
 
@@ -52,7 +52,7 @@ SERVER_HOME=java-perf-workshop-server/target
 java -XX:+UnlockCommercialFeatures -XX:+FlightRecorder -XX:+UnlockDiagnosticVMOptions -XX:+DebugNonSafepoints -jar $SERVER_HOME/java-perf-workshop-server-1.1.0-SNAPSHOT.jar server server.yml
 ```
 
-:bulb: Starting with Java Mission Control 5.5 _(included in Oracle Java 8u40)_, you no longer have to enable JFR prior to capturing the recording (it will dynamically enable it, after prompting about it).
+💡 Starting with Java Mission Control 5.5 _(included in Oracle Java 8u40)_, you no longer have to enable JFR prior to capturing the recording (it will dynamically enable it, after prompting about it).
 
 
 ## Start Flight Recording from JMC
@@ -69,7 +69,7 @@ Once your flight recording is being captured in a _Continuous_ recording, it wil
 
 ![jmc_started](https://github.com/cchesser/java-perf-workshop/wiki/images/jmc_flight_recorder_started.png)
 
-:bulb: You can see the JFR templates (continuous / profile) which are shipped as part of the JRE in: `$JAVA_HOME/jre/lib/jfr`. These become helpful if you are wanting to compare your settings to some of the standard ones.
+💡 You can see the JFR templates (continuous / profile) which are shipped as part of the JRE in: `$JAVA_HOME/jre/lib/jfr`. These become helpful if you are wanting to compare your settings to some of the standard ones.
 
 ## Generate HTTP traffic on service
 
@@ -206,7 +206,7 @@ You can also zoom into the timeline to scope it to a spike of events. This can b
 
 Another helpful means of identify within a method is including the line number. This can be accomplished by right-clicking in the view and going to __Distinguish Frames By__, and then selecting __Line Number__.
 
-:bulb: Generally, you don't need this, as it can be quite apparent by the base method being invoked where the cost is at. Though, it may be helpful to include in some contexts.
+💡 Generally, you don't need this, as it can be quite apparent by the base method being invoked where the cost is at. Though, it may be helpful to include in some contexts.
 
 ![JMC code hot methods](https://github.com/cchesser/java-perf-workshop/wiki/images/jmc_code_hot_methods_line_number.png)
 

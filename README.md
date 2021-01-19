@@ -24,7 +24,7 @@ Assemble the service:
 mvn clean package
 ```
 
-:bulb: If you have issues with building it locally due to your setup, you can download the
+💡 If you have issues with building it locally due to your setup, you can download the
 server assembly [here](https://github.com/cchesser/java-perf-workshop/wiki/java-perf-workshop-server-1.0-SNAPSHOT.jar).
 
 Start the workshop service:

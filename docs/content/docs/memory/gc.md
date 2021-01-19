@@ -27,11 +27,11 @@ this option, your GC log will have elapsed time since the JVM was started. This 
 in seconds (with millisecond precision), is not easy for someone to quickly correlate when this event was 
 logged (as you have to infer the time based on when the JVM was started).
 * `-Xloggc`: Specifies the log file for the garbage collection logs (otherwise will go to stdout). 
-:bulb: Note: `-verbose:gc` is NOT necessary when you set `Xloggc` (it is implied).
+💡 Note: `-verbose:gc` is NOT necessary when you set `Xloggc` (it is implied).
 * `-XX:+UseGCLogFileRotation`: Support rotating your GC log file (you don't want to let this get too
 big).
 * `-XX:GCLogFileSize`: Size of the file for rotation (ex. `10M`).
-* `-XX:NumberOfGCLogFiles`: Number of GC log files to maintain (ex. `3`). :bulb: Note: if you are monitoring
+* `-XX:NumberOfGCLogFiles`: Number of GC log files to maintain (ex. `3`). 💡 Note: if you are monitoring
 your log file with another solution (like [splunk](http://www.splunk.com/) or 
 [logstash](https://www.elastic.co/products/logstash)), you typically don't need to be keeping an inventory of 
 rolled files around, unless you are concerned about log forwarding failing and want to ensure a given amount 
