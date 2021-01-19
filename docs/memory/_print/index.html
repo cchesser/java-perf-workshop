@@ -111,7 +111,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.3c666f911f6c68f98dcc241f0422840f.json"
+  data-offline-search-index-json-src="/offline-search-index.af5f1cba98383810389ce7c46d808d09.json"
   data-offline-search-base-href="/"
   data-offline-search-max-results="10"
 >
@@ -227,13 +227,13 @@ detach
 quit
 jmap -dump:format<span style="color:#ce5c00;font-weight:bold">=</span>b,file<span style="color:#ce5c00;font-weight:bold">=</span>my_little_heap_dump.hprof /usr/bin/java /tmp/jvm.core
 
-</code></pre></div><p>:bulb: Capturing a heap dump from a core dump on Java 8, you may run into this issue:
+</code></pre></div><p>💡 Capturing a heap dump from a core dump on Java 8, you may run into this issue:
 <a href="http://bugs.java.com/bugdatabase/view_bug.do?bug_id=8073606">JDK-8073606</a>.</p>
 <h3 id="hotspot-diagnostic-mbean">HotSpot Diagnostic MBean</h3>
 <p>You can capture a heap dump by invoking a diagnostic MBean which is included in the Oracle JDK. You can do so by opening your favorite MBean browser (ex. <code>jconsole</code>, <code>jmc</code>) and invoke
 the <code>com.sun.management.HotSpotDiagnostic</code>. The arguments are:</p>
 <ul>
-<li>Filename of the heap dump that will be created. :bulb: Note, it will be created with file ownership of the hosting JVM process.</li>
+<li>Filename of the heap dump that will be created. 💡 Note, it will be created with file ownership of the hosting JVM process.</li>
 <li>Indicator to dump all live object (true will dump <strong>only live</strong> objects)</li>
 </ul>
 <p><img src="https://github.com/cchesser/java-perf-workshop/wiki/images/hotspot_diag_mbean.png" alt="hotspot_diag"></p>
@@ -290,7 +290,7 @@ objects, and only report the ones which have <em>tags</em>.</p>
 <span style="color:#000">sort</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">map</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">filter</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">heap</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">objects</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#39;cchesser.javaperf.workshop.data.ConferenceSession&#39;</span><span style="color:#000;font-weight:bold">),</span> <span style="color:#000">hasTags</span><span style="color:#000;font-weight:bold">),</span> 
  <span style="color:#4e9a06">&#39;{ conference: it, tag_count: it.tags.size, tags: toArray(it.tags.elementData) }&#39;</span><span style="color:#000;font-weight:bold">),</span> <span style="color:#4e9a06">&#39;rhs.tag_count - lhs.tag_count&#39;</span><span style="color:#000;font-weight:bold">)</span>
 </code></pre></div><p>Reference: <a href="https://htmlpreview.github.io/?https://raw.githubusercontent.com/visualvm/visualvm.java.net.backup/master/www/oqlhelp.html">VisualVM OQL Help</a></p>
-<p>:bulb: Note, the OQL which you use between this tool (and others), isn&rsquo;t necessarily <em>standard</em>, and therefore cannot be used between tooling without issues. VisualVM gives you
+<p>💡 Note, the OQL which you use between this tool (and others), isn&rsquo;t necessarily <em>standard</em>, and therefore cannot be used between tooling without issues. VisualVM gives you
 the ability to leverage Javascript, which is unique to other tools supporting heap dump analysis.</p>
 <h3 id="java-mission-control-joverflow-plugin">Java Mission Control: JOverflow Plugin</h3>
 <p>With <a href="http://www.oracle.com/technetwork/java/javaseproducts/mission-control/java-mission-control-1998576.html">Java Mission Control</a>, there is an ability to add plugins, one of which,
@@ -340,7 +340,7 @@ strings (as this content is replicated on each object):</p>
 <h3 id="eclipse-memory-analyzer">Eclipse Memory Analyzer</h3>
 <p><a href="https://eclipse.org/mat/">Eclipse Memory Analyzer</a> is a fairly mature tool on analyzing heap dumps. It is a rich tool that includes the abilities to do OQL queries on the heap, general reporting on anti-patterns, and helpful common views (like the dominator tree). Eclipse Memory Analyzer tool is a separate install which can be a standalone install, or it can run as a plugin within Eclipse. First, install the tool if you haven&rsquo;t already via their <a href="https://eclipse.org/mat/downloads.php">downloads page</a>.</p>
 <p>After you have it installed, go to <strong>File</strong> and then <strong>Open Heap Dump&hellip;</strong> and specify the <code>hprof</code> file that you wish to analyze.</p>
-<p>:bulb: When Eclipse Memory Analyzer loads your <code>hprof</code> file, it will create many other index files to assist in optimally analyzing and navigating through your heap dump. It may make it easier to isolate your <code>prof</code> file in its own directory prior to opening it, based on the secondary files which are created. You can always just delete these files within Eclipse Memory Analyzer by opening the <strong>Heap Dump History</strong> window, right-clicking the <code>hprof</code> which was previously loaded, and selecting <strong>Delete Index Files</strong>. Example listing of index files which get generated by suffix:</p>
+<p>💡 When Eclipse Memory Analyzer loads your <code>hprof</code> file, it will create many other index files to assist in optimally analyzing and navigating through your heap dump. It may make it easier to isolate your <code>prof</code> file in its own directory prior to opening it, based on the secondary files which are created. You can always just delete these files within Eclipse Memory Analyzer by opening the <strong>Heap Dump History</strong> window, right-clicking the <code>hprof</code> which was previously loaded, and selecting <strong>Delete Index Files</strong>. Example listing of index files which get generated by suffix:</p>
 <ul>
 <li><code>.domIn.index</code></li>
 <li><code>.domOut.index</code></li>
@@ -368,7 +368,7 @@ strings (as this content is replicated on each object):</p>
 <p>Lookup our <code>ConferenceSession</code> class type:</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#204a87;font-weight:bold">SELECT</span> <span style="color:#ce5c00;font-weight:bold">*</span>
 <span style="color:#204a87;font-weight:bold">FROM</span> <span style="color:#000">INSTANCEOF</span> <span style="color:#000">cchesser</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">javaperf</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">workshop</span><span style="color:#000;font-weight:bold">.</span><span style="color:#204a87;font-weight:bold">data</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">ConferenceSession</span>
-</code></pre></div><p>:bulb: To execute the query, you click on the red exclamation mark (:exclamation:). Alternatively, you can press <code>CTRL+Enter</code> on Windows or <code>Command+Enter</code> on macOS.</p>
+</code></pre></div><p>💡 To execute the query, you click on the red exclamation mark (:exclamation:). Alternatively, you can press <code>CTRL+Enter</code> on Windows or <code>Command+Enter</code> on macOS.</p>
 <p><img src="https://github.com/cchesser/java-perf-workshop/wiki/images/mat_oql_studio.png" alt="MAT OQL"></p>
 <p>By returning the raw type back, you can expand each one to further look at the contents of the object. If you wanted to just report the object with its <code>title</code> attribute and the object&rsquo;s retained sized, you could do this:</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#204a87;font-weight:bold">SELECT</span> <span style="color:#204a87;font-weight:bold">c</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">title</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">toString</span><span style="color:#000;font-weight:bold">(),</span> <span style="color:#204a87;font-weight:bold">c</span><span style="color:#000;font-weight:bold">.</span><span style="color:#ce5c00;font-weight:bold">@</span><span style="color:#000">retainedHeapSize</span> 
@@ -414,11 +414,11 @@ this option, your GC log will have elapsed time since the JVM was started. This 
 in seconds (with millisecond precision), is not easy for someone to quickly correlate when this event was
 logged (as you have to infer the time based on when the JVM was started).</li>
 <li><code>-Xloggc</code>: Specifies the log file for the garbage collection logs (otherwise will go to stdout).
-:bulb: Note: <code>-verbose:gc</code> is NOT necessary when you set <code>Xloggc</code> (it is implied).</li>
+💡 Note: <code>-verbose:gc</code> is NOT necessary when you set <code>Xloggc</code> (it is implied).</li>
 <li><code>-XX:+UseGCLogFileRotation</code>: Support rotating your GC log file (you don&rsquo;t want to let this get too
 big).</li>
 <li><code>-XX:GCLogFileSize</code>: Size of the file for rotation (ex. <code>10M</code>).</li>
-<li><code>-XX:NumberOfGCLogFiles</code>: Number of GC log files to maintain (ex. <code>3</code>). :bulb: Note: if you are monitoring
+<li><code>-XX:NumberOfGCLogFiles</code>: Number of GC log files to maintain (ex. <code>3</code>). 💡 Note: if you are monitoring
 your log file with another solution (like <a href="http://www.splunk.com/">splunk</a> or
 <a href="https://www.elastic.co/products/logstash">logstash</a>), you typically don&rsquo;t need to be keeping an inventory of
 rolled files around, unless you are concerned about log forwarding failing and want to ensure a given amount

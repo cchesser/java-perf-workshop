@@ -111,7 +111,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.3c666f911f6c68f98dcc241f0422840f.json"
+  data-offline-search-index-json-src="/offline-search-index.af5f1cba98383810389ce7c46d808d09.json"
   data-offline-search-base-href="/"
   data-offline-search-max-results="10"
 >
@@ -344,7 +344,7 @@ Swap:        0k total,        0k used,        0k free,   336520k cached
 </code></pre></div><h2 id="thread-dump">Thread Dump</h2>
 <p>To capture a thread dump of the JVM, there are many tools that can achieve this. You can do this over JMX remotely, sending an OS signal (<code>kill -3</code>), or just form the command line (<code>jstack</code> or <code>jcmd</code>). To keep it simple, we will just use <code>jcmd</code> as we will use it later for other diagnostic commands.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">jcmd &lt;PID&gt; Thread.print
-</code></pre></div><p>:bulb: You need to be the same OS user when invoking the command as the target JVM.</p>
+</code></pre></div><p>💡 You need to be the same OS user when invoking the command as the target JVM.</p>
 <p>So, using our earlier example, this would be:</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">jcmd <span style="color:#0000cf;font-weight:bold">6730</span> Thread.print
 </code></pre></div><p>However, correlating a thread dump to the native thread state requires a minor translation. In your thread dump, the native thread identifier is in hexadecimal, while the native thread identifiers from <code>top</code> are in decimal. Therefore, if you notice a thread spiking in the <code>top</code> view, you would then want to understand what cod it is correlating to. You can do this simply from the command line via:</p>
@@ -453,14 +453,14 @@ java.threads.started=697
 </code></pre></div><h2 id="java-mission-control">Java Mission Control</h2>
 <p>We will be using Java Mission Control <em>(included in Oracle JDK 7u40)</em> to monitor and evaluate the Java flight recordings. To start up  Java Mission Control, simply executing the following in your console:</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">jmc
-</code></pre></div><p>:bulb: In order to be able to invoke <code>jmc</code> (Java Mission Control) from your console, it assumes <code>$JAVA_HOME/bin</code> is on your <code>$PATH</code>. If it is not included, go ahead and update your profile to include this so you can easily invoke <code>jmc</code> from your terminal.</p>
+</code></pre></div><p>💡 In order to be able to invoke <code>jmc</code> (Java Mission Control) from your console, it assumes <code>$JAVA_HOME/bin</code> is on your <code>$PATH</code>. If it is not included, go ahead and update your profile to include this so you can easily invoke <code>jmc</code> from your terminal.</p>
 <h2 id="start-service-with-jfr">Start Service with JFR</h2>
 <p>Let&rsquo;s start profiling our service. Start the service up by enabling JFR:</p>
 <h3 id="start-from-the-console">Start from the console</h3>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#8f5902;font-style:italic"># Note, if you are running this server from a different folder, consider changing the SERVER_HOME</span>
 <span style="color:#000">SERVER_HOME</span><span style="color:#ce5c00;font-weight:bold">=</span>java-perf-workshop-server/target
 java -XX:+UnlockCommercialFeatures -XX:+FlightRecorder -XX:+UnlockDiagnosticVMOptions -XX:+DebugNonSafepoints -jar <span style="color:#000">$SERVER_HOME</span>/java-perf-workshop-server-1.1.0-SNAPSHOT.jar server server.yml
-</code></pre></div><p>:bulb: Starting with Java Mission Control 5.5 <em>(included in Oracle Java 8u40)</em>, you no longer have to enable JFR prior to capturing the recording (it will dynamically enable it, after prompting about it).</p>
+</code></pre></div><p>💡 Starting with Java Mission Control 5.5 <em>(included in Oracle Java 8u40)</em>, you no longer have to enable JFR prior to capturing the recording (it will dynamically enable it, after prompting about it).</p>
 <h2 id="start-flight-recording-from-jmc">Start Flight Recording from JMC</h2>
 <p>From Java Mission Control (JMC), you can start a flight recording by right-clicking the JVM from the <strong>JVM Browser</strong> view and selecting <strong>Start Flight Recording&hellip;</strong></p>
 <p><img src="https://github.com/cchesser/java-perf-workshop/wiki/images/jmc_start_flight_recorder.png" alt="jmc_start"></p>
@@ -468,7 +468,7 @@ java -XX:+UnlockCommercialFeatures -XX:+FlightRecorder -XX:+UnlockDiagnosticVMOp
 <p><img src="https://github.com/cchesser/java-perf-workshop/wiki/images/jmc_start_flight_recorder_wizard.png" alt="jmc_started"></p>
 <p>Once your flight recording is being captured in a <em>Continuous</em> recording, it will show a ∞.</p>
 <p><img src="https://github.com/cchesser/java-perf-workshop/wiki/images/jmc_flight_recorder_started.png" alt="jmc_started"></p>
-<p>:bulb: You can see the JFR templates (continuous / profile) which are shipped as part of the JRE in: <code>$JAVA_HOME/jre/lib/jfr</code>. These become helpful if you are wanting to compare your settings to some of the standard ones.</p>
+<p>💡 You can see the JFR templates (continuous / profile) which are shipped as part of the JRE in: <code>$JAVA_HOME/jre/lib/jfr</code>. These become helpful if you are wanting to compare your settings to some of the standard ones.</p>
 <h2 id="generate-http-traffic-on-service">Generate HTTP traffic on service</h2>
 <p>We will want to generate some traffic on the service to measure some general characteristics of the service:</p>
 <ul>
@@ -557,7 +557,7 @@ Simulation cchesser.javaperf.workshop.WorkshopSimulation started...
 <p>You can also zoom into the timeline to scope it to a spike of events. This can be done on most view in Java Mission Control. In this case, we will zoom into a 847 ms interval:</p>
 <p><img src="https://github.com/cchesser/java-perf-workshop/wiki/images/jmc_code_hot_methods_scoped.png" alt="JMC code hot methods"></p>
 <p>Another helpful means of identify within a method is including the line number. This can be accomplished by right-clicking in the view and going to <strong>Distinguish Frames By</strong>, and then selecting <strong>Line Number</strong>.</p>
-<p>:bulb: Generally, you don&rsquo;t need this, as it can be quite apparent by the base method being invoked where the cost is at. Though, it may be helpful to include in some contexts.</p>
+<p>💡 Generally, you don&rsquo;t need this, as it can be quite apparent by the base method being invoked where the cost is at. Though, it may be helpful to include in some contexts.</p>
 <p><img src="https://github.com/cchesser/java-perf-workshop/wiki/images/jmc_code_hot_methods_line_number.png" alt="JMC code hot methods"></p>
 <p><img src="https://github.com/cchesser/java-perf-workshop/wiki/images/jmc_code_hot_methods_with_line.png" alt="JMC code hot methods"></p>
 <p>Walk around to look at other areas where you are spending time in your code. In many cases you find that there are very expensive areas of code that you cannot change (as you may not own it), but you can dictate whether or not it should be executed (or executed as frequently.</p>
@@ -691,13 +691,13 @@ detach
 quit
 jmap -dump:format<span style="color:#ce5c00;font-weight:bold">=</span>b,file<span style="color:#ce5c00;font-weight:bold">=</span>my_little_heap_dump.hprof /usr/bin/java /tmp/jvm.core
 
-</code></pre></div><p>:bulb: Capturing a heap dump from a core dump on Java 8, you may run into this issue:
+</code></pre></div><p>💡 Capturing a heap dump from a core dump on Java 8, you may run into this issue:
 <a href="http://bugs.java.com/bugdatabase/view_bug.do?bug_id=8073606">JDK-8073606</a>.</p>
 <h3 id="hotspot-diagnostic-mbean">HotSpot Diagnostic MBean</h3>
 <p>You can capture a heap dump by invoking a diagnostic MBean which is included in the Oracle JDK. You can do so by opening your favorite MBean browser (ex. <code>jconsole</code>, <code>jmc</code>) and invoke
 the <code>com.sun.management.HotSpotDiagnostic</code>. The arguments are:</p>
 <ul>
-<li>Filename of the heap dump that will be created. :bulb: Note, it will be created with file ownership of the hosting JVM process.</li>
+<li>Filename of the heap dump that will be created. 💡 Note, it will be created with file ownership of the hosting JVM process.</li>
 <li>Indicator to dump all live object (true will dump <strong>only live</strong> objects)</li>
 </ul>
 <p><img src="https://github.com/cchesser/java-perf-workshop/wiki/images/hotspot_diag_mbean.png" alt="hotspot_diag"></p>
@@ -754,7 +754,7 @@ objects, and only report the ones which have <em>tags</em>.</p>
 <span style="color:#000">sort</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">map</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">filter</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">heap</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">objects</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#39;cchesser.javaperf.workshop.data.ConferenceSession&#39;</span><span style="color:#000;font-weight:bold">),</span> <span style="color:#000">hasTags</span><span style="color:#000;font-weight:bold">),</span> 
  <span style="color:#4e9a06">&#39;{ conference: it, tag_count: it.tags.size, tags: toArray(it.tags.elementData) }&#39;</span><span style="color:#000;font-weight:bold">),</span> <span style="color:#4e9a06">&#39;rhs.tag_count - lhs.tag_count&#39;</span><span style="color:#000;font-weight:bold">)</span>
 </code></pre></div><p>Reference: <a href="https://htmlpreview.github.io/?https://raw.githubusercontent.com/visualvm/visualvm.java.net.backup/master/www/oqlhelp.html">VisualVM OQL Help</a></p>
-<p>:bulb: Note, the OQL which you use between this tool (and others), isn&rsquo;t necessarily <em>standard</em>, and therefore cannot be used between tooling without issues. VisualVM gives you
+<p>💡 Note, the OQL which you use between this tool (and others), isn&rsquo;t necessarily <em>standard</em>, and therefore cannot be used between tooling without issues. VisualVM gives you
 the ability to leverage Javascript, which is unique to other tools supporting heap dump analysis.</p>
 <h3 id="java-mission-control-joverflow-plugin">Java Mission Control: JOverflow Plugin</h3>
 <p>With <a href="http://www.oracle.com/technetwork/java/javaseproducts/mission-control/java-mission-control-1998576.html">Java Mission Control</a>, there is an ability to add plugins, one of which,
@@ -804,7 +804,7 @@ strings (as this content is replicated on each object):</p>
 <h3 id="eclipse-memory-analyzer">Eclipse Memory Analyzer</h3>
 <p><a href="https://eclipse.org/mat/">Eclipse Memory Analyzer</a> is a fairly mature tool on analyzing heap dumps. It is a rich tool that includes the abilities to do OQL queries on the heap, general reporting on anti-patterns, and helpful common views (like the dominator tree). Eclipse Memory Analyzer tool is a separate install which can be a standalone install, or it can run as a plugin within Eclipse. First, install the tool if you haven&rsquo;t already via their <a href="https://eclipse.org/mat/downloads.php">downloads page</a>.</p>
 <p>After you have it installed, go to <strong>File</strong> and then <strong>Open Heap Dump&hellip;</strong> and specify the <code>hprof</code> file that you wish to analyze.</p>
-<p>:bulb: When Eclipse Memory Analyzer loads your <code>hprof</code> file, it will create many other index files to assist in optimally analyzing and navigating through your heap dump. It may make it easier to isolate your <code>prof</code> file in its own directory prior to opening it, based on the secondary files which are created. You can always just delete these files within Eclipse Memory Analyzer by opening the <strong>Heap Dump History</strong> window, right-clicking the <code>hprof</code> which was previously loaded, and selecting <strong>Delete Index Files</strong>. Example listing of index files which get generated by suffix:</p>
+<p>💡 When Eclipse Memory Analyzer loads your <code>hprof</code> file, it will create many other index files to assist in optimally analyzing and navigating through your heap dump. It may make it easier to isolate your <code>prof</code> file in its own directory prior to opening it, based on the secondary files which are created. You can always just delete these files within Eclipse Memory Analyzer by opening the <strong>Heap Dump History</strong> window, right-clicking the <code>hprof</code> which was previously loaded, and selecting <strong>Delete Index Files</strong>. Example listing of index files which get generated by suffix:</p>
 <ul>
 <li><code>.domIn.index</code></li>
 <li><code>.domOut.index</code></li>
@@ -832,7 +832,7 @@ strings (as this content is replicated on each object):</p>
 <p>Lookup our <code>ConferenceSession</code> class type:</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#204a87;font-weight:bold">SELECT</span> <span style="color:#ce5c00;font-weight:bold">*</span>
 <span style="color:#204a87;font-weight:bold">FROM</span> <span style="color:#000">INSTANCEOF</span> <span style="color:#000">cchesser</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">javaperf</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">workshop</span><span style="color:#000;font-weight:bold">.</span><span style="color:#204a87;font-weight:bold">data</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">ConferenceSession</span>
-</code></pre></div><p>:bulb: To execute the query, you click on the red exclamation mark (:exclamation:). Alternatively, you can press <code>CTRL+Enter</code> on Windows or <code>Command+Enter</code> on macOS.</p>
+</code></pre></div><p>💡 To execute the query, you click on the red exclamation mark (:exclamation:). Alternatively, you can press <code>CTRL+Enter</code> on Windows or <code>Command+Enter</code> on macOS.</p>
 <p><img src="https://github.com/cchesser/java-perf-workshop/wiki/images/mat_oql_studio.png" alt="MAT OQL"></p>
 <p>By returning the raw type back, you can expand each one to further look at the contents of the object. If you wanted to just report the object with its <code>title</code> attribute and the object&rsquo;s retained sized, you could do this:</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#204a87;font-weight:bold">SELECT</span> <span style="color:#204a87;font-weight:bold">c</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">title</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">toString</span><span style="color:#000;font-weight:bold">(),</span> <span style="color:#204a87;font-weight:bold">c</span><span style="color:#000;font-weight:bold">.</span><span style="color:#ce5c00;font-weight:bold">@</span><span style="color:#000">retainedHeapSize</span> 
@@ -878,11 +878,11 @@ this option, your GC log will have elapsed time since the JVM was started. This 
 in seconds (with millisecond precision), is not easy for someone to quickly correlate when this event was
 logged (as you have to infer the time based on when the JVM was started).</li>
 <li><code>-Xloggc</code>: Specifies the log file for the garbage collection logs (otherwise will go to stdout).
-:bulb: Note: <code>-verbose:gc</code> is NOT necessary when you set <code>Xloggc</code> (it is implied).</li>
+💡 Note: <code>-verbose:gc</code> is NOT necessary when you set <code>Xloggc</code> (it is implied).</li>
 <li><code>-XX:+UseGCLogFileRotation</code>: Support rotating your GC log file (you don&rsquo;t want to let this get too
 big).</li>
 <li><code>-XX:GCLogFileSize</code>: Size of the file for rotation (ex. <code>10M</code>).</li>
-<li><code>-XX:NumberOfGCLogFiles</code>: Number of GC log files to maintain (ex. <code>3</code>). :bulb: Note: if you are monitoring
+<li><code>-XX:NumberOfGCLogFiles</code>: Number of GC log files to maintain (ex. <code>3</code>). 💡 Note: if you are monitoring
 your log file with another solution (like <a href="http://www.splunk.com/">splunk</a> or
 <a href="https://www.elastic.co/products/logstash">logstash</a>), you typically don&rsquo;t need to be keeping an inventory of
 rolled files around, unless you are concerned about log forwarding failing and want to ensure a given amount

@@ -21,10 +21,10 @@
 <meta property="og:description" content="Analyzing garbage collections of the JVM" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://jvmperf.net/docs/memory/gc/" />
-<meta property="article:modified_time" content="2021-01-08T23:32:29-06:00" /><meta property="og:site_name" content="jvmperf: Java Performance Workshop" />
+<meta property="article:modified_time" content="2021-01-18T22:42:19-06:00" /><meta property="og:site_name" content="jvmperf: Java Performance Workshop" />
 <meta itemprop="name" content="Garbage Collections">
 <meta itemprop="description" content="Analyzing garbage collections of the JVM">
-<meta itemprop="dateModified" content="2021-01-08T23:32:29-06:00" />
+<meta itemprop="dateModified" content="2021-01-18T22:42:19-06:00" />
 <meta itemprop="wordCount" content="1644">
 
 
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.3c666f911f6c68f98dcc241f0422840f.json"
+  data-offline-search-index-json-src="/offline-search-index.af5f1cba98383810389ce7c46d808d09.json"
   data-offline-search-base-href="/"
   data-offline-search-max-results="10"
 >
@@ -148,7 +148,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.3c666f911f6c68f98dcc241f0422840f.json"
+  data-offline-search-index-json-src="/offline-search-index.af5f1cba98383810389ce7c46d808d09.json"
   data-offline-search-base-href="/"
   data-offline-search-max-results="10"
 >
@@ -411,11 +411,11 @@ this option, your GC log will have elapsed time since the JVM was started. This 
 in seconds (with millisecond precision), is not easy for someone to quickly correlate when this event was
 logged (as you have to infer the time based on when the JVM was started).</li>
 <li><code>-Xloggc</code>: Specifies the log file for the garbage collection logs (otherwise will go to stdout).
-:bulb: Note: <code>-verbose:gc</code> is NOT necessary when you set <code>Xloggc</code> (it is implied).</li>
+💡 Note: <code>-verbose:gc</code> is NOT necessary when you set <code>Xloggc</code> (it is implied).</li>
 <li><code>-XX:+UseGCLogFileRotation</code>: Support rotating your GC log file (you don&rsquo;t want to let this get too
 big).</li>
 <li><code>-XX:GCLogFileSize</code>: Size of the file for rotation (ex. <code>10M</code>).</li>
-<li><code>-XX:NumberOfGCLogFiles</code>: Number of GC log files to maintain (ex. <code>3</code>). :bulb: Note: if you are monitoring
+<li><code>-XX:NumberOfGCLogFiles</code>: Number of GC log files to maintain (ex. <code>3</code>). 💡 Note: if you are monitoring
 your log file with another solution (like <a href="http://www.splunk.com/">splunk</a> or
 <a href="https://www.elastic.co/products/logstash">logstash</a>), you typically don&rsquo;t need to be keeping an inventory of
 rolled files around, unless you are concerned about log forwarding failing and want to ensure a given amount
@@ -587,7 +587,7 @@ as <code>GCUserTime_Sec</code> is just the sum time of all the threads.</p>
 
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified January 8, 2021: <a  href="https://github.com/cchesser/java-perf-workshop/commit/24c4d1533da104d5ad950ad4b8d23b35a4d90d57">Initial move to docsy (24c4d15)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified January 18, 2021: <a  href="https://github.com/cchesser/java-perf-workshop/commit/215298cea4514c7e1db598914b178827bc496027">Correcting bulb references with emoji (215298c)</a>
 </div>
 </div>
 

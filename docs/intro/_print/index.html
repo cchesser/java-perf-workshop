@@ -114,7 +114,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.3c666f911f6c68f98dcc241f0422840f.json"
+  data-offline-search-index-json-src="/offline-search-index.af5f1cba98383810389ce7c46d808d09.json"
   data-offline-search-base-href="/"
   data-offline-search-max-results="10"
 >
@@ -235,7 +235,7 @@ Swap:        0k total,        0k used,        0k free,   336520k cached
 </code></pre></div><h2 id="thread-dump">Thread Dump</h2>
 <p>To capture a thread dump of the JVM, there are many tools that can achieve this. You can do this over JMX remotely, sending an OS signal (<code>kill -3</code>), or just form the command line (<code>jstack</code> or <code>jcmd</code>). To keep it simple, we will just use <code>jcmd</code> as we will use it later for other diagnostic commands.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">jcmd &lt;PID&gt; Thread.print
-</code></pre></div><p>:bulb: You need to be the same OS user when invoking the command as the target JVM.</p>
+</code></pre></div><p>💡 You need to be the same OS user when invoking the command as the target JVM.</p>
 <p>So, using our earlier example, this would be:</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">jcmd <span style="color:#0000cf;font-weight:bold">6730</span> Thread.print
 </code></pre></div><p>However, correlating a thread dump to the native thread state requires a minor translation. In your thread dump, the native thread identifier is in hexadecimal, while the native thread identifiers from <code>top</code> are in decimal. Therefore, if you notice a thread spiking in the <code>top</code> view, you would then want to understand what cod it is correlating to. You can do this simply from the command line via:</p>

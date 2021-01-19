@@ -114,7 +114,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.3c666f911f6c68f98dcc241f0422840f.json"
+  data-offline-search-index-json-src="/offline-search-index.af5f1cba98383810389ce7c46d808d09.json"
   data-offline-search-base-href="/"
   data-offline-search-max-results="10"
 >
@@ -223,14 +223,14 @@ This the multi-page printable view of this section.
 </code></pre></div><h2 id="java-mission-control">Java Mission Control</h2>
 <p>We will be using Java Mission Control <em>(included in Oracle JDK 7u40)</em> to monitor and evaluate the Java flight recordings. To start up  Java Mission Control, simply executing the following in your console:</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">jmc
-</code></pre></div><p>:bulb: In order to be able to invoke <code>jmc</code> (Java Mission Control) from your console, it assumes <code>$JAVA_HOME/bin</code> is on your <code>$PATH</code>. If it is not included, go ahead and update your profile to include this so you can easily invoke <code>jmc</code> from your terminal.</p>
+</code></pre></div><p>💡 In order to be able to invoke <code>jmc</code> (Java Mission Control) from your console, it assumes <code>$JAVA_HOME/bin</code> is on your <code>$PATH</code>. If it is not included, go ahead and update your profile to include this so you can easily invoke <code>jmc</code> from your terminal.</p>
 <h2 id="start-service-with-jfr">Start Service with JFR</h2>
 <p>Let&rsquo;s start profiling our service. Start the service up by enabling JFR:</p>
 <h3 id="start-from-the-console">Start from the console</h3>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#8f5902;font-style:italic"># Note, if you are running this server from a different folder, consider changing the SERVER_HOME</span>
 <span style="color:#000">SERVER_HOME</span><span style="color:#ce5c00;font-weight:bold">=</span>java-perf-workshop-server/target
 java -XX:+UnlockCommercialFeatures -XX:+FlightRecorder -XX:+UnlockDiagnosticVMOptions -XX:+DebugNonSafepoints -jar <span style="color:#000">$SERVER_HOME</span>/java-perf-workshop-server-1.1.0-SNAPSHOT.jar server server.yml
-</code></pre></div><p>:bulb: Starting with Java Mission Control 5.5 <em>(included in Oracle Java 8u40)</em>, you no longer have to enable JFR prior to capturing the recording (it will dynamically enable it, after prompting about it).</p>
+</code></pre></div><p>💡 Starting with Java Mission Control 5.5 <em>(included in Oracle Java 8u40)</em>, you no longer have to enable JFR prior to capturing the recording (it will dynamically enable it, after prompting about it).</p>
 <h2 id="start-flight-recording-from-jmc">Start Flight Recording from JMC</h2>
 <p>From Java Mission Control (JMC), you can start a flight recording by right-clicking the JVM from the <strong>JVM Browser</strong> view and selecting <strong>Start Flight Recording&hellip;</strong></p>
 <p><img src="https://github.com/cchesser/java-perf-workshop/wiki/images/jmc_start_flight_recorder.png" alt="jmc_start"></p>
@@ -238,7 +238,7 @@ java -XX:+UnlockCommercialFeatures -XX:+FlightRecorder -XX:+UnlockDiagnosticVMOp
 <p><img src="https://github.com/cchesser/java-perf-workshop/wiki/images/jmc_start_flight_recorder_wizard.png" alt="jmc_started"></p>
 <p>Once your flight recording is being captured in a <em>Continuous</em> recording, it will show a ∞.</p>
 <p><img src="https://github.com/cchesser/java-perf-workshop/wiki/images/jmc_flight_recorder_started.png" alt="jmc_started"></p>
-<p>:bulb: You can see the JFR templates (continuous / profile) which are shipped as part of the JRE in: <code>$JAVA_HOME/jre/lib/jfr</code>. These become helpful if you are wanting to compare your settings to some of the standard ones.</p>
+<p>💡 You can see the JFR templates (continuous / profile) which are shipped as part of the JRE in: <code>$JAVA_HOME/jre/lib/jfr</code>. These become helpful if you are wanting to compare your settings to some of the standard ones.</p>
 <h2 id="generate-http-traffic-on-service">Generate HTTP traffic on service</h2>
 <p>We will want to generate some traffic on the service to measure some general characteristics of the service:</p>
 <ul>
@@ -327,7 +327,7 @@ Simulation cchesser.javaperf.workshop.WorkshopSimulation started...
 <p>You can also zoom into the timeline to scope it to a spike of events. This can be done on most view in Java Mission Control. In this case, we will zoom into a 847 ms interval:</p>
 <p><img src="https://github.com/cchesser/java-perf-workshop/wiki/images/jmc_code_hot_methods_scoped.png" alt="JMC code hot methods"></p>
 <p>Another helpful means of identify within a method is including the line number. This can be accomplished by right-clicking in the view and going to <strong>Distinguish Frames By</strong>, and then selecting <strong>Line Number</strong>.</p>
-<p>:bulb: Generally, you don&rsquo;t need this, as it can be quite apparent by the base method being invoked where the cost is at. Though, it may be helpful to include in some contexts.</p>
+<p>💡 Generally, you don&rsquo;t need this, as it can be quite apparent by the base method being invoked where the cost is at. Though, it may be helpful to include in some contexts.</p>
 <p><img src="https://github.com/cchesser/java-perf-workshop/wiki/images/jmc_code_hot_methods_line_number.png" alt="JMC code hot methods"></p>
 <p><img src="https://github.com/cchesser/java-perf-workshop/wiki/images/jmc_code_hot_methods_with_line.png" alt="JMC code hot methods"></p>
 <p>Walk around to look at other areas where you are spending time in your code. In many cases you find that there are very expensive areas of code that you cannot change (as you may not own it), but you can dictate whether or not it should be executed (or executed as frequently.</p>
