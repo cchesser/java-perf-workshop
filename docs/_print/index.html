@@ -111,7 +111,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.af5f1cba98383810389ce7c46d808d09.json"
+  data-offline-search-index-json-src="/offline-search-index.4c2eb8dbba33f901956e8f1d5ea01721.json"
   data-offline-search-base-href="/"
   data-offline-search-max-results="10"
 >
@@ -162,7 +162,7 @@ This the multi-page printable view of this section.
     
     
 	
-<li>1: <a href="#pg-a5f739a8bec034e3bccefb4740e1c6ec">Process and Threads</a></li>
+<li>1: <a href="#pg-f3351e063429a5c5cbfec483b1ba8747">Prerequisites</a></li>
 
 
     
@@ -181,7 +181,26 @@ This the multi-page printable view of this section.
     
     
 	
-<li>2: <a href="#pg-9a22b492f19ba508a502052a88896ceb">Java Mission Control &amp; Flight Recorder</a></li>
+<li>2: <a href="#pg-a5f739a8bec034e3bccefb4740e1c6ec">Process and Threads</a></li>
+
+
+    
+    <ul>
+        
+  
+  
+  
+  
+
+  
+
+    </ul>
+    
+  
+    
+    
+	
+<li>3: <a href="#pg-9a22b492f19ba508a502052a88896ceb">Java Mission Control &amp; Flight Recorder</a></li>
 
 
     
@@ -196,7 +215,7 @@ This the multi-page printable view of this section.
     
     
 	
-<li>2.1: <a href="#pg-bc241cfaf9ff21a46f29fd6eb5c89ce6">Introduction</a></li>
+<li>3.1: <a href="#pg-bc241cfaf9ff21a46f29fd6eb5c89ce6">Introduction</a></li>
 
 
     
@@ -204,7 +223,7 @@ This the multi-page printable view of this section.
     
     
 	
-<li>2.2: <a href="#pg-81ae492cca539f3173a8a08bae892da5">Advanced Flight Recorder</a></li>
+<li>3.2: <a href="#pg-81ae492cca539f3173a8a08bae892da5">Advanced Flight Recorder</a></li>
 
 
     
@@ -216,7 +235,7 @@ This the multi-page printable view of this section.
     
     
 	
-<li>3: <a href="#pg-6ef11477fa79b0d64946ef4b156240fc">Memory Analysis</a></li>
+<li>4: <a href="#pg-6ef11477fa79b0d64946ef4b156240fc">Memory Analysis</a></li>
 
 
     
@@ -231,7 +250,7 @@ This the multi-page printable view of this section.
     
     
 	
-<li>3.1: <a href="#pg-b09263a61c61dd500a73a2e9c3ccb14a">Memory Heap Analysis</a></li>
+<li>4.1: <a href="#pg-b09263a61c61dd500a73a2e9c3ccb14a">Memory Heap Analysis</a></li>
 
 
     
@@ -239,7 +258,7 @@ This the multi-page printable view of this section.
     
     
 	
-<li>3.2: <a href="#pg-c6512c461f5f3bf1ba4ced486f736874">Garbage Collections</a></li>
+<li>4.2: <a href="#pg-c6512c461f5f3bf1ba4ced486f736874">Garbage Collections</a></li>
 
 
     
@@ -274,7 +293,50 @@ This the multi-page printable view of this section.
 
 <div class="td-content" style="">
     
-	<h1 id="pg-a5f739a8bec034e3bccefb4740e1c6ec">1 - Process and Threads</h1>
+	<h1 id="pg-f3351e063429a5c5cbfec483b1ba8747">1 - Prerequisites</h1>
+    <div class="lead">Instructions for acquiring the sofware needed for the workshop.</div>
+	<h2 id="java-development-kit">Java Development Kit</h2>
+<p>Install a Java Development Kit from Oracle or Open JDK</p>
+<ul>
+<li><a href="https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html">Oracle</a></li>
+<li><a href="https://openjdk.java.net/install/">OpenJDK</a></li>
+</ul>
+<h2 id="maven">Maven</h2>
+<p>Install the latest available <a href="https://maven.apache.org/">Maven</a></p>
+<h2 id="jdk-mission-control">JDK Mission Control</h2>
+<p>Install JDK mission control from <a href="https://www.oracle.com/java/technologies/javase/products-jmc7-downloads.html">Oracle Mirror</a></p>
+<h2 id="visual-vm">Visual VM</h2>
+<p>Install the standalone version of <a href="https://visualvm.github.io/">Visual VM</a></p>
+<h2 id="eclipse-mat">Eclipse MAT</h2>
+<p>Install the standalone version of <a href="https://www.eclipse.org/mat/">Eclipse MAT</a></p>
+
+</div>
+
+
+
+    
+      
+  
+  
+  
+  
+
+  
+  
+
+  
+
+    
+	
+  
+    
+    
+	
+    
+
+<div class="td-content" style="page-break-before: always">
+    
+	<h1 id="pg-a5f739a8bec034e3bccefb4740e1c6ec">2 - Process and Threads</h1>
     <div class="lead">Initial look at the JVM from its native perspective.</div>
 	<p>This first part of the workshop, we will begin to learn about looking at the JVM from its native perspective, and begin obtaining JVM based information to correlate to it&rsquo;s native representation.</p>
 <h2 id="top">top</h2>
@@ -409,7 +471,7 @@ java.threads.started=697
 
 <div class="td-content" style="page-break-before: always">
     
-	<h1 id="pg-9a22b492f19ba508a502052a88896ceb">2 - Java Mission Control &amp; Flight Recorder</h1>
+	<h1 id="pg-9a22b492f19ba508a502052a88896ceb">3 - Java Mission Control &amp; Flight Recorder</h1>
     <div class="lead">Initial look at the JVM from its native perspective.</div>
 	<p>In this workshop, we will be getting more familiar with using Java Mission Control and the Flight Recorder. As we have been running our service, we want to gather more insight of the code in the service by running series of simple tests and measuring the service.</p>
 
@@ -435,7 +497,7 @@ java.threads.started=697
 
 <div class="td-content" style="">
     
-	<h1 id="pg-bc241cfaf9ff21a46f29fd6eb5c89ce6">2.1 - Introduction</h1>
+	<h1 id="pg-bc241cfaf9ff21a46f29fd6eb5c89ce6">3.1 - Introduction</h1>
     <div class="lead">Introduction into Java Mission Control with Flight Recorder</div>
 	<h2 id="java-flight-recorder">Java Flight Recorder</h2>
 <p>The Java Flight Recorder (JFR) is a very low overhead profiling and diagnostics tool. It was inherited from the JRockit JVM, and it is now offered as part of the HotSpot JVM. It is designed to be &ldquo;black box&rdquo; data recorder of the the run-time, which can be used in production environments, making it an attractive tool for profiling code since it has low overhead on the JVM.</p>
@@ -577,7 +639,7 @@ Simulation cchesser.javaperf.workshop.WorkshopSimulation started...
 
 <div class="td-content" style="page-break-before: always">
     
-	<h1 id="pg-81ae492cca539f3173a8a08bae892da5">2.2 - Advanced Flight Recorder</h1>
+	<h1 id="pg-81ae492cca539f3173a8a08bae892da5">3.2 - Advanced Flight Recorder</h1>
     <div class="lead">Take the next step in learning more with Flight Recorder</div>
 	<p>In this workshop we are going to expand what we profiled earlier to all the different areas of the JVM. The JFR has an extensive amount of data which it captures, we will not dive into each of these areas, but hit on a couple more common areas to inspect on your code base.</p>
 <h2 id="exceptions">Exceptions</h2>
@@ -640,7 +702,7 @@ Simulation cchesser.javaperf.workshop.WorkshopSimulation started...
 
 <div class="td-content" style="page-break-before: always">
     
-	<h1 id="pg-6ef11477fa79b0d64946ef4b156240fc">3 - Memory Analysis</h1>
+	<h1 id="pg-6ef11477fa79b0d64946ef4b156240fc">4 - Memory Analysis</h1>
     <div class="lead">Analyzing the JVM heap with available tooling.</div>
 	
 </div>
@@ -665,7 +727,7 @@ Simulation cchesser.javaperf.workshop.WorkshopSimulation started...
 
 <div class="td-content" style="">
     
-	<h1 id="pg-b09263a61c61dd500a73a2e9c3ccb14a">3.1 - Memory Heap Analysis</h1>
+	<h1 id="pg-b09263a61c61dd500a73a2e9c3ccb14a">4.1 - Memory Heap Analysis</h1>
     <div class="lead">Analyzing the heap of the JVM.</div>
 	<p>In this workshop, we are going to do some analysis of the JVM&rsquo;s heap dump.</p>
 <h2 id="prerequisites">Prerequisites</h2>
@@ -857,7 +919,7 @@ the title or the abstract:</p>
 
 <div class="td-content" style="page-break-before: always">
     
-	<h1 id="pg-c6512c461f5f3bf1ba4ced486f736874">3.2 - Garbage Collections</h1>
+	<h1 id="pg-c6512c461f5f3bf1ba4ced486f736874">4.2 - Garbage Collections</h1>
     <div class="lead">Analyzing garbage collections of the JVM</div>
 	<h1 id="part-5-garbage-collections">Part 5: Garbage Collections</h1>
 <p>In this workshop, we are going to do some analysis on the JVM in regards to it&rsquo;s garbage collection (GC)

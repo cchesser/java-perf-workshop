@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://jvmperf.net/docs/prereqs/</loc>
+    <lastmod>2021-01-19T09:05:19-06:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://jvmperf.net/docs/jmc/_intro/</loc>
     <lastmod>2021-01-18T22:42:19-06:00</lastmod>
   </url>
