@@ -78,7 +78,9 @@ We will want to generate some traffic on the service to measure some general cha
 * Response time
 * Trend of response time over time
 
-By generating traffic on service, this gives us baseline activity in the JVM to start evaluating the flight recording. For the purpose of this workshop, we will utilize [Apache Benchmark](http://httpd.apache.org/docs/2.2/programs/ab.html) to generate traffic on the service.
+![](/diagrams/web_traffic.png)
+
+By generating traffic on service, this gives us baseline activity in the JVM to start evaluating the flight recording.
 
 ### Basic test
 
@@ -105,7 +107,7 @@ curl "http://localhost:8080/search?q=jvm"
 
 ### Using Apache Benchmark
 
-From the console, we will execute the following to generate traffic against our service. Note, we will use a very basic search of just "a", since this will generate more results.
+We can utilize [Apache Benchmark](http://httpd.apache.org/docs/2.2/programs/ab.html) to generate traffic on the service From the console, we will execute the following to generate traffic against our service. Note, we will use a very basic search of just "a", since this will generate more results.
 
 ```bash
 ab -n 1000 -c 15 "http://localhost:8080/search?q=a"
