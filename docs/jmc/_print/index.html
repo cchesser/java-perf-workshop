@@ -114,7 +114,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.4c2eb8dbba33f901956e8f1d5ea01721.json"
+  data-offline-search-index-json-src="/offline-search-index.3de3365ad9fd18aec288a460130d6397.json"
   data-offline-search-base-href="/"
   data-offline-search-max-results="10"
 >
@@ -246,7 +246,8 @@ java -XX:+UnlockCommercialFeatures -XX:+FlightRecorder -XX:+UnlockDiagnosticVMOp
 <li>Response time</li>
 <li>Trend of response time over time</li>
 </ul>
-<p>By generating traffic on service, this gives us baseline activity in the JVM to start evaluating the flight recording. For the purpose of this workshop, we will utilize <a href="http://httpd.apache.org/docs/2.2/programs/ab.html">Apache Benchmark</a> to generate traffic on the service.</p>
+<p><img src="/diagrams/web_traffic.png" alt=""></p>
+<p>By generating traffic on service, this gives us baseline activity in the JVM to start evaluating the flight recording.</p>
 <h3 id="basic-test">Basic test</h3>
 <p>This service under test, is a simple web service which provides results based on a search API. When interacting with the service, you can simply supply a HTTP GET on the <em>search</em> resource with a query parameter (&lsquo;q&rsquo;) with the term that you are searching for. It will then return KCDC&rsquo;s 2015 sessions that contain that term. Example:</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">curl <span style="color:#4e9a06">&#34;http://localhost:8080/search?q=jvm&#34;</span>
@@ -266,7 +267,7 @@ java -XX:+UnlockCommercialFeatures -XX:+FlightRecorder -XX:+UnlockDiagnosticVMOp
   <span style="color:#ce5c00;font-weight:bold">}</span> <span style="color:#ce5c00;font-weight:bold">]</span>
 <span style="color:#ce5c00;font-weight:bold">}</span>
 </code></pre></div><h3 id="using-apache-benchmark">Using Apache Benchmark</h3>
-<p>From the console, we will execute the following to generate traffic against our service. Note, we will use a very basic search of just &ldquo;a&rdquo;, since this will generate more results.</p>
+<p>We can utilize <a href="http://httpd.apache.org/docs/2.2/programs/ab.html">Apache Benchmark</a> to generate traffic on the service From the console, we will execute the following to generate traffic against our service. Note, we will use a very basic search of just &ldquo;a&rdquo;, since this will generate more results.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ab -n <span style="color:#0000cf;font-weight:bold">1000</span> -c <span style="color:#0000cf;font-weight:bold">15</span> <span style="color:#4e9a06">&#34;http://localhost:8080/search?q=a&#34;</span>
 </code></pre></div><h3 id="using-loadtest">Using loadtest</h3>
 <p>An alternative to Apache Benchmark, is <a href="https://github.com/alexfernandez/loadtest">loadtest</a> (a node.js equivalent). To install:</p>

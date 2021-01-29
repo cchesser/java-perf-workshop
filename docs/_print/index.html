@@ -111,7 +111,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.4c2eb8dbba33f901956e8f1d5ea01721.json"
+  data-offline-search-index-json-src="/offline-search-index.3de3365ad9fd18aec288a460130d6397.json"
   data-offline-search-base-href="/"
   data-offline-search-max-results="10"
 >
@@ -181,7 +181,7 @@ This the multi-page printable view of this section.
     
     
 	
-<li>2: <a href="#pg-a5f739a8bec034e3bccefb4740e1c6ec">Process and Threads</a></li>
+<li>2: <a href="#pg-66b565805ca1061be35ff2c0165f13c1">Setup</a></li>
 
 
     
@@ -200,7 +200,26 @@ This the multi-page printable view of this section.
     
     
 	
-<li>3: <a href="#pg-9a22b492f19ba508a502052a88896ceb">Java Mission Control &amp; Flight Recorder</a></li>
+<li>3: <a href="#pg-a5f739a8bec034e3bccefb4740e1c6ec">Process and Threads</a></li>
+
+
+    
+    <ul>
+        
+  
+  
+  
+  
+
+  
+
+    </ul>
+    
+  
+    
+    
+	
+<li>4: <a href="#pg-9a22b492f19ba508a502052a88896ceb">Java Mission Control &amp; Flight Recorder</a></li>
 
 
     
@@ -215,7 +234,7 @@ This the multi-page printable view of this section.
     
     
 	
-<li>3.1: <a href="#pg-bc241cfaf9ff21a46f29fd6eb5c89ce6">Introduction</a></li>
+<li>4.1: <a href="#pg-bc241cfaf9ff21a46f29fd6eb5c89ce6">Introduction</a></li>
 
 
     
@@ -223,7 +242,7 @@ This the multi-page printable view of this section.
     
     
 	
-<li>3.2: <a href="#pg-81ae492cca539f3173a8a08bae892da5">Advanced Flight Recorder</a></li>
+<li>4.2: <a href="#pg-81ae492cca539f3173a8a08bae892da5">Advanced Flight Recorder</a></li>
 
 
     
@@ -235,7 +254,7 @@ This the multi-page printable view of this section.
     
     
 	
-<li>4: <a href="#pg-6ef11477fa79b0d64946ef4b156240fc">Memory Analysis</a></li>
+<li>5: <a href="#pg-6ef11477fa79b0d64946ef4b156240fc">Memory Analysis</a></li>
 
 
     
@@ -250,7 +269,7 @@ This the multi-page printable view of this section.
     
     
 	
-<li>4.1: <a href="#pg-b09263a61c61dd500a73a2e9c3ccb14a">Memory Heap Analysis</a></li>
+<li>5.1: <a href="#pg-b09263a61c61dd500a73a2e9c3ccb14a">Memory Heap Analysis</a></li>
 
 
     
@@ -258,7 +277,7 @@ This the multi-page printable view of this section.
     
     
 	
-<li>4.2: <a href="#pg-c6512c461f5f3bf1ba4ced486f736874">Garbage Collections</a></li>
+<li>5.2: <a href="#pg-c6512c461f5f3bf1ba4ced486f736874">Garbage Collections</a></li>
 
 
     
@@ -336,7 +355,125 @@ This the multi-page printable view of this section.
 
 <div class="td-content" style="page-break-before: always">
     
-	<h1 id="pg-a5f739a8bec034e3bccefb4740e1c6ec">2 - Process and Threads</h1>
+	<h1 id="pg-66b565805ca1061be35ff2c0165f13c1">2 - Setup</h1>
+    <div class="lead">Instructions for setting up the workshop</div>
+	<p>In this section we&rsquo;re going to spin up the services needed for the workshop.</p>
+
+
+<div class="alert alert-info" role="alert">
+<h4 class="alert-heading">Note</h4>
+
+    Make sure you&rsquo;ve gone through the Prerequisites
+
+</div>
+
+<h3 id="service">Service</h3>
+<p>The web service is a <a href="http://www.dropwizard.io/">simple dropwizard server</a>, which has a single API to search for talks
+from <a href="http://www.kcdc.info/">kcdc.info</a>, and returns results about these talks.</p>
+<p><img src="/diagrams/workshop_service_interaction.png" alt=""></p>
+<h4 id="running">Running</h4>
+<p><strong>Prerequisites:</strong></p>
+<ul>
+<li>Maven</li>
+<li>Java JDK</li>
+</ul>
+<p>Assemble the service:</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mvn clean package
+</code></pre></div><p>💡 If you have issues with building it locally due to your setup, you can download the
+server assembly <a href="https://github.com/cchesser/java-perf-workshop/wiki/java-perf-workshop-server-1.0-SNAPSHOT.jar">here</a>.</p>
+<p>Start the workshop service:</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">java -jar java-perf-workshop-server/target/java-perf-workshop-server-1.1.0-SNAPSHOT.jar server server.yml
+</code></pre></div><h4 id="mocking-service-dependency">Mocking Service Dependency</h4>
+<p>To simulate responses of kcdc.info (as the service may change over time), we will first run a mock
+instance of this service using <a href="http://wiremock.org/">WireMock</a>.</p>
+<p><img src="/diagrams/interaction_wiremock.png" alt=""></p>
+<p>Go ahead and start another terminal session where we will run another service to mock a remote dependency of the workshop service. Navigate
+to the same directory where you cloned this repository, then execute the following commands:</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mvn dependency:copy -Dartifact<span style="color:#ce5c00;font-weight:bold">=</span>com.github.tomakehurst:wiremock-standalone:2.24.1 -Dmdep.stripVersion<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87">true</span> -DoutputDirectory<span style="color:#ce5c00;font-weight:bold">=</span>.
+</code></pre></div><p>Run the mock service, which will provide the essential end-points to support the service we will be
+testing:</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">java -jar wiremock-standalone.jar --port <span style="color:#0000cf;font-weight:bold">9090</span> --root-dir java-perf-workshop-server/src/test/resources
+</code></pre></div><p>Alternatively, you can run the <code>mockservice.sh</code> script which will do both commands, ie: <code>sh mockservice.sh</code></p>
+<h4 id="configuration">Configuration</h4>
+<p>Example configuration of service:</p>
+<pre><code>server:
+  applicationConnectors:
+    - type: http
+      port: 80
+  adminConnectors:
+    - type: http
+      port: 8071
+  requestLog:
+    timeZone: UTC
+    appenders:
+      - type: file
+        currentLogFilename: /var/log/java-perf-workshop-server-access.log
+        threshold: ALL
+        archive: true
+        archivedLogFilenamePattern: /var/log/java-perf-workshop-server-access.%d.log.gz
+        archivedFileCount: 5
+logging:
+  level: INFO
+  appenders:
+    - type: file
+      currentLogFilename: /var/log/java-perf-workshop-server.log
+      threshold: ALL
+      archive: true
+      archivedLogFilenamePattern: /var/log/java-perf-workshop-server-%d.log
+      archivedFileCount: 5
+      timeZone: UTC
+</code></pre><h4 id="testing">Testing</h4>
+<p>The service will return back results from the KCDC website on sessions that are available which contain
+a substring in their title, abstract, or tags. Example:</p>
+<p><a href="http://localhost:8080/search?q=clojure">http://localhost:8080/search?q=clojure</a></p>
+<p>Example results:</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#000;font-weight:bold">{</span>
+  <span style="color:#204a87;font-weight:bold">&#34;results&#34;</span> <span style="color:#000;font-weight:bold">:</span> <span style="color:#000;font-weight:bold">[</span> <span style="color:#000;font-weight:bold">{</span>
+    <span style="color:#204a87;font-weight:bold">&#34;title&#34;</span> <span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;Concurrency Options on the JVM&#34;</span><span style="color:#000;font-weight:bold">,</span>
+    <span style="color:#204a87;font-weight:bold">&#34;presenter&#34;</span> <span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;Jessica Kerr&#34;</span>
+  <span style="color:#000;font-weight:bold">},</span> <span style="color:#000;font-weight:bold">{</span>
+    <span style="color:#204a87;font-weight:bold">&#34;title&#34;</span> <span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;Fast, Parallel, or Reliable: Pick 3, a tour of Elixir&#34;</span><span style="color:#000;font-weight:bold">,</span>
+    <span style="color:#204a87;font-weight:bold">&#34;presenter&#34;</span> <span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;Jordan Day&#34;</span>
+  <span style="color:#000;font-weight:bold">}</span> <span style="color:#000;font-weight:bold">]</span>
+<span style="color:#000;font-weight:bold">}</span>
+</code></pre></div><h4 id="troubleshooting">Troubleshooting</h4>
+<p>If you get a <code>500</code> error message when trying to test the service, verify that the wiremock server is running.</p>
+<pre><code>{
+  &quot;code&quot; : 500,
+  &quot;message&quot; : &quot;There was an error processing your request. It has been logged (ID d8998189f8d4ee8c).&quot;
+}
+</code></pre><h3 id="reference">Reference</h3>
+<ul>
+<li><a href="https://github.com/cchesser/java-perf-workshop/wiki/slides/kcdc2015_whats_in_you_jvm.zip">KCDC 2015 workshop slides</a></li>
+</ul>
+
+</div>
+
+
+
+    
+      
+  
+  
+  
+  
+
+  
+  
+
+  
+
+    
+	
+  
+    
+    
+	
+    
+
+<div class="td-content" style="page-break-before: always">
+    
+	<h1 id="pg-a5f739a8bec034e3bccefb4740e1c6ec">3 - Process and Threads</h1>
     <div class="lead">Initial look at the JVM from its native perspective.</div>
 	<p>This first part of the workshop, we will begin to learn about looking at the JVM from its native perspective, and begin obtaining JVM based information to correlate to it&rsquo;s native representation.</p>
 <h2 id="top">top</h2>
@@ -471,7 +608,7 @@ java.threads.started=697
 
 <div class="td-content" style="page-break-before: always">
     
-	<h1 id="pg-9a22b492f19ba508a502052a88896ceb">3 - Java Mission Control &amp; Flight Recorder</h1>
+	<h1 id="pg-9a22b492f19ba508a502052a88896ceb">4 - Java Mission Control &amp; Flight Recorder</h1>
     <div class="lead">Initial look at the JVM from its native perspective.</div>
 	<p>In this workshop, we will be getting more familiar with using Java Mission Control and the Flight Recorder. As we have been running our service, we want to gather more insight of the code in the service by running series of simple tests and measuring the service.</p>
 
@@ -497,7 +634,7 @@ java.threads.started=697
 
 <div class="td-content" style="">
     
-	<h1 id="pg-bc241cfaf9ff21a46f29fd6eb5c89ce6">3.1 - Introduction</h1>
+	<h1 id="pg-bc241cfaf9ff21a46f29fd6eb5c89ce6">4.1 - Introduction</h1>
     <div class="lead">Introduction into Java Mission Control with Flight Recorder</div>
 	<h2 id="java-flight-recorder">Java Flight Recorder</h2>
 <p>The Java Flight Recorder (JFR) is a very low overhead profiling and diagnostics tool. It was inherited from the JRockit JVM, and it is now offered as part of the HotSpot JVM. It is designed to be &ldquo;black box&rdquo; data recorder of the the run-time, which can be used in production environments, making it an attractive tool for profiling code since it has low overhead on the JVM.</p>
@@ -538,7 +675,8 @@ java -XX:+UnlockCommercialFeatures -XX:+FlightRecorder -XX:+UnlockDiagnosticVMOp
 <li>Response time</li>
 <li>Trend of response time over time</li>
 </ul>
-<p>By generating traffic on service, this gives us baseline activity in the JVM to start evaluating the flight recording. For the purpose of this workshop, we will utilize <a href="http://httpd.apache.org/docs/2.2/programs/ab.html">Apache Benchmark</a> to generate traffic on the service.</p>
+<p><img src="/diagrams/web_traffic.png" alt=""></p>
+<p>By generating traffic on service, this gives us baseline activity in the JVM to start evaluating the flight recording.</p>
 <h3 id="basic-test">Basic test</h3>
 <p>This service under test, is a simple web service which provides results based on a search API. When interacting with the service, you can simply supply a HTTP GET on the <em>search</em> resource with a query parameter (&lsquo;q&rsquo;) with the term that you are searching for. It will then return KCDC&rsquo;s 2015 sessions that contain that term. Example:</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">curl <span style="color:#4e9a06">&#34;http://localhost:8080/search?q=jvm&#34;</span>
@@ -558,7 +696,7 @@ java -XX:+UnlockCommercialFeatures -XX:+FlightRecorder -XX:+UnlockDiagnosticVMOp
   <span style="color:#ce5c00;font-weight:bold">}</span> <span style="color:#ce5c00;font-weight:bold">]</span>
 <span style="color:#ce5c00;font-weight:bold">}</span>
 </code></pre></div><h3 id="using-apache-benchmark">Using Apache Benchmark</h3>
-<p>From the console, we will execute the following to generate traffic against our service. Note, we will use a very basic search of just &ldquo;a&rdquo;, since this will generate more results.</p>
+<p>We can utilize <a href="http://httpd.apache.org/docs/2.2/programs/ab.html">Apache Benchmark</a> to generate traffic on the service From the console, we will execute the following to generate traffic against our service. Note, we will use a very basic search of just &ldquo;a&rdquo;, since this will generate more results.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">ab -n <span style="color:#0000cf;font-weight:bold">1000</span> -c <span style="color:#0000cf;font-weight:bold">15</span> <span style="color:#4e9a06">&#34;http://localhost:8080/search?q=a&#34;</span>
 </code></pre></div><h3 id="using-loadtest">Using loadtest</h3>
 <p>An alternative to Apache Benchmark, is <a href="https://github.com/alexfernandez/loadtest">loadtest</a> (a node.js equivalent). To install:</p>
@@ -639,7 +777,7 @@ Simulation cchesser.javaperf.workshop.WorkshopSimulation started...
 
 <div class="td-content" style="page-break-before: always">
     
-	<h1 id="pg-81ae492cca539f3173a8a08bae892da5">3.2 - Advanced Flight Recorder</h1>
+	<h1 id="pg-81ae492cca539f3173a8a08bae892da5">4.2 - Advanced Flight Recorder</h1>
     <div class="lead">Take the next step in learning more with Flight Recorder</div>
 	<p>In this workshop we are going to expand what we profiled earlier to all the different areas of the JVM. The JFR has an extensive amount of data which it captures, we will not dive into each of these areas, but hit on a couple more common areas to inspect on your code base.</p>
 <h2 id="exceptions">Exceptions</h2>
@@ -702,7 +840,7 @@ Simulation cchesser.javaperf.workshop.WorkshopSimulation started...
 
 <div class="td-content" style="page-break-before: always">
     
-	<h1 id="pg-6ef11477fa79b0d64946ef4b156240fc">4 - Memory Analysis</h1>
+	<h1 id="pg-6ef11477fa79b0d64946ef4b156240fc">5 - Memory Analysis</h1>
     <div class="lead">Analyzing the JVM heap with available tooling.</div>
 	
 </div>
@@ -727,7 +865,7 @@ Simulation cchesser.javaperf.workshop.WorkshopSimulation started...
 
 <div class="td-content" style="">
     
-	<h1 id="pg-b09263a61c61dd500a73a2e9c3ccb14a">4.1 - Memory Heap Analysis</h1>
+	<h1 id="pg-b09263a61c61dd500a73a2e9c3ccb14a">5.1 - Memory Heap Analysis</h1>
     <div class="lead">Analyzing the heap of the JVM.</div>
 	<p>In this workshop, we are going to do some analysis of the JVM&rsquo;s heap dump.</p>
 <h2 id="prerequisites">Prerequisites</h2>
@@ -919,7 +1057,7 @@ the title or the abstract:</p>
 
 <div class="td-content" style="page-break-before: always">
     
-	<h1 id="pg-c6512c461f5f3bf1ba4ced486f736874">4.2 - Garbage Collections</h1>
+	<h1 id="pg-c6512c461f5f3bf1ba4ced486f736874">5.2 - Garbage Collections</h1>
     <div class="lead">Analyzing garbage collections of the JVM</div>
 	<h1 id="part-5-garbage-collections">Part 5: Garbage Collections</h1>
 <p>In this workshop, we are going to do some analysis on the JVM in regards to it&rsquo;s garbage collection (GC)
