@@ -57,10 +57,11 @@ class WorkshopSimulation extends Simulation {
 
   setUp(
     scn.inject(
-      atOnceUsers(200),
+      atOnceUsers(150),
       constantUsersPerSec(10) during (30 seconds), // go up to 300, something popular happens
-      rampUsersPerSec(20) to (100) during (1 minutes), // more visitors
-      constantUsersPerSec(100) during (30 seconds)
+      rampUsersPerSec(20) to (100) during (2 minutes), // more visitors
+      constantUsersPerSec(50) during (1 minutes),
+      rampUsersPerSec(20) to (100) during (30 seconds)
     )
   ).protocols(httpConf)
 }
