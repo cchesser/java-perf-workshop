@@ -7,7 +7,9 @@ description: >
 
 ## Java Flight Recorder
 
-The Java Flight Recorder (JFR) is a very low overhead profiling and diagnostics tool. It was inherited from the JRockit JVM, and it is now offered as part of the HotSpot JVM. It is designed to be "black box" data recorder of the the run-time, which can be used in production environments, making it an attractive tool for profiling code since it has low overhead on the JVM.
+The Java Flight Recorder (JFR) is a very low overhead profiling and diagnostics tool. It was inherited from the JRockit JVM, and originally was offered as part of the HotSpot JVM. It is designed to be "black box" data recorder of the the run-time, which can be used in production environments, making it an attractive tool for profiling code since it has low overhead on the JVM.
+
+Newer versions of JMC are developed as part of the OpenJDK Mission Control project. 
 
 To enable the Flight Recorder on the JVM, the following options need to be included on the JVM:
 
@@ -32,7 +34,8 @@ To get better fidelity on method profiling, include the following options which 
 ```
 
 ## Java Mission Control
-We will be using Java Mission Control _(included in Oracle JDK 7u40)_ to monitor and evaluate the Java flight recordings. To start up  Java Mission Control, simply executing the following in your console:
+
+We will be using Java Mission Control to monitor and evaluate the Java flight recordings. To start up  Java Mission Control, simply executing the following in your console:
 
 ```bash
 jmc
@@ -54,16 +57,22 @@ java -XX:+UnlockCommercialFeatures -XX:+FlightRecorder -XX:+UnlockDiagnosticVMOp
 
 💡 Starting with Java Mission Control 5.5 _(included in Oracle Java 8u40)_, you no longer have to enable JFR prior to capturing the recording (it will dynamically enable it, after prompting about it).
 
+![](/jmc/unlock_commercial_features_dialog.png)
+
 
 ## Start Flight Recording from JMC
 
-From Java Mission Control (JMC), you can start a flight recording by right-clicking the JVM from the __JVM Browser__ view and selecting __Start Flight Recording...__
+![jmc_start](/jmc/start_flight_recording.png)
 
-![jmc_start](https://github.com/cchesser/java-perf-workshop/wiki/images/jmc_start_flight_recorder.png)
+This will open a window where you apply some settings for the recording. First select that you want this to be a __Continuous recording__ and for Event settings, we will import a template to get some consistent settings for profiling. Within the __Template Manager__, select __Import Files...__ and import the `open_jdk_9_.jfc` included in the [content/docs/jmc](https://github.com/cchesser/java-perf-workshop/tree/main/docs/content/docs/jmc) folder. It should appear as _Java Performance Workshop JDK9+ Profile_. Select this as the __Event Settings__ and then click on __Finish__.
 
-This will open a window where you apply some settings for the recording. First select that you want this to be a __Continuous recording__ and for Event settings, we will import a template to get some consistent settings for profiling. Within the __Template Manager__, select __Import Files...__ and import the `profile.jfc` included in this folder. It should appear as _Java Performance Workshop Profile_. Select this as the __Event Settings__ and then click on __Finish__.
+For reference, these are the options for the template.
 
-![jmc_started](https://github.com/cchesser/java-perf-workshop/wiki/images/jmc_start_flight_recorder_wizard.png)
+![](/jmc/profile_settings.png)
+
+First select that you want this to be a __Continuous recording__ and for Event settings we will use __Profiling on Server__.
+
+![](/jmc/start_recording_wizard.png)
 
 Once your flight recording is being captured in a _Continuous_ recording, it will show a ∞.
 
@@ -137,10 +146,6 @@ This should launch the `WorkshopSimulation`.
  mvn -f java-perf-workshop-tester/ gatling:test
 ```
 
-```bash
-mvn gatling:test
-```
-
 Sample output while running:
 ```bash
 [~/java-perf-workshop/java-perf-workshop-tester]$ mvn gatling:test
@@ -181,39 +186,33 @@ Then dump the whole recording.
 
 ## The Flight Recording
 
-From a Java Flight Recording, there are several categories of information you can view from JMC:
+From a Java Flight Recording, there are several categories of information (pages) you can view from JMC:
 
-* __Memory__: View memory utilization and garbage collection costs.
-* __Code__: View profiling of your code to identify _hot spots_ in your code base. Also, you can get additional insight to exceptions thrown, compilation costs, and class loading.
-* __Threads__: View series of thread dumps, _hot_ threads, latency events, and locking situations causing contention.
-* __I/O__: View general I/O (file / network) costs that were occurring within your code.
-* __System__: Get a general context of the run-time environment of the JVM.
-* __Events__: View a full detailed log of the events within the JVM.
+* Code Information:
+  * __Method Profiling__: Provides information about specific method runs and how long each run took, identifying _hot spots_ in your code base.
+  * __Exceptions__: Displays Exceptions and Errors thrown and which methods threw them. Viewing exceptions requires editing the settings to also capture Exceptions.
+* Thread information:
+  * __Threads__: Provides a snapshot of all the threads that belong to the Java Application and the thread activity.
+  * __Lock Instances__: Provides further details on threads by specifying lock information, showing which threads request and which threads take a particular lock.
+  * __Thread Dump__: Provides period thread dump information.
+* Memory Information:
+  * __Memory__: Represents heap memory usage of the JVM. 
+* IO Information:
+  * __File I/O__: Displays File costs and behaviors
+  * __Socket I/O__: Displays Network costs and behaviors
+* JVM Internals:
+  * __Garbage Collections__: Displays heap usage compared to pause times as well as GC events.
+  * __Compliations__: Provides details on code compilation.
+  * __TLAB Allocations__: Displays Thread Local Allocation Buffers.
+* System Information:
+  * __Processes__: See other processes on the system and what is competing for resources.
+  * __Environment__: Provides information about the environment in which the recording was made.
+  * __System Properties__: Show properties passed on to the JVM.
+* Events:
+  __Event Browser__: View detailed log of the events within the JVM. You can use this page to further filter down on events across all the pages in the recording.
 
-### Code
+We'll touch on a few of these pages in the following sections, starting with the [Method Profiling](/docs/jmc/method_profiling) page.
 
-Our first walkthrough of the Flight Recording will begin with the __Code__ view to give context of where we might be spending time with our code.
-
-When you first open the __Code__ tab, you will be brought to the __Overview__ sub tab. This will give you a breakdown of where you are spending your time by code package and classes.
-
-![JMC code overview](https://github.com/cchesser/java-perf-workshop/wiki/images/jmc_code_overview.png)
-
-To go deeper into these details, go into the __Hot Methods__ sub tab. From here you can expand down to the method which is consuming most of your time.
-
-![JMC code hot methods](https://github.com/cchesser/java-perf-workshop/wiki/images/jmc_code_hot_methods.png)
-
-You can also zoom into the timeline to scope it to a spike of events. This can be done on most view in Java Mission Control. In this case, we will zoom into a 847 ms interval:
-
-![JMC code hot methods](https://github.com/cchesser/java-perf-workshop/wiki/images/jmc_code_hot_methods_scoped.png)
-
-Another helpful means of identify within a method is including the line number. This can be accomplished by right-clicking in the view and going to __Distinguish Frames By__, and then selecting __Line Number__.
-
-💡 Generally, you don't need this, as it can be quite apparent by the base method being invoked where the cost is at. Though, it may be helpful to include in some contexts.
-
-![JMC code hot methods](https://github.com/cchesser/java-perf-workshop/wiki/images/jmc_code_hot_methods_line_number.png)
-
-![JMC code hot methods](https://github.com/cchesser/java-perf-workshop/wiki/images/jmc_code_hot_methods_with_line.png)
-
-Walk around to look at other areas where you are spending time in your code. In many cases you find that there are very expensive areas of code that you cannot change (as you may not own it), but you can dictate whether or not it should be executed (or executed as frequently.
-
-We will go into more of the different areas of the flight recording in the next lab.
+{{% alert title="Note" color="info" %}}
+Feel free to reference the additional [resources](/docs/jmc/resources) as you navigate through the sections.
+{{% /alert %}}
