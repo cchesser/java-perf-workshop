@@ -13,8 +13,8 @@
   </url>
   
   <url>
-    <loc>https://jvmperf.net/docs/jmc/_intro/</loc>
-    <lastmod>2021-01-29T14:48:49-06:00</lastmod>
+    <loc>https://jvmperf.net/docs/jmc/_intro_jmc7/</loc>
+    <lastmod>2021-02-10T08:12:54-06:00</lastmod>
   </url>
   
   <url>
@@ -33,8 +33,28 @@
   </url>
   
   <url>
-    <loc>https://jvmperf.net/docs/jmc/advanced/</loc>
-    <lastmod>2021-01-08T23:32:29-06:00</lastmod>
+    <loc>https://jvmperf.net/docs/jmc/method_profiling/</loc>
+    <lastmod>2021-02-10T08:12:54-06:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jvmperf.net/docs/jmc/exceptions/</loc>
+    <lastmod>2021-02-10T08:12:54-06:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jvmperf.net/docs/jmc/threads/</loc>
+    <lastmod>2021-02-10T08:12:54-06:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jvmperf.net/docs/jmc/memory/</loc>
+    <lastmod>2021-02-10T08:12:54-06:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jvmperf.net/docs/jmc/io_operations/</loc>
+    <lastmod>2021-02-10T08:12:54-06:00</lastmod>
   </url>
   
   <url>
@@ -45,6 +65,11 @@
   <url>
     <loc>https://jvmperf.net/docs/jmc/</loc>
     <lastmod>2021-01-12T22:56:46-06:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jvmperf.net/docs/jmc/_references/</loc>
+    <lastmod>2021-02-10T08:12:54-06:00</lastmod>
   </url>
   
   <url>

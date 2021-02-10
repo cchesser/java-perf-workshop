@@ -17,22 +17,25 @@
 <link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
 
-<title>Advanced Flight Recorder | jvmperf: Java Performance Workshop</title><meta property="og:title" content="Advanced Flight Recorder" />
-<meta property="og:description" content="Take the next step in learning more with Flight Recorder" />
+<title>Exceptions | jvmperf: Java Performance Workshop</title><meta property="og:title" content="Exceptions" />
+<meta property="og:description" content="Find the exceptional cases in our application.
+" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://jvmperf.net/docs/jmc/advanced/" />
-<meta property="article:modified_time" content="2021-01-08T23:32:29-06:00" /><meta property="og:site_name" content="jvmperf: Java Performance Workshop" />
-<meta itemprop="name" content="Advanced Flight Recorder">
-<meta itemprop="description" content="Take the next step in learning more with Flight Recorder">
-<meta itemprop="dateModified" content="2021-01-08T23:32:29-06:00" />
-<meta itemprop="wordCount" content="491">
+<meta property="og:url" content="https://jvmperf.net/docs/jmc/exceptions/" />
+<meta property="article:modified_time" content="2021-02-10T08:12:54-06:00" /><meta property="og:site_name" content="jvmperf: Java Performance Workshop" />
+<meta itemprop="name" content="Exceptions">
+<meta itemprop="description" content="Find the exceptional cases in our application.
+">
+<meta itemprop="dateModified" content="2021-02-10T08:12:54-06:00" />
+<meta itemprop="wordCount" content="205">
 
 
 
 <meta itemprop="keywords" content="" />
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Advanced Flight Recorder"/>
-<meta name="twitter:description" content="Take the next step in learning more with Flight Recorder"/>
+<meta name="twitter:title" content="Exceptions"/>
+<meta name="twitter:description" content="Find the exceptional cases in our application.
+"/>
 
 
 <script type="application/javascript">
@@ -116,7 +119,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.3de3365ad9fd18aec288a460130d6397.json"
+  data-offline-search-index-json-src="/offline-search-index.ed1a533175319c1282d3775c2c2bffba.json"
   data-offline-search-base-href="/"
   data-offline-search-max-results="10"
 >
@@ -148,7 +151,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.3de3365ad9fd18aec288a460130d6397.json"
+  data-offline-search-index-json-src="/offline-search-index.ed1a533175319c1282d3775c2c2bffba.json"
   data-offline-search-base-href="/"
   data-offline-search-max-results="10"
 >
@@ -274,7 +277,7 @@ if (!doNotTrack) {
         
           
           
-          <a class="td-sidebar-link td-sidebar-link__page " id="m-docsjmc_intro" href="/docs/jmc/_intro/">Introduction</a>
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docsjmc_intro_jmc7" href="/docs/jmc/_intro_jmc7/">Introduction</a>
         
       
       
@@ -282,7 +285,47 @@ if (!doNotTrack) {
         
           
           
-          <a class="td-sidebar-link td-sidebar-link__page  active" id="m-docsjmcadvanced" href="/docs/jmc/advanced/">Advanced Flight Recorder</a>
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docsjmcmethod_profiling" href="/docs/jmc/method_profiling/">Method Profiling</a>
+        
+      
+      
+      
+        
+          
+          
+          <a class="td-sidebar-link td-sidebar-link__page  active" id="m-docsjmcexceptions" href="/docs/jmc/exceptions/">Exceptions</a>
+        
+      
+      
+      
+        
+          
+          
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docsjmcthreads" href="/docs/jmc/threads/">Threads</a>
+        
+      
+      
+      
+        
+          
+          
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docsjmcmemory" href="/docs/jmc/memory/">Memory</a>
+        
+      
+      
+      
+        
+          
+          
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docsjmcio_operations" href="/docs/jmc/io_operations/">I/O Operations</a>
+        
+      
+      
+      
+        
+          
+          
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docsjmc_references" href="/docs/jmc/_references/">References</a>
         
       
       
@@ -365,9 +408,9 @@ if (!doNotTrack) {
     
     
 
-    <a href="https://github.com/cchesser/java-perf-workshop/edit/main/docs/content/docs/jmc/advanced.md" target="_blank"><i class="fa fa-edit fa-fw"></i> Edit this page</a>
-    <a href="https://github.com/cchesser/java-perf-workshop/new/main/docs/content/docs/jmc/advanced.md?filename=change-me.md&amp;value=---%0Atitle%3A&#43;%22Long&#43;Page&#43;Title%22%0AlinkTitle%3A&#43;%22Short&#43;Nav&#43;Title%22%0Aweight%3A&#43;100%0Adescription%3A&#43;%3E-%0A&#43;&#43;&#43;&#43;&#43;Page&#43;description&#43;for&#43;heading&#43;and&#43;indexes.%0A---%0A%0A%23%23&#43;Heading%0A%0AEdit&#43;this&#43;template&#43;to&#43;create&#43;your&#43;new&#43;page.%0A%0A%2A&#43;Give&#43;it&#43;a&#43;good&#43;name%2C&#43;ending&#43;in&#43;%60.md%60&#43;-&#43;e.g.&#43;%60getting-started.md%60%0A%2A&#43;Edit&#43;the&#43;%22front&#43;matter%22&#43;section&#43;at&#43;the&#43;top&#43;of&#43;the&#43;page&#43;%28weight&#43;controls&#43;how&#43;its&#43;ordered&#43;amongst&#43;other&#43;pages&#43;in&#43;the&#43;same&#43;directory%3B&#43;lowest&#43;number&#43;first%29.%0A%2A&#43;Add&#43;a&#43;good&#43;commit&#43;message&#43;at&#43;the&#43;bottom&#43;of&#43;the&#43;page&#43;%28%3C80&#43;characters%3B&#43;use&#43;the&#43;extended&#43;description&#43;field&#43;for&#43;more&#43;detail%29.%0A%2A&#43;Create&#43;a&#43;new&#43;branch&#43;so&#43;you&#43;can&#43;preview&#43;your&#43;new&#43;file&#43;and&#43;request&#43;a&#43;review&#43;via&#43;Pull&#43;Request.%0A" target="_blank"><i class="fa fa-edit fa-fw"></i> Create child page</a>
-    <a href="https://github.com/cchesser/java-perf-workshop/issues/new?title=Advanced%20Flight%20Recorder" target="_blank"><i class="fab fa-github fa-fw"></i> Create documentation issue</a>
+    <a href="https://github.com/cchesser/java-perf-workshop/edit/main/docs/content/docs/jmc/exceptions.md" target="_blank"><i class="fa fa-edit fa-fw"></i> Edit this page</a>
+    <a href="https://github.com/cchesser/java-perf-workshop/new/main/docs/content/docs/jmc/exceptions.md?filename=change-me.md&amp;value=---%0Atitle%3A&#43;%22Long&#43;Page&#43;Title%22%0AlinkTitle%3A&#43;%22Short&#43;Nav&#43;Title%22%0Aweight%3A&#43;100%0Adescription%3A&#43;%3E-%0A&#43;&#43;&#43;&#43;&#43;Page&#43;description&#43;for&#43;heading&#43;and&#43;indexes.%0A---%0A%0A%23%23&#43;Heading%0A%0AEdit&#43;this&#43;template&#43;to&#43;create&#43;your&#43;new&#43;page.%0A%0A%2A&#43;Give&#43;it&#43;a&#43;good&#43;name%2C&#43;ending&#43;in&#43;%60.md%60&#43;-&#43;e.g.&#43;%60getting-started.md%60%0A%2A&#43;Edit&#43;the&#43;%22front&#43;matter%22&#43;section&#43;at&#43;the&#43;top&#43;of&#43;the&#43;page&#43;%28weight&#43;controls&#43;how&#43;its&#43;ordered&#43;amongst&#43;other&#43;pages&#43;in&#43;the&#43;same&#43;directory%3B&#43;lowest&#43;number&#43;first%29.%0A%2A&#43;Add&#43;a&#43;good&#43;commit&#43;message&#43;at&#43;the&#43;bottom&#43;of&#43;the&#43;page&#43;%28%3C80&#43;characters%3B&#43;use&#43;the&#43;extended&#43;description&#43;field&#43;for&#43;more&#43;detail%29.%0A%2A&#43;Create&#43;a&#43;new&#43;branch&#43;so&#43;you&#43;can&#43;preview&#43;your&#43;new&#43;file&#43;and&#43;request&#43;a&#43;review&#43;via&#43;Pull&#43;Request.%0A" target="_blank"><i class="fa fa-edit fa-fw"></i> Create child page</a>
+    <a href="https://github.com/cchesser/java-perf-workshop/issues/new?title=Exceptions" target="_blank"><i class="fab fa-github fa-fw"></i> Create documentation issue</a>
     
 
   
@@ -382,19 +425,9 @@ if (!doNotTrack) {
 
 <nav id="TableOfContents">
   <ul>
-    <li><a href="#exceptions">Exceptions</a>
+    <li><a href="#i-classfas-fa-compassi-explore"><i class="fas fa-compass"></i> Explore</a>
       <ul>
-        <li><a href="#follow-ups">Follow-ups</a></li>
-      </ul>
-    </li>
-    <li><a href="#threads">Threads</a>
-      <ul>
-        <li><a href="#follow-ups-1">Follow-ups</a></li>
-      </ul>
-    </li>
-    <li><a href="#io">I/O</a>
-      <ul>
-        <li><a href="#follow-ups-2">Follow-ups</a></li>
+        <li><a href="#i-classfas-fa-questioni-follow-ups"><i class="fas fa-question"></i> Follow Ups</a></li>
       </ul>
     </li>
   </ul>
@@ -435,7 +468,7 @@ if (!doNotTrack) {
 
 
 <li class="breadcrumb-item active" aria-current="page">
-	<a href="https://jvmperf.net/docs/jmc/advanced/">Advanced Flight Recorder</a>
+	<a href="https://jvmperf.net/docs/jmc/exceptions/">Exceptions</a>
 </li>
 
 	</ol>
@@ -443,57 +476,43 @@ if (!doNotTrack) {
 
             
 <div class="td-content">
-	<h1>Advanced Flight Recorder</h1>
-    <div class="lead">Take the next step in learning more with Flight Recorder</div>
+	<h1>Exceptions</h1>
+    <div class="lead">Find the exceptional cases in our application.</div>
 	
-        <p class="reading-time"><i class="fa fa-clock" aria-hidden="true"></i> 3 minute read</p>
+        <p class="reading-time"><i class="fa fa-clock" aria-hidden="true"></i> 1 minute read</p>
            
-	<p>In this workshop we are going to expand what we profiled earlier to all the different areas of the JVM. The JFR has an extensive amount of data which it captures, we will not dive into each of these areas, but hit on a couple more common areas to inspect on your code base.</p>
-<h2 id="exceptions">Exceptions</h2>
-<p>Go into the <strong>Code</strong> tab, and then navigate to the <strong>Exceptions</strong> sub tab. Here you can get context of what exceptions are thrown, and when. Exceptions are not necessarily a cheap operation, as there are costs in producing the stack trace.</p>
-<p>Within this view, there are three sub tabs:</p>
+	<p>In this section we&rsquo;ll dive into the Exceptions page and find out what information we can learn from it. Start by selecting the <strong>Exceptions</strong> page from the Outline.</p>
+<p>This page offers the following sections:</p>
 <ul>
-<li>Overview: Get counts on exceptions/errors and related stack traces</li>
-<li>Exceptions: Get individual instances of exceptions thrown based on the timeline. Includes string messages which may provide additional context.</li>
-<li>Errors: Same content as the Exceptions view, but for Errors.</li>
+<li>Overview: You can get Exceptions by Class and Count</li>
+<li>Message: View the detail messages for all exceptions and errors.</li>
+<li>Timeline/Event Log: View when a particular exception was thrown.</li>
+<li>StackTrace: Identify where the exception was thrown from.</li>
 </ul>
-<p>Overview:</p>
-<p><img src="https://github.com/cchesser/java-perf-workshop/wiki/images/jmc_exceptions_overview.png" alt="JMC Exceptions"></p>
-<p>Exceptions sub view (filtered down to a specific time interval):</p>
-<p><img src="https://github.com/cchesser/java-perf-workshop/wiki/images/jmc_exceptions_exception_subtab.png" alt="JMC Exceptions"></p>
-<h3 id="follow-ups">Follow-ups</h3>
+<p><img src="/jmc/exceptions_page.png" alt="">.</p>
+<p>You can select an exception from the table to filter the information to that particular exception. You could also filter by a particular exception message.</p>
+<p><img src="/jmc/exceptions_select_iae.png" alt=""></p>
+<h2 id="i-classfas-fa-compassi-explore"><i class="fas fa-compass"></i> Explore</h2>
+<p><code>NullPointerExceptions</code> are  a familiar exception you deal with in Java, and often times indicate a programming error. Other exception types often point to a common symptom.</p>
+<h3 id="i-classfas-fa-questioni-follow-ups"><i class="fas fa-question"></i> Follow Ups</h3>
 <ul>
-<li>What are the exceptions that are getting generated the most?</li>
+<li>What are the exceptions that are getting generated the most?
+<ul>
 <li>What stack traces are the contributor?</li>
-<li>Select different intervals of time to filter the listing of what is being presented. Can you see where</li>
 </ul>
-<h2 id="threads">Threads</h2>
-<p>In the <strong>Threads</strong> tab, you can get context to compute and latency events tied to threads. For this we will look a couple of things:</p>
+</li>
+<li>Can you find any areas in our code where we may have made an incorrect assumption regarding nullability?
 <ul>
-<li>Hot Threads</li>
-<li>Latencies</li>
+<li>Are there any other areas in our code where we might have made an incorrect assumption based on an exception&rsquo;s class?</li>
 </ul>
-<p>The <strong>Hot Thread</strong> sub tab view, you can view threads and the related methods that are consuming the most time. As with other views, you can zoom in on spikes of events to see if there is a common effect. Many times this gives you a better context of related resources (by threads of the same pool) that could be getting heavily utilized by a request. This also helps in correlating other facts you may have (like native threads / thread dumps).</p>
-<p><img src="https://github.com/cchesser/java-perf-workshop/wiki/images/jmc_thread_hot_threads.png" alt="JMC Hot Threads"></p>
-<p>The <strong>Latencies</strong> sub tab can help show common areas of your code (organized by thread states) which can cause slowness in your code base that may not be directly tied to a heavy computation task (ex. waiting on a network call). Generally it helps to look at the large contributor (based on total time consumed) and see when and why it is getting invoked (and if that can be minimized).</p>
-<p><img src="https://github.com/cchesser/java-perf-workshop/wiki/images/jmc_thread_latencies.png" alt="JMC Latencies"></p>
-<h3 id="follow-ups-1">Follow-ups</h3>
-<ul>
-<li>Where are we spending most of our time sleeping? What is causing this?</li>
+</li>
+<li>Are there any exceptions that might indicate a problem with our dependencies?</li>
 </ul>
-<h2 id="io">I/O</h2>
-<p>The <strong>I/O</strong> tab, can provide context of what external resources you are utilizing from you code base, and relate it to other latency events. For the purpose of our workshop service, we are doing network I/O, and therefore will look at the <strong>Socket Read</strong> sub view. From this view you can gain context of what host you are calling, how many times you are calling it, and how much time it is taking.</p>
-<p><img src="https://github.com/cchesser/java-perf-workshop/wiki/images/jmc_io_socket_read.png" alt="JMC IO Socket Read"></p>
-<h3 id="follow-ups-2">Follow-ups</h3>
-<ul>
-<li>What remote services are we interacting with?</li>
-<li>How long are we interacting with them and how many invocations?</li>
-<li>How many times did we make calls and what threads were tied to those calls?</li>
-</ul>
+<p>In the next section, we&rsquo;ll look at the <a href="/docs/jmc/threads/">Threads</a> used by our application.</p>
 
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified January 8, 2021: <a  href="https://github.com/cchesser/java-perf-workshop/commit/24c4d1533da104d5ad950ad4b8d23b35a4d90d57">Initial move to docsy (24c4d15)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified February 10, 2021: <a  href="https://github.com/cchesser/java-perf-workshop/commit/50ba0296c3b8712a978ddaf6bb707d0aa674704e">Update workshop to use JMC 7 (#36) (50ba029)</a>
 </div>
 </div>
 

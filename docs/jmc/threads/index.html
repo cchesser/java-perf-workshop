@@ -3,8 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="generator" content="Hugo 0.79.1" /><link rel="alternate" type="text/html" href="https://jvmperf.net/docs/jmc/_print/">
-<META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
+<meta name="generator" content="Hugo 0.79.1" /><META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
 
 
 <link rel="shortcut icon" href="/favicons/favicon.ico" >
@@ -18,18 +17,24 @@
 <link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
 
-<title>Java Mission Control &amp; Flight Recorder | jvmperf: Java Performance Workshop</title><meta property="og:title" content="Java Mission Control &amp; Flight Recorder" />
-<meta property="og:description" content="Initial look at the JVM from its native perspective.
+<title>Threads | jvmperf: Java Performance Workshop</title><meta property="og:title" content="Threads" />
+<meta property="og:description" content="Find the computation and latency events in your application.
 " />
-<meta property="og:type" content="website" />
-<meta property="og:url" content="https://jvmperf.net/docs/jmc/" />
-<meta property="og:site_name" content="jvmperf: Java Performance Workshop" />
-<meta itemprop="name" content="Java Mission Control &amp; Flight Recorder">
-<meta itemprop="description" content="Initial look at the JVM from its native perspective.
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://jvmperf.net/docs/jmc/threads/" />
+<meta property="article:modified_time" content="2021-02-10T08:12:54-06:00" /><meta property="og:site_name" content="jvmperf: Java Performance Workshop" />
+<meta itemprop="name" content="Threads">
+<meta itemprop="description" content="Find the computation and latency events in your application.
 ">
+<meta itemprop="dateModified" content="2021-02-10T08:12:54-06:00" />
+<meta itemprop="wordCount" content="299">
+
+
+
+<meta itemprop="keywords" content="" />
 <meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Java Mission Control &amp; Flight Recorder"/>
-<meta name="twitter:description" content="Initial look at the JVM from its native perspective.
+<meta name="twitter:title" content="Threads"/>
+<meta name="twitter:description" content="Find the computation and latency events in your application.
 "/>
 
 
@@ -70,7 +75,7 @@ if (!doNotTrack) {
 
 
   </head>
-  <body class="td-section">
+  <body class="td-page">
     <header>
       
 <nav class="js-navbar-scroll navbar navbar-expand navbar-dark flex-column flex-md-row td-navbar">
@@ -296,7 +301,7 @@ if (!doNotTrack) {
         
           
           
-          <a class="td-sidebar-link td-sidebar-link__page " id="m-docsjmcthreads" href="/docs/jmc/threads/">Threads</a>
+          <a class="td-sidebar-link td-sidebar-link__page  active" id="m-docsjmcthreads" href="/docs/jmc/threads/">Threads</a>
         
       
       
@@ -403,9 +408,9 @@ if (!doNotTrack) {
     
     
 
-    <a href="https://github.com/cchesser/java-perf-workshop/edit/main/docs/content/docs/jmc/_index.md" target="_blank"><i class="fa fa-edit fa-fw"></i> Edit this page</a>
-    <a href="https://github.com/cchesser/java-perf-workshop/new/main/docs/content/docs/jmc/_index.md?filename=change-me.md&amp;value=---%0Atitle%3A&#43;%22Long&#43;Page&#43;Title%22%0AlinkTitle%3A&#43;%22Short&#43;Nav&#43;Title%22%0Aweight%3A&#43;100%0Adescription%3A&#43;%3E-%0A&#43;&#43;&#43;&#43;&#43;Page&#43;description&#43;for&#43;heading&#43;and&#43;indexes.%0A---%0A%0A%23%23&#43;Heading%0A%0AEdit&#43;this&#43;template&#43;to&#43;create&#43;your&#43;new&#43;page.%0A%0A%2A&#43;Give&#43;it&#43;a&#43;good&#43;name%2C&#43;ending&#43;in&#43;%60.md%60&#43;-&#43;e.g.&#43;%60getting-started.md%60%0A%2A&#43;Edit&#43;the&#43;%22front&#43;matter%22&#43;section&#43;at&#43;the&#43;top&#43;of&#43;the&#43;page&#43;%28weight&#43;controls&#43;how&#43;its&#43;ordered&#43;amongst&#43;other&#43;pages&#43;in&#43;the&#43;same&#43;directory%3B&#43;lowest&#43;number&#43;first%29.%0A%2A&#43;Add&#43;a&#43;good&#43;commit&#43;message&#43;at&#43;the&#43;bottom&#43;of&#43;the&#43;page&#43;%28%3C80&#43;characters%3B&#43;use&#43;the&#43;extended&#43;description&#43;field&#43;for&#43;more&#43;detail%29.%0A%2A&#43;Create&#43;a&#43;new&#43;branch&#43;so&#43;you&#43;can&#43;preview&#43;your&#43;new&#43;file&#43;and&#43;request&#43;a&#43;review&#43;via&#43;Pull&#43;Request.%0A" target="_blank"><i class="fa fa-edit fa-fw"></i> Create child page</a>
-    <a href="https://github.com/cchesser/java-perf-workshop/issues/new?title=Java%20Mission%20Control%20&amp;amp;%20Flight%20Recorder" target="_blank"><i class="fab fa-github fa-fw"></i> Create documentation issue</a>
+    <a href="https://github.com/cchesser/java-perf-workshop/edit/main/docs/content/docs/jmc/threads.md" target="_blank"><i class="fa fa-edit fa-fw"></i> Edit this page</a>
+    <a href="https://github.com/cchesser/java-perf-workshop/new/main/docs/content/docs/jmc/threads.md?filename=change-me.md&amp;value=---%0Atitle%3A&#43;%22Long&#43;Page&#43;Title%22%0AlinkTitle%3A&#43;%22Short&#43;Nav&#43;Title%22%0Aweight%3A&#43;100%0Adescription%3A&#43;%3E-%0A&#43;&#43;&#43;&#43;&#43;Page&#43;description&#43;for&#43;heading&#43;and&#43;indexes.%0A---%0A%0A%23%23&#43;Heading%0A%0AEdit&#43;this&#43;template&#43;to&#43;create&#43;your&#43;new&#43;page.%0A%0A%2A&#43;Give&#43;it&#43;a&#43;good&#43;name%2C&#43;ending&#43;in&#43;%60.md%60&#43;-&#43;e.g.&#43;%60getting-started.md%60%0A%2A&#43;Edit&#43;the&#43;%22front&#43;matter%22&#43;section&#43;at&#43;the&#43;top&#43;of&#43;the&#43;page&#43;%28weight&#43;controls&#43;how&#43;its&#43;ordered&#43;amongst&#43;other&#43;pages&#43;in&#43;the&#43;same&#43;directory%3B&#43;lowest&#43;number&#43;first%29.%0A%2A&#43;Add&#43;a&#43;good&#43;commit&#43;message&#43;at&#43;the&#43;bottom&#43;of&#43;the&#43;page&#43;%28%3C80&#43;characters%3B&#43;use&#43;the&#43;extended&#43;description&#43;field&#43;for&#43;more&#43;detail%29.%0A%2A&#43;Create&#43;a&#43;new&#43;branch&#43;so&#43;you&#43;can&#43;preview&#43;your&#43;new&#43;file&#43;and&#43;request&#43;a&#43;review&#43;via&#43;Pull&#43;Request.%0A" target="_blank"><i class="fa fa-edit fa-fw"></i> Create child page</a>
+    <a href="https://github.com/cchesser/java-perf-workshop/issues/new?title=Threads" target="_blank"><i class="fab fa-github fa-fw"></i> Create documentation issue</a>
     
 
   
@@ -417,6 +422,22 @@ if (!doNotTrack) {
 
 
 
+
+<nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#thread-chart">Thread Chart</a></li>
+        <li><a href="#by-thread">By Thread</a></li>
+      </ul>
+    </li>
+    <li><a href="#i-classfas-fa-compassi-explore"><i class="fas fa-compass"></i> Explore</a>
+      <ul>
+        <li><a href="#i-classfas-fa-questioni-follow-ups"><i class="fas fa-question"></i> Follow Ups</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
 
 
 
@@ -435,6 +456,9 @@ if (!doNotTrack) {
 
 
 
+
+
+
 <li class="breadcrumb-item" >
 	<a href="https://jvmperf.net/docs/">Workshop</a>
 </li>
@@ -442,8 +466,15 @@ if (!doNotTrack) {
 
 
 
-<li class="breadcrumb-item active" aria-current="page">
+<li class="breadcrumb-item" >
 	<a href="https://jvmperf.net/docs/jmc/">Java Mission Control &amp; Flight Recorder</a>
+</li>
+
+
+
+
+<li class="breadcrumb-item active" aria-current="page">
+	<a href="https://jvmperf.net/docs/jmc/threads/">Threads</a>
 </li>
 
 	</ol>
@@ -451,72 +482,44 @@ if (!doNotTrack) {
 
             
 <div class="td-content">
-	<h1>Java Mission Control &amp; Flight Recorder</h1>
-        <div class="lead">Initial look at the JVM from its native perspective.</div>
+	<h1>Threads</h1>
+    <div class="lead">Find the computation and latency events in your application.</div>
 	
-	<p>In this workshop, we will be getting more familiar with using Java Mission Control and the Flight Recorder. As we have been running our service, we want to gather more insight of the code in the service by running series of simple tests and measuring the service.</p>
-
-        <div class="section-index">
-    
-    
-    
-    
-    
-        <ul>
-            
-                
-            
-                
-            
-                
-                    <li><a href="/docs/jmc/_intro_jmc7/">Introduction</a></li>
-                
-            
-                
-            
-                
-            
-                
-            
-                
-                    <li><a href="/docs/jmc/method_profiling/">Method Profiling</a></li>
-                
-            
-                
-                    <li><a href="/docs/jmc/exceptions/">Exceptions</a></li>
-                
-            
-                
-                    <li><a href="/docs/jmc/threads/">Threads</a></li>
-                
-            
-                
-                    <li><a href="/docs/jmc/memory/">Memory</a></li>
-                
-            
-                
-                    <li><a href="/docs/jmc/io_operations/">I/O Operations</a></li>
-                
-            
-                
-            
-                
-            
-                
-                    <li><a href="/docs/jmc/_references/">References</a></li>
-                
-            
-                
-            
-        </ul>
-    
-</div>
+        <p class="reading-time"><i class="fa fa-clock" aria-hidden="true"></i> 2 minute read</p>
+           
+	<p>The <strong>Threads</strong> page provides a snaphost of all threads in our application, and we can use it to acquire information about computation and latency events.</p>
+<p><img src="/jmc/threads_page.png" alt=""></p>
+<h3 id="thread-chart">Thread Chart</h3>
+<p>We can use the Thread Chart view to select a region of time and view the state of threads and the most common stack frames for that particular time slice:</p>
+<p><img src="/jmc/thread_chart.png" alt=""></p>
+<p>We can also edit the types of events shown by the chart. Right click on the chart, and select <strong>Edit Thread Activity Lanes</strong></p>
+<p><img src="/jmc/edit_thread_lanes.png" alt=""></p>
+<p>We can then narrow down on specific events.</p>
+<p>For the purpose of this section filter on only the <strong>Sleep</strong> events. Then, select a period of time and look at what has caused our threads to go to sleep for that particular period:</p>
+<p><img src="/jmc/filter_sleeping_threads.png" alt=""></p>
+<p><img src="/jmc/sleeping_threads.png" alt=""></p>
+<p>Once you&rsquo;re done with the filtered view, right click on the <strong>Thread</strong> page and Reset the page (to return to the default state).</p>
+<p><img src="/jmc/reset_thread_page.png" alt=""></p>
+<h3 id="by-thread">By Thread</h3>
+<p>We can select an invididual thread from the <strong>Thread Table</strong> to further filter the data just for that thread. From this filtered view, we can inspect what the commonly executed methods are for a particular thread.</p>
+<p><img src="/jmc/thread_selected.png" alt=""></p>
+<p>We can then use the stacktrace view to correlate what piece of code executed the most.</p>
+<p><img src="/jmc/thread_selected_stack_trace.png" alt=""></p>
+<h2 id="i-classfas-fa-compassi-explore"><i class="fas fa-compass"></i> Explore</h2>
+<p>There&rsquo;s a couple of threads specifically created by our application, these are the <code>wkshp-conf-loader</code> named threads. The <code>dw-*</code> named threads are threads created by DropWizard to handle specific requests (you might have noticed this based on the name containing a REST Resource). Explore the state of some of these threads while thinking about the follow up questions.</p>
+<h3 id="i-classfas-fa-questioni-follow-ups"><i class="fas fa-question"></i> Follow Ups</h3>
+<ul>
+<li>Where are we spending most of our time sleeping? What is causing this?</li>
+<li>Are there any unnecessary method invocations? Are any threads doing work that isn&rsquo;t visible?</li>
+</ul>
+<p>In the next section, we&rsquo;ll look at the <a href="/docs/jmc/memory">Memory</a> state of the application.</p>
 
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified January 12, 2021: <a  href="https://github.com/cchesser/java-perf-workshop/commit/d1cc6f56a06e7b74e7c72033dcfa26b3afebb411">Adjusting reading time &#43; adding GitHub link (d1cc6f5)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified February 10, 2021: <a  href="https://github.com/cchesser/java-perf-workshop/commit/50ba0296c3b8712a978ddaf6bb707d0aa674704e">Update workshop to use JMC 7 (#36) (50ba029)</a>
 </div>
 </div>
+
 
           </main>
         </div>

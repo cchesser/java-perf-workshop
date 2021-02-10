@@ -114,7 +114,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.3de3365ad9fd18aec288a460130d6397.json"
+  data-offline-search-index-json-src="/offline-search-index.ed1a533175319c1282d3775c2c2bffba.json"
   data-offline-search-base-href="/"
   data-offline-search-max-results="10"
 >
@@ -165,7 +165,7 @@ This the multi-page printable view of this section.
     
     
 	
-<li>1: <a href="#pg-bc241cfaf9ff21a46f29fd6eb5c89ce6">Introduction</a></li>
+<li>1: <a href="#pg-796d3fdeba0d8745c34e520dae3a52c6">Introduction</a></li>
 
 
     
@@ -173,7 +173,47 @@ This the multi-page printable view of this section.
     
     
 	
-<li>2: <a href="#pg-81ae492cca539f3173a8a08bae892da5">Advanced Flight Recorder</a></li>
+<li>2: <a href="#pg-a19b61c681cd81aa3a52b7ab7f00e40a">Method Profiling</a></li>
+
+
+    
+  
+    
+    
+	
+<li>3: <a href="#pg-8e7ed7a50881f742b2d8880c7a90c384">Exceptions</a></li>
+
+
+    
+  
+    
+    
+	
+<li>4: <a href="#pg-140f7f618c6427a75628497db237e231">Threads</a></li>
+
+
+    
+  
+    
+    
+	
+<li>5: <a href="#pg-7fa58ef1806796b7bc181181489c25b1">Memory</a></li>
+
+
+    
+  
+    
+    
+	
+<li>6: <a href="#pg-677c02967c93d2d024e0683d7ffa6d55">I/O Operations</a></li>
+
+
+    
+  
+    
+    
+	
+<li>7: <a href="#pg-e82c7a3c3eba03724a0e8df5a3ff19a3">References</a></li>
 
 
     
@@ -205,10 +245,11 @@ This the multi-page printable view of this section.
 
 <div class="td-content" style="">
     
-	<h1 id="pg-bc241cfaf9ff21a46f29fd6eb5c89ce6">1 - Introduction</h1>
+	<h1 id="pg-796d3fdeba0d8745c34e520dae3a52c6">1 - Introduction</h1>
     <div class="lead">Introduction into Java Mission Control with Flight Recorder</div>
 	<h2 id="java-flight-recorder">Java Flight Recorder</h2>
-<p>The Java Flight Recorder (JFR) is a very low overhead profiling and diagnostics tool. It was inherited from the JRockit JVM, and it is now offered as part of the HotSpot JVM. It is designed to be &ldquo;black box&rdquo; data recorder of the the run-time, which can be used in production environments, making it an attractive tool for profiling code since it has low overhead on the JVM.</p>
+<p>The Java Flight Recorder (JFR) is a very low overhead profiling and diagnostics tool. It was inherited from the JRockit JVM, and originally was offered as part of the HotSpot JVM. It is designed to be &ldquo;black box&rdquo; data recorder of the the run-time, which can be used in production environments, making it an attractive tool for profiling code since it has low overhead on the JVM.</p>
+<p>Newer versions of JMC are developed as part of the OpenJDK Mission Control project.</p>
 <p>To enable the Flight Recorder on the JVM, the following options need to be included on the JVM:</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">-XX:+UnlockCommercialFeatures -XX:+FlightRecorder
 </code></pre></div><p>:heavy_exclamation_mark: Notice that you have to include <code>-XX:+UnlockCommercialFeatures</code> first in the options listing. This is because using Flight Recorder is a feature that requires additional licensing when used in production environments. One of the following licenses is required in order to utilize this in a production environment.</p>
@@ -221,7 +262,7 @@ This the multi-page printable view of this section.
 <p>To get better fidelity on method profiling, include the following options which will enable the compiler to include additional metadata on non-safe code points. This is helpful, as sometimes the metadata will not fully resolve to the correct line in the code.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">-XX:+UnlockDiagnosticVMOptions -XX:+DebugNonSafepoints
 </code></pre></div><h2 id="java-mission-control">Java Mission Control</h2>
-<p>We will be using Java Mission Control <em>(included in Oracle JDK 7u40)</em> to monitor and evaluate the Java flight recordings. To start up  Java Mission Control, simply executing the following in your console:</p>
+<p>We will be using Java Mission Control to monitor and evaluate the Java flight recordings. To start up  Java Mission Control, simply executing the following in your console:</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">jmc
 </code></pre></div><p>💡 In order to be able to invoke <code>jmc</code> (Java Mission Control) from your console, it assumes <code>$JAVA_HOME/bin</code> is on your <code>$PATH</code>. If it is not included, go ahead and update your profile to include this so you can easily invoke <code>jmc</code> from your terminal.</p>
 <h2 id="start-service-with-jfr">Start Service with JFR</h2>
@@ -231,11 +272,14 @@ This the multi-page printable view of this section.
 <span style="color:#000">SERVER_HOME</span><span style="color:#ce5c00;font-weight:bold">=</span>java-perf-workshop-server/target
 java -XX:+UnlockCommercialFeatures -XX:+FlightRecorder -XX:+UnlockDiagnosticVMOptions -XX:+DebugNonSafepoints -jar <span style="color:#000">$SERVER_HOME</span>/java-perf-workshop-server-1.1.0-SNAPSHOT.jar server server.yml
 </code></pre></div><p>💡 Starting with Java Mission Control 5.5 <em>(included in Oracle Java 8u40)</em>, you no longer have to enable JFR prior to capturing the recording (it will dynamically enable it, after prompting about it).</p>
+<p><img src="/jmc/unlock_commercial_features_dialog.png" alt=""></p>
 <h2 id="start-flight-recording-from-jmc">Start Flight Recording from JMC</h2>
-<p>From Java Mission Control (JMC), you can start a flight recording by right-clicking the JVM from the <strong>JVM Browser</strong> view and selecting <strong>Start Flight Recording&hellip;</strong></p>
-<p><img src="https://github.com/cchesser/java-perf-workshop/wiki/images/jmc_start_flight_recorder.png" alt="jmc_start"></p>
-<p>This will open a window where you apply some settings for the recording. First select that you want this to be a <strong>Continuous recording</strong> and for Event settings, we will import a template to get some consistent settings for profiling. Within the <strong>Template Manager</strong>, select <strong>Import Files&hellip;</strong> and import the <code>profile.jfc</code> included in this folder. It should appear as <em>Java Performance Workshop Profile</em>. Select this as the <strong>Event Settings</strong> and then click on <strong>Finish</strong>.</p>
-<p><img src="https://github.com/cchesser/java-perf-workshop/wiki/images/jmc_start_flight_recorder_wizard.png" alt="jmc_started"></p>
+<p><img src="/jmc/start_flight_recording.png" alt="jmc_start"></p>
+<p>This will open a window where you apply some settings for the recording. First select that you want this to be a <strong>Continuous recording</strong> and for Event settings, we will import a template to get some consistent settings for profiling. Within the <strong>Template Manager</strong>, select <strong>Import Files&hellip;</strong> and import the <code>open_jdk_9_.jfc</code> included in the <a href="https://github.com/cchesser/java-perf-workshop/tree/main/docs/content/docs/jmc">content/docs/jmc</a> folder. It should appear as <em>Java Performance Workshop JDK9+ Profile</em>. Select this as the <strong>Event Settings</strong> and then click on <strong>Finish</strong>.</p>
+<p>For reference, these are the options for the template.</p>
+<p><img src="/jmc/profile_settings.png" alt=""></p>
+<p>First select that you want this to be a <strong>Continuous recording</strong> and for Event settings we will use <strong>Profiling on Server</strong>.</p>
+<p><img src="/jmc/start_recording_wizard.png" alt=""></p>
 <p>Once your flight recording is being captured in a <em>Continuous</em> recording, it will show a ∞.</p>
 <p><img src="https://github.com/cchesser/java-perf-workshop/wiki/images/jmc_flight_recorder_started.png" alt="jmc_started"></p>
 <p>💡 You can see the JFR templates (continuous / profile) which are shipped as part of the JRE in: <code>$JAVA_HOME/jre/lib/jfr</code>. These become helpful if you are wanting to compare your settings to some of the standard ones.</p>
@@ -278,7 +322,6 @@ java -XX:+UnlockCommercialFeatures -XX:+FlightRecorder -XX:+UnlockDiagnosticVMOp
 <p>Alternatively, you can use <a href="https://gatling.io/">gatling</a> (a performance library with a scala dsl ).</p>
 <p>This should launch the <code>WorkshopSimulation</code>.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"> mvn -f java-perf-workshop-tester/ gatling:test
-</code></pre></div><div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mvn gatling:test
 </code></pre></div><p>Sample output while running:</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#ce5c00;font-weight:bold">[</span>~/java-perf-workshop/java-perf-workshop-tester<span style="color:#ce5c00;font-weight:bold">]</span>$ mvn gatling:test
 <span style="color:#ce5c00;font-weight:bold">[</span>INFO<span style="color:#ce5c00;font-weight:bold">]</span> Scanning <span style="color:#204a87;font-weight:bold">for</span> projects...
@@ -310,29 +353,59 @@ Simulation cchesser.javaperf.workshop.WorkshopSimulation started...
 <p>Then dump the whole recording.</p>
 <p><img src="https://github.com/cchesser/java-perf-workshop/wiki/images/jmc_flight_recorder_dump.png" alt="jmc_dump"></p>
 <h2 id="the-flight-recording">The Flight Recording</h2>
-<p>From a Java Flight Recording, there are several categories of information you can view from JMC:</p>
+<p>From a Java Flight Recording, there are several categories of information (pages) you can view from JMC:</p>
 <ul>
-<li><strong>Memory</strong>: View memory utilization and garbage collection costs.</li>
-<li><strong>Code</strong>: View profiling of your code to identify <em>hot spots</em> in your code base. Also, you can get additional insight to exceptions thrown, compilation costs, and class loading.</li>
-<li><strong>Threads</strong>: View series of thread dumps, <em>hot</em> threads, latency events, and locking situations causing contention.</li>
-<li><strong>I/O</strong>: View general I/O (file / network) costs that were occurring within your code.</li>
-<li><strong>System</strong>: Get a general context of the run-time environment of the JVM.</li>
-<li><strong>Events</strong>: View a full detailed log of the events within the JVM.</li>
+<li>Code Information:
+<ul>
+<li><strong>Method Profiling</strong>: Provides information about specific method runs and how long each run took, identifying <em>hot spots</em> in your code base.</li>
+<li><strong>Exceptions</strong>: Displays Exceptions and Errors thrown and which methods threw them. Viewing exceptions requires editing the settings to also capture Exceptions.</li>
 </ul>
-<h3 id="code">Code</h3>
-<p>Our first walkthrough of the Flight Recording will begin with the <strong>Code</strong> view to give context of where we might be spending time with our code.</p>
-<p>When you first open the <strong>Code</strong> tab, you will be brought to the <strong>Overview</strong> sub tab. This will give you a breakdown of where you are spending your time by code package and classes.</p>
-<p><img src="https://github.com/cchesser/java-perf-workshop/wiki/images/jmc_code_overview.png" alt="JMC code overview"></p>
-<p>To go deeper into these details, go into the <strong>Hot Methods</strong> sub tab. From here you can expand down to the method which is consuming most of your time.</p>
-<p><img src="https://github.com/cchesser/java-perf-workshop/wiki/images/jmc_code_hot_methods.png" alt="JMC code hot methods"></p>
-<p>You can also zoom into the timeline to scope it to a spike of events. This can be done on most view in Java Mission Control. In this case, we will zoom into a 847 ms interval:</p>
-<p><img src="https://github.com/cchesser/java-perf-workshop/wiki/images/jmc_code_hot_methods_scoped.png" alt="JMC code hot methods"></p>
-<p>Another helpful means of identify within a method is including the line number. This can be accomplished by right-clicking in the view and going to <strong>Distinguish Frames By</strong>, and then selecting <strong>Line Number</strong>.</p>
-<p>💡 Generally, you don&rsquo;t need this, as it can be quite apparent by the base method being invoked where the cost is at. Though, it may be helpful to include in some contexts.</p>
-<p><img src="https://github.com/cchesser/java-perf-workshop/wiki/images/jmc_code_hot_methods_line_number.png" alt="JMC code hot methods"></p>
-<p><img src="https://github.com/cchesser/java-perf-workshop/wiki/images/jmc_code_hot_methods_with_line.png" alt="JMC code hot methods"></p>
-<p>Walk around to look at other areas where you are spending time in your code. In many cases you find that there are very expensive areas of code that you cannot change (as you may not own it), but you can dictate whether or not it should be executed (or executed as frequently.</p>
-<p>We will go into more of the different areas of the flight recording in the next lab.</p>
+</li>
+<li>Thread information:
+<ul>
+<li><strong>Threads</strong>: Provides a snapshot of all the threads that belong to the Java Application and the thread activity.</li>
+<li><strong>Lock Instances</strong>: Provides further details on threads by specifying lock information, showing which threads request and which threads take a particular lock.</li>
+<li><strong>Thread Dump</strong>: Provides period thread dump information.</li>
+</ul>
+</li>
+<li>Memory Information:
+<ul>
+<li><strong>Memory</strong>: Represents heap memory usage of the JVM.</li>
+</ul>
+</li>
+<li>IO Information:
+<ul>
+<li><strong>File I/O</strong>: Displays File costs and behaviors</li>
+<li><strong>Socket I/O</strong>: Displays Network costs and behaviors</li>
+</ul>
+</li>
+<li>JVM Internals:
+<ul>
+<li><strong>Garbage Collections</strong>: Displays heap usage compared to pause times as well as GC events.</li>
+<li><strong>Compliations</strong>: Provides details on code compilation.</li>
+<li><strong>TLAB Allocations</strong>: Displays Thread Local Allocation Buffers.</li>
+</ul>
+</li>
+<li>System Information:
+<ul>
+<li><strong>Processes</strong>: See other processes on the system and what is competing for resources.</li>
+<li><strong>Environment</strong>: Provides information about the environment in which the recording was made.</li>
+<li><strong>System Properties</strong>: Show properties passed on to the JVM.</li>
+</ul>
+</li>
+<li>Events:
+<strong>Event Browser</strong>: View detailed log of the events within the JVM. You can use this page to further filter down on events across all the pages in the recording.</li>
+</ul>
+<p>We&rsquo;ll touch on a few of these pages in the following sections, starting with the <a href="/docs/jmc/method_profiling">Method Profiling</a> page.</p>
+
+
+<div class="alert alert-info" role="alert">
+<h4 class="alert-heading">Note</h4>
+
+    Feel free to reference the additional <a href="/docs/jmc/resources">resources</a> as you navigate through the sections.
+
+</div>
+
 
 </div>
 
@@ -348,49 +421,234 @@ Simulation cchesser.javaperf.workshop.WorkshopSimulation started...
 
 <div class="td-content" style="page-break-before: always">
     
-	<h1 id="pg-81ae492cca539f3173a8a08bae892da5">2 - Advanced Flight Recorder</h1>
-    <div class="lead">Take the next step in learning more with Flight Recorder</div>
-	<p>In this workshop we are going to expand what we profiled earlier to all the different areas of the JVM. The JFR has an extensive amount of data which it captures, we will not dive into each of these areas, but hit on a couple more common areas to inspect on your code base.</p>
-<h2 id="exceptions">Exceptions</h2>
-<p>Go into the <strong>Code</strong> tab, and then navigate to the <strong>Exceptions</strong> sub tab. Here you can get context of what exceptions are thrown, and when. Exceptions are not necessarily a cheap operation, as there are costs in producing the stack trace.</p>
-<p>Within this view, there are three sub tabs:</p>
+	<h1 id="pg-a19b61c681cd81aa3a52b7ab7f00e40a">2 - Method Profiling</h1>
+    <div class="lead">Gather context of where we spend time in our code</div>
+	<p>Our first look at the recording will start with finding out where we might be spending time with our code.</p>
+<h3 id="method-profiling-page">Method Profiling Page</h3>
+<p>We&rsquo;ll start by taking a look at the detailed <strong>Method Profiling Page</strong>. This page displays how often a specific method is ran based on sampling.</p>
+
+
+<div class="alert alert-info" role="alert">
+<h4 class="alert-heading">Note</h4>
+
+    This page is a little bit difficult to use in JMC7, planned improvements for the data visualization will come in JMC8, see <a href="https://github.com/openjdk/jmc/pull/165">JMC#165</a>
+
+</div>
+
+<p><img src="/jmc/method_profile_page.png" alt=""></p>
+<p>By default, this view groups threads by method, but you can also include the line number for each method. This can be accomplishbed by selecting the <strong>View Menu</strong> option and  going to <strong>Distinguish Frames By</strong> and selecting <strong>Line Number</strong>.</p>
+<p><img src="/jmc/method_profile_distinguish_line_numbers.png" alt=""></p>
+<p>💡 Generally, you don&rsquo;t need this, as it can be quite apparent by the base method being invoked where the cost is at. Though, it may be helpful to include in some contexts.</p>
+<p><img src="/jmc/method_profile_with_line_numbers.png" alt=""></p>
+
+
+<div class="alert alert-info" role="alert">
+<h4 class="alert-heading">Note</h4>
+
+    Remember that this is just a sampling view, and does not mean that only a small amount of methods were hit. We&rsquo;ll be able to visualize more of this info in the following part.
+
+</div>
+
+<h2 id="java-application">Java Application</h2>
+<p>Navigate to the <strong>Java Application</strong> page. This page provides an overview of the state of the JVM and collates information from a couple of the dedicated pages.</p>
+<p><img src="/jmc/java_application_page.png" alt=""></p>
+<p>Using the checkboxes on the right of the Graph, select only <strong>Method Profiling</strong> to narrow down the set of events on the graph:</p>
+<p><img src="/jmc/java_application_method_profiling.png" alt=""></p>
+<p>The <strong>Stack Trace</strong> view from this page can give you a better count of sampled methods (not just the ones from a specific Method Profiling event)</p>
+<p><img src="/jmc/java_application_stack_trace.png" alt=""></p>
+<p>This information is the equivalent of the <strong>Hot Methods</strong> tab in JMC 5, see <a href="https://community.oracle.com/tech/developers/discussion/4094447/difference-between-method-profiling-and-java-application-stack-traces">forum discussion</a>.</p>
+<p>We can then use this information to correlate what is happening in our code:</p>
+<p><img src="/jmc/hot_method_line_number.png" alt=""></p>
+<h2 id="i-classfas-fa-compassi-explore"><i class="fas fa-compass"></i> Explore</h2>
 <ul>
-<li>Overview: Get counts on exceptions/errors and related stack traces</li>
-<li>Exceptions: Get individual instances of exceptions thrown based on the timeline. Includes string messages which may provide additional context.</li>
-<li>Errors: Same content as the Exceptions view, but for Errors.</li>
+<li>Walk around to look at other areas where you are spending time in your code.
+<ul>
+<li>In many cases you find that there are very expensive areas of code that you cannot change (as you may not own it), but you can dictate whether or not it should be executed (or executed as frequently.</li>
 </ul>
-<p>Overview:</p>
-<p><img src="https://github.com/cchesser/java-perf-workshop/wiki/images/jmc_exceptions_overview.png" alt="JMC Exceptions"></p>
-<p>Exceptions sub view (filtered down to a specific time interval):</p>
-<p><img src="https://github.com/cchesser/java-perf-workshop/wiki/images/jmc_exceptions_exception_subtab.png" alt="JMC Exceptions"></p>
-<h3 id="follow-ups">Follow-ups</h3>
+</li>
+</ul>
+<h3 id="i-classfas-fa-questioni-follow-ups"><i class="fas fa-question"></i> Follow Ups</h3>
 <ul>
-<li>What are the exceptions that are getting generated the most?</li>
+<li>Is there any method that stands out to you that might be unnecessarily called?</li>
+</ul>
+<p>In the next section, we&rsquo;ll look at the <a href="/docs/jmc/exceptions/">Exceptions</a> thrown by our application.</p>
+
+</div>
+
+
+
+    
+	
+  
+    
+    
+	
+    
+
+<div class="td-content" style="page-break-before: always">
+    
+	<h1 id="pg-8e7ed7a50881f742b2d8880c7a90c384">3 - Exceptions</h1>
+    <div class="lead">Find the exceptional cases in our application.</div>
+	<p>In this section we&rsquo;ll dive into the Exceptions page and find out what information we can learn from it. Start by selecting the <strong>Exceptions</strong> page from the Outline.</p>
+<p>This page offers the following sections:</p>
+<ul>
+<li>Overview: You can get Exceptions by Class and Count</li>
+<li>Message: View the detail messages for all exceptions and errors.</li>
+<li>Timeline/Event Log: View when a particular exception was thrown.</li>
+<li>StackTrace: Identify where the exception was thrown from.</li>
+</ul>
+<p><img src="/jmc/exceptions_page.png" alt="">.</p>
+<p>You can select an exception from the table to filter the information to that particular exception. You could also filter by a particular exception message.</p>
+<p><img src="/jmc/exceptions_select_iae.png" alt=""></p>
+<h2 id="i-classfas-fa-compassi-explore"><i class="fas fa-compass"></i> Explore</h2>
+<p><code>NullPointerExceptions</code> are  a familiar exception you deal with in Java, and often times indicate a programming error. Other exception types often point to a common symptom.</p>
+<h3 id="i-classfas-fa-questioni-follow-ups"><i class="fas fa-question"></i> Follow Ups</h3>
+<ul>
+<li>What are the exceptions that are getting generated the most?
+<ul>
 <li>What stack traces are the contributor?</li>
-<li>Select different intervals of time to filter the listing of what is being presented. Can you see where</li>
 </ul>
-<h2 id="threads">Threads</h2>
-<p>In the <strong>Threads</strong> tab, you can get context to compute and latency events tied to threads. For this we will look a couple of things:</p>
+</li>
+<li>Can you find any areas in our code where we may have made an incorrect assumption regarding nullability?
 <ul>
-<li>Hot Threads</li>
-<li>Latencies</li>
+<li>Are there any other areas in our code where we might have made an incorrect assumption based on an exception&rsquo;s class?</li>
 </ul>
-<p>The <strong>Hot Thread</strong> sub tab view, you can view threads and the related methods that are consuming the most time. As with other views, you can zoom in on spikes of events to see if there is a common effect. Many times this gives you a better context of related resources (by threads of the same pool) that could be getting heavily utilized by a request. This also helps in correlating other facts you may have (like native threads / thread dumps).</p>
-<p><img src="https://github.com/cchesser/java-perf-workshop/wiki/images/jmc_thread_hot_threads.png" alt="JMC Hot Threads"></p>
-<p>The <strong>Latencies</strong> sub tab can help show common areas of your code (organized by thread states) which can cause slowness in your code base that may not be directly tied to a heavy computation task (ex. waiting on a network call). Generally it helps to look at the large contributor (based on total time consumed) and see when and why it is getting invoked (and if that can be minimized).</p>
-<p><img src="https://github.com/cchesser/java-perf-workshop/wiki/images/jmc_thread_latencies.png" alt="JMC Latencies"></p>
-<h3 id="follow-ups-1">Follow-ups</h3>
+</li>
+<li>Are there any exceptions that might indicate a problem with our dependencies?</li>
+</ul>
+<p>In the next section, we&rsquo;ll look at the <a href="/docs/jmc/threads/">Threads</a> used by our application.</p>
+
+</div>
+
+
+
+    
+	
+  
+    
+    
+	
+    
+
+<div class="td-content" style="page-break-before: always">
+    
+	<h1 id="pg-140f7f618c6427a75628497db237e231">4 - Threads</h1>
+    <div class="lead">Find the computation and latency events in your application.</div>
+	<p>The <strong>Threads</strong> page provides a snaphost of all threads in our application, and we can use it to acquire information about computation and latency events.</p>
+<p><img src="/jmc/threads_page.png" alt=""></p>
+<h3 id="thread-chart">Thread Chart</h3>
+<p>We can use the Thread Chart view to select a region of time and view the state of threads and the most common stack frames for that particular time slice:</p>
+<p><img src="/jmc/thread_chart.png" alt=""></p>
+<p>We can also edit the types of events shown by the chart. Right click on the chart, and select <strong>Edit Thread Activity Lanes</strong></p>
+<p><img src="/jmc/edit_thread_lanes.png" alt=""></p>
+<p>We can then narrow down on specific events.</p>
+<p>For the purpose of this section filter on only the <strong>Sleep</strong> events. Then, select a period of time and look at what has caused our threads to go to sleep for that particular period:</p>
+<p><img src="/jmc/filter_sleeping_threads.png" alt=""></p>
+<p><img src="/jmc/sleeping_threads.png" alt=""></p>
+<p>Once you&rsquo;re done with the filtered view, right click on the <strong>Thread</strong> page and Reset the page (to return to the default state).</p>
+<p><img src="/jmc/reset_thread_page.png" alt=""></p>
+<h3 id="by-thread">By Thread</h3>
+<p>We can select an invididual thread from the <strong>Thread Table</strong> to further filter the data just for that thread. From this filtered view, we can inspect what the commonly executed methods are for a particular thread.</p>
+<p><img src="/jmc/thread_selected.png" alt=""></p>
+<p>We can then use the stacktrace view to correlate what piece of code executed the most.</p>
+<p><img src="/jmc/thread_selected_stack_trace.png" alt=""></p>
+<h2 id="i-classfas-fa-compassi-explore"><i class="fas fa-compass"></i> Explore</h2>
+<p>There&rsquo;s a couple of threads specifically created by our application, these are the <code>wkshp-conf-loader</code> named threads. The <code>dw-*</code> named threads are threads created by DropWizard to handle specific requests (you might have noticed this based on the name containing a REST Resource). Explore the state of some of these threads while thinking about the follow up questions.</p>
+<h3 id="i-classfas-fa-questioni-follow-ups"><i class="fas fa-question"></i> Follow Ups</h3>
 <ul>
 <li>Where are we spending most of our time sleeping? What is causing this?</li>
+<li>Are there any unnecessary method invocations? Are any threads doing work that isn&rsquo;t visible?</li>
 </ul>
-<h2 id="io">I/O</h2>
-<p>The <strong>I/O</strong> tab, can provide context of what external resources you are utilizing from you code base, and relate it to other latency events. For the purpose of our workshop service, we are doing network I/O, and therefore will look at the <strong>Socket Read</strong> sub view. From this view you can gain context of what host you are calling, how many times you are calling it, and how much time it is taking.</p>
-<p><img src="https://github.com/cchesser/java-perf-workshop/wiki/images/jmc_io_socket_read.png" alt="JMC IO Socket Read"></p>
-<h3 id="follow-ups-2">Follow-ups</h3>
+<p>In the next section, we&rsquo;ll look at the <a href="/docs/jmc/memory">Memory</a> state of the application.</p>
+
+</div>
+
+
+
+    
+	
+  
+    
+    
+	
+    
+
+<div class="td-content" style="page-break-before: always">
+    
+	<h1 id="pg-7fa58ef1806796b7bc181181489c25b1">5 - Memory</h1>
+    <div class="lead">Find the memory cost of events in our application.</div>
+	<p>The memory page shows us the overall memory usage and garbage collection events for our recording.</p>
+<p><img src="/jmc/memory_page.png" alt=""></p>
+<p>The <strong>Class Table</strong> lets us view the total memory allocation dedicated to particular instances of that class. Selecting a particular class will allow us to view what code paths are responsible for creating those objects.</p>
+<p><img src="/jmc/memory_class_selected.png" alt=""></p>
+<p>We can also filter this view to a particular range in time, for example a range where we went from low to high heap usage:</p>
+<p><img src="/jmc/memory_heap_rise.png" alt=""></p>
+<p>We can then use this filtered view and drill down through the stack trace to find methods of interest:</p>
+<p><img src="/jmc/memory_stack_trace_period.png" alt=""></p>
+<h2 id="i-classfas-fa-compassi-explore"><i class="fas fa-compass"></i> Explore</h2>
+<p>Narrow down through some periods of time where our heap rose quickly and then was collected. Look at the memory reclaimed after each collection.</p>
+<h3 id="i-classfas-fa-questioni-follow-ups"><i class="fas fa-question"></i> Follow Ups</h3>
+<ul>
+<li>What are the most commonly allocated classes? Where do they come from?</li>
+<li>Are there any classes we own that are also high on the allocation list?</li>
+<li>Expand the memory usage chart and only chart the Used Heap, do you notice a pattern?
+<ul>
+<li>What do you think caused the flat line at the end of the chart?</li>
+</ul>
+</li>
+</ul>
+<p>In the next section, we&rsquo;ll look at the <a href="/docs/jmc/io_operations/">I/O Operations</a> thrown by our application.</p>
+
+</div>
+
+
+
+    
+	
+  
+    
+    
+	
+    
+
+<div class="td-content" style="page-break-before: always">
+    
+	<h1 id="pg-677c02967c93d2d024e0683d7ffa6d55">6 - I/O Operations</h1>
+    <div class="lead">Find the interactions with external resources.</div>
+	<p>The I/O pages can provide context of what external resources you are utilizing from you code base, and relate it to other latency events.</p>
+<p>For the purpose of our workshop service, we are doing network I/O, and therefore will look at the <strong>Socket I/O</strong> page.</p>
+<p>From this page, we can gain context of what host(s) we are calling, with what frequency, and the cost associated with those calls:</p>
+<p><img src="/jmc/io_page.png" alt=""></p>
+<p>We can then filter on a particular host and port and drill down into a particular piece of code responsible for that call:</p>
+<p><img src="/jmc/io_page_9090.png" alt=""></p>
+<h2 id="i-classfas-fa-compassi-explore"><i class="fas fa-compass"></i> Explore</h2>
+<p>Filter through the total I/O time and explore a couple of events with high I/O.</p>
+<h3 id="i-classfas-fa-questioni-follow-ups"><i class="fas fa-question"></i> Follow Ups</h3>
 <ul>
 <li>What remote services are we interacting with?</li>
 <li>How long are we interacting with them and how many invocations?</li>
 <li>How many times did we make calls and what threads were tied to those calls?</li>
+</ul>
+
+</div>
+
+
+
+    
+	
+  
+    
+    
+	
+    
+
+<div class="td-content" style="page-break-before: always">
+    
+	<h1 id="pg-e82c7a3c3eba03724a0e8df5a3ff19a3">7 - References</h1>
+    <div class="lead">Collection of useful references used to build this guide.</div>
+	<ul>
+<li><a href="https://docs.oracle.com/javacomponents/doc/JDMUG/JDMUG.pdf">JDK Mission Control User Guide</a></li>
+<li><a href="https://bell-sw.com/announcements/2020/07/22/Hunting-down-code-hotspots-with-JDK-Flight-Recorder/">Hunting down code hotspots with JFR</a></li>
 </ul>
 
 </div>
