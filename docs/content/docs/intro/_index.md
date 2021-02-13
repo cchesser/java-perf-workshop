@@ -98,6 +98,44 @@ Example:
 top -b -n3 -H -p 6730 > jvm_native_threads.log
 ```
 
+## Java Utilities
+
+There's a couple of java utilities that can also be used to find the PIDs of your running processes.
+
+### jps
+
+The [Java Virtual Machine Process Status Tool](https://docs.oracle.com/javase/7/docs/technotes/tools/share/jps.html) can be used to see Java processess.
+
+```bash
+ $ jps
+7241 Jps
+6059 java-perf-workshop-server-1.1.0-SNAPSHOT.jar
+6925 jar
+```
+
+You can get more insight by using some of its flags:
+
+```bash
+ $ jps -lvm
+6059 java-perf-workshop-server/target/java-perf-workshop-server-1.1.0-SNAPSHOT.jar server server.yml
+6925 wiremock-standalone.jar --port 9090 --root-dir java-perf-workshop-server/src/test/resources
+7582 sun.tools.jps.Jps -lvm -Dapplication.home=/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home -Xms8m
+```
+
+### jcmd
+
+The [jcmd](https://docs.oracle.com/javase/8/docs/technotes/guides/troubleshoot/tooldescr006.html) utility is an attempt to consolidate other utilities into a single interface. 
+
+Running the `jcmd` command should display some of the same information that `jps` showed us (similar to `jps -m`):
+
+```
+$ jcmd
+6059 java-perf-workshop-server/target/java-perf-workshop-server-1.1.0-SNAPSHOT.jar server server.yml
+6925 wiremock-standalone.jar --port 9090 --root-dir java-perf-workshop-server/src/test/resources
+7838 sun.tools.jcmd.JCmd
+```
+
+
 ## Thread Dump
 
 To capture a thread dump of the JVM, there are many tools that can achieve this. You can do this over JMX remotely, sending an OS signal (`kill -3`), or just form the command line (`jstack` or `jcmd`). To keep it simple, we will just use `jcmd` as we will use it later for other diagnostic commands.

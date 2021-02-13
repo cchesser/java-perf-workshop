@@ -8,9 +8,8 @@ description: >
 In this section we're going to spin up the services needed for the workshop.
 
 {{% alert title="Note" color="info" %}}
-Make sure you've gone through the Prerequisites
+Make sure you've gone through the [Prerequisites](/docs/prereqs)
 {{% /alert %}}
-
 
 ### Service
 
