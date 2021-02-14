@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.ed1a533175319c1282d3775c2c2bffba.json"
+  data-offline-search-index-json-src="/offline-search-index.f09ac086ba938710ca660a8f4a52013e.json"
   data-offline-search-base-href="/"
   data-offline-search-max-results="10"
 >
@@ -148,7 +148,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.ed1a533175319c1282d3775c2c2bffba.json"
+  data-offline-search-index-json-src="/offline-search-index.f09ac086ba938710ca660a8f4a52013e.json"
   data-offline-search-base-href="/"
   data-offline-search-max-results="10"
 >
@@ -356,6 +356,38 @@ if (!doNotTrack) {
           
           
           <a class="td-sidebar-link td-sidebar-link__page " id="m-docsmemoryheap" href="/docs/memory/heap/">Memory Heap Analysis</a>
+        
+      
+      
+      
+        
+          
+          
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docsmemorycapturing" href="/docs/memory/capturing/">Capturing Heap Dumps</a>
+        
+      
+      
+      
+        
+          
+          
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docsmemoryjoverflow" href="/docs/memory/joverflow/">JOverflow</a>
+        
+      
+      
+      
+        
+          
+          
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docsmemorymat" href="/docs/memory/mat/">Eclipse MAT</a>
+        
+      
+      
+      
+        
+          
+          
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docsmemoryvisualvm" href="/docs/memory/visualvm/">Visual VM</a>
         
       
       
@@ -619,7 +651,7 @@ is still capable of being captured from a host.</li>
 <p>A simple rule to watch for on your logs is the prefix of either:</p>
 <pre><code>[GC ...      &lt;- Minor GC cycle (young gen)
 [Full GC ... &lt;- Full GC cycle
-</code></pre><p>(:exclamation:) Explicit GCs can also be identified, which is when something is invoking the <code>System.gc()</code> API. Note, this is not good thing, as
+</code></pre><p>(❗) Explicit GCs can also be identified, which is when something is invoking the <code>System.gc()</code> API. Note, this is not good thing, as
 something is forcing a GC cycle to occur, rather than letting the JVM trigger this on its own (what should naturally occur).</p>
 <pre><code>2015-09-30T12:23:44.425+0600: 195.699: [GC (System.gc()) [PSYoungGen: 39223K-&gt;3562K(76288K)] 49685K-&gt;14032K(190464K), 0.0047880 secs] [Times: user=0.02 sys=0.00, real=0.01 secs]
 2015-09-30T12:23:44.430+0600: 195.704: [Full GC (System.gc()) [PSYoungGen: 3562K-&gt;0K(76288K)] [ParOldGen: 10469K-&gt;9174K(114176K)] 14032K-&gt;9174K(190464K), [Metaspace: 25137K-&gt;25137K(1071104K)], 0.0724521 secs] [Times: user=0.38 sys=0.01, real=0.07 secs]

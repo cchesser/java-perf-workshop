@@ -111,7 +111,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.ed1a533175319c1282d3775c2c2bffba.json"
+  data-offline-search-index-json-src="/offline-search-index.f09ac086ba938710ca660a8f4a52013e.json"
   data-offline-search-base-href="/"
   data-offline-search-max-results="10"
 >
@@ -317,7 +317,39 @@ This the multi-page printable view of this section.
     
     
 	
-<li>5.2: <a href="#pg-c6512c461f5f3bf1ba4ced486f736874">Garbage Collections</a></li>
+<li>5.2: <a href="#pg-035a04a1e49235510f91d61520c4915c">Capturing Heap Dumps</a></li>
+
+
+    
+  
+    
+    
+	
+<li>5.3: <a href="#pg-1f3119da9a3dcd2385759ec01a852380">JOverflow</a></li>
+
+
+    
+  
+    
+    
+	
+<li>5.4: <a href="#pg-c01af137813ea12c96aaecbb0580e4ae">Eclipse MAT</a></li>
+
+
+    
+  
+    
+    
+	
+<li>5.5: <a href="#pg-de268a519541f36805c09c8812e06816">Visual VM</a></li>
+
+
+    
+  
+    
+    
+	
+<li>5.6: <a href="#pg-c6512c461f5f3bf1ba4ced486f736874">Garbage Collections</a></li>
 
 
     
@@ -403,7 +435,7 @@ This the multi-page printable view of this section.
 <div class="alert alert-info" role="alert">
 <h4 class="alert-heading">Note</h4>
 
-    Make sure you&rsquo;ve gone through the Prerequisites
+    Make sure you&rsquo;ve gone through the <a href="/docs/prereqs">Prerequisites</a>
 
 </div>
 
@@ -580,7 +612,27 @@ Swap:        0k total,        0k used,        0k free,   336520k cached
 </code></pre></div><p>This will capture thread iterations of <code>top</code> by capturing threads of the parent process ID. You can then pipe it to a file.</p>
 <p>Example:</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">top -b -n3 -H -p <span style="color:#0000cf;font-weight:bold">6730</span> &gt; jvm_native_threads.log
-</code></pre></div><h2 id="thread-dump">Thread Dump</h2>
+</code></pre></div><h2 id="java-utilities">Java Utilities</h2>
+<p>There&rsquo;s a couple of java utilities that can also be used to find the PIDs of your running processes.</p>
+<h3 id="jps">jps</h3>
+<p>The <a href="https://docs.oracle.com/javase/7/docs/technotes/tools/share/jps.html">Java Virtual Machine Process Status Tool</a> can be used to see Java processess.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"> $ jps
+<span style="color:#0000cf;font-weight:bold">7241</span> Jps
+<span style="color:#0000cf;font-weight:bold">6059</span> java-perf-workshop-server-1.1.0-SNAPSHOT.jar
+<span style="color:#0000cf;font-weight:bold">6925</span> jar
+</code></pre></div><p>You can get more insight by using some of its flags:</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"> $ jps -lvm
+<span style="color:#0000cf;font-weight:bold">6059</span> java-perf-workshop-server/target/java-perf-workshop-server-1.1.0-SNAPSHOT.jar server server.yml
+<span style="color:#0000cf;font-weight:bold">6925</span> wiremock-standalone.jar --port <span style="color:#0000cf;font-weight:bold">9090</span> --root-dir java-perf-workshop-server/src/test/resources
+<span style="color:#0000cf;font-weight:bold">7582</span> sun.tools.jps.Jps -lvm -Dapplication.home<span style="color:#ce5c00;font-weight:bold">=</span>/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home -Xms8m
+</code></pre></div><h3 id="jcmd">jcmd</h3>
+<p>The <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/troubleshoot/tooldescr006.html">jcmd</a> utility is an attempt to consolidate other utilities into a single interface.</p>
+<p>Running the <code>jcmd</code> command should display some of the same information that <code>jps</code> showed us (similar to <code>jps -m</code>):</p>
+<pre><code>$ jcmd
+6059 java-perf-workshop-server/target/java-perf-workshop-server-1.1.0-SNAPSHOT.jar server server.yml
+6925 wiremock-standalone.jar --port 9090 --root-dir java-perf-workshop-server/src/test/resources
+7838 sun.tools.jcmd.JCmd
+</code></pre><h2 id="thread-dump">Thread Dump</h2>
 <p>To capture a thread dump of the JVM, there are many tools that can achieve this. You can do this over JMX remotely, sending an OS signal (<code>kill -3</code>), or just form the command line (<code>jstack</code> or <code>jcmd</code>). To keep it simple, we will just use <code>jcmd</code> as we will use it later for other diagnostic commands.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">jcmd &lt;PID&gt; Thread.print
 </code></pre></div><p>💡 You need to be the same OS user when invoking the command as the target JVM.</p>
@@ -681,7 +733,7 @@ java.threads.started=697
 <p>Newer versions of JMC are developed as part of the OpenJDK Mission Control project.</p>
 <p>To enable the Flight Recorder on the JVM, the following options need to be included on the JVM:</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">-XX:+UnlockCommercialFeatures -XX:+FlightRecorder
-</code></pre></div><p>:heavy_exclamation_mark: Notice that you have to include <code>-XX:+UnlockCommercialFeatures</code> first in the options listing. This is because using Flight Recorder is a feature that requires additional licensing when used in production environments. One of the following licenses is required in order to utilize this in a production environment.</p>
+</code></pre></div><p>❗ Notice that you have to include <code>-XX:+UnlockCommercialFeatures</code> first in the options listing. This is because using Flight Recorder is a feature that requires additional licensing when used in production environments. One of the following licenses is required in order to utilize this in a production environment.</p>
 <ul>
 <li>Oracle Java SE Advanced</li>
 <li>Oracle Java SE Suite</li>
@@ -1125,30 +1177,60 @@ Simulation cchesser.javaperf.workshop.WorkshopSimulation started...
     
 	<h1 id="pg-b09263a61c61dd500a73a2e9c3ccb14a">5.1 - Memory Heap Analysis</h1>
     <div class="lead">Analyzing the heap of the JVM.</div>
-	<p>In this workshop, we are going to do some analysis of the JVM&rsquo;s heap dump.</p>
-<h2 id="prerequisites">Prerequisites</h2>
+	<p>In the following sections, we are going to do some analysis of the JVM&rsquo;s heap dump.</p>
+
+
+<div class="alert alert-info" role="alert">
+<h4 class="alert-heading">Note</h4>
+
+    Make sure you&rsquo;ve gone through the <a href="/docs/prereqs">Prerequisites</a>
+
+</div>
+
+<p>First, we&rsquo;ll need to capture a heap dump:</p>
 <ul>
-<li>Java Mission Control (Oracle Java 7u40+)</li>
-<li><a href="http://www.eclipse.org/mat/">Eclipse Memory Analyzer</a></li>
+<li><a href="/docs/memory/capturing/">Capturing a Heap Dump</a></li>
 </ul>
-<h2 id="capture-a-heap-dump">Capture a Heap Dump</h2>
-<p>You may be aware by now, there are many different ways of getting data from the JVM. Here are just a few ways to get heap dump of the JVM.</p>
-<h3 id="jcmd">jcmd</h3>
+<p>We will then go through three common tools in which we can do some analysis of a heap dump. All of
+which are free. 😃</p>
+<ul>
+<li><a href="/docs/memory/joverflow">JOverflow Analysis</a></li>
+<li><a href="/docs/memory/mat">Eclipse MAT</a></li>
+<li><a href="/docs/memory/visualvm">VisualVM</a></li>
+</ul>
+
+</div>
+
+
+
+    
+	
+  
+    
+    
+	
+    
+
+<div class="td-content" style="page-break-before: always">
+    
+	<h1 id="pg-035a04a1e49235510f91d61520c4915c">5.2 - Capturing Heap Dumps</h1>
+    <div class="lead">Different ways to capture a heap dump.</div>
+	<p>You may be aware by now, there are many different ways of getting data from the JVM. Here are just a few ways to get heap dump of the JVM.</p>
+<h2 id="jcmd">jcmd</h2>
 <p>With <code>jcmd</code>, you have the ability to invoke the <code>GC.heap_dump</code> command. This requires that you
 are running as the same OS user as the target JVM process.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">jcmd &lt;PID&gt; GC.heap_dump my_little_heap_dump.hprof
 </code></pre></div><p><strong>Note:</strong> If a full path is not specified, the heap_dump will be created relative to the location from where the process was started (when generated with jcmd)</p>
-<h3 id="jmap">jmap</h3>
+<h2 id="jmap">jmap</h2>
 <p>A more traditional approach is using <code>jmap</code> and invoking the command on the target process.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">jmap -dump:format<span style="color:#ce5c00;font-weight:bold">=</span>b,file<span style="color:#ce5c00;font-weight:bold">=</span>my_little_heap_dump.hprof &lt;PID&gt;
-</code></pre></div><h3 id="core-dump">Core Dump</h3>
+</code></pre></div><h2 id="core-dump">Core Dump</h2>
 <p>You can also use <code>jmap</code> to extract a heap dump from a core dump on the process:</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo gdb --pid<span style="color:#ce5c00;font-weight:bold">=</span>&lt;PID&gt;
 gcore /tmp/jvm.core
 detach
 quit
 jmap -dump:format<span style="color:#ce5c00;font-weight:bold">=</span>b,file<span style="color:#ce5c00;font-weight:bold">=</span>my_little_heap_dump.hprof /usr/bin/java /tmp/jvm.core
-
 </code></pre></div><p>💡 Capturing a heap dump from a core dump on Java 8, you may run into this issue:
 <a href="http://bugs.java.com/bugdatabase/view_bug.do?bug_id=8073606">JDK-8073606</a>.</p>
 <h3 id="hotspot-diagnostic-mbean">HotSpot Diagnostic MBean</h3>
@@ -1159,11 +1241,168 @@ the <code>com.sun.management.HotSpotDiagnostic</code>. The arguments are:</p>
 <li>Indicator to dump all live object (true will dump <strong>only live</strong> objects)</li>
 </ul>
 <p><img src="https://github.com/cchesser/java-perf-workshop/wiki/images/hotspot_diag_mbean.png" alt="hotspot_diag"></p>
-<h2 id="analyze-the-heap-dump">Analyze the Heap Dump</h2>
-<p>As we had in capturing a heap dump, there are many different tools at looking at a heap dump.
-We will go through three common tools in which we can do some analysis of a heap dump. All of
-which are free. :smiley:</p>
-<h3 id="visualvm">VisualVM</h3>
+
+</div>
+
+
+
+    
+	
+  
+    
+    
+	
+    
+
+<div class="td-content" style="page-break-before: always">
+    
+	<h1 id="pg-1f3119da9a3dcd2385759ec01a852380">5.3 - JOverflow</h1>
+    <div class="lead">Heap Analysis using JOverflow</div>
+	<p>Included in <a href="https://www.oracle.com/java/technologies/jdk-mission-control.html">JDK Mission Control</a> is a plugin that used to be a separate instance, the JOverflow Heap Analyzer. This plugin now adds a context menu selection to <strong>Dump Heap</strong> of JVMs from the JVM Browser.</p>
+<p><img src="/joverflow/dump_heap.png" alt="joverflow dump heap"></p>
+<p><strong>JOverflow</strong> is a great tool to start our analysis with since it is tailored to identifying common anti-patterns present in most heap dumps. This should give us an idea of the kinds of problems we can see in our JVMs.</p>
+<p><img src="/joverflow/main_page.png" alt=""></p>
+<h2 id="anti-patterns">Anti-Patterns</h2>
+<p>Here is a listing of some the patterns that JOverflow identifies:</p>
+<ul>
+<li><strong>Empty Unused Collections</strong>: Empty collection, where modification <code>count == 0</code>.</li>
+<li><strong>Empty Used Collections</strong>: Empty collection, where modification <code>count != 0</code>.</li>
+<li><strong>Small Sparse</strong>: Only for array-based, where less than half the slots are occupied.
+Small is considered: size &lt;= default (ex. 16 for HashMap).</li>
+<li><strong>Large Sparse</strong>: Only for array-based, where less than half the slots are occupied.
+Large is considered: Size &gt; default.</li>
+<li><strong>Boxed</strong>: Contains boxed Numbers (ex. java.lang.Integer). Each of these boxed
+number has overhead as compared to their primitive counterpart due to object references.</li>
+<li><strong>Small Collections</strong>: Collections with 1 to 4 elements. There are fixed costs of collections, which may lend this
+set of data better hosted in an array vs. a full Java collection type.</li>
+<li><strong>Vertical Bar Collections</strong>: Collection which is a list of lists, where the outer collection
+is large, and it&rsquo;s elements are all small collections (ex. List(1000) of List(100))</li>
+<li><strong>Zero Size Arrays</strong>: Array where length == 0 (still consumers 12 - 16 bytes).</li>
+<li><strong>Vertical Bar Arrays</strong>: Similar to <em>Vertical Bar Collections</em>, but for arrays.</li>
+<li><strong>Sparse Arrays</strong>: Less than half of the elements are not null.</li>
+<li><strong>Long Zero Tail Arrays</strong>: Ends with a consecutive series of zeros, where the tail length is &gt;= size / 2.</li>
+<li><strong>Empty Arrays</strong>: Only null elements.</li>
+<li><strong>Duplicate Arrays</strong>: Where an array contents are the same in another instance, but they are separate array instances.</li>
+<li><strong>Duplicate Strings</strong>: Same as <em>Duplicate Array</em>, where <code>string1.equals(string2)</code> and <code>string1 != string2</code>.</li>
+</ul>
+<p>Reference: <a href="https://www.youtube.com/watch?v=b-mv9iWY8kw">JOverflow: Advanced Heap Analysis in Java Mission Control</a></p>
+<h2 id="filtering">Filtering</h2>
+<p>As you play with JOverflow, once you click on something, it will begin filtering down your content. If you wish to reduce down to code that you may own, you can start doing a package filter on the ancestor section.</p>
+<p>In this example, I want to see duplicate strings for code under <code>cchesser</code>. In this case, I can see that our workshop service has several duplicate
+strings (as this content is replicated on each object):</p>
+<ul>
+<li>Regular Session</li>
+<li>4-Hour Workshop</li>
+<li>8-Hour Workshop</li>
+</ul>
+<p>However, the number of instances / overhead is extremely low (since this is a small service), it gives you visibility of areas that you could optimize.</p>
+<p><img src="/joverflow/duplicate_strings.png" alt="joverflow filter"></p>
+<h3 id="navigating">Navigating</h3>
+<p>Since JOverflow&rsquo;s mechanism of drilling down is by applying filters, it doesn&rsquo;t have an easy way to undo most operations, and instead relies on resetting the state to the unfiltered state. You can undo all operations by using the backwards arrow button:</p>
+<p><img src="/joverflow/reset.png" alt="joverflow reset"></p>
+<h2 id="instances">Instances</h2>
+<p>We can also use the plugin to drill down a bit into particular instances.</p>
+<p>We can enable the instances view by navigating to:</p>
+<ol>
+<li>Window &gt; Show View &gt; Other
+<img src="/joverflow/window_showview_other.png" alt=""></li>
+<li>Selecting JOverflow Instances
+<img src="/joverflow/show_instances.png" alt=""></li>
+</ol>
+<h3 id="example---arrays-size-1">Example - Arrays Size 1</h3>
+<p>In the following example, we&rsquo;re going to find:</p>
+<ol>
+<li>Arrays with One Element
+<img src="/joverflow/arrays_one_element.png" alt=""></li>
+<li>Coming from our WorkshopConfiguration
+<img src="/joverflow/referrer_workshop_configuration.png" alt=""></li>
+</ol>
+<p>This should filter the Instances view down to that single object.</p>
+<p><img src="/joverflow/config_instance.png" alt=""></p>
+<h3 id="example---conference-session-details">Example - Conference Session Details</h3>
+<p>We can use this same mechanism to also explore values of some of the classes we own, in the next example we&rsquo;re going to:</p>
+<ol>
+<li>Use All Objects of type Conference Session
+<img src="/joverflow/conference_sessions.png" alt=""></li>
+<li>Drill down into a couple of the instances
+<img src="/joverflow/conference_session_instances.png" alt=""></li>
+</ol>
+
+</div>
+
+
+
+    
+	
+  
+    
+    
+	
+    
+
+<div class="td-content" style="page-break-before: always">
+    
+	<h1 id="pg-c01af137813ea12c96aaecbb0580e4ae">5.4 - Eclipse MAT</h1>
+    <div class="lead">Heap Analysis using Eclipse MAT</div>
+	<h3 id="eclipse-memory-analyzer">Eclipse Memory Analyzer</h3>
+<p><a href="https://eclipse.org/mat/">Eclipse Memory Analyzer</a> is a fairly mature tool on analyzing heap dumps. It is a rich tool that includes the abilities to do OQL queries on the heap, general reporting on anti-patterns, and helpful common views (like the dominator tree). Eclipse Memory Analyzer tool is a separate install which can be a standalone install, or it can run as a plugin within Eclipse. First, install the tool if you haven&rsquo;t already via their <a href="https://eclipse.org/mat/downloads.php">downloads page</a>.</p>
+<p>After you have it installed, go to <strong>File</strong> and then <strong>Open Heap Dump&hellip;</strong> and specify the <code>hprof</code> file that you wish to analyze.</p>
+<p>💡 When Eclipse Memory Analyzer loads your <code>hprof</code> file, it will create many other index files to assist in optimally analyzing and navigating through your heap dump. It may make it easier to isolate your <code>prof</code> file in its own directory prior to opening it, based on the secondary files which are created. You can always just delete these files within Eclipse Memory Analyzer by opening the <strong>Heap Dump History</strong> window, right-clicking the <code>hprof</code> which was previously loaded, and selecting <strong>Delete Index Files</strong>. Example listing of index files which get generated by suffix:</p>
+<ul>
+<li><code>.domIn.index</code></li>
+<li><code>.domOut.index</code></li>
+<li><code>.index</code></li>
+<li><code>.o2ret.index</code></li>
+<li><code>.a2s.index</code></li>
+<li><code>.idx.index</code></li>
+<li><code>.inbound.index</code></li>
+<li><code>.o2c.index</code></li>
+<li><code>.o2hprof.index</code></li>
+<li><code>.outbound.index</code></li>
+<li><code>.threads</code></li>
+</ul>
+<h4 id="dominator-tree">Dominator Tree</h4>
+<p>A common first area to look at your heap within Eclipse Memory Analyzer is the dominator tree. From the dominator tree, you can organize by the retained heap size, and then begin drilling down the tree to see the contributors to the largest GC roots.</p>
+<p><img src="https://github.com/cchesser/java-perf-workshop/wiki/images/mat_dominator_tree.png" alt="MAT Dominator Tree"></p>
+<h4 id="histogram">Histogram</h4>
+<p>The histogram gives you a quick listing of all the top consumers by type. Typically this is going to provide context of the large consumers based on their &ldquo;lower-level&rdquo; types. For example, <code>char[]</code> is a common large contributor, which then will be followed by <code>String</code> which is a type that is predominately weighted by the size of the <code>char[]</code>.</p>
+<p><img src="https://github.com/cchesser/java-perf-workshop/wiki/images/mat_histogram.png" alt="MAT Thread Overview"></p>
+<h4 id="thread-overview">Thread Overview</h4>
+<p>The thread overview is a helpful view when you are looking at contributors based on the execution of code. For example, if you have a JVM which has thrown an <code>OutOfMemoryError</code>, you can tell if some type of request caused a massive spike which caused the exhaustion of memory, or if the requests may have not been abnormal, there just wasn&rsquo;t sufficient space to support the request.</p>
+<p><img src="https://github.com/cchesser/java-perf-workshop/wiki/images/mat_thread_overview.png" alt="MAT Thread Overview"></p>
+<h4 id="oql">OQL</h4>
+<p>Another strong feature of Eclipse Memory Analyzer is the OQL studio to execute queries to do lookup on objects in your heap.</p>
+<p>Lookup our <code>ConferenceSession</code> class type:</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#204a87;font-weight:bold">SELECT</span> <span style="color:#ce5c00;font-weight:bold">*</span>
+<span style="color:#204a87;font-weight:bold">FROM</span> <span style="color:#000">INSTANCEOF</span> <span style="color:#000">cchesser</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">javaperf</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">workshop</span><span style="color:#000;font-weight:bold">.</span><span style="color:#204a87;font-weight:bold">data</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">ConferenceSession</span>
+</code></pre></div><p>💡 To execute the query, you click on the red exclamation mark (❗). Alternatively, you can press <code>CTRL+Enter</code> on Windows or <code>Command+Enter</code> on macOS.</p>
+<p><img src="https://github.com/cchesser/java-perf-workshop/wiki/images/mat_oql_studio.png" alt="MAT OQL"></p>
+<p>By returning the raw type back, you can expand each one to further look at the contents of the object. If you wanted to just report the object with its <code>title</code> attribute and the object&rsquo;s retained sized, you could do this:</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#204a87;font-weight:bold">SELECT</span> <span style="color:#204a87;font-weight:bold">c</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">title</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">toString</span><span style="color:#000;font-weight:bold">(),</span> <span style="color:#204a87;font-weight:bold">c</span><span style="color:#000;font-weight:bold">.</span><span style="color:#ce5c00;font-weight:bold">@</span><span style="color:#000">retainedHeapSize</span> 
+<span style="color:#204a87;font-weight:bold">FROM</span> <span style="color:#000">INSTANCEOF</span> <span style="color:#000">cchesser</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">javaperf</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">workshop</span><span style="color:#000;font-weight:bold">.</span><span style="color:#204a87;font-weight:bold">data</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">ConferenceSession</span> <span style="color:#204a87;font-weight:bold">c</span> 
+</code></pre></div><p>Now, you could then filter this by including a <code>WHERE</code> clause, where you can filter it by
+the title or the abstract:</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#204a87;font-weight:bold">SELECT</span> <span style="color:#204a87;font-weight:bold">c</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">title</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">toString</span><span style="color:#000;font-weight:bold">(),</span> <span style="color:#204a87;font-weight:bold">c</span><span style="color:#000;font-weight:bold">.</span><span style="color:#ce5c00;font-weight:bold">@</span><span style="color:#000">retainedHeapSize</span> <span style="color:#204a87;font-weight:bold">FROM</span> <span style="color:#000">INSTANCEOF</span> <span style="color:#000">cchesser</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">javaperf</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">workshop</span><span style="color:#000;font-weight:bold">.</span><span style="color:#204a87;font-weight:bold">data</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">ConferenceSession</span> <span style="color:#204a87;font-weight:bold">c</span> 
+<span style="color:#204a87;font-weight:bold">WHERE</span> <span style="color:#204a87;font-weight:bold">c</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">title</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">toString</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#204a87;font-weight:bold">LIKE</span> <span style="color:#4e9a06">&#34;.*(J|j)ava.*&#34;</span> <span style="color:#204a87;font-weight:bold">OR</span> <span style="color:#204a87;font-weight:bold">c</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">abstract</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">toString</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#204a87;font-weight:bold">LIKE</span> <span style="color:#4e9a06">&#34;.*(J|j)ava.*&#34;</span>
+</code></pre></div><p>Reference: <a href="http://help.eclipse.org/luna/index.jsp?topic=%2Forg.eclipse.mat.ui.help%2Freference%2Foqlsyntax.html">Eclipse Memory Analyzer OQL Syntax</a></p>
+
+</div>
+
+
+
+    
+	
+  
+    
+    
+	
+    
+
+<div class="td-content" style="page-break-before: always">
+    
+	<h1 id="pg-de268a519541f36805c09c8812e06816">5.5 - Visual VM</h1>
+    <div class="lead">Heap Analysis using VisualVM</div>
+	<h3 id="visualvm">VisualVM</h3>
 <p><a href="http://docs.oracle.com/javase/8/docs/technotes/guides/visualvm/">VisualVM</a> is a tool which is part of Oracle&rsquo;s JDK (has been since Java 6). This tool was spawned from the <a href="https://profiler.netbeans.org/">Netbeans Profiler</a>, and it has some helpful tools to inspect a heap dump.</p>
 <p>To load the heap dump in VisualVM, you will just go to <strong>File</strong> -&gt; <strong>Load&hellip;</strong> and specify the
 <strong>File Format</strong> to be <strong>Heap Dumps&hellip;</strong>. Once it is loaded, a view will then be presented with
@@ -1214,92 +1453,6 @@ objects, and only report the ones which have <em>tags</em>.</p>
 </code></pre></div><p>Reference: <a href="https://htmlpreview.github.io/?https://raw.githubusercontent.com/visualvm/visualvm.java.net.backup/master/www/oqlhelp.html">VisualVM OQL Help</a></p>
 <p>💡 Note, the OQL which you use between this tool (and others), isn&rsquo;t necessarily <em>standard</em>, and therefore cannot be used between tooling without issues. VisualVM gives you
 the ability to leverage Javascript, which is unique to other tools supporting heap dump analysis.</p>
-<h3 id="java-mission-control-joverflow-plugin">Java Mission Control: JOverflow Plugin</h3>
-<p>With <a href="http://www.oracle.com/technetwork/java/javaseproducts/mission-control/java-mission-control-1998576.html">Java Mission Control</a>, there is an ability to add plugins, one of which,
-is the JOverflow plugin. You can install it by going to <strong>Help</strong> and select <strong>Install New Software&hellip;</strong>, and then select the <strong>JOverflow Heap Analyzer</strong>.</p>
-<p><img src="https://github.com/cchesser/java-perf-workshop/wiki/images/jmc_overflow_install.png" alt="joverflow"></p>
-<p>Once this is installed, when you open a <code>.hprof</code> file, JOverflow will be loaded. Also, it
-add a context menu selection to <strong>Dump Heap</strong> of JVMs from the JVM Browser.</p>
-<p><img src="https://github.com/cchesser/java-perf-workshop/wiki/images/jmc_dump_heap.png" alt="joverflow dump heap"></p>
-<p>When you open a heap dump, an initial analysis is completed which lists a large range of anti-patterns and things that
-can be improved in relation to the memory you utilize.</p>
-<p><img src="https://github.com/cchesser/java-perf-workshop/wiki/images/jmc_joverflow_initial.png" alt="joverflow initial"></p>
-<h4 id="anti-patterns">Anti-patterns</h4>
-<p>Here is a listing of some the patterns that JOverflow identifies:</p>
-<ul>
-<li><strong>Empty Unused Collections</strong>: Empty collection, where modification <code>count == 0</code>.</li>
-<li><strong>Empty Used Collections</strong>: Empty collection, where modification <code>count != 0</code>.</li>
-<li><strong>Small Sparse</strong>: Only for array-based, where less than half the slots are occupied.
-Small is considered: size &lt;= default (ex. 16 for HashMap).</li>
-<li><strong>Large Sparse</strong>: Only for array-based, where less than half the slots are occupied.
-Large is considered: Size &gt; default.</li>
-<li><strong>Boxed</strong>: Contains boxed Numbers (ex. java.lang.Integer). Each of these boxed
-number has overhead as compared to their primitive counterpart due to object references.</li>
-<li><strong>Small Collections</strong>: Collections with 1 to 4 elements. There are fixed costs of collections, which may lend this
-set of data better hosted in an array vs. a full Java collection type.</li>
-<li><strong>Vertical Bar Collections</strong>: Collection which is a list of lists, where the outer collection
-is large, and it&rsquo;s elements are all small collections (ex. List(1000) of List(100))</li>
-<li><strong>Zero Size Arrays</strong>: Array where length == 0 (still consumers 12 - 16 bytes).</li>
-<li><strong>Vertical Bar Arrays</strong>: Similar to <em>Vertical Bar Collections</em>, but for arrays.</li>
-<li><strong>Sparse Arrays</strong>: Less than half of the elements are not null.</li>
-<li><strong>Long Zero Tail Arrays</strong>: Ends with a consecutive series of zeros, where the tail length is &gt;= size / 2.</li>
-<li><strong>Empty Arrays</strong>: Only null elements.</li>
-<li><strong>Duplicate Arrays</strong>: Where an array contents are the same in another instance, but they are separate array instances.</li>
-<li><strong>Duplicate Strings</strong>: Same as <em>Duplicate Array</em>, where <code>string1.equals(string2)</code> and <code>string1 != string2</code>.</li>
-</ul>
-<p>Reference: <a href="https://www.youtube.com/watch?v=b-mv9iWY8kw">JOverflow: Advanced Heap Analysis in Java Mission Control</a></p>
-<h4 id="filtering">Filtering</h4>
-<p>As you play with JOverflow, once you click on something, it will begin filtering down your content. If you wish to reduce
-down to code that you may own, you can start doing a package filter on the ancestor section. In this example, I want to see duplicate strings for code under <code>cchesser</code>. In this case, I can see that our workshop service has several duplicate
-strings (as this content is replicated on each object):</p>
-<ul>
-<li>Regular Session</li>
-<li>4-Hour Workshop</li>
-<li>8-Hour Workshop</li>
-</ul>
-<p>However, the number of instances / overhead is extremely low (since this is a small service), it gives you visibility of areas that you could optimize.</p>
-<p><img src="https://github.com/cchesser/java-perf-workshop/wiki/images/jmc_overflow_filter_to_ancestor.png" alt="joverflow filter"></p>
-<h3 id="eclipse-memory-analyzer">Eclipse Memory Analyzer</h3>
-<p><a href="https://eclipse.org/mat/">Eclipse Memory Analyzer</a> is a fairly mature tool on analyzing heap dumps. It is a rich tool that includes the abilities to do OQL queries on the heap, general reporting on anti-patterns, and helpful common views (like the dominator tree). Eclipse Memory Analyzer tool is a separate install which can be a standalone install, or it can run as a plugin within Eclipse. First, install the tool if you haven&rsquo;t already via their <a href="https://eclipse.org/mat/downloads.php">downloads page</a>.</p>
-<p>After you have it installed, go to <strong>File</strong> and then <strong>Open Heap Dump&hellip;</strong> and specify the <code>hprof</code> file that you wish to analyze.</p>
-<p>💡 When Eclipse Memory Analyzer loads your <code>hprof</code> file, it will create many other index files to assist in optimally analyzing and navigating through your heap dump. It may make it easier to isolate your <code>prof</code> file in its own directory prior to opening it, based on the secondary files which are created. You can always just delete these files within Eclipse Memory Analyzer by opening the <strong>Heap Dump History</strong> window, right-clicking the <code>hprof</code> which was previously loaded, and selecting <strong>Delete Index Files</strong>. Example listing of index files which get generated by suffix:</p>
-<ul>
-<li><code>.domIn.index</code></li>
-<li><code>.domOut.index</code></li>
-<li><code>.index</code></li>
-<li><code>.o2ret.index</code></li>
-<li><code>.a2s.index</code></li>
-<li><code>.idx.index</code></li>
-<li><code>.inbound.index</code></li>
-<li><code>.o2c.index</code></li>
-<li><code>.o2hprof.index</code></li>
-<li><code>.outbound.index</code></li>
-<li><code>.threads</code></li>
-</ul>
-<h4 id="dominator-tree">Dominator Tree</h4>
-<p>A common first area to look at your heap within Eclipse Memory Analyzer is the dominator tree. From the dominator tree, you can organize by the retained heap size, and then begin drilling down the tree to see the contributors to the largest GC roots.</p>
-<p><img src="https://github.com/cchesser/java-perf-workshop/wiki/images/mat_dominator_tree.png" alt="MAT Dominator Tree"></p>
-<h4 id="histogram">Histogram</h4>
-<p>The histogram gives you a quick listing of all the top consumers by type. Typically this is going to provide context of the large consumers based on their &ldquo;lower-level&rdquo; types. For example, <code>char[]</code> is a common large contributor, which then will be followed by <code>String</code> which is a type that is predominately weighted by the size of the <code>char[]</code>.</p>
-<p><img src="https://github.com/cchesser/java-perf-workshop/wiki/images/mat_histogram.png" alt="MAT Thread Overview"></p>
-<h4 id="thread-overview">Thread Overview</h4>
-<p>The thread overview is a helpful view when you are looking at contributors based on the execution of code. For example, if you have a JVM which has thrown an <code>OutOfMemoryError</code>, you can tell if some type of request caused a massive spike which caused the exhaustion of memory, or if the requests may have not been abnormal, there just wasn&rsquo;t sufficient space to support the request.</p>
-<p><img src="https://github.com/cchesser/java-perf-workshop/wiki/images/mat_thread_overview.png" alt="MAT Thread Overview"></p>
-<h4 id="oql">OQL</h4>
-<p>Another strong feature of Eclipse Memory Analyzer is the OQL studio to execute queries to do lookup on objects in your heap.</p>
-<p>Lookup our <code>ConferenceSession</code> class type:</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#204a87;font-weight:bold">SELECT</span> <span style="color:#ce5c00;font-weight:bold">*</span>
-<span style="color:#204a87;font-weight:bold">FROM</span> <span style="color:#000">INSTANCEOF</span> <span style="color:#000">cchesser</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">javaperf</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">workshop</span><span style="color:#000;font-weight:bold">.</span><span style="color:#204a87;font-weight:bold">data</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">ConferenceSession</span>
-</code></pre></div><p>💡 To execute the query, you click on the red exclamation mark (:exclamation:). Alternatively, you can press <code>CTRL+Enter</code> on Windows or <code>Command+Enter</code> on macOS.</p>
-<p><img src="https://github.com/cchesser/java-perf-workshop/wiki/images/mat_oql_studio.png" alt="MAT OQL"></p>
-<p>By returning the raw type back, you can expand each one to further look at the contents of the object. If you wanted to just report the object with its <code>title</code> attribute and the object&rsquo;s retained sized, you could do this:</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#204a87;font-weight:bold">SELECT</span> <span style="color:#204a87;font-weight:bold">c</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">title</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">toString</span><span style="color:#000;font-weight:bold">(),</span> <span style="color:#204a87;font-weight:bold">c</span><span style="color:#000;font-weight:bold">.</span><span style="color:#ce5c00;font-weight:bold">@</span><span style="color:#000">retainedHeapSize</span> 
-<span style="color:#204a87;font-weight:bold">FROM</span> <span style="color:#000">INSTANCEOF</span> <span style="color:#000">cchesser</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">javaperf</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">workshop</span><span style="color:#000;font-weight:bold">.</span><span style="color:#204a87;font-weight:bold">data</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">ConferenceSession</span> <span style="color:#204a87;font-weight:bold">c</span> 
-</code></pre></div><p>Now, you could then filter this by including a <code>WHERE</code> clause, where you can filter it by
-the title or the abstract:</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#204a87;font-weight:bold">SELECT</span> <span style="color:#204a87;font-weight:bold">c</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">title</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">toString</span><span style="color:#000;font-weight:bold">(),</span> <span style="color:#204a87;font-weight:bold">c</span><span style="color:#000;font-weight:bold">.</span><span style="color:#ce5c00;font-weight:bold">@</span><span style="color:#000">retainedHeapSize</span> <span style="color:#204a87;font-weight:bold">FROM</span> <span style="color:#000">INSTANCEOF</span> <span style="color:#000">cchesser</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">javaperf</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">workshop</span><span style="color:#000;font-weight:bold">.</span><span style="color:#204a87;font-weight:bold">data</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">ConferenceSession</span> <span style="color:#204a87;font-weight:bold">c</span> 
-<span style="color:#204a87;font-weight:bold">WHERE</span> <span style="color:#204a87;font-weight:bold">c</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">title</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">toString</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#204a87;font-weight:bold">LIKE</span> <span style="color:#4e9a06">&#34;.*(J|j)ava.*&#34;</span> <span style="color:#204a87;font-weight:bold">OR</span> <span style="color:#204a87;font-weight:bold">c</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">abstract</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">toString</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#204a87;font-weight:bold">LIKE</span> <span style="color:#4e9a06">&#34;.*(J|j)ava.*&#34;</span>
-</code></pre></div><p>Reference: <a href="http://help.eclipse.org/luna/index.jsp?topic=%2Forg.eclipse.mat.ui.help%2Freference%2Foqlsyntax.html">Eclipse Memory Analyzer OQL Syntax</a></p>
 
 </div>
 
@@ -1315,7 +1468,7 @@ the title or the abstract:</p>
 
 <div class="td-content" style="page-break-before: always">
     
-	<h1 id="pg-c6512c461f5f3bf1ba4ced486f736874">5.2 - Garbage Collections</h1>
+	<h1 id="pg-c6512c461f5f3bf1ba4ced486f736874">5.6 - Garbage Collections</h1>
     <div class="lead">Analyzing garbage collections of the JVM</div>
 	<h1 id="part-5-garbage-collections">Part 5: Garbage Collections</h1>
 <p>In this workshop, we are going to do some analysis on the JVM in regards to it&rsquo;s garbage collection (GC)
@@ -1454,7 +1607,7 @@ is still capable of being captured from a host.</li>
 <p>A simple rule to watch for on your logs is the prefix of either:</p>
 <pre><code>[GC ...      &lt;- Minor GC cycle (young gen)
 [Full GC ... &lt;- Full GC cycle
-</code></pre><p>(:exclamation:) Explicit GCs can also be identified, which is when something is invoking the <code>System.gc()</code> API. Note, this is not good thing, as
+</code></pre><p>(❗) Explicit GCs can also be identified, which is when something is invoking the <code>System.gc()</code> API. Note, this is not good thing, as
 something is forcing a GC cycle to occur, rather than letting the JVM trigger this on its own (what should naturally occur).</p>
 <pre><code>2015-09-30T12:23:44.425+0600: 195.699: [GC (System.gc()) [PSYoungGen: 39223K-&gt;3562K(76288K)] 49685K-&gt;14032K(190464K), 0.0047880 secs] [Times: user=0.02 sys=0.00, real=0.01 secs]
 2015-09-30T12:23:44.430+0600: 195.704: [Full GC (System.gc()) [PSYoungGen: 3562K-&gt;0K(76288K)] [ParOldGen: 10469K-&gt;9174K(114176K)] 14032K-&gt;9174K(190464K), [Metaspace: 25137K-&gt;25137K(1071104K)], 0.0724521 secs] [Times: user=0.38 sys=0.01, real=0.07 secs]

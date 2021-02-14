@@ -114,7 +114,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.ed1a533175319c1282d3775c2c2bffba.json"
+  data-offline-search-index-json-src="/offline-search-index.f09ac086ba938710ca660a8f4a52013e.json"
   data-offline-search-base-href="/"
   data-offline-search-max-results="10"
 >
@@ -146,7 +146,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.ed1a533175319c1282d3775c2c2bffba.json"
+  data-offline-search-index-json-src="/offline-search-index.f09ac086ba938710ca660a8f4a52013e.json"
   data-offline-search-base-href="/"
   data-offline-search-max-results="10"
 >
@@ -361,6 +361,38 @@ if (!doNotTrack) {
         
           
           
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docsmemorycapturing" href="/docs/memory/capturing/">Capturing Heap Dumps</a>
+        
+      
+      
+      
+        
+          
+          
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docsmemoryjoverflow" href="/docs/memory/joverflow/">JOverflow</a>
+        
+      
+      
+      
+        
+          
+          
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docsmemorymat" href="/docs/memory/mat/">Eclipse MAT</a>
+        
+      
+      
+      
+        
+          
+          
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docsmemoryvisualvm" href="/docs/memory/visualvm/">Visual VM</a>
+        
+      
+      
+      
+        
+          
+          
           <a class="td-sidebar-link td-sidebar-link__page " id="m-docsmemorygc" href="/docs/memory/gc/">Garbage Collections</a>
         
       
@@ -421,6 +453,12 @@ if (!doNotTrack) {
 <nav id="TableOfContents">
   <ul>
     <li><a href="#top">top</a></li>
+    <li><a href="#java-utilities">Java Utilities</a>
+      <ul>
+        <li><a href="#jps">jps</a></li>
+        <li><a href="#jcmd">jcmd</a></li>
+      </ul>
+    </li>
     <li><a href="#thread-dump">Thread Dump</a></li>
     <li><a href="#jcmd-perfcounter">jcmd PerfCounter</a></li>
     <li><a href="#strace">strace</a></li>
@@ -528,7 +566,27 @@ Swap:        0k total,        0k used,        0k free,   336520k cached
 </code></pre></div><p>This will capture thread iterations of <code>top</code> by capturing threads of the parent process ID. You can then pipe it to a file.</p>
 <p>Example:</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">top -b -n3 -H -p <span style="color:#0000cf;font-weight:bold">6730</span> &gt; jvm_native_threads.log
-</code></pre></div><h2 id="thread-dump">Thread Dump</h2>
+</code></pre></div><h2 id="java-utilities">Java Utilities</h2>
+<p>There&rsquo;s a couple of java utilities that can also be used to find the PIDs of your running processes.</p>
+<h3 id="jps">jps</h3>
+<p>The <a href="https://docs.oracle.com/javase/7/docs/technotes/tools/share/jps.html">Java Virtual Machine Process Status Tool</a> can be used to see Java processess.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"> $ jps
+<span style="color:#0000cf;font-weight:bold">7241</span> Jps
+<span style="color:#0000cf;font-weight:bold">6059</span> java-perf-workshop-server-1.1.0-SNAPSHOT.jar
+<span style="color:#0000cf;font-weight:bold">6925</span> jar
+</code></pre></div><p>You can get more insight by using some of its flags:</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"> $ jps -lvm
+<span style="color:#0000cf;font-weight:bold">6059</span> java-perf-workshop-server/target/java-perf-workshop-server-1.1.0-SNAPSHOT.jar server server.yml
+<span style="color:#0000cf;font-weight:bold">6925</span> wiremock-standalone.jar --port <span style="color:#0000cf;font-weight:bold">9090</span> --root-dir java-perf-workshop-server/src/test/resources
+<span style="color:#0000cf;font-weight:bold">7582</span> sun.tools.jps.Jps -lvm -Dapplication.home<span style="color:#ce5c00;font-weight:bold">=</span>/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home -Xms8m
+</code></pre></div><h3 id="jcmd">jcmd</h3>
+<p>The <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/troubleshoot/tooldescr006.html">jcmd</a> utility is an attempt to consolidate other utilities into a single interface.</p>
+<p>Running the <code>jcmd</code> command should display some of the same information that <code>jps</code> showed us (similar to <code>jps -m</code>):</p>
+<pre><code>$ jcmd
+6059 java-perf-workshop-server/target/java-perf-workshop-server-1.1.0-SNAPSHOT.jar server server.yml
+6925 wiremock-standalone.jar --port 9090 --root-dir java-perf-workshop-server/src/test/resources
+7838 sun.tools.jcmd.JCmd
+</code></pre><h2 id="thread-dump">Thread Dump</h2>
 <p>To capture a thread dump of the JVM, there are many tools that can achieve this. You can do this over JMX remotely, sending an OS signal (<code>kill -3</code>), or just form the command line (<code>jstack</code> or <code>jcmd</code>). To keep it simple, we will just use <code>jcmd</code> as we will use it later for other diagnostic commands.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">jcmd &lt;PID&gt; Thread.print
 </code></pre></div><p>💡 You need to be the same OS user when invoking the command as the target JVM.</p>
@@ -608,12 +666,20 @@ java.threads.started=697
         
             
         
+            
+        
+            
+        
+            
+        
+            
+        
     
 </div>
 
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified January 18, 2021: <a  href="https://github.com/cchesser/java-perf-workshop/commit/215298cea4514c7e1db598914b178827bc496027">Correcting bulb references with emoji (215298c)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified February 14, 2021: <a  href="https://github.com/cchesser/java-perf-workshop/commit/d9af8fbccebff687cd3215220259c9009d1d4fa7">restructure content (#37) (d9af8fb)</a>
 </div>
 </div>
 
