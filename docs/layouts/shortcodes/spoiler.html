@@ -1,0 +1,12 @@
+<script>
+    function toggleContent(button) {
+        var content = button.parentElement.getElementsByClassName('spoiler-content')[0];
+        content.hidden = !content.hidden;
+    }
+</script>
+<div class="spoiler-container">
+  <button onclick="toggleContent(this)">{{(.Get "title") }}</button>
+  <div class="spoiler-content" hidden>
+    {{ .Inner }}
+  </div>
+</div>
