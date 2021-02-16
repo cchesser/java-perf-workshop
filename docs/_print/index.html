@@ -111,7 +111,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.deae3a952b81271bc5fde77e1fa17b01.json"
+  data-offline-search-index-json-src="/offline-search-index.2181b51a1ad9366d954407249273f1df.json"
   data-offline-search-base-href="/"
   data-offline-search-max-results="10"
 >
@@ -1450,57 +1450,214 @@ the title or the abstract:</p>
     
 	<h1 id="pg-de268a519541f36805c09c8812e06816">5.5 - Visual VM</h1>
     <div class="lead">Heap Analysis using VisualVM</div>
-	<h3 id="visualvm">VisualVM</h3>
-<p><a href="http://docs.oracle.com/javase/8/docs/technotes/guides/visualvm/">VisualVM</a> is a tool which is part of Oracle&rsquo;s JDK (has been since Java 6). This tool was spawned from the <a href="https://profiler.netbeans.org/">Netbeans Profiler</a>, and it has some helpful tools to inspect a heap dump.</p>
+	
+
+<div class="alert alert-info" role="alert">
+<h4 class="alert-heading">Note</h4>
+
+    Make sure you&rsquo;ve gone through the <a href="/docs/prereqs">Prerequisites</a>
+
+</div>
+
+<p><a href="http://docs.oracle.com/javase/8/docs/technotes/guides/visualvm/">VisualVM</a> is a tool which used to be part of Oracle&rsquo;s JDK and is now a <a href="https://visualvm.github.io/">standalone tool</a>. This tool was spawned from the <a href="https://profiler.netbeans.org/">Netbeans Profiler</a>, and it has some helpful tools to inspect a heap dump.</p>
+<h2 id="opening-dumps">Opening Dumps</h2>
 <p>To load the heap dump in VisualVM, you will just go to <strong>File</strong> -&gt; <strong>Load&hellip;</strong> and specify the
-<strong>File Format</strong> to be <strong>Heap Dumps&hellip;</strong>. Once it is loaded, a view will then be presented with
-the following sections:</p>
+<strong>File Format</strong> to be <strong>Heap Dumps&hellip;</strong>.</p>
+<p><img src="/visualvm/load_dump.png" alt=""></p>
+<h2 id="analyzing-the-heap-dump">Analyzing the Heap Dump</h2>
+<p>VisualVM offers the following sections:</p>
 <ul>
 <li>Summary</li>
-<li>Classes</li>
-<li>Instances</li>
+<li>Objects</li>
+<li>Threads</li>
 <li>OQL Console</li>
+<li>R Console</li>
 </ul>
-<p>For the purpose of the workshop we are only going to utilize the <strong>OQL Console</strong> to construct
-queries on the heap. There are other options in VisualVM which can give you context about your
-heap, but I feel there are other better tools we will touch on later. The attractive feature
-I like with VisualVM is that its <strong>OQL Console</strong> allows you to write Javascript code to query
-objects, which you can then do other functions on that data.</p>
-<h4 id="oql-console">OQL Console</h4>
+<p>For the purpose of this section we are only going to utilize the <strong>OQL Console</strong> to construct
+queries on the heap. There are other options in VisualVM (briefly discussed here), but we feel that the other tools presented before this offer much nicer views/data.</p>
+<h3 id="summary">Summary</h3>
+<p>The <strong>Summary</strong> view gives you a quick overview of the state of the heap:</p>
+<p><img src="/visualvm/summary.png" alt=""></p>
+<p>This view also lets you quickly gather the dominators for the heap, similar to the Dominator Tree in Eclipse MAT.</p>
+<p><img src="/visualvm/dominators.png" alt=""></p>
+<h3 id="objects">Objects</h3>
+<p>The <strong>Objects</strong> view groups instances by class.</p>
+<p><img src="/visualvm/objects.png" alt=""></p>
+<p>Within this view, you can inspect individual instances of an object and see both the fields and the incoming references to that instance:</p>
+<p><img src="/visualvm/objects_expanded.png" alt=""></p>
+<h3 id="threads">Threads</h3>
+<p>The <strong>Threads</strong> view visualizes the state of threads.</p>
+<p><img src="/visualvm/threads.png" alt=""></p>
+<p>Within this view, you can drill down into certain threads and view what was specifically referenced in a stack frame:</p>
+<p><img src="/visualvm/threads_expanded.png" alt=""></p>
+<h3 id="oql-console">OQL Console</h3>
+<p>One of the attractive features for VisualVM is that its <strong>OQL Console</strong> allows you to write Javascript code to query objects, which you can then do other functions on that data.</p>
 <p>From the <strong>OQL Console</strong>, we will issue queries and then allow you to further play around with the language.</p>
+<h2 id="oql-queries">OQL Queries</h2>
+
+
+<div class="alert alert-info" role="alert">
+<h4 class="alert-heading">Note</h4>
+
+    The OQL which you use between this tool (and others), isn&rsquo;t necessarily <em>standard</em>, and therefore cannot be used between tooling without issues. VisualVM gives you
+the ability to leverage Javascript, which is unique to other tools supporting heap dump analysis.
+
+</div>
+
+<p>Reference: <a href="https://htmlpreview.github.io/?https://raw.githubusercontent.com/visualvm/visualvm.java.net.backup/master/www/oqlhelp.html">VisualVM OQL Help</a></p>
+<h3 id="deamon-threads">Deamon Threads</h3>
 <p>Query for Thread objects which are daemons (you can get context of Threads, since they
 are objects in your heap too):</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#000">select</span> <span style="color:#000">t</span> <span style="color:#000">from</span> <span style="color:#000">java</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">lang</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Thread</span> <span style="color:#000">t</span> <span style="color:#000">where</span> <span style="color:#000">t</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">daemon</span> <span style="color:#ce5c00;font-weight:bold">==</span> <span style="color:#204a87;font-weight:bold">true</span>
-</code></pre></div><p>These basic results which are returned, are essentially hyperlinks, that you can then click
-and begin diving into the instance state.</p>
+</code></pre></div><p>Previous versions of VisualVM used to return the results as hyperlinks, which you could then click
+and begin diving into the instance state:</p>
+<p><img src="/visualvm/oql_sample_results_links.png" alt=""></p>
+<p>The newer versions of VisualVM will populate the results in a view similar to the <strong>Objects</strong> view:</p>
+<p><img src="/visualvm/oql_sample_results.png" alt=""></p>
+<h3 id="mapping-to-json">Mapping to JSON</h3>
 <p>Query for Thread objects (similar to last query), but return multiple attributes as JSON:</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#000">select</span> <span style="color:#000;font-weight:bold">{</span><span style="color:#000">name</span><span style="color:#ce5c00;font-weight:bold">:</span> <span style="color:#000">t</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">name</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">toString</span><span style="color:#000;font-weight:bold">(),</span> <span style="color:#000">thread_id</span><span style="color:#ce5c00;font-weight:bold">:</span> <span style="color:#000">t</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">tid</span> <span style="color:#000;font-weight:bold">}</span>
 <span style="color:#000">from</span> <span style="color:#000">java</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">lang</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">Thread</span> <span style="color:#000">t</span>
 <span style="color:#000">where</span> <span style="color:#000">t</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">daemon</span> <span style="color:#ce5c00;font-weight:bold">==</span> <span style="color:#204a87;font-weight:bold">true</span>
-</code></pre></div><p>Query which includes a Javascript function to filter results by looking at all the ConferenceSession
-objects, and only report the ones which have <em>tags</em>.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#204a87;font-weight:bold">function</span> <span style="color:#000">hasTags</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">conf</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span>
+</code></pre></div><p><img src="/visualvm/sample_json_results.png" alt=""></p>
+<h3 id="applying-javascript">Applying Javascript</h3>
+<p>VisualVM offers a helper object that represents the heap, the <code>heap</code> object, which offers a few useful functions.</p>
+<p><img src="/visualvm/oql_heap_object.png" alt=""></p>
+<p>During our OQL searching, we&rsquo;ll be using <code>heap.objects</code> to gather the set of objects we want.</p>
+<p>We&rsquo;ll start by limiting our objects to instances of <code>cchesser.javaperf.workshop.data.ConferenceSession</code> and assign it to a variable called <code>sessions</code> (which we&rsquo;ll reference later).</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#204a87;font-weight:bold">var</span> <span style="color:#000">sessions</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">heap</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">objects</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#39;cchesser.javaperf.workshop.data.ConferenceSession&#39;</span><span style="color:#000;font-weight:bold">);</span>
+</code></pre></div><p>We&rsquo;re going to find ConferenceSessions that which have <em>tags</em>, we&rsquo;ll do that by writing a Javascript function to filter results which have <em>tags</em>. We&rsquo;ll apply this filter to our <code>sessions</code>.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#204a87;font-weight:bold">var</span> <span style="color:#000">sessions</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">heap</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">objects</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#39;cchesser.javaperf.workshop.data.ConferenceSession&#39;</span><span style="color:#000;font-weight:bold">);</span>
+
+<span style="color:#204a87;font-weight:bold">function</span> <span style="color:#000">hasTags</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">conf</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span>
   <span style="color:#204a87;font-weight:bold">return</span> <span style="color:#000">conf</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">tags</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">size</span> <span style="color:#ce5c00;font-weight:bold">&gt;</span> <span style="color:#0000cf;font-weight:bold">0</span>
 <span style="color:#000;font-weight:bold">}</span>
 
-<span style="color:#000">filter</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">heap</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">objects</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#39;cchesser.javaperf.workshop.data.ConferenceSession&#39;</span><span style="color:#000;font-weight:bold">),</span> <span style="color:#000">hasTags</span><span style="color:#000;font-weight:bold">)</span>
-</code></pre></div><p>Take that previous query and further expand it to list it in JSON with the number of tags:</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#204a87;font-weight:bold">function</span> <span style="color:#000">hasTags</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">conf</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span>
+<span style="color:#000">filter</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">sessions</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">hasTags</span><span style="color:#000;font-weight:bold">);</span>
+</code></pre></div><p><img src="/visualvm/oql_hasTags.png" alt=""></p>
+<p>Take that previous query and further expand it to list it in JSON with the number of tags. It is often times convenient to have a reference to the object we&rsquo;re interacting with, to more easily see the available fields.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#204a87;font-weight:bold">var</span> <span style="color:#000">sessions</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">heap</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">objects</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#39;cchesser.javaperf.workshop.data.ConferenceSession&#39;</span><span style="color:#000;font-weight:bold">);</span>
+
+<span style="color:#204a87;font-weight:bold">function</span> <span style="color:#000">hasTags</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">conf</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span>
   <span style="color:#204a87;font-weight:bold">return</span> <span style="color:#000">conf</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">tags</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">size</span> <span style="color:#ce5c00;font-weight:bold">&gt;</span> <span style="color:#0000cf;font-weight:bold">0</span>
 <span style="color:#000;font-weight:bold">}</span>
 
-<span style="color:#000">map</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">filter</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">heap</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">objects</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#39;cchesser.javaperf.workshop.data.ConferenceSession&#39;</span><span style="color:#000;font-weight:bold">),</span> <span style="color:#000">hasTags</span><span style="color:#000;font-weight:bold">),</span> 
- <span style="color:#4e9a06">&#39;{ conference: it, tags: it.tags.size }&#39;</span><span style="color:#000;font-weight:bold">)</span>
-</code></pre></div><p>We can further expand this to sort the results, descending by number of tags, and list the tags in the results:</p>
+<span style="color:#204a87;font-weight:bold">var</span> <span style="color:#000">withTags</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">filter</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">sessions</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">hasTags</span><span style="color:#000;font-weight:bold">);</span>
+
+<span style="color:#204a87;font-weight:bold">function</span> <span style="color:#000">toJSON</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">conf</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span>
+<span style="color:#204a87;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">{</span> <span style="color:#000">conference</span><span style="color:#ce5c00;font-weight:bold">:</span> <span style="color:#000">conf</span> <span style="color:#000;font-weight:bold">,</span> <span style="color:#000">tagCount</span> <span style="color:#ce5c00;font-weight:bold">:</span> <span style="color:#000">conf</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">tags</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">size</span> <span style="color:#000;font-weight:bold">};</span>
+<span style="color:#000;font-weight:bold">}</span>
+
+<span style="color:#000">map</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">withTags</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">toJSON</span><span style="color:#000;font-weight:bold">);</span>
+</code></pre></div><p><img src="/visualvm/oql_hasTags_json.png" alt=""></p>
+<p>We can further expand this to sort the results, descending by number of tags, and list the tags in the results:</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#204a87;font-weight:bold">var</span> <span style="color:#000">sessions</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">heap</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">objects</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#39;cchesser.javaperf.workshop.data.ConferenceSession&#39;</span><span style="color:#000;font-weight:bold">);</span>
+
+<span style="color:#204a87;font-weight:bold">function</span> <span style="color:#000">hasTags</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">conf</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span>
+  <span style="color:#204a87;font-weight:bold">return</span> <span style="color:#000">conf</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">tags</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">size</span> <span style="color:#ce5c00;font-weight:bold">&gt;</span> <span style="color:#0000cf;font-weight:bold">0</span>
+<span style="color:#000;font-weight:bold">}</span>
+
+<span style="color:#204a87;font-weight:bold">var</span> <span style="color:#000">withTags</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">filter</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">sessions</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">hasTags</span><span style="color:#000;font-weight:bold">);</span>
+
+<span style="color:#204a87;font-weight:bold">function</span> <span style="color:#000">toJSON</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">conf</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span>
+  <span style="color:#204a87;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">{</span> <span style="color:#000">conference</span><span style="color:#ce5c00;font-weight:bold">:</span> <span style="color:#000">conf</span> <span style="color:#000;font-weight:bold">,</span> <span style="color:#000">tagCount</span> <span style="color:#ce5c00;font-weight:bold">:</span> <span style="color:#000">conf</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">tags</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">size</span> <span style="color:#000;font-weight:bold">};</span>
+<span style="color:#000;font-weight:bold">}</span>
+
+<span style="color:#204a87;font-weight:bold">var</span> <span style="color:#000">confs</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">map</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">withTags</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">toJSON</span><span style="color:#000;font-weight:bold">);</span>
+
+<span style="color:#204a87;font-weight:bold">function</span> <span style="color:#000">tagSorter</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">lhs</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">rhs</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span>
+  <span style="color:#204a87;font-weight:bold">return</span> <span style="color:#000">rhs</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">tagCount</span> <span style="color:#ce5c00;font-weight:bold">-</span> <span style="color:#000">lhs</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">tagCount</span><span style="color:#000;font-weight:bold">;</span>
+<span style="color:#000;font-weight:bold">}</span>
+
+<span style="color:#000">sort</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">confs</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">tagSorter</span><span style="color:#000;font-weight:bold">);</span>
+</code></pre></div><p><img src="/visualvm/oql_tags_sorted.png" alt=""></p>
+<p>We could also inline most of this using the inline syntax:</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#204a87;font-weight:bold">function</span> <span style="color:#000">hasTags</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">conf</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span>
   <span style="color:#204a87;font-weight:bold">return</span> <span style="color:#000">conf</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">tags</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">size</span> <span style="color:#ce5c00;font-weight:bold">&gt;</span> <span style="color:#0000cf;font-weight:bold">0</span>
 <span style="color:#000;font-weight:bold">}</span>
 
 <span style="color:#000">sort</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">map</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">filter</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">heap</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">objects</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#39;cchesser.javaperf.workshop.data.ConferenceSession&#39;</span><span style="color:#000;font-weight:bold">),</span> <span style="color:#000">hasTags</span><span style="color:#000;font-weight:bold">),</span> 
  <span style="color:#4e9a06">&#39;{ conference: it, tag_count: it.tags.size, tags: toArray(it.tags.elementData) }&#39;</span><span style="color:#000;font-weight:bold">),</span> <span style="color:#4e9a06">&#39;rhs.tag_count - lhs.tag_count&#39;</span><span style="color:#000;font-weight:bold">)</span>
-</code></pre></div><p>Reference: <a href="https://htmlpreview.github.io/?https://raw.githubusercontent.com/visualvm/visualvm.java.net.backup/master/www/oqlhelp.html">VisualVM OQL Help</a></p>
-<p>💡 Note, the OQL which you use between this tool (and others), isn&rsquo;t necessarily <em>standard</em>, and therefore cannot be used between tooling without issues. VisualVM gives you
-the ability to leverage Javascript, which is unique to other tools supporting heap dump analysis.</p>
+</code></pre></div><p><img src="/visualvm/oql_tags_inline.png" alt=""></p>
+<h2 id="i-classfas-fa-atlasi-challenge"><i class="fas fa-atlas"></i> Challenge</h2>
+<p>Apply what you&rsquo;ve learned about OQL in this section and write some javascript that will show the distribution of tag counts in our conference sessions (similar to what we did with calcite mat.)</p>
+<h3 id="sample-solutions">Sample Solutions</h3>
+<h4 id="json-output">JSON Output</h4>
+<p>This solution will return the result as a JSON object.</p>
+<script>
+    function toggleContent(button) {
+        var content = button.parentElement.getElementsByClassName('spoiler-content')[0];
+        content.hidden = !content.hidden;
+    }
+</script>
+<div class="spoiler-container">
+  <button onclick="toggleContent(this)">Show JSON</button>
+  <div class="spoiler-content" hidden>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#204a87;font-weight:bold">var</span> <span style="color:#000">sessions</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">heap</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">objects</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#39;cchesser.javaperf.workshop.data.ConferenceSession&#39;</span><span style="color:#000;font-weight:bold">);</span>
+
+<span style="color:#204a87;font-weight:bold">function</span> <span style="color:#000">toJSON</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">conf</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span>
+  <span style="color:#204a87;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">{</span> <span style="color:#000">conference</span><span style="color:#ce5c00;font-weight:bold">:</span> <span style="color:#000">conf</span> <span style="color:#000;font-weight:bold">,</span> <span style="color:#000">tagCount</span> <span style="color:#ce5c00;font-weight:bold">:</span> <span style="color:#000">conf</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">tags</span> <span style="color:#ce5c00;font-weight:bold">?</span> <span style="color:#000">conf</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">tags</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">size</span> <span style="color:#ce5c00;font-weight:bold">:</span> <span style="color:#0000cf;font-weight:bold">0</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">title</span><span style="color:#ce5c00;font-weight:bold">:</span> <span style="color:#000">conf</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">title</span> <span style="color:#000;font-weight:bold">};</span>
+<span style="color:#000;font-weight:bold">}</span>
+
+<span style="color:#204a87;font-weight:bold">var</span> <span style="color:#000">confs</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">map</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">sessions</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">toJSON</span><span style="color:#000;font-weight:bold">);</span>
+
+<span style="color:#204a87;font-weight:bold">var</span> <span style="color:#000">results</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">{}</span>
+<span style="color:#204a87;font-weight:bold">var</span> <span style="color:#000">arr</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">toArray</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">confs</span><span style="color:#000;font-weight:bold">)</span>
+<span style="color:#000">arr</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">length</span><span style="color:#000;font-weight:bold">;</span>
+
+<span style="color:#204a87;font-weight:bold">for</span><span style="color:#000;font-weight:bold">(</span><span style="color:#204a87;font-weight:bold">var</span> <span style="color:#000">i</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#0000cf;font-weight:bold">0</span><span style="color:#000;font-weight:bold">;</span> <span style="color:#000">i</span> <span style="color:#ce5c00;font-weight:bold">&lt;</span> <span style="color:#000">arr</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">length</span><span style="color:#000;font-weight:bold">;</span> <span style="color:#000">i</span><span style="color:#ce5c00;font-weight:bold">++</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span>
+  <span style="color:#204a87;font-weight:bold">var</span> <span style="color:#000">conf</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">arr</span><span style="color:#000;font-weight:bold">[</span><span style="color:#000">i</span><span style="color:#000;font-weight:bold">];</span>
+  <span style="color:#204a87;font-weight:bold">if</span><span style="color:#000;font-weight:bold">(</span><span style="color:#ce5c00;font-weight:bold">!</span><span style="color:#000">results</span><span style="color:#000;font-weight:bold">[</span><span style="color:#000">conf</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">tagCount</span><span style="color:#000;font-weight:bold">])</span> <span style="color:#000;font-weight:bold">{</span> 
+    <span style="color:#000">results</span><span style="color:#000;font-weight:bold">[</span><span style="color:#000">conf</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">tagCount</span><span style="color:#000;font-weight:bold">]</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#0000cf;font-weight:bold">0</span><span style="color:#000;font-weight:bold">;</span>
+  <span style="color:#000;font-weight:bold">}</span>
+  <span style="color:#000">results</span><span style="color:#000;font-weight:bold">[</span><span style="color:#000">conf</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">tagCount</span><span style="color:#000;font-weight:bold">]</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">results</span><span style="color:#000;font-weight:bold">[</span><span style="color:#000">conf</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">tagCount</span><span style="color:#000;font-weight:bold">]</span> <span style="color:#ce5c00;font-weight:bold">+</span> <span style="color:#0000cf;font-weight:bold">1</span><span style="color:#000;font-weight:bold">;</span>
+<span style="color:#000;font-weight:bold">}</span>
+<span style="color:#000">results</span>
+</code></pre></div><p><img src="/visualvm/tag_distributions_json.png" alt=""></p>
+  </div>
+</div>
+<h4 id="html-output">HTML Output</h4>
+<p>This solution will return the result as an HTML <code>&lt;ul&gt;</code>.</p>
+<script>
+    function toggleContent(button) {
+        var content = button.parentElement.getElementsByClassName('spoiler-content')[0];
+        content.hidden = !content.hidden;
+    }
+</script>
+<div class="spoiler-container">
+  <button onclick="toggleContent(this)">Show HTML</button>
+  <div class="spoiler-content" hidden>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#204a87;font-weight:bold">var</span> <span style="color:#000">sessions</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">heap</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">objects</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#39;cchesser.javaperf.workshop.data.ConferenceSession&#39;</span><span style="color:#000;font-weight:bold">);</span>
+
+<span style="color:#204a87;font-weight:bold">function</span> <span style="color:#000">toJSON</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">conf</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span>
+  <span style="color:#204a87;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">{</span> <span style="color:#000">conference</span><span style="color:#ce5c00;font-weight:bold">:</span> <span style="color:#000">conf</span> <span style="color:#000;font-weight:bold">,</span> <span style="color:#000">tagCount</span> <span style="color:#ce5c00;font-weight:bold">:</span> <span style="color:#000">conf</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">tags</span> <span style="color:#ce5c00;font-weight:bold">?</span> <span style="color:#000">conf</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">tags</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">size</span> <span style="color:#ce5c00;font-weight:bold">:</span> <span style="color:#0000cf;font-weight:bold">0</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">title</span><span style="color:#ce5c00;font-weight:bold">:</span> <span style="color:#000">conf</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">title</span> <span style="color:#000;font-weight:bold">};</span>
+<span style="color:#000;font-weight:bold">}</span>
+
+<span style="color:#204a87;font-weight:bold">var</span> <span style="color:#000">confs</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">map</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">sessions</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">toJSON</span><span style="color:#000;font-weight:bold">);</span>
+<span style="color:#204a87;font-weight:bold">var</span> <span style="color:#000">arr</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">toArray</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">confs</span><span style="color:#000;font-weight:bold">)</span>
+
+<span style="color:#204a87;font-weight:bold">var</span> <span style="color:#000">maxSize</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">max</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">map</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">arr</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#39;it.tagCount&#39;</span><span style="color:#000;font-weight:bold">))</span>
+<span style="color:#204a87;font-weight:bold">var</span> <span style="color:#000">results</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000;font-weight:bold">[]</span>
+<span style="color:#204a87;font-weight:bold">for</span><span style="color:#000;font-weight:bold">(</span><span style="color:#204a87;font-weight:bold">var</span> <span style="color:#000">i</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#0000cf;font-weight:bold">0</span><span style="color:#000;font-weight:bold">;</span> <span style="color:#000">i</span> <span style="color:#ce5c00;font-weight:bold">&lt;</span> <span style="color:#000">maxSize</span><span style="color:#ce5c00;font-weight:bold">+</span><span style="color:#0000cf;font-weight:bold">1</span><span style="color:#000;font-weight:bold">;</span> <span style="color:#000">i</span><span style="color:#ce5c00;font-weight:bold">++</span> <span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span>
+  <span style="color:#000">results</span><span style="color:#000;font-weight:bold">[</span><span style="color:#000">i</span><span style="color:#000;font-weight:bold">]</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#0000cf;font-weight:bold">0</span><span style="color:#000;font-weight:bold">;</span>
+<span style="color:#000;font-weight:bold">}</span>
+
+<span style="color:#204a87;font-weight:bold">for</span><span style="color:#000;font-weight:bold">(</span><span style="color:#204a87;font-weight:bold">var</span> <span style="color:#000">i</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#0000cf;font-weight:bold">0</span><span style="color:#000;font-weight:bold">;</span> <span style="color:#000">i</span> <span style="color:#ce5c00;font-weight:bold">&lt;</span> <span style="color:#000">arr</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">length</span><span style="color:#000;font-weight:bold">;</span> <span style="color:#000">i</span><span style="color:#ce5c00;font-weight:bold">++</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span>
+  <span style="color:#204a87;font-weight:bold">var</span> <span style="color:#000">conf</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">arr</span><span style="color:#000;font-weight:bold">[</span><span style="color:#000">i</span><span style="color:#000;font-weight:bold">];</span>
+  <span style="color:#000">results</span><span style="color:#000;font-weight:bold">[</span><span style="color:#000">conf</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">tagCount</span><span style="color:#000;font-weight:bold">]</span><span style="color:#ce5c00;font-weight:bold">++</span>
+<span style="color:#000;font-weight:bold">}</span>
+
+<span style="color:#204a87;font-weight:bold">var</span> <span style="color:#000">report</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#4e9a06">&#34;&lt;html&gt;&lt;ul&gt;&#34;</span><span style="color:#000;font-weight:bold">;</span>
+
+<span style="color:#204a87;font-weight:bold">for</span><span style="color:#000;font-weight:bold">(</span><span style="color:#204a87;font-weight:bold">var</span> <span style="color:#000">i</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#0000cf;font-weight:bold">0</span><span style="color:#000;font-weight:bold">;</span> <span style="color:#000">i</span> <span style="color:#ce5c00;font-weight:bold">&lt;</span> <span style="color:#000">maxSize</span><span style="color:#ce5c00;font-weight:bold">+</span><span style="color:#0000cf;font-weight:bold">1</span><span style="color:#000;font-weight:bold">;</span> <span style="color:#000">i</span><span style="color:#ce5c00;font-weight:bold">++</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span>
+  <span style="color:#204a87;font-weight:bold">var</span> <span style="color:#000">count</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">results</span><span style="color:#000;font-weight:bold">[</span><span style="color:#000">i</span><span style="color:#000;font-weight:bold">];</span>
+  <span style="color:#000">report</span> <span style="color:#ce5c00;font-weight:bold">+=</span> <span style="color:#4e9a06">&#34;&lt;li&gt;&lt;b&gt;Size(&#34;</span> <span style="color:#ce5c00;font-weight:bold">+</span><span style="color:#000">i</span><span style="color:#ce5c00;font-weight:bold">+</span><span style="color:#4e9a06">&#34;)&lt;/b&gt;=&#34;</span><span style="color:#ce5c00;font-weight:bold">+</span><span style="color:#000">count</span><span style="color:#ce5c00;font-weight:bold">+</span><span style="color:#4e9a06">&#34;&lt;/li&gt;&#34;</span> 
+<span style="color:#000;font-weight:bold">}</span>
+<span style="color:#000">report</span><span style="color:#ce5c00;font-weight:bold">+=</span><span style="color:#4e9a06">&#34;&lt;/ul&gt;&lt;/html&gt;&#34;</span>
+<span style="color:#000">toHtml</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">report</span><span style="color:#000;font-weight:bold">)</span>
+</code></pre></div><p><img src="/visualvm/tag_distributions_html.png" alt=""></p>
+  </div>
+</div>
 
 </div>
 
