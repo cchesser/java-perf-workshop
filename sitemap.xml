@@ -19,7 +19,7 @@
   
   <url>
     <loc>https://jvmperf.net/docs/memory/heap/</loc>
-    <lastmod>2021-02-14T15:48:46-06:00</lastmod>
+    <lastmod>2021-02-17T23:06:55-06:00</lastmod>
   </url>
   
   <url>
@@ -69,12 +69,17 @@
   
   <url>
     <loc>https://jvmperf.net/docs/memory/visualvm/</loc>
-    <lastmod>2021-02-16T16:43:36-06:00</lastmod>
+    <lastmod>2021-02-17T23:06:55-06:00</lastmod>
   </url>
   
   <url>
     <loc>https://jvmperf.net/docs/jmc/io_operations/</loc>
     <lastmod>2021-02-10T08:12:54-06:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jvmperf.net/docs/memory/challenge/</loc>
+    <lastmod>2021-02-17T23:06:55-06:00</lastmod>
   </url>
   
   <url>

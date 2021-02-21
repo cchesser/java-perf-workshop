@@ -21,11 +21,11 @@
 <meta property="og:description" content="Heap Analysis using VisualVM" />
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://jvmperf.net/docs/memory/visualvm/" />
-<meta property="article:modified_time" content="2021-02-16T16:43:36-06:00" /><meta property="og:site_name" content="jvmperf: Java Performance Workshop" />
+<meta property="article:modified_time" content="2021-02-17T23:06:55-06:00" /><meta property="og:site_name" content="jvmperf: Java Performance Workshop" />
 <meta itemprop="name" content="Visual VM">
 <meta itemprop="description" content="Heap Analysis using VisualVM">
-<meta itemprop="dateModified" content="2021-02-16T16:43:36-06:00" />
-<meta itemprop="wordCount" content="947">
+<meta itemprop="dateModified" content="2021-02-17T23:06:55-06:00" />
+<meta itemprop="wordCount" content="965">
 
 
 
@@ -116,7 +116,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.2181b51a1ad9366d954407249273f1df.json"
+  data-offline-search-index-json-src="/offline-search-index.f1ca2386e5ca36873d14ab34248dd4e2.json"
   data-offline-search-base-href="/"
   data-offline-search-max-results="10"
 >
@@ -148,7 +148,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.2181b51a1ad9366d954407249273f1df.json"
+  data-offline-search-index-json-src="/offline-search-index.f1ca2386e5ca36873d14ab34248dd4e2.json"
   data-offline-search-base-href="/"
   data-offline-search-max-results="10"
 >
@@ -395,6 +395,14 @@ if (!doNotTrack) {
         
           
           
+          <a class="td-sidebar-link td-sidebar-link__page " id="m-docsmemorychallenge" href="/docs/memory/challenge/">Memory Challenge</a>
+        
+      
+      
+      
+        
+          
+          
           <a class="td-sidebar-link td-sidebar-link__page " id="m-docsmemorygc" href="/docs/memory/gc/">Garbage Collections</a>
         
       
@@ -468,6 +476,11 @@ if (!doNotTrack) {
         <li><a href="#deamon-threads">Deamon Threads</a></li>
         <li><a href="#mapping-to-json">Mapping to JSON</a></li>
         <li><a href="#applying-javascript">Applying Javascript</a></li>
+      </ul>
+    </li>
+    <li><a href="#useful-plugins">Useful Plugins</a>
+      <ul>
+        <li><a href="#oql-syntax-support">OQL Syntax Support</a></li>
       </ul>
     </li>
     <li><a href="#i-classfas-fa-atlasi-challenge"><i class="fas fa-atlas"></i> Challenge</a>
@@ -655,6 +668,10 @@ and begin diving into the instance state:</p>
 <span style="color:#000">sort</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">map</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">filter</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">heap</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">objects</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#39;cchesser.javaperf.workshop.data.ConferenceSession&#39;</span><span style="color:#000;font-weight:bold">),</span> <span style="color:#000">hasTags</span><span style="color:#000;font-weight:bold">),</span> 
  <span style="color:#4e9a06">&#39;{ conference: it, tag_count: it.tags.size, tags: toArray(it.tags.elementData) }&#39;</span><span style="color:#000;font-weight:bold">),</span> <span style="color:#4e9a06">&#39;rhs.tag_count - lhs.tag_count&#39;</span><span style="color:#000;font-weight:bold">)</span>
 </code></pre></div><p><img src="/visualvm/oql_tags_inline.png" alt=""></p>
+<h2 id="useful-plugins">Useful Plugins</h2>
+<h3 id="oql-syntax-support">OQL Syntax Support</h3>
+<p>This plugin adds some auto complete and syntax highlighting to the OQL Console</p>
+<p><img src="/visualvm/oql_syntax_plugin.png" alt=""></p>
 <h2 id="i-classfas-fa-atlasi-challenge"><i class="fas fa-atlas"></i> Challenge</h2>
 <p>Apply what you&rsquo;ve learned about OQL in this section and write some javascript that will show the distribution of tag counts in our conference sessions (similar to what we did with calcite mat.)</p>
 <h3 id="sample-solutions">Sample Solutions</h3>
@@ -737,7 +754,7 @@ and begin diving into the instance state:</p>
 
 	
 	
-	<div class="text-muted mt-5 pt-3 border-top">Last modified February 16, 2021: <a  href="https://github.com/cchesser/java-perf-workshop/commit/72b878c8f75ed31657de0d9e3a48b8263af868ed">update VisualVM (#39) (72b878c)</a>
+	<div class="text-muted mt-5 pt-3 border-top">Last modified February 17, 2021: <a  href="https://github.com/cchesser/java-perf-workshop/commit/d0630928630c7b8fc847e7ea9cf5c3348b387a3f">add mem challenge (d063092)</a>
 </div>
 </div>
 

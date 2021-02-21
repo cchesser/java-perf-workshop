@@ -111,7 +111,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.2181b51a1ad9366d954407249273f1df.json"
+  data-offline-search-index-json-src="/offline-search-index.f1ca2386e5ca36873d14ab34248dd4e2.json"
   data-offline-search-base-href="/"
   data-offline-search-max-results="10"
 >
@@ -202,7 +202,15 @@ This the multi-page printable view of this section.
     
     
 	
-<li>6: <a href="#pg-c6512c461f5f3bf1ba4ced486f736874">Garbage Collections</a></li>
+<li>6: <a href="#pg-605fd19420eabae15eb4ac1d0e6b77d1">Memory Challenge</a></li>
+
+
+    
+  
+    
+    
+	
+<li>7: <a href="#pg-c6512c461f5f3bf1ba4ced486f736874">Garbage Collections</a></li>
 
 
     
@@ -255,6 +263,10 @@ which are free. 😃</p>
 <li><a href="/docs/memory/joverflow">JOverflow Analysis</a></li>
 <li><a href="/docs/memory/mat">Eclipse MAT</a></li>
 <li><a href="/docs/memory/visualvm">VisualVM</a></li>
+</ul>
+<p>We will then tie all our knowledge together and attempt to solve a quick challenge:</p>
+<ul>
+<li><a href="/docs/memory/challenge">Memory Challenge</a></li>
 </ul>
 
 </div>
@@ -637,6 +649,10 @@ and begin diving into the instance state:</p>
 <span style="color:#000">sort</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">map</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">filter</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">heap</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">objects</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#39;cchesser.javaperf.workshop.data.ConferenceSession&#39;</span><span style="color:#000;font-weight:bold">),</span> <span style="color:#000">hasTags</span><span style="color:#000;font-weight:bold">),</span> 
  <span style="color:#4e9a06">&#39;{ conference: it, tag_count: it.tags.size, tags: toArray(it.tags.elementData) }&#39;</span><span style="color:#000;font-weight:bold">),</span> <span style="color:#4e9a06">&#39;rhs.tag_count - lhs.tag_count&#39;</span><span style="color:#000;font-weight:bold">)</span>
 </code></pre></div><p><img src="/visualvm/oql_tags_inline.png" alt=""></p>
+<h2 id="useful-plugins">Useful Plugins</h2>
+<h3 id="oql-syntax-support">OQL Syntax Support</h3>
+<p>This plugin adds some auto complete and syntax highlighting to the OQL Console</p>
+<p><img src="/visualvm/oql_syntax_plugin.png" alt=""></p>
 <h2 id="i-classfas-fa-atlasi-challenge"><i class="fas fa-atlas"></i> Challenge</h2>
 <p>Apply what you&rsquo;ve learned about OQL in this section and write some javascript that will show the distribution of tag counts in our conference sessions (similar to what we did with calcite mat.)</p>
 <h3 id="sample-solutions">Sample Solutions</h3>
@@ -731,7 +747,196 @@ and begin diving into the instance state:</p>
 
 <div class="td-content" style="page-break-before: always">
     
-	<h1 id="pg-c6512c461f5f3bf1ba4ced486f736874">6 - Garbage Collections</h1>
+	<h1 id="pg-605fd19420eabae15eb4ac1d0e6b77d1">6 - Memory Challenge</h1>
+    <div class="lead">Put all the pieces together with this challenge to test your skills</div>
+	<p>The provided WorkshopService has an intentional memory problem, use the previous sections as reference to try to pin point it.</p>
+<h2 id="tips">Tips</h2>
+<ul>
+<li>With the Dominator Tree (Eclipse MAT) determine what object would free up the most memory (if we could get rid of it)</li>
+<li>With the Histogram (Eclipse MAT) determine what type of object has the most instances
+<ul>
+<li>Using the Incoming Objects view, find out what&rsquo;s pointing to them.</li>
+</ul>
+</li>
+</ul>
+<p>Once you&rsquo;ve found the large object, look through it&rsquo;s properties and determine why this object holds on to so many other objects.</p>
+
+
+<div class="alert alert-warning" role="alert">
+<h4 class="alert-heading">Solution</h4>
+
+    This section contains a solution, make sure you&rsquo;ve given things a shot before spoiling the fun.
+
+</div>
+
+<script>
+    function toggleContent(button) {
+        var content = button.parentElement.getElementsByClassName('spoiler-content')[0];
+        content.hidden = !content.hidden;
+    }
+</script>
+<div class="spoiler-container">
+  <button onclick="toggleContent(this)">Show Solution</button>
+  <div class="spoiler-content" hidden>
+<h2 id="dominator-tree">Dominator Tree</h2>
+<p>A first glance at the dominator tree will point us to a <code>io.dropwizard.jetty.MutableServletContextHandler</code>, which is something controlled by the DropWizard framework. Let&rsquo;s dig through its references until we find some classes in the <code>cchesser</code> package.</p>
+<p><img src="/mem_challenge/dominator_tree_start.png" alt=""></p>
+<p>The first instance of a class we &ldquo;own&rdquo; is <code>cchesser.javaperf.workshop.resources.WorkshopResource</code></p>
+<p><img src="/mem_challenge/dominator_tree_resource.png" alt=""></p>
+<p>Let&rsquo;s look at it&rsquo;s properties a bit, and we&rsquo;ll find a <code>cchesser.javaperf.workshop.cache.CleverCache</code> reference with about 70% of the memory consumption.</p>
+<p><img src="/mem_challenge/dominator_tree_clever_cache.png" alt=""></p>
+<p>We&rsquo;ll look at its properties in a bit more detail in the following sections.</p>
+<h2 id="histogram-view">Histogram View</h2>
+<p>A first glance at the Histogram View (sorted by retained heap), shows us about 2,000,000 instances of <code>cchesser.javaperf.workshop.data.Searcher$SearchResultElement</code></p>
+<p><img src="/mem_challenge/histogram.png" alt=""></p>
+<p>Looking through the references to an instance of this type, we end up being referenced by the <code>data</code> field in <code>cchesser.javaperf.workshop.cache.CleverCache$CacheEntry</code></p>
+<p><img src="/mem_challenge/sre_incoming_refs.png" alt=""></p>
+<p>We can further inspect the Incoming References for a particular entry, and see what is pointing to it, tracing it back to something we own:</p>
+<p><img src="/mem_challenge/cc_entry_incoming_refs.png" alt=""></p>
+<p>Once again, we&rsquo;ve ended up at <code>cchesser.javaperf.workshop.resources.WorkshopResource</code>, specifically a field called <code>resultsByContext</code>.</p>
+<p>We&rsquo;ll take a closer look at this <code>cchesser.javaperf.workshop.cache.CleverCache</code> object.</p>
+<h2 id="inspecting-clever-cache">Inspecting Clever Cache</h2>
+<p>First, lets determine how many instances of <code>cchesser.javaperf.workshop.cache.CleverCache</code> we have. We&rsquo;ve found a single instance that is about 70Mb (in our sample dump), so let&rsquo;s double check if there&rsquo;s more of these.</p>
+<p>We can do that in a couple of ways:</p>
+<ol>
+<li>Use the histogram view to filter on <code>CleverCache</code></li>
+</ol>
+<p><img src="/mem_challenge/mat_clevercache_instance.png" alt=""></p>
+<ol start="2">
+<li>Use OQL to find instances of that object:</li>
+</ol>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#204a87;font-weight:bold">select</span> <span style="color:#ce5c00;font-weight:bold">*</span> <span style="color:#204a87;font-weight:bold">from</span> <span style="color:#000">cchesser</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">javaperf</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">workshop</span><span style="color:#000;font-weight:bold">.</span><span style="color:#204a87;font-weight:bold">cache</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">CleverCache</span>
+</code></pre></div><p><img src="/mem_challenge/mat_oql_clevercache.png" alt=""></p>
+<h3 id="fieldsreferences">Fields/References</h3>
+<p>We can find the fields and references for an instance using either Eclipse MAT or VisualVM.</p>
+<p>In Eclipse Mat, the fields for an instance display in an <strong>Attributes</strong> tab</p>
+<p><img src="/mem_challenge/mat_cc_instance.png" alt=""></p>
+<p>In VisualVM, we can load the <strong>Objects</strong> view and apply a filter on class name to then inspect the fields and references</p>
+<p><img src="/mem_challenge/visualvm_cc_instance.png" alt=""></p>
+<p>Looking at the properties, we find that there&rsquo;s a <code>cacheLimit</code> of <code>250</code>. Let&rsquo;s find out exactly how many entries are in the cache (the <code>innerCache</code> field).</p>
+<h2 id="finding-sizes">Finding Sizes</h2>
+<p>Let&rsquo;s write a query that will show us what the count of entries in the cache is.</p>
+<ul>
+<li>For our query, we need to pull the <code>cacheLimit</code> and <code>size</code> of the <code>innerCache</code> map,</li>
+</ul>
+<p>We can do this a few ways:</p>
+<h3 id="eclipse-mat--oql">Eclipse MAT / OQL</h3>
+<p>we can do that with the following query:</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#204a87;font-weight:bold">SELECT</span> <span style="color:#204a87;font-weight:bold">c</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">cacheLimit</span> <span style="color:#204a87;font-weight:bold">AS</span> <span style="color:#4e9a06">&#34;max entries&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#204a87;font-weight:bold">c</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">innerCache</span><span style="color:#000;font-weight:bold">.</span><span style="color:#204a87;font-weight:bold">size</span> <span style="color:#204a87;font-weight:bold">AS</span> <span style="color:#000">entries</span> <span style="color:#204a87;font-weight:bold">FROM</span> <span style="color:#000">cchesser</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">javaperf</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">workshop</span><span style="color:#000;font-weight:bold">.</span><span style="color:#204a87;font-weight:bold">cache</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">CleverCache</span> <span style="color:#204a87;font-weight:bold">c</span> 
+</code></pre></div><p><img src="/mem_challenge/oql_size_report.png" alt=""></p>
+<h3 id="eclipse-mat--calcite">Eclipse MAT / Calcite</h3>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#204a87;font-weight:bold">select</span> <span style="color:#204a87;font-weight:bold">c</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">cacheLimit</span> <span style="color:#204a87;font-weight:bold">as</span> <span style="color:#4e9a06">&#34;max entries&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">getSize</span><span style="color:#000;font-weight:bold">(</span><span style="color:#204a87;font-weight:bold">c</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">innerCache</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#204a87;font-weight:bold">as</span> <span style="color:#4e9a06">&#34;entries&#34;</span> 
+<span style="color:#204a87;font-weight:bold">from</span> <span style="color:#000">cchesser</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">javaperf</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">workshop</span><span style="color:#000;font-weight:bold">.</span><span style="color:#204a87;font-weight:bold">cache</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">CleverCache</span> <span style="color:#204a87;font-weight:bold">c</span>
+</code></pre></div><p><img src="/mem_challenge/calcite_size_report.png" alt=""></p>
+<h3 id="visualvm--oql">VisualVM / OQL</h3>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#204a87;font-weight:bold">var</span> <span style="color:#000">caches</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">heap</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">objects</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;cchesser.javaperf.workshop.cache.CleverCache&#34;</span><span style="color:#000;font-weight:bold">)</span>
+
+<span style="color:#204a87;font-weight:bold">function</span> <span style="color:#000">report</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">cache</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000;font-weight:bold">{</span>
+  <span style="color:#204a87;font-weight:bold">return</span> <span style="color:#000;font-weight:bold">{</span> <span style="color:#000">maxEntries</span><span style="color:#ce5c00;font-weight:bold">:</span> <span style="color:#000">cache</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">cacheLimit</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">entries</span><span style="color:#ce5c00;font-weight:bold">:</span> <span style="color:#000">cache</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">innerCache</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">size</span> <span style="color:#000;font-weight:bold">}</span>
+<span style="color:#000;font-weight:bold">}</span>
+ 
+<span style="color:#000">map</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">caches</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#000">report</span><span style="color:#000;font-weight:bold">)</span>
+</code></pre></div><p><img src="/mem_challenge/visualvm_size_report.png" alt=""></p>
+<div class="pageinfo pageinfo-warning">
+<p>That doesn&rsquo;t seem right at all, we want at most 250 items but we have about 10,000. Let&rsquo;s find out why that is the case.</p>
+</div>
+<h2 id="memory-problem-explained">Memory Problem Explained</h2>
+<p>The interaction between the <code>WorkshopResource</code> and <code>CleverCache</code> happens through the <code>/search</code> resource.</p>
+<p><em>cchesser.javaperf.workshop.WorkshopResource</em></p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#5c35cc;font-weight:bold">@GET</span>
+<span style="color:#5c35cc;font-weight:bold">@Path</span><span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#4e9a06">&#34;/search&#34;</span><span style="color:#ce5c00;font-weight:bold">)</span>
+<span style="color:#5c35cc;font-weight:bold">@Produces</span><span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#000">MediaType</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#c4a000">APPLICATION_JSON</span><span style="color:#ce5c00;font-weight:bold">)</span>
+<span style="color:#5c35cc;font-weight:bold">@Timed</span>
+<span style="color:#204a87;font-weight:bold">public</span> <span style="color:#000">Searcher</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#c4a000">SearchResult</span> <span style="color:#000">searchConference</span><span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#5c35cc;font-weight:bold">@QueryParam</span><span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#4e9a06">&#34;q&#34;</span><span style="color:#ce5c00;font-weight:bold">)</span> <span style="color:#000">String</span> <span style="color:#000">term</span><span style="color:#ce5c00;font-weight:bold">,</span> <span style="color:#5c35cc;font-weight:bold">@QueryParam</span><span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#4e9a06">&#34;c&#34;</span><span style="color:#ce5c00;font-weight:bold">)</span> <span style="color:#000">String</span> <span style="color:#000">context</span><span style="color:#ce5c00;font-weight:bold">)</span> <span style="color:#ce5c00;font-weight:bold">{</span>
+    <span style="color:#204a87;font-weight:bold">return</span> <span style="color:#000">fetchResults</span><span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#000">term</span><span style="color:#ce5c00;font-weight:bold">,</span> <span style="color:#000">context</span><span style="color:#ce5c00;font-weight:bold">);</span>
+<span style="color:#ce5c00;font-weight:bold">}</span>
+
+<span style="color:#204a87;font-weight:bold">private</span> <span style="color:#000">Searcher</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#c4a000">SearchResult</span> <span style="color:#000">fetchResults</span><span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#000">String</span> <span style="color:#000">term</span><span style="color:#ce5c00;font-weight:bold">,</span> <span style="color:#000">String</span> <span style="color:#000">context</span><span style="color:#ce5c00;font-weight:bold">)</span> <span style="color:#ce5c00;font-weight:bold">{</span>
+  
+  <span style="color:#204a87;font-weight:bold">if</span> <span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#000">context</span> <span style="color:#ce5c00;font-weight:bold">!=</span> <span style="color:#204a87;font-weight:bold">null</span> <span style="color:#ce5c00;font-weight:bold">&amp;&amp;</span> <span style="color:#ce5c00;font-weight:bold">!</span><span style="color:#000">context</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#c4a000">isEmpty</span><span style="color:#ce5c00;font-weight:bold">())</span> <span style="color:#ce5c00;font-weight:bold">{</span>
+      <span style="color:#204a87;font-weight:bold">if</span> <span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#000">resultsByContext</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#c4a000">exists</span><span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#000">context</span><span style="color:#ce5c00;font-weight:bold">))</span> <span style="color:#ce5c00;font-weight:bold">{</span>
+          <span style="color:#204a87;font-weight:bold">return</span> <span style="color:#000">resultsByContext</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#c4a000">fetch</span><span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#000">context</span><span style="color:#ce5c00;font-weight:bold">);</span>
+      <span style="color:#ce5c00;font-weight:bold">}</span>
+  <span style="color:#ce5c00;font-weight:bold">}</span>
+
+<span style="color:#8f5902;font-style:italic">// does not exist in cache, compute and store
+</span><span style="color:#8f5902;font-style:italic"></span>  
+  <span style="color:#000">SearchResult</span> <span style="color:#000">results</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">searcher</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#c4a000">search</span><span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#000">term</span><span style="color:#ce5c00;font-weight:bold">);</span>
+  <span style="color:#000">resultsByContext</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#c4a000">store</span><span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#000">results</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#c4a000">getResultsContext</span><span style="color:#ce5c00;font-weight:bold">(),</span> <span style="color:#000">results</span><span style="color:#ce5c00;font-weight:bold">);</span>
+  <span style="color:#204a87;font-weight:bold">return</span> <span style="color:#000">results</span><span style="color:#ce5c00;font-weight:bold">;</span>
+<span style="color:#ce5c00;font-weight:bold">}</span>
+</code></pre></div><p>If a context is sent, the previously cached values for the search are returned, otherwise we cache those result values in case they need to be referenced again.</p>
+<p><em>javaperf.workshop.cache.CleverCache</em></p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"> <span style="color:#8f5902;font-style:italic">/**
+</span><span style="color:#8f5902;font-style:italic">  * Stores the given key value pair in the cache
+</span><span style="color:#8f5902;font-style:italic">  *
+</span><span style="color:#8f5902;font-style:italic">  * @param key   the unique identifier associated with the given value
+</span><span style="color:#8f5902;font-style:italic">  * @param value the value mapped to the given key
+</span><span style="color:#8f5902;font-style:italic">  */</span>
+  <span style="color:#204a87;font-weight:bold">public</span> <span style="color:#204a87;font-weight:bold">void</span> <span style="color:#000">store</span><span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#000">K</span> <span style="color:#000">key</span><span style="color:#ce5c00;font-weight:bold">,</span> <span style="color:#000">V</span> <span style="color:#000">value</span><span style="color:#ce5c00;font-weight:bold">)</span> <span style="color:#ce5c00;font-weight:bold">{</span>
+    <span style="color:#204a87;font-weight:bold">if</span> <span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#000">isFull</span><span style="color:#ce5c00;font-weight:bold">())</span> <span style="color:#ce5c00;font-weight:bold">{</span>
+        <span style="color:#000">K</span> <span style="color:#000">keyToRemove</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">getLFUKey</span><span style="color:#ce5c00;font-weight:bold">();</span>
+        <span style="color:#000">CleverCache</span><span style="color:#ce5c00;font-weight:bold">&lt;</span><span style="color:#000">K</span><span style="color:#ce5c00;font-weight:bold">,</span> <span style="color:#000">V</span><span style="color:#ce5c00;font-weight:bold">&gt;.</span><span style="color:#c4a000">CacheEntry</span><span style="color:#ce5c00;font-weight:bold">&lt;</span><span style="color:#000">V</span><span style="color:#ce5c00;font-weight:bold">&gt;</span> <span style="color:#000">removedEntry</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">innerCache</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#c4a000">remove</span><span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#000">keyToRemove</span><span style="color:#ce5c00;font-weight:bold">);</span>
+    <span style="color:#ce5c00;font-weight:bold">}</span>
+
+    <span style="color:#000">CacheEntry</span><span style="color:#ce5c00;font-weight:bold">&lt;</span><span style="color:#000">V</span><span style="color:#ce5c00;font-weight:bold">&gt;</span> <span style="color:#000">newEntry</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#204a87;font-weight:bold">new</span> <span style="color:#000">CacheEntry</span><span style="color:#ce5c00;font-weight:bold">&lt;</span><span style="color:#000">V</span><span style="color:#ce5c00;font-weight:bold">&gt;();</span>
+    <span style="color:#000">newEntry</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#c4a000">data</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">value</span><span style="color:#ce5c00;font-weight:bold">;</span>
+    <span style="color:#000">newEntry</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#c4a000">frequency</span> <span style="color:#ce5c00;font-weight:bold">=</span> <span style="color:#000">0</span><span style="color:#ce5c00;font-weight:bold">;</span>
+
+    <span style="color:#000">innerCache</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#c4a000">put</span><span style="color:#ce5c00;font-weight:bold">(</span><span style="color:#000">key</span><span style="color:#ce5c00;font-weight:bold">,</span> <span style="color:#000">newEntry</span><span style="color:#ce5c00;font-weight:bold">);</span>
+  <span style="color:#ce5c00;font-weight:bold">}</span>
+  <span style="color:#8f5902;font-style:italic">// other methods
+</span><span style="color:#8f5902;font-style:italic"></span>  <span style="color:#204a87;font-weight:bold">private</span> <span style="color:#204a87;font-weight:bold">boolean</span> <span style="color:#000">isFull</span><span style="color:#ce5c00;font-weight:bold">()</span> <span style="color:#ce5c00;font-weight:bold">{</span>
+    <span style="color:#204a87;font-weight:bold">return</span> <span style="color:#000">innerCache</span><span style="color:#ce5c00;font-weight:bold">.</span><span style="color:#c4a000">size</span><span style="color:#ce5c00;font-weight:bold">()</span> <span style="color:#ce5c00;font-weight:bold">==</span> <span style="color:#000">cacheLimit</span><span style="color:#ce5c00;font-weight:bold">;</span>
+<span style="color:#ce5c00;font-weight:bold">}</span>
+</code></pre></div><p>This interaction is <strong>NOT</strong> thread safe. Consider this scenario:</p>
+<ul>
+<li>Thread 1 invokes <code>store</code> when the <code>innerCache.size()</code> is <code>249</code>
+<ul>
+<li><code>isFull()</code> evaluates to <code>false</code></li>
+<li>Execution halts prior to <code>innerCache.put</code></li>
+</ul>
+</li>
+<li>Thread 2 invokes <code>store</code> when the <code>innerCache.size()</code> is <code>249</code>
+<ul>
+<li><code>isFull()</code> evaluates to false</li>
+<li>Execution halts prior to <code>innerCache.put</code></li>
+</ul>
+</li>
+<li>Thread 1 resumes and executes <code>innerCache.put</code>, <code>innerCache.size()</code> is now <code>250</code></li>
+<li>Thread 2 resumes and executes <code>innerCache.put</code>, <code>innerCache.size()</code> is now <code>251</code></li>
+<li>For the lifecycle of the jvm <code>isFull()</code> will no longer return <code>true</code></li>
+</ul>
+<p>Fortunately, the DropWizard documentation calls out the need to consider thread safety:</p>
+<p><img src="/mem_challenge/dw_thread_safety.png" alt=""></p>
+<p>Since the <code>WorkshopResource</code> has a <code>resultsByContext</code> field that will get shared across threads, that type should be thread safe.</p>
+<h3 id="potential-solutions">Potential Solutions</h3>
+<ul>
+<li>
+<p>The naive solution would be to just change <code>isFull()</code> to consider <code>&gt;=</code>, though that might lead to ConcurrentModificationExceptions</p>
+</li>
+<li>
+<p>The proper solution would be to make the class Thread Safe</p>
+</div>
+</li>
+</ul>
+</div>
+
+</div>
+
+
+
+    
+	
+  
+    
+    
+	
+    
+
+<div class="td-content" style="page-break-before: always">
+    
+	<h1 id="pg-c6512c461f5f3bf1ba4ced486f736874">7 - Garbage Collections</h1>
     <div class="lead">Analyzing garbage collections of the JVM</div>
 	<h1 id="part-5-garbage-collections">Part 5: Garbage Collections</h1>
 <p>In this workshop, we are going to do some analysis on the JVM in regards to it&rsquo;s garbage collection (GC)
