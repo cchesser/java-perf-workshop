@@ -20,3 +20,7 @@ which are free. :smiley:
 * [JOverflow Analysis](/docs/memory/joverflow)
 * [Eclipse MAT](/docs/memory/mat)
 * [VisualVM](/docs/memory/visualvm)
+
+We will then tie all our knowledge together and attempt to solve a quick challenge:
+
+* [Memory Challenge](/docs/memory/challenge)

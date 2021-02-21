@@ -196,6 +196,14 @@ sort(map(filter(heap.objects('cchesser.javaperf.workshop.data.ConferenceSession'
 
 ![](/visualvm/oql_tags_inline.png)
 
+## Useful Plugins
+
+### OQL Syntax Support
+
+This plugin adds some auto complete and syntax highlighting to the OQL Console
+
+![](/visualvm/oql_syntax_plugin.png)
+
 ## <i class="fas fa-atlas"></i> Challenge
 
 Apply what you've learned about OQL in this section and write some javascript that will show the distribution of tag counts in our conference sessions (similar to what we did with calcite mat.)
