@@ -284,3 +284,8 @@ toHtml(report)
 ![](/visualvm/tag_distributions_html.png)
 
 {{% /spoiler %}}
+
+&nbsp;
+{{% nextSection %}}
+In the next section, we'll test our knwolege.
+{{% /nextSection %}}

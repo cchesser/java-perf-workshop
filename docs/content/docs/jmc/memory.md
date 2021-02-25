@@ -33,4 +33,7 @@ Narrow down through some periods of time where our heap rose quickly and then wa
 * Expand the memory usage chart and only chart the Used Heap, do you notice a pattern?
   * What do you think caused the flat line at the end of the chart?
 
-In the next section, we'll look at the [I/O Operations](/docs/jmc/io_operations/) thrown by our application.
+&nbsp;
+{{% nextSection %}}
+In the next section, we'll look at the I/O used by our application.
+{{% /nextSection %}}

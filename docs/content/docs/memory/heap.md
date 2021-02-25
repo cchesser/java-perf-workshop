@@ -24,3 +24,8 @@ which are free. :smiley:
 We will then tie all our knowledge together and attempt to solve a quick challenge:
 
 * [Memory Challenge](/docs/memory/challenge)
+
+&nbsp;
+{{% nextSection %}}
+In the next section, we'll look learn how to acquire a Heap Dump.
+{{% /nextSection %}}
