@@ -1,0 +1,20 @@
+{{/* 
+    Iterates over the set of pages in the current section, locating the current page and creating a link with the contents of the next page.
+  */}}
+  {{ $scratch := newScratch }}
+  {{ range $index, $element := $.Page.CurrentSection.Pages.ByWeight }} 
+    {{ if (eq $.Page.Params.weight .Params.weight) }}
+      {{ $scratch.Set "nextIndex" (add 1 $index)}}
+    {{ end }}
+  {{ end }}
+  {{ with index $.Page.CurrentSection.Pages.ByWeight ($scratch.Get "nextIndex") }}
+  <br/>
+  <div class="card mb-3" style="width: 80%;">
+      <div class="card-header text-white border-info bg-info">
+          <i class="fas fa-arrow-alt-circle-right"></i>&nbsp;&nbsp;Up Next</div>
+      <div class="card-body">
+        <p class="card-text">{{ $.Inner }}</p>
+        <a href="{{ .Permalink }}">{{ .Params.title | title }}</a></i>
+      </div>
+  </div>
+  {{ end}}

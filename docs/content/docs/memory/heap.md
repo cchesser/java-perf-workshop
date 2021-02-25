@@ -27,5 +27,5 @@ We will then tie all our knowledge together and attempt to solve a quick challen
 
 &nbsp;
 {{% nextSection %}}
-In the next section, we'll look learn how to acquire a Heap Dump.
+In the next section, we'll learn how to acquire a Heap Dump.
 {{% /nextSection %}}
