@@ -4,22 +4,17 @@ weight: 20
 description: Analyzing garbage collections of the JVM
 ---
 
-# Part 5: Garbage Collections
-
-In this workshop, we are going to do some analysis on the JVM in regards to it's garbage collection (GC)
+A key piece to understanding what is happening in terms of GC cycles within your service, 
+is enabling GC logs. In this section, we are going to do some analysis on the JVM in regards to it's garbage collection (GC)
 cycles.
 
-## Prerequisites
+{{% alert title="Prerequisite" color="info" %}}
+[R environment](https://www.r-project.org/) _(If you want to try parsing some of the logs)_
+{{% /alert %}}
 
-* [R environment](https://www.r-project.org/) _(If you want to try parsing some of the logs)_
+## GC JVM Options
 
-## Garbage Collection Logs
-
-A key piece to understanding what is happening in terms of GC cycles within your service, 
-is enabling GC logs. In this section we will go over the JVM options you can enable on your
-service and how to interpret those logs.
-
-### JVM Options
+Here is a set of JVM options you can enable on your service and how to interpret those logs.
 
 * `-XX:+PrintGCDetails`: Includes more details within your GC log
 * `-XX:+PrintGCDateStamps`: Have a readable date/time string to correlate events in your log. Without
@@ -37,11 +32,11 @@ your log file with another solution (like [splunk](http://www.splunk.com/) or
 rolled files around, unless you are concerned about log forwarding failing and want to ensure a given amount 
 is still capable of being captured from a host.
 
-### GC Log formats
+## GC Log formats
 
 With different garbage collectors in the JVM, you will get slightly different GC log formats.
 
-#### Parralel GC
+### Parallel GC
 
 ```
 2015-09-30T10:57:20.215+0600: 0.847: [GC (Allocation Failure) [PSYoungGen: 65536K->10748K(76288K)] 65536K->12607K(251392K), 0.0118637 secs] [Times: user=0.03 sys=0.01, real=0.01 secs]
@@ -49,7 +44,7 @@ With different garbage collectors in the JVM, you will get slightly different GC
 2015-09-30T10:57:20.564+0600: 1.196: [Full GC (Metadata GC Threshold) [PSYoungGen: 10748K->0K(141824K)] [ParOldGen: 2038K->10444K(116736K)] 12786K->10444K(258560K), [Metaspace: 20976K->20976K(1067008K)], 0.0286381 secs] [Times: user=0.14 sys=0.01, real=0.03 secs]
 ```
 
-#### CMS
+### Concurrent Mark Sweep
 
 ```
 2015-09-30T11:11:35.994+0600: 0.838: [GC (Allocation Failure) 0.838: [ParNew: 69952K->8703K(78656K), 0.0128204 secs] 69952K->12781K(253440K), 0.0128848 secs] [Times: user=0.04 sys=0.01, real=0.01 secs]
@@ -67,7 +62,7 @@ With different garbage collectors in the JVM, you will get slightly different GC
 2015-09-30T11:11:43.110+0600: 7.954: [CMS-concurrent-reset: 0.023/0.023 secs] [Times: user=0.01 sys=0.01, real=0.03 secs]
 ```
 
-#### G1
+### G1
 
 ```
 015-09-30T11:13:03.870+0600: 0.395: [GC pause (G1 Evacuation Pause) (young), 0.0052206 secs]
@@ -155,7 +150,7 @@ With different garbage collectors in the JVM, you will get slightly different GC
  [Times: user=0.01 sys=0.00, real=0.00 secs]
 ```
 
-#### Type of Collections
+## Type of Collections
 
 A simple rule to watch for on your logs is the prefix of either:
 
@@ -177,7 +172,9 @@ the JVM to still have garbage collections, but it disables them from being trigg
 
 > By default calls to System.gc() are enabled (-XX:-DisableExplicitGC). Use -XX:+DisableExplicitGC to disable calls to System.gc(). Note that the JVM still performs garbage collection when necessary.
 
-### Enabling GC logging
+## Gathering GC Logs
+
+### Enabling logs
 
 With our service, let's go ahead and start it up with GC logging enabled:
 
@@ -236,6 +233,8 @@ Notice that the `GCRealTime_Sec` should closely align with the `GCPauseTime_Sec`
 `GCUserTime_Sec` is much larger than the `GCRealTime_Sec`, you can conclude that multiple threads are executing garbage collection,
 as `GCUserTime_Sec` is just the sum time of all the threads.
 
-# GC Easy
+## External Tools
+
+### GC Easy
 
 There's an existing tool [GC Easy](http://gceasy.io/) which will do GC log parsing and analysis as well. 
