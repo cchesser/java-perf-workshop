@@ -1,8 +1,8 @@
 package cchesser.javaperf.workshop;
 
-import com.fasterxml.jackson.databind.SerializationFeature;
 import cchesser.javaperf.workshop.health.RemoteServiceHealthCheck;
 import cchesser.javaperf.workshop.resources.WorkshopResource;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import io.dropwizard.Application;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;

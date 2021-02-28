@@ -23,7 +23,8 @@ class WorkshopSimulation extends Simulation {
   var scn = scenario("Conference Day")
     .feed(feeder)
     .randomSwitch(
-      99d -> Search.search("${searchTerm}"),
+      97d -> Search.search("${searchTerm}"),
+      2d -> Sessions.all(),
       1d -> Search.withContext("${searchTerm}")
     )
 
@@ -52,6 +53,12 @@ class WorkshopSimulation extends Simulation {
         .pause(1)
         .exec(http(s"/search?q=${searchTerm}" + "&c=${context}")
           .get(s"/search?q=${searchTerm}" + "&c=${context}"))
+    }
+  }
+
+  object Sessions {
+    def all() = {
+      exec(http("/sessions").get("/sessions"))
     }
   }
 
