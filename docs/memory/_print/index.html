@@ -111,7 +111,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.f1ca2386e5ca36873d14ab34248dd4e2.json"
+  data-offline-search-index-json-src="/offline-search-index.8dbdcb30c53aa6acd6a85d4944970438.json"
   data-offline-search-base-href="/"
   data-offline-search-max-results="10"
 >
@@ -938,18 +938,20 @@ and begin diving into the instance state:</p>
     
 	<h1 id="pg-c6512c461f5f3bf1ba4ced486f736874">7 - Garbage Collections</h1>
     <div class="lead">Analyzing garbage collections of the JVM</div>
-	<h1 id="part-5-garbage-collections">Part 5: Garbage Collections</h1>
-<p>In this workshop, we are going to do some analysis on the JVM in regards to it&rsquo;s garbage collection (GC)
+	<p>A key piece to understanding what is happening in terms of GC cycles within your service,
+is enabling GC logs. In this section, we are going to do some analysis on the JVM in regards to it&rsquo;s garbage collection (GC)
 cycles.</p>
-<h2 id="prerequisites">Prerequisites</h2>
-<ul>
-<li><a href="https://www.r-project.org/">R environment</a> <em>(If you want to try parsing some of the logs)</em></li>
-</ul>
-<h2 id="garbage-collection-logs">Garbage Collection Logs</h2>
-<p>A key piece to understanding what is happening in terms of GC cycles within your service,
-is enabling GC logs. In this section we will go over the JVM options you can enable on your
-service and how to interpret those logs.</p>
-<h3 id="jvm-options">JVM Options</h3>
+
+
+<div class="alert alert-info" role="alert">
+<h4 class="alert-heading">Prerequisite</h4>
+
+    <a href="https://www.r-project.org/">R environment</a> <em>(If you want to try parsing some of the logs)</em>
+
+</div>
+
+<h2 id="gc-jvm-options">GC JVM Options</h2>
+<p>Here is a set of JVM options you can enable on your service and how to interpret those logs.</p>
 <ul>
 <li><code>-XX:+PrintGCDetails</code>: Includes more details within your GC log</li>
 <li><code>-XX:+PrintGCDateStamps</code>: Have a readable date/time string to correlate events in your log. Without
@@ -967,13 +969,13 @@ your log file with another solution (like <a href="http://www.splunk.com/">splun
 rolled files around, unless you are concerned about log forwarding failing and want to ensure a given amount
 is still capable of being captured from a host.</li>
 </ul>
-<h3 id="gc-log-formats">GC Log formats</h3>
+<h2 id="gc-log-formats">GC Log formats</h2>
 <p>With different garbage collectors in the JVM, you will get slightly different GC log formats.</p>
-<h4 id="parralel-gc">Parralel GC</h4>
+<h3 id="parallel-gc">Parallel GC</h3>
 <pre><code>2015-09-30T10:57:20.215+0600: 0.847: [GC (Allocation Failure) [PSYoungGen: 65536K-&gt;10748K(76288K)] 65536K-&gt;12607K(251392K), 0.0118637 secs] [Times: user=0.03 sys=0.01, real=0.01 secs]
 2015-09-30T10:57:20.556+0600: 1.188: [GC (Metadata GC Threshold) [PSYoungGen: 44312K-&gt;10748K(141824K)] 46171K-&gt;12786K(316928K), 0.0077755 secs] [Times: user=0.03 sys=0.00, real=0.01 secs]
 2015-09-30T10:57:20.564+0600: 1.196: [Full GC (Metadata GC Threshold) [PSYoungGen: 10748K-&gt;0K(141824K)] [ParOldGen: 2038K-&gt;10444K(116736K)] 12786K-&gt;10444K(258560K), [Metaspace: 20976K-&gt;20976K(1067008K)], 0.0286381 secs] [Times: user=0.14 sys=0.01, real=0.03 secs]
-</code></pre><h4 id="cms">CMS</h4>
+</code></pre><h3 id="concurrent-mark-sweep">Concurrent Mark Sweep</h3>
 <pre><code>2015-09-30T11:11:35.994+0600: 0.838: [GC (Allocation Failure) 0.838: [ParNew: 69952K-&gt;8703K(78656K), 0.0128204 secs] 69952K-&gt;12781K(253440K), 0.0128848 secs] [Times: user=0.04 sys=0.01, real=0.01 secs]
 2015-09-30T11:11:38.009+0600: 2.853: [GC (CMS Initial Mark) [1 CMS-initial-mark: 4077K(174784K)] 67493K(253440K), 0.0088311 secs] [Times: user=0.04 sys=0.00, real=0.01 secs]
 2015-09-30T11:11:38.018+0600: 2.862: [CMS-concurrent-mark-start]
@@ -987,7 +989,7 @@ is still capable of being captured from a host.</li>
 2015-09-30T11:11:43.086+0600: 7.930: [CMS-concurrent-sweep: 0.000/0.000 secs] [Times: user=0.00 sys=0.00, real=0.00 secs]
 2015-09-30T11:11:43.087+0600: 7.930: [CMS-concurrent-reset-start]
 2015-09-30T11:11:43.110+0600: 7.954: [CMS-concurrent-reset: 0.023/0.023 secs] [Times: user=0.01 sys=0.01, real=0.03 secs]
-</code></pre><h4 id="g1">G1</h4>
+</code></pre><h3 id="g1">G1</h3>
 <pre><code>015-09-30T11:13:03.870+0600: 0.395: [GC pause (G1 Evacuation Pause) (young), 0.0052206 secs]
    [Parallel Time: 1.9 ms, GC Workers: 8]
       [GC Worker Start (ms): Min: 395.4, Avg: 395.5, Max: 395.8, Diff: 0.3]
@@ -1071,7 +1073,7 @@ is still capable of being captured from a host.</li>
  [Times: user=0.01 sys=0.00, real=0.00 secs]
 2015-09-30T11:13:04.667+0600: 1.193: [GC cleanup 21M-&gt;14M(256M), 0.0004254 secs]
  [Times: user=0.01 sys=0.00, real=0.00 secs]
-</code></pre><h4 id="type-of-collections">Type of Collections</h4>
+</code></pre><h2 id="type-of-collections">Type of Collections</h2>
 <p>A simple rule to watch for on your logs is the prefix of either:</p>
 <pre><code>[GC ...      &lt;- Minor GC cycle (young gen)
 [Full GC ... &lt;- Full GC cycle
@@ -1084,7 +1086,8 @@ the JVM to still have garbage collections, but it disables them from being trigg
 <blockquote>
 <p>By default calls to System.gc() are enabled (-XX:-DisableExplicitGC). Use -XX:+DisableExplicitGC to disable calls to System.gc(). Note that the JVM still performs garbage collection when necessary.</p>
 </blockquote>
-<h3 id="enabling-gc-logging">Enabling GC logging</h3>
+<h2 id="gathering-gc-logs">Gathering GC Logs</h2>
+<h3 id="enabling-logs">Enabling logs</h3>
 <p>With our service, let&rsquo;s go ahead and start it up with GC logging enabled:</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#8f5902;font-style:italic"># Navigate to the root directory of this project</span>
 java -XX:+PrintGCDetails -XX:+PrintGCDateStamps -Xloggc:gc.log -XX:GCLogFileSize<span style="color:#ce5c00;font-weight:bold">=</span>5M -XX:NumberOfGCLogFiles<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#0000cf;font-weight:bold">2</span> <span style="color:#4e9a06">\
@@ -1128,7 +1131,8 @@ java -XX:+PrintGCDetails -XX:+PrintGCDateStamps -Xloggc:gc.log -XX:GCLogFileSize
 <p>Notice that the <code>GCRealTime_Sec</code> should closely align with the <code>GCPauseTime_Sec</code> value (just rounded up). If you notice that the
 <code>GCUserTime_Sec</code> is much larger than the <code>GCRealTime_Sec</code>, you can conclude that multiple threads are executing garbage collection,
 as <code>GCUserTime_Sec</code> is just the sum time of all the threads.</p>
-<h1 id="gc-easy">GC Easy</h1>
+<h2 id="external-tools">External Tools</h2>
+<h3 id="gc-easy">GC Easy</h3>
 <p>There&rsquo;s an existing tool <a href="http://gceasy.io/">GC Easy</a> which will do GC log parsing and analysis as well.</p>
 
 </div>
