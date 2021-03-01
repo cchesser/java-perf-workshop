@@ -211,8 +211,10 @@ From a Java Flight Recording, there are several categories of information (pages
 * Events:
   __Event Browser__: View detailed log of the events within the JVM. You can use this page to further filter down on events across all the pages in the recording.
 
-We'll touch on a few of these pages in the following sections, starting with the [Method Profiling](/docs/jmc/method_profiling) page.
-
 {{% alert title="Note" color="info" %}}
 Feel free to reference the additional [resources](/docs/jmc/resources) as you navigate through the sections.
 {{% /alert %}}
+
+{{% nextSection %}}
+In the next section, we'll find out more about what our methods are doing.
+{{% /nextSection %}}

@@ -215,3 +215,8 @@ Since the `WorkshopResource` has a `resultsByContext` field that will get shared
 * The proper solution would be to make the class Thread Safe
 
 {{% /spoiler %}}
+
+&nbsp;
+{{% nextSection %}}
+In the next section, we'll continue learn about Garbage Collection logs.
+{{% /nextSection %}}

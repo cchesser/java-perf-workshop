@@ -48,3 +48,8 @@ the `com.sun.management.HotSpotDiagnostic`. The arguments are:
 * Indicator to dump all live object (true will dump __only live__ objects)
 
 ![hotspot_diag](https://github.com/cchesser/java-perf-workshop/wiki/images/hotspot_diag_mbean.png)
+
+&nbsp;
+{{% nextSection %}}
+In the next section, we'll start analyzing our heap dump with JOverflow.
+{{% /nextSection %}}

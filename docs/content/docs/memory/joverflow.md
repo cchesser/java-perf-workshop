@@ -91,3 +91,8 @@ We can use this same mechanism to also explore values of some of the classes we 
 ![](/joverflow/conference_sessions.png)
 2. Drill down into a couple of the instances
 ![](/joverflow/conference_session_instances.png)
+
+&nbsp;
+{{% nextSection %}}
+In the next section, we'll continue our analysis in Eclipse MAT.
+{{% /nextSection %}}

@@ -50,4 +50,7 @@ There's a couple of threads specifically created by our application, these are t
 * Where are we spending most of our time sleeping? What is causing this?
 * Are there any unnecessary method invocations? Are any threads doing work that isn't visible?
 
-In the next section, we'll look at the [Memory](/docs/jmc/memory) state of the application.
+&nbsp;
+{{% nextSection %}}
+In the next section, we'll look at the Memory state of our application.
+{{% /nextSection %}}

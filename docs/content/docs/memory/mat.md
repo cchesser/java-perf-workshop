@@ -126,3 +126,8 @@ group by tag_cnt
 order by tag_cnt desc
 ```
 ![](/mat/calcite_tag_distributions.png)
+
+&nbsp;
+{{% nextSection %}}
+In the next section, we'll continue our analysis in VisualVM.
+{{% /nextSection %}}

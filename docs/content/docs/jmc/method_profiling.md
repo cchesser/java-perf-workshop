@@ -58,4 +58,6 @@ We can then use this information to correlate what is happening in our code:
 
 *  Is there any method that stands out to you that might be unnecessarily called?
 
-In the next section, we'll look at the [Exceptions](/docs/jmc/exceptions/) thrown by our application.
+{{% nextSection %}}
+In the next section, we'll look at the Exceptions thrown by our application.
+{{% /nextSection %}}

@@ -32,4 +32,7 @@ You can select an exception from the table to filter the information to that par
   * Are there any other areas in our code where we might have made an incorrect assumption based on an exception's class?
 * Are there any exceptions that might indicate a problem with our dependencies?
 
-In the next section, we'll look at the [Threads](/docs/jmc/threads/) used by our application.
+&nbsp;
+{{% nextSection %}}
+In the next section, we'll look at the Threads used by our application.
+{{% /nextSection %}}
