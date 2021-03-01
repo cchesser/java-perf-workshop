@@ -111,7 +111,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.8dbdcb30c53aa6acd6a85d4944970438.json"
+  data-offline-search-index-json-src="/offline-search-index.23c988ea24c8ecf1fa1096f9a422b496.json"
   data-offline-search-base-href="/"
   data-offline-search-max-results="10"
 >
@@ -885,7 +885,6 @@ Simulation cchesser.javaperf.workshop.WorkshopSimulation started...
 <li>Events:
 <strong>Event Browser</strong>: View detailed log of the events within the JVM. You can use this page to further filter down on events across all the pages in the recording.</li>
 </ul>
-<p>We&rsquo;ll touch on a few of these pages in the following sections, starting with the <a href="/docs/jmc/method_profiling">Method Profiling</a> page.</p>
 
 
 <div class="alert alert-info" role="alert">
@@ -895,6 +894,17 @@ Simulation cchesser.javaperf.workshop.WorkshopSimulation started...
 
 </div>
 
+  <br/>
+  <div class="card mb-3" style="width: 80%;">
+      <div class="card-header text-white border-info bg-info">
+          <i class="fas fa-arrow-alt-circle-right"></i>&nbsp;&nbsp;Up Next</div>
+      <div class="card-body">
+        <p class="card-text">
+In the next section, we'll find out more about what our methods are doing.
+</p>
+        <a href="https://jvmperf.net/docs/jmc/method_profiling/">Method Profiling</a></i>
+      </div>
+  </div>
 
 </div>
 
@@ -960,7 +970,17 @@ Simulation cchesser.javaperf.workshop.WorkshopSimulation started...
 <ul>
 <li>Is there any method that stands out to you that might be unnecessarily called?</li>
 </ul>
-<p>In the next section, we&rsquo;ll look at the <a href="/docs/jmc/exceptions/">Exceptions</a> thrown by our application.</p>
+  <br/>
+  <div class="card mb-3" style="width: 80%;">
+      <div class="card-header text-white border-info bg-info">
+          <i class="fas fa-arrow-alt-circle-right"></i>&nbsp;&nbsp;Up Next</div>
+      <div class="card-body">
+        <p class="card-text">
+In the next section, we'll look at the Exceptions thrown by our application.
+</p>
+        <a href="https://jvmperf.net/docs/jmc/exceptions/">Exceptions</a></i>
+      </div>
+  </div>
 
 </div>
 
@@ -1005,7 +1025,18 @@ Simulation cchesser.javaperf.workshop.WorkshopSimulation started...
 </li>
 <li>Are there any exceptions that might indicate a problem with our dependencies?</li>
 </ul>
-<p>In the next section, we&rsquo;ll look at the <a href="/docs/jmc/threads/">Threads</a> used by our application.</p>
+<p> </p>
+  <br/>
+  <div class="card mb-3" style="width: 80%;">
+      <div class="card-header text-white border-info bg-info">
+          <i class="fas fa-arrow-alt-circle-right"></i>&nbsp;&nbsp;Up Next</div>
+      <div class="card-body">
+        <p class="card-text">
+In the next section, we'll look at the Threads used by our application.
+</p>
+        <a href="https://jvmperf.net/docs/jmc/threads/">Threads</a></i>
+      </div>
+  </div>
 
 </div>
 
@@ -1048,7 +1079,18 @@ Simulation cchesser.javaperf.workshop.WorkshopSimulation started...
 <li>Where are we spending most of our time sleeping? What is causing this?</li>
 <li>Are there any unnecessary method invocations? Are any threads doing work that isn&rsquo;t visible?</li>
 </ul>
-<p>In the next section, we&rsquo;ll look at the <a href="/docs/jmc/memory">Memory</a> state of the application.</p>
+<p> </p>
+  <br/>
+  <div class="card mb-3" style="width: 80%;">
+      <div class="card-header text-white border-info bg-info">
+          <i class="fas fa-arrow-alt-circle-right"></i>&nbsp;&nbsp;Up Next</div>
+      <div class="card-body">
+        <p class="card-text">
+In the next section, we'll look at the Memory state of our application.
+</p>
+        <a href="https://jvmperf.net/docs/jmc/memory/">Memory</a></i>
+      </div>
+  </div>
 
 </div>
 
@@ -1086,7 +1128,18 @@ Simulation cchesser.javaperf.workshop.WorkshopSimulation started...
 </ul>
 </li>
 </ul>
-<p>In the next section, we&rsquo;ll look at the <a href="/docs/jmc/io_operations/">I/O Operations</a> thrown by our application.</p>
+<p> </p>
+  <br/>
+  <div class="card mb-3" style="width: 80%;">
+      <div class="card-header text-white border-info bg-info">
+          <i class="fas fa-arrow-alt-circle-right"></i>&nbsp;&nbsp;Up Next</div>
+      <div class="card-body">
+        <p class="card-text">
+In the next section, we'll look at the I/O used by our application.
+</p>
+        <a href="https://jvmperf.net/docs/jmc/io_operations/">I/O Operations</a></i>
+      </div>
+  </div>
 
 </div>
 
@@ -1210,6 +1263,18 @@ which are free. 😃</p>
 <ul>
 <li><a href="/docs/memory/challenge">Memory Challenge</a></li>
 </ul>
+<p> </p>
+  <br/>
+  <div class="card mb-3" style="width: 80%;">
+      <div class="card-header text-white border-info bg-info">
+          <i class="fas fa-arrow-alt-circle-right"></i>&nbsp;&nbsp;Up Next</div>
+      <div class="card-body">
+        <p class="card-text">
+In the next section, we'll learn how to acquire a Heap Dump.
+</p>
+        <a href="https://jvmperf.net/docs/memory/capturing/">Capturing Heap Dumps</a></i>
+      </div>
+  </div>
 
 </div>
 
@@ -1253,6 +1318,18 @@ the <code>com.sun.management.HotSpotDiagnostic</code>. The arguments are:</p>
 <li>Indicator to dump all live object (true will dump <strong>only live</strong> objects)</li>
 </ul>
 <p><img src="https://github.com/cchesser/java-perf-workshop/wiki/images/hotspot_diag_mbean.png" alt="hotspot_diag"></p>
+<p> </p>
+  <br/>
+  <div class="card mb-3" style="width: 80%;">
+      <div class="card-header text-white border-info bg-info">
+          <i class="fas fa-arrow-alt-circle-right"></i>&nbsp;&nbsp;Up Next</div>
+      <div class="card-body">
+        <p class="card-text">
+In the next section, we'll start analyzing our heap dump with JOverflow.
+</p>
+        <a href="https://jvmperf.net/docs/memory/joverflow/">JOverflow</a></i>
+      </div>
+  </div>
 
 </div>
 
@@ -1339,6 +1416,18 @@ strings (as this content is replicated on each object):</p>
 <li>Drill down into a couple of the instances
 <img src="/joverflow/conference_session_instances.png" alt=""></li>
 </ol>
+<p> </p>
+  <br/>
+  <div class="card mb-3" style="width: 80%;">
+      <div class="card-header text-white border-info bg-info">
+          <i class="fas fa-arrow-alt-circle-right"></i>&nbsp;&nbsp;Up Next</div>
+      <div class="card-body">
+        <p class="card-text">
+In the next section, we'll continue our analysis in Eclipse MAT.
+</p>
+        <a href="https://jvmperf.net/docs/memory/mat/">Eclipse MAT</a></i>
+      </div>
+  </div>
 
 </div>
 
@@ -1445,6 +1534,18 @@ the title or the abstract:</p>
 <span style="color:#204a87;font-weight:bold">group</span> <span style="color:#204a87;font-weight:bold">by</span> <span style="color:#000">tag_cnt</span> 
 <span style="color:#204a87;font-weight:bold">order</span> <span style="color:#204a87;font-weight:bold">by</span> <span style="color:#000">tag_cnt</span> <span style="color:#204a87;font-weight:bold">desc</span>
 </code></pre></div><p><img src="/mat/calcite_tag_distributions.png" alt=""></p>
+<p> </p>
+  <br/>
+  <div class="card mb-3" style="width: 80%;">
+      <div class="card-header text-white border-info bg-info">
+          <i class="fas fa-arrow-alt-circle-right"></i>&nbsp;&nbsp;Up Next</div>
+      <div class="card-body">
+        <p class="card-text">
+In the next section, we'll continue our analysis in VisualVM.
+</p>
+        <a href="https://jvmperf.net/docs/memory/visualvm/">Visual VM</a></i>
+      </div>
+  </div>
 
 </div>
 
@@ -1674,6 +1775,18 @@ and begin diving into the instance state:</p>
 </code></pre></div><p><img src="/visualvm/tag_distributions_html.png" alt=""></p>
   </div>
 </div>
+<p> </p>
+  <br/>
+  <div class="card mb-3" style="width: 80%;">
+      <div class="card-header text-white border-info bg-info">
+          <i class="fas fa-arrow-alt-circle-right"></i>&nbsp;&nbsp;Up Next</div>
+      <div class="card-body">
+        <p class="card-text">
+In the next section, we'll test our knwolege.
+</p>
+        <a href="https://jvmperf.net/docs/memory/challenge/">Memory Challenge</a></i>
+      </div>
+  </div>
 
 </div>
 
@@ -1863,6 +1976,18 @@ and begin diving into the instance state:</p>
 </li>
 </ul>
 </div>
+<p> </p>
+  <br/>
+  <div class="card mb-3" style="width: 80%;">
+      <div class="card-header text-white border-info bg-info">
+          <i class="fas fa-arrow-alt-circle-right"></i>&nbsp;&nbsp;Up Next</div>
+      <div class="card-body">
+        <p class="card-text">
+In the next section, we'll continue learn about Garbage Collection logs.
+</p>
+        <a href="https://jvmperf.net/docs/memory/gc/">Garbage Collections</a></i>
+      </div>
+  </div>
 
 </div>
 
