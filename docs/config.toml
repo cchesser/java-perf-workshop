@@ -64,7 +64,7 @@ languageName ="English"
 section = ["HTML", "print"]
 
 [params]
-copyright = "Carl Chesser"
+copyright = "-"
 
 # Flag used in the "version-banner" partial to decide whether to display a 
 # banner on every page indicating that this is an archived version of the docs.
