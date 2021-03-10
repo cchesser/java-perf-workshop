@@ -1,0 +1,11 @@
+version: "3.9"  # optional since v1.27.0
+services:
+  wiremock:
+    image: workshop-wiremock:latest
+  server:
+    image: workshop-server:latest
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    links:
+      - wiremock
