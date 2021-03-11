@@ -19,7 +19,7 @@ public class WorkshopConfiguration extends Configuration {
     }
 
     @JsonProperty
-    public void setSonferenceServiceHost(String host) {
+    public void setConferenceServiceHost(String host) {
         this.conferenceServiceHost = host;
     }
 

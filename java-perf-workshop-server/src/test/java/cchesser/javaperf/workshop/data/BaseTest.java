@@ -25,12 +25,12 @@ public class BaseTest {
                 .willReturn(aResponse()
                         .withBodyFile("precompilers.json")));
         WorkshopConfiguration conf = new WorkshopConfiguration();
-        conf.setSonferenceServiceHost("localhost:9090");
+        conf.setConferenceServiceHost("localhost:9090");
     }
 
     protected WorkshopConfiguration getConfiguration() {
         WorkshopConfiguration conf = new WorkshopConfiguration();
-        conf.setSonferenceServiceHost("localhost:9090");
+        conf.setConferenceServiceHost("localhost:9090");
         return conf;
     }
 }

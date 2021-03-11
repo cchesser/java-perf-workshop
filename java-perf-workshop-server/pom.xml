@@ -8,6 +8,10 @@
     </parent>
     <artifactId>java-perf-workshop-server</artifactId>
     <name>${project.artifactId}</name>
+    <properties>
+        <!-- don't build docker by default -->
+        <docker.skip>true</docker.skip>
+    </properties>
     <scm>
         <connection>${scm.connection}</connection>
         <developerConnection>${scm.developerConnection}</developerConnection>
@@ -108,6 +112,66 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>io.fabric8</groupId>
+                <artifactId>docker-maven-plugin</artifactId>
+                <version>0.34.1</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>build</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <images>
+                        <image>
+                            <alias>workshop-server</alias>
+                            <name>workshop-server:${project.version}</name>
+                            <build>
+                                <tags>
+                                    <tag>latest</tag>
+                                    <tag>${project.version}</tag>
+                                </tags>
+                                <from>java:8</from>
+                                <assembly>
+                                    <descriptor>server-assembly.xml</descriptor>
+                                </assembly>
+                                <ports>
+                                    <port>8080</port>
+                                    <port>8081</port>
+                                </ports>
+                                <cmd>
+                                    <shell>java -jar \
+                                        /maven/${project.build.finalName}.jar server \
+                                        /maven/server-config.yml</shell>
+                                </cmd>
+                            </build>
+                        </image>
+                        <image>
+                            <alias>workshop-wiremock</alias>
+                            <name>workshop-wiremock:${project.version}</name>
+                            <build>
+                                <tags>
+                                    <tag>latest</tag>
+                                    <tag>${project.version}</tag>
+                                </tags>
+                                <dockerFile>${project.basedir}/src/test/resources/Dockerfile.wiremock</dockerFile>
+                                <contextDir>${project.basedir}/src/test/resources/</contextDir>
+                            </build>
+                        </image>
+                    </images>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
+    <profiles>
+        <profile>
+            <id>docker</id>
+            <properties>
+                <docker.skip>false</docker.skip>
+            </properties>
+        </profile>
+    </profiles>
 </project>
