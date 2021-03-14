@@ -4,8 +4,21 @@ services:
     image: workshop-wiremock:latest
   server:
     image: workshop-server:latest
+    environment:
+      JAVA_OPTS: "
+        -Xmx128m
+        -Xms128m
+        -Dcom.sun.management.jmxremote.port=8082
+        -Dcom.sun.management.jmxremote.rmi.port=8082
+        -Dcom.sun.management.jmxremote.registry.ssl=false
+        -Dcom.sun.management.jmxremote.authenticate=false
+        -Dcom.sun.management.jmxremote.ssl=false
+        -Dcom.sun.management.jmxremote.local.only=false
+        -Djava.rmi.server.hostname=0.0.0.0
+      "
     ports:
       - "8080:8080"
       - "8081:8081"
+      - "8082:8082"
     links:
       - wiremock

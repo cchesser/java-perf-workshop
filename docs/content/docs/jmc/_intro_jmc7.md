@@ -212,7 +212,7 @@ From a Java Flight Recording, there are several categories of information (pages
   __Event Browser__: View detailed log of the events within the JVM. You can use this page to further filter down on events across all the pages in the recording.
 
 {{% alert title="Note" color="info" %}}
-Feel free to reference the additional [resources](/docs/jmc/resources) as you navigate through the sections.
+Feel free to reference the additional [resources](/docs/jmc/references) as you navigate through the sections.
 {{% /alert %}}
 
 {{% nextSection %}}

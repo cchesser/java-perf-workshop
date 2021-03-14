@@ -15,16 +15,20 @@ Install a Java Development Kit from Oracle or Open JDK
 
 ## Maven
 
-Install the latest available [Maven](https://maven.apache.org/)
+Install the latest available [Maven](https://maven.apache.org/).
 
 ## JDK Mission Control
 
-Install JDK mission control from [Oracle Mirror](https://www.oracle.com/java/technologies/javase/products-jmc7-downloads.html)
+Install JDK mission control from [Oracle Mirror](https://www.oracle.com/java/technologies/javase/products-jmc7-downloads.html).
 
 ## Visual VM
 
-Install the standalone version of [Visual VM](https://visualvm.github.io/)
+Install the standalone version of [Visual VM](https://visualvm.github.io/).
 
 ## Eclipse MAT
 
-Install the standalone version of [Eclipse MAT](https://www.eclipse.org/mat/)
+Install the standalone version of [Eclipse MAT](https://www.eclipse.org/mat/).
+
+## Docker
+
+Install the [Docker](https://www.docker.com/get-started) container runtime environment.

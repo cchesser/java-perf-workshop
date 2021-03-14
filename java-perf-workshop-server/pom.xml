@@ -143,7 +143,7 @@
                                     <port>8081</port>
                                 </ports>
                                 <cmd>
-                                    <shell>java -jar \
+                                    <shell>java $JAVA_OPTS -jar \
                                         /maven/${project.build.finalName}.jar server \
                                         /maven/server-config.yml</shell>
                                 </cmd>
