@@ -1,6 +1,6 @@
 ---
 title: "Setup"
-weight: 7
+weight: 1
 description: >
     Instructions for setting up the workshop services through docker
 ---
@@ -72,5 +72,5 @@ Our workshop service container is exposing port `8080` and mapping it into the c
 
 &nbsp;
 {{% nextSection %}}
-In the next section, we'll learn how to enable all our tooling to work with containers.
+In the next section, we'll learn how to enable Java Monitoring Tooling to work with containers.
 {{% /nextSection %}}

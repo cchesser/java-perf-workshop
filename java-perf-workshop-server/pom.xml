@@ -134,7 +134,7 @@
                                     <tag>latest</tag>
                                     <tag>${project.version}</tag>
                                 </tags>
-                                <from>java:8</from>
+                                <from>openjdk:8</from>
                                 <assembly>
                                     <descriptor>server-assembly.xml</descriptor>
                                 </assembly>
