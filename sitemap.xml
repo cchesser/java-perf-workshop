@@ -3,8 +3,23 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://jvmperf.net/docs/containers/setup/</loc>
+    <lastmod>2021-04-02T08:11:42-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jvmperf.net/docs/containers/java_monitoring/</loc>
+    <lastmod>2021-04-02T08:11:42-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jvmperf.net/docs/containers/docker_monitoring/</loc>
+    <lastmod>2021-04-02T08:11:42-05:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://jvmperf.net/docs/prereqs/</loc>
-    <lastmod>2021-01-19T09:05:19-06:00</lastmod>
+    <lastmod>2021-04-02T08:11:42-05:00</lastmod>
   </url>
   
   <url>
@@ -14,7 +29,7 @@
   
   <url>
     <loc>https://jvmperf.net/docs/jmc/_intro_jmc7/</loc>
-    <lastmod>2021-03-01T08:17:48-06:00</lastmod>
+    <lastmod>2021-04-02T08:11:42-05:00</lastmod>
   </url>
   
   <url>
@@ -103,13 +118,23 @@
   </url>
   
   <url>
+    <loc>https://jvmperf.net/docs/containers/</loc>
+    <lastmod>2021-04-02T08:11:42-05:00</lastmod>
+  </url>
+  
+  <url>
+    <loc>https://jvmperf.net/docs/containers/_references/</loc>
+    <lastmod>2021-04-02T08:11:42-05:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://jvmperf.net/contributors/</loc>
     <lastmod>2021-03-02T22:07:40-06:00</lastmod>
   </url>
   
   <url>
     <loc>https://jvmperf.net/</loc>
-    <lastmod>2021-01-18T22:42:19-06:00</lastmod>
+    <lastmod>2021-04-02T08:11:42-05:00</lastmod>
   </url>
   
 </urlset>

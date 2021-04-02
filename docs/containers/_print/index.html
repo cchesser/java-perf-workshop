@@ -1,0 +1,536 @@
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="generator" content="Hugo 0.79.1" /><link rel="canonical" type="text/html" href="https://jvmperf.net/docs/containers/">
+<META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+
+
+<link rel="shortcut icon" href="/favicons/favicon.ico" >
+<link rel="apple-touch-icon" href="/favicons/apple-touch-icon-180x180.png" sizes="180x180">
+<link rel="icon" type="image/png" href="/favicons/favicon-16x16.png" sizes="16x16">
+<link rel="icon" type="image/png" href="/favicons/favicon-32x32.png" sizes="32x32">
+<link rel="icon" type="image/png" href="/favicons/android-36x36.png" sizes="36x36">
+<link rel="icon" type="image/png" href="/favicons/android-48x48.png" sizes="48x48">
+<link rel="icon" type="image/png" href="/favicons/android-72x72.png" sizes="72x72">
+<link rel="icon" type="image/png" href="/favicons/android-96x96.png" sizes="96x96">
+<link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
+<link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
+
+<title>Containers | jvmperf: Java Performance Workshop</title><meta property="og:title" content="Containers" />
+<meta property="og:description" content="Learn about monitoring/troubleshooting our services when they&#39;re ran in a container environment." />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://jvmperf.net/docs/containers/" />
+<meta property="og:site_name" content="jvmperf: Java Performance Workshop" />
+<meta itemprop="name" content="Containers">
+<meta itemprop="description" content="Learn about monitoring/troubleshooting our services when they&#39;re ran in a container environment.">
+<meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Containers"/>
+<meta name="twitter:description" content="Learn about monitoring/troubleshooting our services when they&#39;re ran in a container environment."/>
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-187218497-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+
+
+
+<link rel="preload" href="/scss/main.min.d365b133824fa7cc9e634c8a9ba97597f3759b03ad3fd78d42c3d136099b4543.css" as="style">
+<link href="/scss/main.min.d365b133824fa7cc9e634c8a9ba97597f3759b03ad3fd78d42c3d136099b4543.css" rel="stylesheet" integrity="">
+
+
+<script
+  src="https://code.jquery.com/jquery-3.5.1.min.js"
+  integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0="
+  crossorigin="anonymous"></script>
+
+<script
+  src="https://unpkg.com/lunr@2.3.8/lunr.min.js"
+  integrity="sha384-vRQ9bDyE0Wnu+lMfm57BlYLO0/XauFuKpVsZPs7KEDwYKktWi5+Kz3MP8++DFlRY"
+  crossorigin="anonymous"></script>
+
+
+
+<link rel="stylesheet" href="/css/prism.css"/>
+
+
+
+  </head>
+  <body class="td-section">
+    <header>
+      
+<nav class="js-navbar-scroll navbar navbar-expand navbar-dark flex-column flex-md-row td-navbar">
+        <a class="navbar-brand" href="/">
+		<span class="navbar-logo"></span><span class="font-weight-bold"><i class="fas fa-cube"></i>&nbsp;&nbsp;jvmperf</span>
+	</a>
+	<div class="td-navbar-nav-scroll ml-md-auto" id="main_navbar">
+		<ul class="navbar-nav mt-2 mt-lg-0">
+			
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				
+				
+				<a  class="nav-link active" href="/docs/" ><span class="active">Workshop</span></a>
+			</li>
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				<a  class="nav-link" href="https://github.com/cchesser/java-perf-workshop/" target="_blank" ><span>GitHub</span></a>
+			</li>
+			
+			<li class="nav-item mr-4 mb-2 mb-lg-0">
+				
+				
+				
+				
+				
+				
+				<a  class="nav-link" href="/contributors/" ><span>Contributors</span></a>
+			</li>
+			
+			
+			
+		</ul>
+	</div>
+	<div class="navbar-nav d-none d-lg-block">
+
+
+
+<input
+  type="search"
+  class="form-control td-search-input"
+  placeholder="&#xf002; Search this site…"
+  aria-label="Search this site…"
+  autocomplete="off"
+  
+  data-offline-search-index-json-src="/offline-search-index.d1f02776041ec9f12a476d7d337c32fe.json"
+  data-offline-search-base-href="/"
+  data-offline-search-max-results="10"
+>
+
+</div>
+</nav>
+
+    </header>
+    <div class="container-fluid td-outer">
+      <div class="td-main">
+        <div class="row flex-xl-nowrap">
+          <div class="col-12 col-md-3 col-xl-2 td-sidebar d-print-none">
+          </div>
+          <div class="d-none d-xl-block col-xl-2 td-toc d-print-none">
+          </div>
+          <main class="col-12 col-md-9 col-xl-8 pl-md-5" role="main">
+            
+
+
+
+
+<div class="td-content">
+<div class="pageinfo pageinfo-primary d-print-none">
+<p>
+This the multi-page printable view of this section.
+<a href="#" onclick="print();return false;">Click here to print</a>.
+</p><p>
+<a href="/docs/containers/">Return to the regular view of this page</a>.
+</p>
+</div>
+
+
+
+<h1 class="title">Containers</h1>
+<div class="lead">Learn about monitoring/troubleshooting our services when they&rsquo;re ran in a container environment.</div>
+
+
+
+
+    <ul>
+    
+  
+  
+  
+  
+
+  
+    
+    
+	
+<li>1: <a href="#pg-748dbfb27e056e8f559709df6cea6e94">Setup</a></li>
+
+
+    
+  
+    
+    
+	
+<li>2: <a href="#pg-634bf2ba5287d43935922a4fc1edab6a">Java Monitoring Tooling</a></li>
+
+
+    
+  
+    
+    
+	
+<li>3: <a href="#pg-c470bf618fcbdd51c44b1b1135f55896">Docker Tooling</a></li>
+
+
+    
+  
+    
+    
+	
+<li>4: <a href="#pg-6362126ba5f5128b262a9fb88d5015e8">References</a></li>
+
+
+    
+  
+
+    </ul>
+
+
+<div class="content">
+      
+</div>
+</div>
+
+
+  
+  
+  
+  
+
+  
+  
+
+  
+    
+    
+	
+    
+
+<div class="td-content" style="">
+    
+	<h1 id="pg-748dbfb27e056e8f559709df6cea6e94">1 - Setup</h1>
+    <div class="lead">Instructions for setting up the workshop services through docker</div>
+	<p>In this section we&rsquo;re going to spin up the containers needed for the workshop.</p>
+
+
+<div class="alert alert-info" role="alert">
+<h4 class="alert-heading">Note</h4>
+
+    <ul>
+<li>Make sure you&rsquo;ve gone through the <a href="/docs/prereqs">Prerequisites</a>.</li>
+<li>Make sure your Docker daemon is running.</li>
+<li>If this is the first time you&rsquo;re using docker, we recommend going through <a href="https://docs.docker.com/get-started/">Orientation and Setup</a> to quickly learn a few concepts.</li>
+</ul>
+
+
+</div>
+
+<h2 id="building">Building</h2>
+<p>The maven project uses the <a href="https://dmp.fabric8.io/">fabric8.io/docker-maven-plugin</a> to create two images:</p>
+<ul>
+<li><code>workshop-server</code> - the docker image for the workshop service</li>
+<li><code>workshop-wiremock</code> - the docker image for the wiremock service</li>
+</ul>
+<p>Run <code>mvn clean package -Pdocker</code> , the <code>docker</code> profile enables the docker-maven-plugin.</p>
+<p>You can view the generated images with <code>docker image ls | grep workshop</code>:</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ docker image ls <span style="color:#000;font-weight:bold">|</span> grep workshop
+workshop-wiremock                                                             1.1.0-SNAPSHOT                 2cc43b2348c8   <span style="color:#0000cf;font-weight:bold">2</span> minutes ago   657MB
+workshop-wiremock                                                             latest                         2cc43b2348c8   <span style="color:#0000cf;font-weight:bold">2</span> minutes ago   657MB
+workshop-server                                                               1.1.0-SNAPSHOT                 be7cfbd0735a   <span style="color:#0000cf;font-weight:bold">2</span> minutes ago   659MB
+workshop-server                                                               latest                         be7cfbd0735a   <span style="color:#0000cf;font-weight:bold">2</span> minutes ago   659MB
+</code></pre></div><h2 id="running">Running</h2>
+<p>Since our Workshop Service depends on the Wiremock Service, we&rsquo;re going to use <a href="https://docs.docker.com/compose/">docker-compose</a> to create a docker environment with both our services ready to go:</p>
+<p><img src="/diagrams/workshop_docker_setup.png" alt=""></p>
+<p>Within the <code>java-perf-workshop</code> directory, run <code>docker-compose up</code>:</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ docker-compose up
+Creating network <span style="color:#4e9a06">&#34;java-perf-workshop_default&#34;</span> with the default driver
+Creating java-perf-workshop_wiremock_1 ... <span style="color:#204a87;font-weight:bold">done</span>
+Creating java-perf-workshop_server_1   ... <span style="color:#204a87;font-weight:bold">done</span>
+Attaching to java-perf-workshop_wiremock_1, java-perf-workshop_server_1
+...
+wiremock_1  <span style="color:#000;font-weight:bold">|</span> port:                         <span style="color:#0000cf;font-weight:bold">8080</span>
+wiremock_1  <span style="color:#000;font-weight:bold">|</span> enable-browser-proxying:      <span style="color:#204a87">false</span>
+wiremock_1  <span style="color:#000;font-weight:bold">|</span> disable-banner:               <span style="color:#204a87">false</span>
+wiremock_1  <span style="color:#000;font-weight:bold">|</span> no-request-journal:           <span style="color:#204a87">false</span>
+wiremock_1  <span style="color:#000;font-weight:bold">|</span> verbose:                      <span style="color:#204a87">false</span>
+wiremock_1  <span style="color:#000;font-weight:bold">|</span> 
+...
+server_1    <span style="color:#000;font-weight:bold">|</span> INFO  <span style="color:#ce5c00;font-weight:bold">[</span>2021-03-14 18:59:06,883<span style="color:#ce5c00;font-weight:bold">]</span> org.eclipse.jetty.server.AbstractConnector: Started application@4c777e7b<span style="color:#ce5c00;font-weight:bold">{</span>HTTP/1.1,<span style="color:#ce5c00;font-weight:bold">[</span>http/1.1<span style="color:#ce5c00;font-weight:bold">]}{</span>0.0.0.0:8080<span style="color:#ce5c00;font-weight:bold">}</span>
+server_1    <span style="color:#000;font-weight:bold">|</span> INFO  <span style="color:#ce5c00;font-weight:bold">[</span>2021-03-14 18:59:06,892<span style="color:#ce5c00;font-weight:bold">]</span> org.eclipse.jetty.server.AbstractConnector: Started admin@5f038248<span style="color:#ce5c00;font-weight:bold">{</span>HTTP/1.1,<span style="color:#ce5c00;font-weight:bold">[</span>http/1.1<span style="color:#ce5c00;font-weight:bold">]}{</span>0.0.0.0:8081<span style="color:#ce5c00;font-weight:bold">}</span>
+server_1    <span style="color:#000;font-weight:bold">|</span> INFO  <span style="color:#ce5c00;font-weight:bold">[</span>2021-03-14 18:59:06,892<span style="color:#ce5c00;font-weight:bold">]</span> org.eclipse.jetty.server.Server: Started @4358ms
+</code></pre></div><p>In another terminal, you can check the status of the containers by running <code>docker ps</code>:</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ docker ps
+CONTAINER ID   IMAGE                      COMMAND                  CREATED          STATUS          PORTS                              NAMES
+c9aeb5375f79   workshop-server:latest     <span style="color:#4e9a06">&#34;/bin/sh -c &#39;java -j…&#34;</span>   <span style="color:#0000cf;font-weight:bold">52</span> seconds ago   Up <span style="color:#0000cf;font-weight:bold">50</span> seconds   0.0.0.0:8080-8081-&gt;8080-8081/tcp   java-perf-workshop_server_1
+6b1522e7acb9   workshop-wiremock:latest   <span style="color:#4e9a06">&#34;/bin/sh -c &#39;java -j…&#34;</span>   <span style="color:#0000cf;font-weight:bold">52</span> seconds ago   Up <span style="color:#0000cf;font-weight:bold">51</span> seconds                                      java-perf-workshop_wiremock_1
+</code></pre></div><p>Our workshop service container is exposing port <code>8080</code> and mapping it into the container&rsquo;s <code>8080</code>. Verify that your setup is working by visiting: <a href="http://localhost:8080/search?q=docker">http://localhost:8080/search?q=docker</a>.</p>
+<p> </p>
+  <br/>
+  <div class="card mb-3" style="width: 80%;">
+      <div class="card-header text-white border-info bg-info">
+          <i class="fas fa-arrow-alt-circle-right"></i>&nbsp;&nbsp;Up Next</div>
+      <div class="card-body">
+        <p class="card-text">
+In the next section, we'll learn how to enable Java Monitoring Tooling to work with containers.
+</p>
+        <a href="https://jvmperf.net/docs/containers/java_monitoring/">Java Monitoring Tooling</a></i>
+      </div>
+  </div>
+
+</div>
+
+
+
+    
+	
+  
+    
+    
+	
+    
+
+<div class="td-content" style="page-break-before: always">
+    
+	<h1 id="pg-634bf2ba5287d43935922a4fc1edab6a">2 - Java Monitoring Tooling</h1>
+    <div class="lead">Instructions for enabling remote tooling on our JVM</div>
+	<p>In this section we&rsquo;re going to configure our container to enable remote tooling.</p>
+
+
+<div class="alert alert-info" role="alert">
+<h4 class="alert-heading">Note</h4>
+
+    <ul>
+<li>Make sure you&rsquo;ve gone through the <a href="/docs/prereqs">Prerequisites</a>.</li>
+<li>Make sure your Docker daemon is running.</li>
+<li>If this is the first time you&rsquo;re using docker, we recommend going through <a href="https://docs.docker.com/get-started/">Orientation and Setup</a> to quickly learn a few concepts.</li>
+</ul>
+
+
+</div>
+
+<h2 id="remote-monitoring">Remote Monitoring</h2>
+<p>In previous sections of the workshop, we ran all our tooling without any configuration. In previous versions of Java you would have had to configure things even for local monitoring, this is no longer the case with Java 6+:</p>
+<blockquote>
+<p>Any application that is started on the Java SE 6 platform will support the Attach API, and so will automatically be made available for local monitoring and management when needed.</p>
+</blockquote>
+<p>Since the docker-compose network and containers are ran separate from our host (consider them a different machine), we need to enable <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/management/agent.html">remote monitoring and management</a>.</p>
+<p><img src="/diagrams/jmx_remote_docker.png" alt=""></p>
+<h3 id="properties">Properties</h3>
+<p>We&rsquo;ll set the following properties as a <code>JAVA_OPTS</code> environment variable when we start our workshop server container:</p>
+<ul>
+<li>The <code>JMX remote port</code> to <code>8082</code>: <code>-Dcom.sun.management.jmxremote.port=8082</code></li>
+<li>The RMI registry port also set to <code>8082</code>: <code>-Dcom.sun.management.jmxremote.rmi.port=8082</code></li>
+<li>Disabling for both the registry and jmx: <code>-Dcom.sun.management.jmxremote.registry.ssl=false</code> and <code>-Dcom.sun.management.jmxremote.ssl=false</code></li>
+<li>Accept connections not from localhost: <code>-Dcom.sun.management.jmxremote.local.only=false</code>
+<ul>
+<li>Since the machine we are connecting from will not be in the container network, we need to allow non localhost connections.</li>
+</ul>
+</li>
+<li>The host name for the <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/rmi/javarmiproperties.html">RMI server</a> will be set to <code>127.0.0.1</code>. The default value for this will be the container&rsquo;s IP address, which we are overridding.</li>
+</ul>
+<p>Set these values as an <code>environment</code> property on your workshop container:</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#000">...</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">server</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">image</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">workshop-server:latest</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">environment</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">JAVA_OPTS</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;
+</span><span style="color:#4e9a06">        -Dcom.sun.management.jmxremote.port=8082
+</span><span style="color:#4e9a06">        -Dcom.sun.management.jmxremote.rmi.port=8082
+</span><span style="color:#4e9a06">        -Dcom.sun.management.jmxremote.registry.ssl=false
+</span><span style="color:#4e9a06">        -Dcom.sun.management.jmxremote.authenticate=false
+</span><span style="color:#4e9a06">        -Dcom.sun.management.jmxremote.ssl=false
+</span><span style="color:#4e9a06">        -Dcom.sun.management.jmxremote.local.only=false
+</span><span style="color:#4e9a06">        -Djava.rmi.server.hostname=127.0.0.1
+</span><span style="color:#4e9a06">      &#34;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#000">...</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></code></pre></div><h2 id="test-our-setup">Test Our Setup</h2>
+<p>Spin up your services again with <code>docker-compose up</code>. Once the services are started, use <code>docker ps</code> to check the open ports on the workshop server. Notice that <code>8082</code> is now mapped as well.</p>
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ docker ps
+CONTAINER ID   IMAGE                      COMMAND                  CREATED          STATUS          PORTS                              NAMES
+44d4a1ebedef   workshop-server:latest     <span style="color:#4e9a06">&#34;/bin/sh -c &#39;java </span><span style="color:#000">$J</span><span style="color:#4e9a06">…&#34;</span>   <span style="color:#0000cf;font-weight:bold">39</span> seconds ago   Up <span style="color:#0000cf;font-weight:bold">37</span> seconds   0.0.0.0:8080-8082-&gt;8080-8082/tcp   java-perf-workshop_server_1
+</code></pre></div><h3 id="jdk-mission-control">JDK Mission Control</h3>
+<p>We&rsquo;ll use JDK Mission Control to create a JMX Connection.</p>
+<p>Open JDK Mission Control. Notice that the JVM Browser no longer shows the two services (since they no longer are running on the local host):</p>
+<p><img src="/containers/jmx/empty_browser.png" alt=""></p>
+<p>Create a new JMX Connection using <code>0.0.0.0</code> and <code>8082</code> as the host and port:</p>
+<p><img src="/containers/jmx/new_connection.png" alt=""></p>
+<p>With our setup, we can connect with other addresses as well:</p>
+<ul>
+<li><code>127.0.0.1</code></li>
+<li><code>localhost</code> (since we are exposing port 8082 on the container as port 8082 on the local host)</li>
+<li>Our wifi/ethernet IP address, which you can find under the <code>en0</code> interface using <code>ifconfig/ipconfig</code>:
+<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ ifconfig
+...
+en0: <span style="color:#000">flags</span><span style="color:#ce5c00;font-weight:bold">=</span>8863&lt;UP,BROADCAST,SMART,RUNNING,SIMPLEX,MULTICAST&gt; mtu <span style="color:#0000cf;font-weight:bold">1500</span>
+  ether 8c:85:90:ba:52:10 
+  inet6 fe80::1862:95fe:55e7:284e%en0 prefixlen <span style="color:#0000cf;font-weight:bold">64</span> secured scopeid 0x9 
+  inet 192.168.1.189 netmask 0xffffff00 broadcast 192.168.1.255
+...
+</code></pre></div></li>
+</ul>
+<p><img src="/containers/jmx/all_jmx_servers.png" alt=""></p>
+<p> </p>
+  <br/>
+  <div class="card mb-3" style="width: 80%;">
+      <div class="card-header text-white border-info bg-info">
+          <i class="fas fa-arrow-alt-circle-right"></i>&nbsp;&nbsp;Up Next</div>
+      <div class="card-body">
+        <p class="card-text">
+In the next section, we'll learn about some Docker tooling.
+</p>
+        <a href="https://jvmperf.net/docs/containers/docker_monitoring/">Docker Tooling</a></i>
+      </div>
+  </div>
+
+</div>
+
+
+
+    
+	
+  
+    
+    
+	
+    
+
+<div class="td-content" style="page-break-before: always">
+    
+	<h1 id="pg-c470bf618fcbdd51c44b1b1135f55896">3 - Docker Tooling</h1>
+    <div class="lead">Learn about Docker tooling to inspect our running containers</div>
+	  <br/>
+  <div class="card mb-3" style="width: 80%;">
+      <div class="card-header text-white border-info bg-info">
+          <i class="fas fa-arrow-alt-circle-right"></i>&nbsp;&nbsp;Up Next</div>
+      <div class="card-body">
+        <p class="card-text">
+In the next section, X
+</p>
+        <a href="https://jvmperf.net/docs/containers/_references/">References</a></i>
+      </div>
+  </div>
+
+</div>
+
+
+
+    
+	
+  
+    
+    
+	
+    
+
+<div class="td-content" style="page-break-before: always">
+    
+	<h1 id="pg-6362126ba5f5128b262a9fb88d5015e8">4 - References</h1>
+    <div class="lead">Collection of useful references used to build this guide.</div>
+	<ul>
+<li><a href="https://docs.docker.com/get-started/">Docker Orientation and Setup</a></li>
+<li>JMX
+<ul>
+<li><a href="https://github.com/cstroe/java-jmx-in-docker-sample-app/blob/master/README.md#java-jmx-with-docker">JMX with Docker</a></li>
+<li><a href="http://blog.bytecode.tech/my-notes/jmx-over-rmi/">JMX over RMI</a></li>
+<li><a href="https://docs.oracle.com/javase/8/docs/technotes/guides/management/agent.html">Monitoring Reference</a></li>
+</ul>
+</li>
+</ul>
+
+</div>
+
+
+
+    
+	
+  
+
+
+
+          </main>
+        </div>
+      </div>
+      
+<footer class="bg-dark py-5 row d-print-none">
+  <div class="container-fluid mx-sm-5">
+    <div class="row">
+      <div class="col-6 col-sm-4 text-xs-center order-sm-2">
+        
+        
+        
+      </div>
+      <div class="col-6 col-sm-4 text-right text-xs-center order-sm-3">
+        
+        
+        
+<ul class="list-inline mb-0">
+  
+  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="GitHub" aria-label="GitHub">
+    <a class="text-white" target="_blank" rel="noopener noreferrer" href="https://github.com/cchesser/java-perf-workshop">
+      <i class="fab fa-github"></i>
+    </a>
+  </li>
+  
+</ul>
+
+        
+        
+      </div>
+      <div class="col-12 col-sm-4 text-center py-2 order-sm-2">
+        <small class="text-white">&copy; 2021 - All Rights Reserved</small>
+        
+	
+		
+	
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+    </div>
+    
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="/js/main.min.f820bfc507c3ebefe17f8881ec4ee10013f3b89ad9555a50acf9bb1771e6823f.js" integrity="sha256-&#43;CC/xQfD6&#43;/hf4iB7E7hABPzuJrZVVpQrPm7F3Hmgj8=" crossorigin="anonymous"></script>
+
+
+
+<script src='/js/prism.js'></script>
+
+
+
+  </body>
+</html>
