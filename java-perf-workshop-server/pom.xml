@@ -134,7 +134,7 @@
                                     <tag>latest</tag>
                                     <tag>${project.version}</tag>
                                 </tags>
-                                <from>java:8</from>
+                                <from>openjdk:8</from>
                                 <assembly>
                                     <descriptor>server-assembly.xml</descriptor>
                                 </assembly>
@@ -143,7 +143,7 @@
                                     <port>8081</port>
                                 </ports>
                                 <cmd>
-                                    <shell>java -jar \
+                                    <shell>java $JAVA_OPTS -jar \
                                         /maven/${project.build.finalName}.jar server \
                                         /maven/server-config.yml</shell>
                                 </cmd>
