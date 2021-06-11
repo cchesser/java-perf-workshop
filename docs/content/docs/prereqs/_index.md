@@ -2,7 +2,7 @@
 title: "Prerequisites"
 weight: 5
 description: >
-    Instructions for acquiring the sofware needed for the workshop.
+    Instructions for acquiring the software needed for the workshop.
 hide_readingtime: true
 ---
 

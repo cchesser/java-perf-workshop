@@ -32,7 +32,7 @@ We'll set the following properties as a `JAVA_OPTS` environment variable when we
 * Disabling for both the registry and jmx: `-Dcom.sun.management.jmxremote.registry.ssl=false` and `-Dcom.sun.management.jmxremote.ssl=false`
 * Accept connections not from localhost: `-Dcom.sun.management.jmxremote.local.only=false`
   * Since the machine we are connecting from will not be in the container network, we need to allow non localhost connections.
-* The host name for the [RMI server](https://docs.oracle.com/javase/8/docs/technotes/guides/rmi/javarmiproperties.html) will be set to `127.0.0.1`. The default value for this will be the container's IP address, which we are overridding.
+* The host name for the [RMI server](https://docs.oracle.com/javase/8/docs/technotes/guides/rmi/javarmiproperties.html) will be set to `127.0.0.1`. The default value for this will be the container's IP address, which we are overriding.
 
 Set these values as an `environment` property on your workshop container:
 

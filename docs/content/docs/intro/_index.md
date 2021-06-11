@@ -104,7 +104,7 @@ There's a couple of java utilities that can also be used to find the PIDs of you
 
 ### jps
 
-The [Java Virtual Machine Process Status Tool](https://docs.oracle.com/javase/7/docs/technotes/tools/share/jps.html) can be used to see Java processess.
+The [Java Virtual Machine Process Status Tool](https://docs.oracle.com/javase/7/docs/technotes/tools/share/jps.html) can be used to see Java processes.
 
 ```bash
  $ jps
