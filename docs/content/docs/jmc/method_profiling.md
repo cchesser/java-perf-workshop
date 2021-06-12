@@ -17,7 +17,7 @@ This page is a little bit difficult to use in JMC7, planned improvements for the
 
 ![](/jmc/method_profile_page.png)
 
-By default, this view groups threads by method, but you can also include the line number for each method. This can be accomplishbed by selecting the __View Menu__ option and  going to __Distinguish Frames By__ and selecting __Line Number__.
+By default, this view groups threads by method, but you can also include the line number for each method. This can be accomplished by selecting the __View Menu__ option and  going to __Distinguish Frames By__ and selecting __Line Number__.
 
 ![](/jmc/method_profile_distinguish_line_numbers.png)
 
@@ -52,7 +52,7 @@ We can then use this information to correlate what is happening in our code:
 ## <i class="fas fa-compass"></i> Explore
 
 * Walk around to look at other areas where you are spending time in your code. 
-  * In many cases you find that there are very expensive areas of code that you cannot change (as you may not own it), but you can dictate whether or not it should be executed (or executed as frequently.
+  * In many cases you find that there are very expensive areas of code that you cannot change (as you may not own it), but you can dictate whether or not it should be executed (or executed as frequently).
 
 ### <i class="fas fa-question"></i> Follow Ups
 

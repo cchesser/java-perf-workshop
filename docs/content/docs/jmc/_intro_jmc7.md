@@ -202,7 +202,7 @@ From a Java Flight Recording, there are several categories of information (pages
   * __Socket I/O__: Displays Network costs and behaviors
 * JVM Internals:
   * __Garbage Collections__: Displays heap usage compared to pause times as well as GC events.
-  * __Compliations__: Provides details on code compilation.
+  * __Compilations__: Provides details on code compilation.
   * __TLAB Allocations__: Displays Thread Local Allocation Buffers.
 * System Information:
   * __Processes__: See other processes on the system and what is competing for resources.
@@ -212,7 +212,7 @@ From a Java Flight Recording, there are several categories of information (pages
   __Event Browser__: View detailed log of the events within the JVM. You can use this page to further filter down on events across all the pages in the recording.
 
 {{% alert title="Note" color="info" %}}
-Feel free to reference the additional [resources](/docs/jmc/references) as you navigate through the sections.
+Feel free to reference the additional [resources](/docs/jmc/_references/) as you navigate through the sections.
 {{% /alert %}}
 
 {{% nextSection %}}

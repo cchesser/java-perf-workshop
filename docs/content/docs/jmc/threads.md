@@ -5,7 +5,7 @@ description: >
     Find the computation and latency events in your application.
 ---
 
-The __Threads__ page provides a snaphost of all threads in our application, and we can use it to acquire information about computation and latency events.
+The __Threads__ page provides a snapshot of all threads in our application, and we can use it to acquire information about computation and latency events.
 
 ![](/jmc/threads_page.png)
 
@@ -33,7 +33,7 @@ Once you're done with the filtered view, right click on the __Thread__ page and 
 
 ### By Thread
 
-We can select an invididual thread from the __Thread Table__ to further filter the data just for that thread. From this filtered view, we can inspect what the commonly executed methods are for a particular thread. 
+We can select an individual thread from the __Thread Table__ to further filter the data just for that thread. From this filtered view, we can inspect what the commonly executed methods are for a particular thread. 
 
 ![](/jmc/thread_selected.png)
 
