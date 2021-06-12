@@ -124,7 +124,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.d1f02776041ec9f12a476d7d337c32fe.json"
+  data-offline-search-index-json-src="/offline-search-index.ee7b01465df7ccf5c47b636852f770c3.json"
   data-offline-search-base-href="/"
   data-offline-search-max-results="10"
 >
@@ -392,7 +392,7 @@ Simulation cchesser.javaperf.workshop.WorkshopSimulation started...
 <li>JVM Internals:
 <ul>
 <li><strong>Garbage Collections</strong>: Displays heap usage compared to pause times as well as GC events.</li>
-<li><strong>Compliations</strong>: Provides details on code compilation.</li>
+<li><strong>Compilations</strong>: Provides details on code compilation.</li>
 <li><strong>TLAB Allocations</strong>: Displays Thread Local Allocation Buffers.</li>
 </ul>
 </li>
@@ -411,7 +411,7 @@ Simulation cchesser.javaperf.workshop.WorkshopSimulation started...
 <div class="alert alert-info" role="alert">
 <h4 class="alert-heading">Note</h4>
 
-    Feel free to reference the additional <a href="/docs/jmc/references">resources</a> as you navigate through the sections.
+    Feel free to reference the additional <a href="/docs/jmc/_references/">resources</a> as you navigate through the sections.
 
 </div>
 
@@ -456,7 +456,7 @@ In the next section, we'll find out more about what our methods are doing.
 </div>
 
 <p><img src="/jmc/method_profile_page.png" alt=""></p>
-<p>By default, this view groups threads by method, but you can also include the line number for each method. This can be accomplishbed by selecting the <strong>View Menu</strong> option and  going to <strong>Distinguish Frames By</strong> and selecting <strong>Line Number</strong>.</p>
+<p>By default, this view groups threads by method, but you can also include the line number for each method. This can be accomplished by selecting the <strong>View Menu</strong> option and  going to <strong>Distinguish Frames By</strong> and selecting <strong>Line Number</strong>.</p>
 <p><img src="/jmc/method_profile_distinguish_line_numbers.png" alt=""></p>
 <p>💡 Generally, you don&rsquo;t need this, as it can be quite apparent by the base method being invoked where the cost is at. Though, it may be helpful to include in some contexts.</p>
 <p><img src="/jmc/method_profile_with_line_numbers.png" alt=""></p>
@@ -483,7 +483,7 @@ In the next section, we'll find out more about what our methods are doing.
 <ul>
 <li>Walk around to look at other areas where you are spending time in your code.
 <ul>
-<li>In many cases you find that there are very expensive areas of code that you cannot change (as you may not own it), but you can dictate whether or not it should be executed (or executed as frequently.</li>
+<li>In many cases you find that there are very expensive areas of code that you cannot change (as you may not own it), but you can dictate whether or not it should be executed (or executed as frequently).</li>
 </ul>
 </li>
 </ul>
@@ -575,7 +575,7 @@ In the next section, we'll look at the Threads used by our application.
     
 	<h1 id="pg-140f7f618c6427a75628497db237e231">4 - Threads</h1>
     <div class="lead">Find the computation and latency events in your application.</div>
-	<p>The <strong>Threads</strong> page provides a snaphost of all threads in our application, and we can use it to acquire information about computation and latency events.</p>
+	<p>The <strong>Threads</strong> page provides a snapshot of all threads in our application, and we can use it to acquire information about computation and latency events.</p>
 <p><img src="/jmc/threads_page.png" alt=""></p>
 <h3 id="thread-chart">Thread Chart</h3>
 <p>We can use the Thread Chart view to select a region of time and view the state of threads and the most common stack frames for that particular time slice:</p>
@@ -589,7 +589,7 @@ In the next section, we'll look at the Threads used by our application.
 <p>Once you&rsquo;re done with the filtered view, right click on the <strong>Thread</strong> page and Reset the page (to return to the default state).</p>
 <p><img src="/jmc/reset_thread_page.png" alt=""></p>
 <h3 id="by-thread">By Thread</h3>
-<p>We can select an invididual thread from the <strong>Thread Table</strong> to further filter the data just for that thread. From this filtered view, we can inspect what the commonly executed methods are for a particular thread.</p>
+<p>We can select an individual thread from the <strong>Thread Table</strong> to further filter the data just for that thread. From this filtered view, we can inspect what the commonly executed methods are for a particular thread.</p>
 <p><img src="/jmc/thread_selected.png" alt=""></p>
 <p>We can then use the stacktrace view to correlate what piece of code executed the most.</p>
 <p><img src="/jmc/thread_selected_stack_trace.png" alt=""></p>

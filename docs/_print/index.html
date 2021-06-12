@@ -121,7 +121,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.d1f02776041ec9f12a476d7d337c32fe.json"
+  data-offline-search-index-json-src="/offline-search-index.ee7b01465df7ccf5c47b636852f770c3.json"
   data-offline-search-base-href="/"
   data-offline-search-max-results="10"
 >
@@ -454,7 +454,7 @@ This the multi-page printable view of this section.
 <div class="td-content" style="">
     
 	<h1 id="pg-f3351e063429a5c5cbfec483b1ba8747">1 - Prerequisites</h1>
-    <div class="lead">Instructions for acquiring the sofware needed for the workshop.</div>
+    <div class="lead">Instructions for acquiring the software needed for the workshop.</div>
 	<h2 id="java-development-kit">Java Development Kit</h2>
 <p>Install a Java Development Kit from Oracle or Open JDK</p>
 <ul>
@@ -686,7 +686,7 @@ Swap:        0k total,        0k used,        0k free,   336520k cached
 </code></pre></div><h2 id="java-utilities">Java Utilities</h2>
 <p>There&rsquo;s a couple of java utilities that can also be used to find the PIDs of your running processes.</p>
 <h3 id="jps">jps</h3>
-<p>The <a href="https://docs.oracle.com/javase/7/docs/technotes/tools/share/jps.html">Java Virtual Machine Process Status Tool</a> can be used to see Java processess.</p>
+<p>The <a href="https://docs.oracle.com/javase/7/docs/technotes/tools/share/jps.html">Java Virtual Machine Process Status Tool</a> can be used to see Java processes.</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"> $ jps
 <span style="color:#0000cf;font-weight:bold">7241</span> Jps
 <span style="color:#0000cf;font-weight:bold">6059</span> java-perf-workshop-server-1.1.0-SNAPSHOT.jar
@@ -934,7 +934,7 @@ Simulation cchesser.javaperf.workshop.WorkshopSimulation started...
 <li>JVM Internals:
 <ul>
 <li><strong>Garbage Collections</strong>: Displays heap usage compared to pause times as well as GC events.</li>
-<li><strong>Compliations</strong>: Provides details on code compilation.</li>
+<li><strong>Compilations</strong>: Provides details on code compilation.</li>
 <li><strong>TLAB Allocations</strong>: Displays Thread Local Allocation Buffers.</li>
 </ul>
 </li>
@@ -953,7 +953,7 @@ Simulation cchesser.javaperf.workshop.WorkshopSimulation started...
 <div class="alert alert-info" role="alert">
 <h4 class="alert-heading">Note</h4>
 
-    Feel free to reference the additional <a href="/docs/jmc/references">resources</a> as you navigate through the sections.
+    Feel free to reference the additional <a href="/docs/jmc/_references/">resources</a> as you navigate through the sections.
 
 </div>
 
@@ -998,7 +998,7 @@ In the next section, we'll find out more about what our methods are doing.
 </div>
 
 <p><img src="/jmc/method_profile_page.png" alt=""></p>
-<p>By default, this view groups threads by method, but you can also include the line number for each method. This can be accomplishbed by selecting the <strong>View Menu</strong> option and  going to <strong>Distinguish Frames By</strong> and selecting <strong>Line Number</strong>.</p>
+<p>By default, this view groups threads by method, but you can also include the line number for each method. This can be accomplished by selecting the <strong>View Menu</strong> option and  going to <strong>Distinguish Frames By</strong> and selecting <strong>Line Number</strong>.</p>
 <p><img src="/jmc/method_profile_distinguish_line_numbers.png" alt=""></p>
 <p>💡 Generally, you don&rsquo;t need this, as it can be quite apparent by the base method being invoked where the cost is at. Though, it may be helpful to include in some contexts.</p>
 <p><img src="/jmc/method_profile_with_line_numbers.png" alt=""></p>
@@ -1025,7 +1025,7 @@ In the next section, we'll find out more about what our methods are doing.
 <ul>
 <li>Walk around to look at other areas where you are spending time in your code.
 <ul>
-<li>In many cases you find that there are very expensive areas of code that you cannot change (as you may not own it), but you can dictate whether or not it should be executed (or executed as frequently.</li>
+<li>In many cases you find that there are very expensive areas of code that you cannot change (as you may not own it), but you can dictate whether or not it should be executed (or executed as frequently).</li>
 </ul>
 </li>
 </ul>
@@ -1117,7 +1117,7 @@ In the next section, we'll look at the Threads used by our application.
     
 	<h1 id="pg-140f7f618c6427a75628497db237e231">4.4 - Threads</h1>
     <div class="lead">Find the computation and latency events in your application.</div>
-	<p>The <strong>Threads</strong> page provides a snaphost of all threads in our application, and we can use it to acquire information about computation and latency events.</p>
+	<p>The <strong>Threads</strong> page provides a snapshot of all threads in our application, and we can use it to acquire information about computation and latency events.</p>
 <p><img src="/jmc/threads_page.png" alt=""></p>
 <h3 id="thread-chart">Thread Chart</h3>
 <p>We can use the Thread Chart view to select a region of time and view the state of threads and the most common stack frames for that particular time slice:</p>
@@ -1131,7 +1131,7 @@ In the next section, we'll look at the Threads used by our application.
 <p>Once you&rsquo;re done with the filtered view, right click on the <strong>Thread</strong> page and Reset the page (to return to the default state).</p>
 <p><img src="/jmc/reset_thread_page.png" alt=""></p>
 <h3 id="by-thread">By Thread</h3>
-<p>We can select an invididual thread from the <strong>Thread Table</strong> to further filter the data just for that thread. From this filtered view, we can inspect what the commonly executed methods are for a particular thread.</p>
+<p>We can select an individual thread from the <strong>Thread Table</strong> to further filter the data just for that thread. From this filtered view, we can inspect what the commonly executed methods are for a particular thread.</p>
 <p><img src="/jmc/thread_selected.png" alt=""></p>
 <p>We can then use the stacktrace view to correlate what piece of code executed the most.</p>
 <p><img src="/jmc/thread_selected_stack_trace.png" alt=""></p>
@@ -2426,7 +2426,7 @@ In the next section, we'll learn how to enable Java Monitoring Tooling to work w
 <li>Since the machine we are connecting from will not be in the container network, we need to allow non localhost connections.</li>
 </ul>
 </li>
-<li>The host name for the <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/rmi/javarmiproperties.html">RMI server</a> will be set to <code>127.0.0.1</code>. The default value for this will be the container&rsquo;s IP address, which we are overridding.</li>
+<li>The host name for the <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/rmi/javarmiproperties.html">RMI server</a> will be set to <code>127.0.0.1</code>. The default value for this will be the container&rsquo;s IP address, which we are overriding.</li>
 </ul>
 <p>Set these values as an <code>environment</code> property on your workshop container:</p>
 <div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#000">...</span><span style="color:#f8f8f8;text-decoration:underline">
