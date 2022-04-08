@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="generator" content="Hugo 0.79.1" /><META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
+<meta name="generator" content="Hugo 0.96.0" /><META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
 
 
 <link rel="shortcut icon" href="/favicons/favicon.ico" >
@@ -20,17 +20,15 @@
 <title>Capturing Heap Dumps | jvmperf: Java Performance Workshop</title><meta property="og:title" content="Capturing Heap Dumps" />
 <meta property="og:description" content="Different ways to capture a heap dump." />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://jvmperf.net/docs/memory/capturing/" />
+<meta property="og:url" content="https://jvmperf.net/docs/memory/capturing/" /><meta property="article:section" content="docs" />
+
 <meta property="article:modified_time" content="2021-03-01T08:17:48-06:00" /><meta property="og:site_name" content="jvmperf: Java Performance Workshop" />
+
 <meta itemprop="name" content="Capturing Heap Dumps">
 <meta itemprop="description" content="Different ways to capture a heap dump.">
 <meta itemprop="dateModified" content="2021-03-01T08:17:48-06:00" />
 <meta itemprop="wordCount" content="248">
-
-
-
-<meta itemprop="keywords" content="" />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Capturing Heap Dumps"/>
 <meta name="twitter:description" content="Different ways to capture a heap dump."/>
 
@@ -51,8 +49,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.f375af085e385d9c81e821b5bf7e9cb2c8d9340999a543bac2e455376f3391bc.css" as="style">
-<link href="/scss/main.min.f375af085e385d9c81e821b5bf7e9cb2c8d9340999a543bac2e455376f3391bc.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.8e5dab51d558b87cfb2ccaaec5a06ff38eeb9872da9829b0b5975aece46683e1.css" as="style">
+<link href="/scss/main.min.8e5dab51d558b87cfb2ccaaec5a06ff38eeb9872da9829b0b5975aece46683e1.css" rel="stylesheet" integrity="">
 
 
 <script
@@ -126,7 +124,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.ee7b01465df7ccf5c47b636852f770c3.json"
+  data-offline-search-index-json-src="/offline-search-index.4b5da08a2b319e5c3f4ab194102e8526.json"
   data-offline-search-base-href="/"
   data-offline-search-max-results="10"
 >
@@ -158,7 +156,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.ee7b01465df7ccf5c47b636852f770c3.json"
+  data-offline-search-index-json-src="/offline-search-index.4b5da08a2b319e5c3f4ab194102e8526.json"
   data-offline-search-base-href="/"
   data-offline-search-max-results="10"
 >
@@ -591,19 +589,19 @@ if (!doNotTrack) {
 <h2 id="jcmd">jcmd</h2>
 <p>With <code>jcmd</code>, you have the ability to invoke the <code>GC.heap_dump</code> command. This requires that you
 are running as the same OS user as the target JVM process.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">jcmd &lt;PID&gt; GC.heap_dump my_little_heap_dump.hprof
-</code></pre></div><p><strong>Note:</strong> If a full path is not specified, the heap_dump will be created relative to the location from where the process was started (when generated with jcmd)</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>jcmd &lt;PID&gt; GC.heap_dump my_little_heap_dump.hprof
+</span></span></code></pre></div><p><strong>Note:</strong> If a full path is not specified, the heap_dump will be created relative to the location from where the process was started (when generated with jcmd)</p>
 <h2 id="jmap">jmap</h2>
 <p>A more traditional approach is using <code>jmap</code> and invoking the command on the target process.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">jmap -dump:format<span style="color:#ce5c00;font-weight:bold">=</span>b,file<span style="color:#ce5c00;font-weight:bold">=</span>my_little_heap_dump.hprof &lt;PID&gt;
-</code></pre></div><h2 id="core-dump">Core Dump</h2>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>jmap -dump:format<span style="color:#ce5c00;font-weight:bold">=</span>b,file<span style="color:#ce5c00;font-weight:bold">=</span>my_little_heap_dump.hprof &lt;PID&gt;
+</span></span></code></pre></div><h2 id="core-dump">Core Dump</h2>
 <p>You can also use <code>jmap</code> to extract a heap dump from a core dump on the process:</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">sudo gdb --pid<span style="color:#ce5c00;font-weight:bold">=</span>&lt;PID&gt;
-gcore /tmp/jvm.core
-detach
-quit
-jmap -dump:format<span style="color:#ce5c00;font-weight:bold">=</span>b,file<span style="color:#ce5c00;font-weight:bold">=</span>my_little_heap_dump.hprof /usr/bin/java /tmp/jvm.core
-</code></pre></div><p>💡 Capturing a heap dump from a core dump on Java 8, you may run into this issue:
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo gdb --pid<span style="color:#ce5c00;font-weight:bold">=</span>&lt;PID&gt;
+</span></span><span style="display:flex;"><span>gcore /tmp/jvm.core
+</span></span><span style="display:flex;"><span>detach
+</span></span><span style="display:flex;"><span>quit
+</span></span><span style="display:flex;"><span>jmap -dump:format<span style="color:#ce5c00;font-weight:bold">=</span>b,file<span style="color:#ce5c00;font-weight:bold">=</span>my_little_heap_dump.hprof /usr/bin/java /tmp/jvm.core
+</span></span></code></pre></div><p>💡 Capturing a heap dump from a core dump on Java 8, you may run into this issue:
 <a href="http://bugs.java.com/bugdatabase/view_bug.do?bug_id=8073606">JDK-8073606</a>.</p>
 <h3 id="hotspot-diagnostic-mbean">HotSpot Diagnostic MBean</h3>
 <p>You can capture a heap dump by invoking a diagnostic MBean which is included in the Oracle JDK. You can do so by opening your favorite MBean browser (ex. <code>jconsole</code>, <code>jmc</code>) and invoke
@@ -663,7 +661,7 @@ In the next section, we'll start analyzing our heap dump with JOverflow.
         
       </div>
       <div class="col-12 col-sm-4 text-center py-2 order-sm-2">
-        <small class="text-white">&copy; 2021 - All Rights Reserved</small>
+        <small class="text-white">&copy; 2022 - All Rights Reserved</small>
         
 	
 		
@@ -691,7 +689,7 @@ In the next section, we'll start analyzing our heap dump with JOverflow.
 
 
 
-<script src="/js/main.min.f820bfc507c3ebefe17f8881ec4ee10013f3b89ad9555a50acf9bb1771e6823f.js" integrity="sha256-&#43;CC/xQfD6&#43;/hf4iB7E7hABPzuJrZVVpQrPm7F3Hmgj8=" crossorigin="anonymous"></script>
+<script src="/js/main.min.b98a3473667defb32cda6c536707346795949f52932465ac5010615f974ccd60.js" integrity="sha256-uYo0c2Z977Ms2mxTZwc0Z5WUn1KTJGWsUBBhX5dMzWA=" crossorigin="anonymous"></script>
 
 
 

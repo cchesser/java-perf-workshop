@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="generator" content="Hugo 0.79.1" /><META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
+<meta name="generator" content="Hugo 0.96.0" /><META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
 
 
 <link rel="shortcut icon" href="/favicons/favicon.ico" >
@@ -20,17 +20,15 @@
 <title>Garbage Collections | jvmperf: Java Performance Workshop</title><meta property="og:title" content="Garbage Collections" />
 <meta property="og:description" content="Analyzing garbage collections of the JVM" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://jvmperf.net/docs/memory/gc/" />
+<meta property="og:url" content="https://jvmperf.net/docs/memory/gc/" /><meta property="article:section" content="docs" />
+
 <meta property="article:modified_time" content="2021-02-28T10:27:43-06:00" /><meta property="og:site_name" content="jvmperf: Java Performance Workshop" />
+
 <meta itemprop="name" content="Garbage Collections">
 <meta itemprop="description" content="Analyzing garbage collections of the JVM">
 <meta itemprop="dateModified" content="2021-02-28T10:27:43-06:00" />
 <meta itemprop="wordCount" content="1641">
-
-
-
-<meta itemprop="keywords" content="" />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Garbage Collections"/>
 <meta name="twitter:description" content="Analyzing garbage collections of the JVM"/>
 
@@ -51,8 +49,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.f375af085e385d9c81e821b5bf7e9cb2c8d9340999a543bac2e455376f3391bc.css" as="style">
-<link href="/scss/main.min.f375af085e385d9c81e821b5bf7e9cb2c8d9340999a543bac2e455376f3391bc.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.8e5dab51d558b87cfb2ccaaec5a06ff38eeb9872da9829b0b5975aece46683e1.css" as="style">
+<link href="/scss/main.min.8e5dab51d558b87cfb2ccaaec5a06ff38eeb9872da9829b0b5975aece46683e1.css" rel="stylesheet" integrity="">
 
 
 <script
@@ -126,7 +124,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.ee7b01465df7ccf5c47b636852f770c3.json"
+  data-offline-search-index-json-src="/offline-search-index.4b5da08a2b319e5c3f4ab194102e8526.json"
   data-offline-search-base-href="/"
   data-offline-search-max-results="10"
 >
@@ -158,7 +156,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.ee7b01465df7ccf5c47b636852f770c3.json"
+  data-offline-search-index-json-src="/offline-search-index.4b5da08a2b319e5c3f4ab194102e8526.json"
   data-offline-search-base-href="/"
   data-offline-search-max-results="10"
 >
@@ -634,11 +632,11 @@ is still capable of being captured from a host.</li>
 <h2 id="gc-log-formats">GC Log formats</h2>
 <p>With different garbage collectors in the JVM, you will get slightly different GC log formats.</p>
 <h3 id="parallel-gc">Parallel GC</h3>
-<pre><code>2015-09-30T10:57:20.215+0600: 0.847: [GC (Allocation Failure) [PSYoungGen: 65536K-&gt;10748K(76288K)] 65536K-&gt;12607K(251392K), 0.0118637 secs] [Times: user=0.03 sys=0.01, real=0.01 secs]
+<pre tabindex="0"><code>2015-09-30T10:57:20.215+0600: 0.847: [GC (Allocation Failure) [PSYoungGen: 65536K-&gt;10748K(76288K)] 65536K-&gt;12607K(251392K), 0.0118637 secs] [Times: user=0.03 sys=0.01, real=0.01 secs]
 2015-09-30T10:57:20.556+0600: 1.188: [GC (Metadata GC Threshold) [PSYoungGen: 44312K-&gt;10748K(141824K)] 46171K-&gt;12786K(316928K), 0.0077755 secs] [Times: user=0.03 sys=0.00, real=0.01 secs]
 2015-09-30T10:57:20.564+0600: 1.196: [Full GC (Metadata GC Threshold) [PSYoungGen: 10748K-&gt;0K(141824K)] [ParOldGen: 2038K-&gt;10444K(116736K)] 12786K-&gt;10444K(258560K), [Metaspace: 20976K-&gt;20976K(1067008K)], 0.0286381 secs] [Times: user=0.14 sys=0.01, real=0.03 secs]
 </code></pre><h3 id="concurrent-mark-sweep">Concurrent Mark Sweep</h3>
-<pre><code>2015-09-30T11:11:35.994+0600: 0.838: [GC (Allocation Failure) 0.838: [ParNew: 69952K-&gt;8703K(78656K), 0.0128204 secs] 69952K-&gt;12781K(253440K), 0.0128848 secs] [Times: user=0.04 sys=0.01, real=0.01 secs]
+<pre tabindex="0"><code>2015-09-30T11:11:35.994+0600: 0.838: [GC (Allocation Failure) 0.838: [ParNew: 69952K-&gt;8703K(78656K), 0.0128204 secs] 69952K-&gt;12781K(253440K), 0.0128848 secs] [Times: user=0.04 sys=0.01, real=0.01 secs]
 2015-09-30T11:11:38.009+0600: 2.853: [GC (CMS Initial Mark) [1 CMS-initial-mark: 4077K(174784K)] 67493K(253440K), 0.0088311 secs] [Times: user=0.04 sys=0.00, real=0.01 secs]
 2015-09-30T11:11:38.018+0600: 2.862: [CMS-concurrent-mark-start]
 2015-09-30T11:11:38.018+0600: 2.862: [CMS-concurrent-mark: 0.000/0.000 secs] [Times: user=0.00 sys=0.00, real=0.00 secs]
@@ -652,7 +650,7 @@ is still capable of being captured from a host.</li>
 2015-09-30T11:11:43.087+0600: 7.930: [CMS-concurrent-reset-start]
 2015-09-30T11:11:43.110+0600: 7.954: [CMS-concurrent-reset: 0.023/0.023 secs] [Times: user=0.01 sys=0.01, real=0.03 secs]
 </code></pre><h3 id="g1">G1</h3>
-<pre><code>015-09-30T11:13:03.870+0600: 0.395: [GC pause (G1 Evacuation Pause) (young), 0.0052206 secs]
+<pre tabindex="0"><code>015-09-30T11:13:03.870+0600: 0.395: [GC pause (G1 Evacuation Pause) (young), 0.0052206 secs]
    [Parallel Time: 1.9 ms, GC Workers: 8]
       [GC Worker Start (ms): Min: 395.4, Avg: 395.5, Max: 395.8, Diff: 0.3]
       [Ext Root Scanning (ms): Min: 0.0, Avg: 0.3, Max: 1.1, Diff: 1.1, Sum: 2.0]
@@ -737,11 +735,11 @@ is still capable of being captured from a host.</li>
  [Times: user=0.01 sys=0.00, real=0.00 secs]
 </code></pre><h2 id="type-of-collections">Type of Collections</h2>
 <p>A simple rule to watch for on your logs is the prefix of either:</p>
-<pre><code>[GC ...      &lt;- Minor GC cycle (young gen)
+<pre tabindex="0"><code>[GC ...      &lt;- Minor GC cycle (young gen)
 [Full GC ... &lt;- Full GC cycle
 </code></pre><p>(❗) Explicit GCs can also be identified, which is when something is invoking the <code>System.gc()</code> API. Note, this is not good thing, as
 something is forcing a GC cycle to occur, rather than letting the JVM trigger this on its own (what should naturally occur).</p>
-<pre><code>2015-09-30T12:23:44.425+0600: 195.699: [GC (System.gc()) [PSYoungGen: 39223K-&gt;3562K(76288K)] 49685K-&gt;14032K(190464K), 0.0047880 secs] [Times: user=0.02 sys=0.00, real=0.01 secs]
+<pre tabindex="0"><code>2015-09-30T12:23:44.425+0600: 195.699: [GC (System.gc()) [PSYoungGen: 39223K-&gt;3562K(76288K)] 49685K-&gt;14032K(190464K), 0.0047880 secs] [Times: user=0.02 sys=0.00, real=0.01 secs]
 2015-09-30T12:23:44.430+0600: 195.704: [Full GC (System.gc()) [PSYoungGen: 3562K-&gt;0K(76288K)] [ParOldGen: 10469K-&gt;9174K(114176K)] 14032K-&gt;9174K(190464K), [Metaspace: 25137K-&gt;25137K(1071104K)], 0.0724521 secs] [Times: user=0.38 sys=0.01, real=0.07 secs]
 </code></pre><p>It is generally recommended to use the <code>-XX:+DisableExplicitGC</code> JVM option to disable forceful GC events. This will allow
 the JVM to still have garbage collections, but it disables them from being triggered explicitly. The description of this option:</p>
@@ -751,37 +749,37 @@ the JVM to still have garbage collections, but it disables them from being trigg
 <h2 id="gathering-gc-logs">Gathering GC Logs</h2>
 <h3 id="enabling-logs">Enabling logs</h3>
 <p>With our service, let&rsquo;s go ahead and start it up with GC logging enabled:</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#8f5902;font-style:italic"># Navigate to the root directory of this project</span>
-java -XX:+PrintGCDetails -XX:+PrintGCDateStamps -Xloggc:gc.log -XX:GCLogFileSize<span style="color:#ce5c00;font-weight:bold">=</span>5M -XX:NumberOfGCLogFiles<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#0000cf;font-weight:bold">2</span> <span style="color:#4e9a06">\
-</span><span style="color:#4e9a06"></span> -jar java-perf-workshop-server/target/java-perf-workshop-server-1.1.0-SNAPSHOT.jar server server.yml 
-</code></pre></div><h3 id="parsing-the-log">Parsing the log</h3>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># Navigate to the root directory of this project</span>
+</span></span><span style="display:flex;"><span>java -XX:+PrintGCDetails -XX:+PrintGCDateStamps -Xloggc:gc.log -XX:GCLogFileSize<span style="color:#ce5c00;font-weight:bold">=</span>5M -XX:NumberOfGCLogFiles<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#0000cf;font-weight:bold">2</span> <span style="color:#4e9a06">\
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06"></span> -jar java-perf-workshop-server/target/java-perf-workshop-server-1.1.0-SNAPSHOT.jar server server.yml 
+</span></span></code></pre></div><h3 id="parsing-the-log">Parsing the log</h3>
 <p>For parsing the logs, we are just going to show a simple approach using <a href="https://www.r-project.org/">R</a> to parse the
 <code>gc.log</code> that we created. To do this, we will use the <code>stringr</code> package.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-r" data-lang="r"><span style="color:#8f5902;font-style:italic"># Including stringr package for regex</span>
-<span style="color:#000">library</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">stringr</span><span style="color:#000;font-weight:bold">)</span>
-
-<span style="color:#8f5902;font-style:italic"># Navigating to where the project is at on my filesystem</span>
-<span style="color:#000">setwd</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;~/java-perf-workshop&#34;</span><span style="color:#000;font-weight:bold">)</span>
-
-<span style="color:#8f5902;font-style:italic"># Read the GC log file in</span>
-<span style="color:#000">gc</span> <span style="color:#ce5c00;font-weight:bold">&lt;-</span> <span style="color:#000">readLines</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;gc.log&#34;</span><span style="color:#000;font-weight:bold">)</span>
-
-<span style="color:#8f5902;font-style:italic"># Regex the matches</span>
-<span style="color:#000">matches</span> <span style="color:#ce5c00;font-weight:bold">&lt;-</span> <span style="color:#000">str_match</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">gc</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;(\\d+)K-&gt;(\\d+)K\\((\\d+)K\\),\\s(\\d+.\\d+)\\ssecs.*\\[Times\\: user=(\\d+.\\d+) sys=(\\d+.\\d+), real=(\\d+.\\d+) secs&#34;</span><span style="color:#000;font-weight:bold">)</span>
-
-<span style="color:#8f5902;font-style:italic"># Look at what matches, now we want to filter out the NA</span>
-<span style="color:#000">matches</span>
-
-<span style="color:#8f5902;font-style:italic"># Filter content out and convert to a data frame</span>
-<span style="color:#000">gc.df</span> <span style="color:#ce5c00;font-weight:bold">&lt;-</span> <span style="color:#000">data.frame</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">na.omit</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">matches[</span><span style="color:#000;font-weight:bold">,</span><span style="color:#0000cf;font-weight:bold">-1</span><span style="color:#000">]</span><span style="color:#000;font-weight:bold">),</span> <span style="color:#000">stringsAsFactors</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87;font-weight:bold">FALSE</span><span style="color:#000;font-weight:bold">)</span>
-
-<span style="color:#8f5902;font-style:italic"># Add a column header to describe fields</span>
-<span style="color:#000">colnames</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">gc.df</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#ce5c00;font-weight:bold">&lt;-</span> <span style="color:#000">c</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;HeapUsedBeforeGC_KB&#34;</span><span style="color:#000;font-weight:bold">,</span><span style="color:#4e9a06">&#34;HeapUsedAfterGC_KB&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;HeapCapacity_KB&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;GCPauseTime_Sec&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;GCUserTime_Sec&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;GCSysTime_Sec&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;GCRealTime_Sec&#34;</span><span style="color:#000;font-weight:bold">)</span>
-
-<span style="color:#8f5902;font-style:italic"># List out the contents of the data frame</span>
-<span style="color:#000">gc.df</span>
-</code></pre></div><p>Example output:</p>
-<pre><code>  HeapUsedBeforeGC_KB HeapUsedAfterGC_KB HeapCapacity_KB GCPauseTime_Sec GCUserTime_Sec GCSysTime_Sec GCRealTime_Sec
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-r" data-lang="r"><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># Including stringr package for regex</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">library</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">stringr</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># Navigating to where the project is at on my filesystem</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">setwd</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;~/java-perf-workshop&#34;</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># Read the GC log file in</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">gc</span> <span style="color:#ce5c00;font-weight:bold">&lt;-</span> <span style="color:#000">readLines</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;gc.log&#34;</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># Regex the matches</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">matches</span> <span style="color:#ce5c00;font-weight:bold">&lt;-</span> <span style="color:#000">str_match</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">gc</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;(\\d+)K-&gt;(\\d+)K\\((\\d+)K\\),\\s(\\d+.\\d+)\\ssecs.*\\[Times\\: user=(\\d+.\\d+) sys=(\\d+.\\d+), real=(\\d+.\\d+) secs&#34;</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># Look at what matches, now we want to filter out the NA</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">matches</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># Filter content out and convert to a data frame</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">gc.df</span> <span style="color:#ce5c00;font-weight:bold">&lt;-</span> <span style="color:#000">data.frame</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">na.omit</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">matches[</span><span style="color:#000;font-weight:bold">,</span><span style="color:#0000cf;font-weight:bold">-1</span><span style="color:#000">]</span><span style="color:#000;font-weight:bold">),</span> <span style="color:#000">stringsAsFactors</span><span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87;font-weight:bold">FALSE</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># Add a column header to describe fields</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">colnames</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">gc.df</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#ce5c00;font-weight:bold">&lt;-</span> <span style="color:#000">c</span><span style="color:#000;font-weight:bold">(</span><span style="color:#4e9a06">&#34;HeapUsedBeforeGC_KB&#34;</span><span style="color:#000;font-weight:bold">,</span><span style="color:#4e9a06">&#34;HeapUsedAfterGC_KB&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;HeapCapacity_KB&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;GCPauseTime_Sec&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;GCUserTime_Sec&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;GCSysTime_Sec&#34;</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#4e9a06">&#34;GCRealTime_Sec&#34;</span><span style="color:#000;font-weight:bold">)</span>
+</span></span><span style="display:flex;"><span>
+</span></span><span style="display:flex;"><span><span style="color:#8f5902;font-style:italic"># List out the contents of the data frame</span>
+</span></span><span style="display:flex;"><span><span style="color:#000">gc.df</span>
+</span></span></code></pre></div><p>Example output:</p>
+<pre tabindex="0"><code>  HeapUsedBeforeGC_KB HeapUsedAfterGC_KB HeapCapacity_KB GCPauseTime_Sec GCUserTime_Sec GCSysTime_Sec GCRealTime_Sec
 1               65536              12554          251392       0.0091645           0.03          0.01           0.01
 2               45883              12707          316928       0.0092271           0.03          0.01           0.01
 </code></pre><p>Reminder on the types of time being collected:</p>
@@ -834,7 +832,7 @@ as <code>GCUserTime_Sec</code> is just the sum time of all the threads.</p>
         
       </div>
       <div class="col-12 col-sm-4 text-center py-2 order-sm-2">
-        <small class="text-white">&copy; 2021 - All Rights Reserved</small>
+        <small class="text-white">&copy; 2022 - All Rights Reserved</small>
         
 	
 		
@@ -862,7 +860,7 @@ as <code>GCUserTime_Sec</code> is just the sum time of all the threads.</p>
 
 
 
-<script src="/js/main.min.f820bfc507c3ebefe17f8881ec4ee10013f3b89ad9555a50acf9bb1771e6823f.js" integrity="sha256-&#43;CC/xQfD6&#43;/hf4iB7E7hABPzuJrZVVpQrPm7F3Hmgj8=" crossorigin="anonymous"></script>
+<script src="/js/main.min.b98a3473667defb32cda6c536707346795949f52932465ac5010615f974ccd60.js" integrity="sha256-uYo0c2Z977Ms2mxTZwc0Z5WUn1KTJGWsUBBhX5dMzWA=" crossorigin="anonymous"></script>
 
 
 

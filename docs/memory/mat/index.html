@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="generator" content="Hugo 0.79.1" /><META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
+<meta name="generator" content="Hugo 0.96.0" /><META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
 
 
 <link rel="shortcut icon" href="/favicons/favicon.ico" >
@@ -20,17 +20,15 @@
 <title>Eclipse MAT | jvmperf: Java Performance Workshop</title><meta property="og:title" content="Eclipse MAT" />
 <meta property="og:description" content="Heap Analysis using Eclipse MAT" />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://jvmperf.net/docs/memory/mat/" />
+<meta property="og:url" content="https://jvmperf.net/docs/memory/mat/" /><meta property="article:section" content="docs" />
+
 <meta property="article:modified_time" content="2021-03-01T08:17:48-06:00" /><meta property="og:site_name" content="jvmperf: Java Performance Workshop" />
+
 <meta itemprop="name" content="Eclipse MAT">
 <meta itemprop="description" content="Heap Analysis using Eclipse MAT">
 <meta itemprop="dateModified" content="2021-03-01T08:17:48-06:00" />
-<meta itemprop="wordCount" content="867">
-
-
-
-<meta itemprop="keywords" content="" />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="wordCount" content="827">
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Eclipse MAT"/>
 <meta name="twitter:description" content="Heap Analysis using Eclipse MAT"/>
 
@@ -51,8 +49,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.f375af085e385d9c81e821b5bf7e9cb2c8d9340999a543bac2e455376f3391bc.css" as="style">
-<link href="/scss/main.min.f375af085e385d9c81e821b5bf7e9cb2c8d9340999a543bac2e455376f3391bc.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.8e5dab51d558b87cfb2ccaaec5a06ff38eeb9872da9829b0b5975aece46683e1.css" as="style">
+<link href="/scss/main.min.8e5dab51d558b87cfb2ccaaec5a06ff38eeb9872da9829b0b5975aece46683e1.css" rel="stylesheet" integrity="">
 
 
 <script
@@ -126,7 +124,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.ee7b01465df7ccf5c47b636852f770c3.json"
+  data-offline-search-index-json-src="/offline-search-index.4b5da08a2b319e5c3f4ab194102e8526.json"
   data-offline-search-base-href="/"
   data-offline-search-max-results="10"
 >
@@ -158,7 +156,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.ee7b01465df7ccf5c47b636852f770c3.json"
+  data-offline-search-index-json-src="/offline-search-index.4b5da08a2b319e5c3f4ab194102e8526.json"
   data-offline-search-base-href="/"
   data-offline-search-max-results="10"
 >
@@ -596,7 +594,7 @@ if (!doNotTrack) {
 	<h1>Eclipse MAT</h1>
     <div class="lead">Heap Analysis using Eclipse MAT</div>
 	
-        <p class="reading-time"><i class="fa fa-clock" aria-hidden="true"></i> 5 minute read</p>
+        <p class="reading-time"><i class="fa fa-clock" aria-hidden="true"></i> 4 minute read</p>
            
 	
 
@@ -661,18 +659,18 @@ if (!doNotTrack) {
 <h3 id="oql">OQL</h3>
 <p>Another strong feature of Eclipse Memory Analyzer is the OQL studio to execute queries to do lookup on objects in your heap.</p>
 <p>Lookup our <code>ConferenceSession</code> class type:</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#204a87;font-weight:bold">SELECT</span> <span style="color:#ce5c00;font-weight:bold">*</span>
-<span style="color:#204a87;font-weight:bold">FROM</span> <span style="color:#000">INSTANCEOF</span> <span style="color:#000">cchesser</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">javaperf</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">workshop</span><span style="color:#000;font-weight:bold">.</span><span style="color:#204a87;font-weight:bold">data</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">ConferenceSession</span>
-</code></pre></div><p>💡 To execute the query, you click on the red exclamation mark (❗). Alternatively, you can press <code>CTRL+Enter</code> on Windows or <code>Command+Enter</code> on macOS.</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">SELECT</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">FROM</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">INSTANCEOF</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">cchesser</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">javaperf</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">workshop</span><span style="color:#000;font-weight:bold">.</span><span style="color:#204a87;font-weight:bold">data</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">ConferenceSession</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span></code></pre></div><p>💡 To execute the query, you click on the red exclamation mark (❗). Alternatively, you can press <code>CTRL+Enter</code> on Windows or <code>Command+Enter</code> on macOS.</p>
 <p><img src="https://github.com/cchesser/java-perf-workshop/wiki/images/mat_oql_studio.png" alt="MAT OQL"></p>
 <p>By returning the raw type back, you can expand each one to further look at the contents of the object. If you wanted to just report the object with its <code>title</code> attribute and the object&rsquo;s retained sized, you could do this:</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#204a87;font-weight:bold">SELECT</span> <span style="color:#204a87;font-weight:bold">c</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">title</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">toString</span><span style="color:#000;font-weight:bold">(),</span> <span style="color:#204a87;font-weight:bold">c</span><span style="color:#000;font-weight:bold">.</span><span style="color:#ce5c00;font-weight:bold">@</span><span style="color:#000">retainedHeapSize</span> 
-<span style="color:#204a87;font-weight:bold">FROM</span> <span style="color:#000">INSTANCEOF</span> <span style="color:#000">cchesser</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">javaperf</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">workshop</span><span style="color:#000;font-weight:bold">.</span><span style="color:#204a87;font-weight:bold">data</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">ConferenceSession</span> <span style="color:#204a87;font-weight:bold">c</span> 
-</code></pre></div><p>Now, you could then filter this by including a <code>WHERE</code> clause, where you can filter it by
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">SELECT</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#204a87;font-weight:bold">c</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">title</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">toString</span><span style="color:#000;font-weight:bold">(),</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#204a87;font-weight:bold">c</span><span style="color:#000;font-weight:bold">.</span><span style="color:#ce5c00;font-weight:bold">@</span><span style="color:#000">retainedHeapSize</span><span style="color:#f8f8f8;text-decoration:underline"> 
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">FROM</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">INSTANCEOF</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">cchesser</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">javaperf</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">workshop</span><span style="color:#000;font-weight:bold">.</span><span style="color:#204a87;font-weight:bold">data</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">ConferenceSession</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#204a87;font-weight:bold">c</span><span style="color:#f8f8f8;text-decoration:underline"> 
+</span></span></span></code></pre></div><p>Now, you could then filter this by including a <code>WHERE</code> clause, where you can filter it by
 the title or the abstract:</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#204a87;font-weight:bold">SELECT</span> <span style="color:#204a87;font-weight:bold">c</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">title</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">toString</span><span style="color:#000;font-weight:bold">(),</span> <span style="color:#204a87;font-weight:bold">c</span><span style="color:#000;font-weight:bold">.</span><span style="color:#ce5c00;font-weight:bold">@</span><span style="color:#000">retainedHeapSize</span> <span style="color:#204a87;font-weight:bold">FROM</span> <span style="color:#000">INSTANCEOF</span> <span style="color:#000">cchesser</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">javaperf</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">workshop</span><span style="color:#000;font-weight:bold">.</span><span style="color:#204a87;font-weight:bold">data</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">ConferenceSession</span> <span style="color:#204a87;font-weight:bold">c</span> 
-<span style="color:#204a87;font-weight:bold">WHERE</span> <span style="color:#204a87;font-weight:bold">c</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">title</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">toString</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#204a87;font-weight:bold">LIKE</span> <span style="color:#4e9a06">&#34;.*(J|j)ava.*&#34;</span> <span style="color:#204a87;font-weight:bold">OR</span> <span style="color:#204a87;font-weight:bold">c</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">abstract</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">toString</span><span style="color:#000;font-weight:bold">()</span> <span style="color:#204a87;font-weight:bold">LIKE</span> <span style="color:#4e9a06">&#34;.*(J|j)ava.*&#34;</span>
-</code></pre></div><p>Reference: <a href="http://help.eclipse.org/luna/index.jsp?topic=%2Forg.eclipse.mat.ui.help%2Freference%2Foqlsyntax.html">Eclipse Memory Analyzer OQL Syntax</a></p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">SELECT</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#204a87;font-weight:bold">c</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">title</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">toString</span><span style="color:#000;font-weight:bold">(),</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#204a87;font-weight:bold">c</span><span style="color:#000;font-weight:bold">.</span><span style="color:#ce5c00;font-weight:bold">@</span><span style="color:#000">retainedHeapSize</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#204a87;font-weight:bold">FROM</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">INSTANCEOF</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">cchesser</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">javaperf</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">workshop</span><span style="color:#000;font-weight:bold">.</span><span style="color:#204a87;font-weight:bold">data</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">ConferenceSession</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#204a87;font-weight:bold">c</span><span style="color:#f8f8f8;text-decoration:underline"> 
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">WHERE</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#204a87;font-weight:bold">c</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">title</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">toString</span><span style="color:#000;font-weight:bold">()</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#204a87;font-weight:bold">LIKE</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;.*(J|j)ava.*&#34;</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#204a87;font-weight:bold">OR</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#204a87;font-weight:bold">c</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">abstract</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">toString</span><span style="color:#000;font-weight:bold">()</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#204a87;font-weight:bold">LIKE</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;.*(J|j)ava.*&#34;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span></code></pre></div><p>Reference: <a href="http://help.eclipse.org/luna/index.jsp?topic=%2Forg.eclipse.mat.ui.help%2Freference%2Foqlsyntax.html">Eclipse Memory Analyzer OQL Syntax</a></p>
 <p>The auto-completion will also let you invoke fields and method&rsquo;s from Eclipse Mat&rsquo;s own <a href="https://wiki.eclipse.org/MemoryAnalyzer/Reading_Data_from_Heap_Dumps#The_object_model">internal model</a> for the heap dump. You can view other methods available by exploring the <a href="http://127.0.0.1:64030/help/index.jsp?topic=%2Forg.eclipse.mat.ui.help%2Fdoc%2Forg%2Feclipse%2Fmat%2Fsnapshot%2Fmodel%2FIObject.html">API Reference</a></p>
 <p><img src="/mat/mat_oql_model_invocation.png" alt=""></p>
 <h2 id="useful-plugins">Useful Plugins</h2>
@@ -682,11 +680,11 @@ the title or the abstract:</p>
 <ul>
 <li>Getting a distribution of the number of tags in our ConferenceSessions</li>
 </ul>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sql" data-lang="sql"><span style="color:#204a87;font-weight:bold">select</span> <span style="color:#000">getSize</span><span style="color:#000;font-weight:bold">(</span><span style="color:#204a87;font-weight:bold">c</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">tags</span><span style="color:#000;font-weight:bold">)</span> <span style="color:#000">tag_cnt</span><span style="color:#000;font-weight:bold">,</span> <span style="color:#204a87;font-weight:bold">count</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">getSize</span><span style="color:#000;font-weight:bold">(</span><span style="color:#204a87;font-weight:bold">c</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">tags</span><span style="color:#000;font-weight:bold">))</span> 
-<span style="color:#204a87;font-weight:bold">from</span> <span style="color:#4e9a06">&#34;cchesser.javaperf.workshop.data.ConferenceSession&#34;</span> <span style="color:#204a87;font-weight:bold">c</span> 
-<span style="color:#204a87;font-weight:bold">group</span> <span style="color:#204a87;font-weight:bold">by</span> <span style="color:#000">tag_cnt</span> 
-<span style="color:#204a87;font-weight:bold">order</span> <span style="color:#204a87;font-weight:bold">by</span> <span style="color:#000">tag_cnt</span> <span style="color:#204a87;font-weight:bold">desc</span>
-</code></pre></div><p><img src="/mat/calcite_tag_distributions.png" alt=""></p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">select</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">getSize</span><span style="color:#000;font-weight:bold">(</span><span style="color:#204a87;font-weight:bold">c</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">tags</span><span style="color:#000;font-weight:bold">)</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">tag_cnt</span><span style="color:#000;font-weight:bold">,</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#204a87;font-weight:bold">count</span><span style="color:#000;font-weight:bold">(</span><span style="color:#000">getSize</span><span style="color:#000;font-weight:bold">(</span><span style="color:#204a87;font-weight:bold">c</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">tags</span><span style="color:#000;font-weight:bold">))</span><span style="color:#f8f8f8;text-decoration:underline"> 
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">from</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;cchesser.javaperf.workshop.data.ConferenceSession&#34;</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#204a87;font-weight:bold">c</span><span style="color:#f8f8f8;text-decoration:underline"> 
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">group</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#204a87;font-weight:bold">by</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">tag_cnt</span><span style="color:#f8f8f8;text-decoration:underline"> 
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">order</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#204a87;font-weight:bold">by</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">tag_cnt</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#204a87;font-weight:bold">desc</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span></code></pre></div><p><img src="/mat/calcite_tag_distributions.png" alt=""></p>
 <p> </p>
   <br/>
   <div class="card mb-3" style="width: 80%;">
@@ -737,7 +735,7 @@ In the next section, we'll continue our analysis in VisualVM.
         
       </div>
       <div class="col-12 col-sm-4 text-center py-2 order-sm-2">
-        <small class="text-white">&copy; 2021 - All Rights Reserved</small>
+        <small class="text-white">&copy; 2022 - All Rights Reserved</small>
         
 	
 		
@@ -765,7 +763,7 @@ In the next section, we'll continue our analysis in VisualVM.
 
 
 
-<script src="/js/main.min.f820bfc507c3ebefe17f8881ec4ee10013f3b89ad9555a50acf9bb1771e6823f.js" integrity="sha256-&#43;CC/xQfD6&#43;/hf4iB7E7hABPzuJrZVVpQrPm7F3Hmgj8=" crossorigin="anonymous"></script>
+<script src="/js/main.min.b98a3473667defb32cda6c536707346795949f52932465ac5010615f974ccd60.js" integrity="sha256-uYo0c2Z977Ms2mxTZwc0Z5WUn1KTJGWsUBBhX5dMzWA=" crossorigin="anonymous"></script>
 
 
 

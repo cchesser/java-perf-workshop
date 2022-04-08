@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="generator" content="Hugo 0.79.1" /><META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
+<meta name="generator" content="Hugo 0.96.0" /><META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
 
 
 <link rel="shortcut icon" href="/favicons/favicon.ico" >
@@ -21,18 +21,16 @@
 <meta property="og:description" content="Instructions for enabling remote tooling on our JVM
 " />
 <meta property="og:type" content="article" />
-<meta property="og:url" content="https://jvmperf.net/docs/containers/java_monitoring/" />
+<meta property="og:url" content="https://jvmperf.net/docs/containers/java_monitoring/" /><meta property="article:section" content="docs" />
+
 <meta property="article:modified_time" content="2021-06-12T05:58:21+02:00" /><meta property="og:site_name" content="jvmperf: Java Performance Workshop" />
+
 <meta itemprop="name" content="Java Monitoring Tooling">
 <meta itemprop="description" content="Instructions for enabling remote tooling on our JVM
 ">
 <meta itemprop="dateModified" content="2021-06-12T05:58:21+02:00" />
 <meta itemprop="wordCount" content="456">
-
-
-
-<meta itemprop="keywords" content="" />
-<meta name="twitter:card" content="summary"/>
+<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Java Monitoring Tooling"/>
 <meta name="twitter:description" content="Instructions for enabling remote tooling on our JVM
 "/>
@@ -54,8 +52,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.f375af085e385d9c81e821b5bf7e9cb2c8d9340999a543bac2e455376f3391bc.css" as="style">
-<link href="/scss/main.min.f375af085e385d9c81e821b5bf7e9cb2c8d9340999a543bac2e455376f3391bc.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.8e5dab51d558b87cfb2ccaaec5a06ff38eeb9872da9829b0b5975aece46683e1.css" as="style">
+<link href="/scss/main.min.8e5dab51d558b87cfb2ccaaec5a06ff38eeb9872da9829b0b5975aece46683e1.css" rel="stylesheet" integrity="">
 
 
 <script
@@ -129,7 +127,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.ee7b01465df7ccf5c47b636852f770c3.json"
+  data-offline-search-index-json-src="/offline-search-index.4b5da08a2b319e5c3f4ab194102e8526.json"
   data-offline-search-base-href="/"
   data-offline-search-max-results="10"
 >
@@ -161,7 +159,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.ee7b01465df7ccf5c47b636852f770c3.json"
+  data-offline-search-index-json-src="/offline-search-index.4b5da08a2b319e5c3f4ab194102e8526.json"
   data-offline-search-base-href="/"
   data-offline-search-max-results="10"
 >
@@ -629,26 +627,26 @@ if (!doNotTrack) {
 <li>The host name for the <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/rmi/javarmiproperties.html">RMI server</a> will be set to <code>127.0.0.1</code>. The default value for this will be the container&rsquo;s IP address, which we are overriding.</li>
 </ul>
 <p>Set these values as an <code>environment</code> property on your workshop container:</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-yaml" data-lang="yaml"><span style="color:#000">...</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">server</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">image</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">workshop-server:latest</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">environment</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">JAVA_OPTS</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;
-</span><span style="color:#4e9a06">        -Dcom.sun.management.jmxremote.port=8082
-</span><span style="color:#4e9a06">        -Dcom.sun.management.jmxremote.rmi.port=8082
-</span><span style="color:#4e9a06">        -Dcom.sun.management.jmxremote.registry.ssl=false
-</span><span style="color:#4e9a06">        -Dcom.sun.management.jmxremote.authenticate=false
-</span><span style="color:#4e9a06">        -Dcom.sun.management.jmxremote.ssl=false
-</span><span style="color:#4e9a06">        -Dcom.sun.management.jmxremote.local.only=false
-</span><span style="color:#4e9a06">        -Djava.rmi.server.hostname=127.0.0.1
-</span><span style="color:#4e9a06">      &#34;</span><span style="color:#f8f8f8;text-decoration:underline">
-</span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#000">...</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></code></pre></div><h2 id="test-our-setup">Test Our Setup</h2>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-yaml" data-lang="yaml"><span style="display:flex;"><span><span style="color:#000">...</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">  </span><span style="color:#204a87;font-weight:bold">server</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">image</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">workshop-server:latest</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">    </span><span style="color:#204a87;font-weight:bold">environment</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline">      </span><span style="color:#204a87;font-weight:bold">JAVA_OPTS</span><span style="color:#000;font-weight:bold">:</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#4e9a06">&#34;
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06">        -Dcom.sun.management.jmxremote.port=8082
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06">        -Dcom.sun.management.jmxremote.rmi.port=8082
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06">        -Dcom.sun.management.jmxremote.registry.ssl=false
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06">        -Dcom.sun.management.jmxremote.authenticate=false
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06">        -Dcom.sun.management.jmxremote.ssl=false
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06">        -Dcom.sun.management.jmxremote.local.only=false
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06">        -Djava.rmi.server.hostname=127.0.0.1
+</span></span></span><span style="display:flex;"><span><span style="color:#4e9a06">      &#34;</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#000">...</span><span style="color:#f8f8f8;text-decoration:underline">
+</span></span></span></code></pre></div><h2 id="test-our-setup">Test Our Setup</h2>
 <p>Spin up your services again with <code>docker-compose up</code>. Once the services are started, use <code>docker ps</code> to check the open ports on the workshop server. Notice that <code>8082</code> is now mapped as well.</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ docker ps
-CONTAINER ID   IMAGE                      COMMAND                  CREATED          STATUS          PORTS                              NAMES
-44d4a1ebedef   workshop-server:latest     <span style="color:#4e9a06">&#34;/bin/sh -c &#39;java </span><span style="color:#000">$J</span><span style="color:#4e9a06">…&#34;</span>   <span style="color:#0000cf;font-weight:bold">39</span> seconds ago   Up <span style="color:#0000cf;font-weight:bold">37</span> seconds   0.0.0.0:8080-8082-&gt;8080-8082/tcp   java-perf-workshop_server_1
-</code></pre></div><h3 id="jdk-mission-control">JDK Mission Control</h3>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ docker ps
+</span></span><span style="display:flex;"><span>CONTAINER ID   IMAGE                      COMMAND                  CREATED          STATUS          PORTS                              NAMES
+</span></span><span style="display:flex;"><span>44d4a1ebedef   workshop-server:latest     <span style="color:#4e9a06">&#34;/bin/sh -c &#39;java </span><span style="color:#000">$J</span><span style="color:#4e9a06">…&#34;</span>   <span style="color:#0000cf;font-weight:bold">39</span> seconds ago   Up <span style="color:#0000cf;font-weight:bold">37</span> seconds   0.0.0.0:8080-8082-&gt;8080-8082/tcp   java-perf-workshop_server_1
+</span></span></code></pre></div><h3 id="jdk-mission-control">JDK Mission Control</h3>
 <p>We&rsquo;ll use JDK Mission Control to create a JMX Connection.</p>
 <p>Open JDK Mission Control. Notice that the JVM Browser no longer shows the two services (since they no longer are running on the local host):</p>
 <p><img src="/containers/jmx/empty_browser.png" alt=""></p>
@@ -659,14 +657,14 @@ CONTAINER ID   IMAGE                      COMMAND                  CREATED      
 <li><code>127.0.0.1</code></li>
 <li><code>localhost</code> (since we are exposing port 8082 on the container as port 8082 on the local host)</li>
 <li>Our wifi/ethernet IP address, which you can find under the <code>en0</code> interface using <code>ifconfig/ipconfig</code>:
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ ifconfig
-...
-en0: <span style="color:#000">flags</span><span style="color:#ce5c00;font-weight:bold">=</span>8863&lt;UP,BROADCAST,SMART,RUNNING,SIMPLEX,MULTICAST&gt; mtu <span style="color:#0000cf;font-weight:bold">1500</span>
-  ether 8c:85:90:ba:52:10 
-  inet6 fe80::1862:95fe:55e7:284e%en0 prefixlen <span style="color:#0000cf;font-weight:bold">64</span> secured scopeid 0x9 
-  inet 192.168.1.189 netmask 0xffffff00 broadcast 192.168.1.255
-...
-</code></pre></div></li>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>$ ifconfig
+</span></span><span style="display:flex;"><span>...
+</span></span><span style="display:flex;"><span>en0: <span style="color:#000">flags</span><span style="color:#ce5c00;font-weight:bold">=</span>8863&lt;UP,BROADCAST,SMART,RUNNING,SIMPLEX,MULTICAST&gt; mtu <span style="color:#0000cf;font-weight:bold">1500</span>
+</span></span><span style="display:flex;"><span>  ether 8c:85:90:ba:52:10 
+</span></span><span style="display:flex;"><span>  inet6 fe80::1862:95fe:55e7:284e%en0 prefixlen <span style="color:#0000cf;font-weight:bold">64</span> secured scopeid 0x9 
+</span></span><span style="display:flex;"><span>  inet 192.168.1.189 netmask 0xffffff00 broadcast 192.168.1.255
+</span></span><span style="display:flex;"><span>...
+</span></span></code></pre></div></li>
 </ul>
 <p><img src="/containers/jmx/all_jmx_servers.png" alt=""></p>
 <p> </p>
@@ -719,7 +717,7 @@ In the next section, we'll learn about some Docker tooling.
         
       </div>
       <div class="col-12 col-sm-4 text-center py-2 order-sm-2">
-        <small class="text-white">&copy; 2021 - All Rights Reserved</small>
+        <small class="text-white">&copy; 2022 - All Rights Reserved</small>
         
 	
 		
@@ -747,7 +745,7 @@ In the next section, we'll learn about some Docker tooling.
 
 
 
-<script src="/js/main.min.f820bfc507c3ebefe17f8881ec4ee10013f3b89ad9555a50acf9bb1771e6823f.js" integrity="sha256-&#43;CC/xQfD6&#43;/hf4iB7E7hABPzuJrZVVpQrPm7F3Hmgj8=" crossorigin="anonymous"></script>
+<script src="/js/main.min.b98a3473667defb32cda6c536707346795949f52932465ac5010615f974ccd60.js" integrity="sha256-uYo0c2Z977Ms2mxTZwc0Z5WUn1KTJGWsUBBhX5dMzWA=" crossorigin="anonymous"></script>
 
 
 

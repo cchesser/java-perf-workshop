@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="generator" content="Hugo 0.79.1" /><link rel="alternate" type="text/html" href="https://jvmperf.net/docs/setup/_print/">
+<meta name="generator" content="Hugo 0.96.0" /><link rel="alternate" type="text/html" href="https://jvmperf.net/docs/setup/_print/">
 <META NAME="ROBOTS" CONTENT="INDEX, FOLLOW">
 
 
@@ -22,12 +22,11 @@
 <meta property="og:description" content="Instructions for setting up the workshop
 " />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://jvmperf.net/docs/setup/" />
-<meta property="og:site_name" content="jvmperf: Java Performance Workshop" />
+<meta property="og:url" content="https://jvmperf.net/docs/setup/" /><meta property="og:site_name" content="jvmperf: Java Performance Workshop" />
+
 <meta itemprop="name" content="Setup">
 <meta itemprop="description" content="Instructions for setting up the workshop
-">
-<meta name="twitter:card" content="summary"/>
+"><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Setup"/>
 <meta name="twitter:description" content="Instructions for setting up the workshop
 "/>
@@ -49,8 +48,8 @@ if (!doNotTrack) {
 
 
 
-<link rel="preload" href="/scss/main.min.f375af085e385d9c81e821b5bf7e9cb2c8d9340999a543bac2e455376f3391bc.css" as="style">
-<link href="/scss/main.min.f375af085e385d9c81e821b5bf7e9cb2c8d9340999a543bac2e455376f3391bc.css" rel="stylesheet" integrity="">
+<link rel="preload" href="/scss/main.min.8e5dab51d558b87cfb2ccaaec5a06ff38eeb9872da9829b0b5975aece46683e1.css" as="style">
+<link href="/scss/main.min.8e5dab51d558b87cfb2ccaaec5a06ff38eeb9872da9829b0b5975aece46683e1.css" rel="stylesheet" integrity="">
 
 
 <script
@@ -124,7 +123,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.ee7b01465df7ccf5c47b636852f770c3.json"
+  data-offline-search-index-json-src="/offline-search-index.4b5da08a2b319e5c3f4ab194102e8526.json"
   data-offline-search-base-href="/"
   data-offline-search-max-results="10"
 >
@@ -156,7 +155,7 @@ if (!doNotTrack) {
   aria-label="Search this site…"
   autocomplete="off"
   
-  data-offline-search-index-json-src="/offline-search-index.ee7b01465df7ccf5c47b636852f770c3.json"
+  data-offline-search-index-json-src="/offline-search-index.4b5da08a2b319e5c3f4ab194102e8526.json"
   data-offline-search-base-href="/"
   data-offline-search-max-results="10"
 >
@@ -584,25 +583,25 @@ from <a href="http://www.kcdc.info/">kcdc.info</a>, and returns results about th
 <li>Java JDK</li>
 </ul>
 <p>Assemble the service:</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mvn clean package
-</code></pre></div><p>💡 If you have issues with building it locally due to your setup, you can download the
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mvn clean package
+</span></span></code></pre></div><p>💡 If you have issues with building it locally due to your setup, you can download the
 server assembly <a href="https://github.com/cchesser/java-perf-workshop/wiki/java-perf-workshop-server-1.0-SNAPSHOT.jar">here</a>.</p>
 <p>Start the workshop service:</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">java -jar java-perf-workshop-server/target/java-perf-workshop-server-1.1.0-SNAPSHOT.jar server server.yml
-</code></pre></div><h4 id="mocking-service-dependency">Mocking Service Dependency</h4>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>java -jar java-perf-workshop-server/target/java-perf-workshop-server-1.1.0-SNAPSHOT.jar server server.yml
+</span></span></code></pre></div><h4 id="mocking-service-dependency">Mocking Service Dependency</h4>
 <p>To simulate responses of kcdc.info (as the service may change over time), we will first run a mock
 instance of this service using <a href="http://wiremock.org/">WireMock</a>.</p>
 <p><img src="/diagrams/interaction_wiremock.png" alt=""></p>
 <p>Go ahead and start another terminal session where we will run another service to mock a remote dependency of the workshop service. Navigate
 to the same directory where you cloned this repository, then execute the following commands:</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">mvn dependency:copy -Dartifact<span style="color:#ce5c00;font-weight:bold">=</span>com.github.tomakehurst:wiremock-standalone:2.24.1 -Dmdep.stripVersion<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87">true</span> -DoutputDirectory<span style="color:#ce5c00;font-weight:bold">=</span>.
-</code></pre></div><p>Run the mock service, which will provide the essential end-points to support the service we will be
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>mvn dependency:copy -Dartifact<span style="color:#ce5c00;font-weight:bold">=</span>com.github.tomakehurst:wiremock-standalone:2.24.1 -Dmdep.stripVersion<span style="color:#ce5c00;font-weight:bold">=</span><span style="color:#204a87">true</span> -DoutputDirectory<span style="color:#ce5c00;font-weight:bold">=</span>.
+</span></span></code></pre></div><p>Run the mock service, which will provide the essential end-points to support the service we will be
 testing:</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">java -jar wiremock-standalone.jar --port <span style="color:#0000cf;font-weight:bold">9090</span> --root-dir java-perf-workshop-server/src/test/resources
-</code></pre></div><p>Alternatively, you can run the <code>mockservice.sh</code> script which will do both commands, ie: <code>sh mockservice.sh</code></p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>java -jar wiremock-standalone.jar --port <span style="color:#0000cf;font-weight:bold">9090</span> --root-dir java-perf-workshop-server/src/test/resources
+</span></span></code></pre></div><p>Alternatively, you can run the <code>mockservice.sh</code> script which will do both commands, ie: <code>sh mockservice.sh</code></p>
 <h4 id="configuration">Configuration</h4>
 <p>Example configuration of service:</p>
-<pre><code>server:
+<pre tabindex="0"><code>server:
   applicationConnectors:
     - type: http
       port: 80
@@ -633,20 +632,20 @@ logging:
 a substring in their title, abstract, or tags. Example:</p>
 <p><a href="http://localhost:8080/search?q=clojure">http://localhost:8080/search?q=clojure</a></p>
 <p>Example results:</p>
-<div class="highlight"><pre style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-json" data-lang="json"><span style="color:#000;font-weight:bold">{</span>
-  <span style="color:#204a87;font-weight:bold">&#34;results&#34;</span> <span style="color:#000;font-weight:bold">:</span> <span style="color:#000;font-weight:bold">[</span> <span style="color:#000;font-weight:bold">{</span>
-    <span style="color:#204a87;font-weight:bold">&#34;title&#34;</span> <span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;Concurrency Options on the JVM&#34;</span><span style="color:#000;font-weight:bold">,</span>
-    <span style="color:#204a87;font-weight:bold">&#34;presenter&#34;</span> <span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;Jessica Kerr&#34;</span>
-  <span style="color:#000;font-weight:bold">},</span> <span style="color:#000;font-weight:bold">{</span>
-    <span style="color:#204a87;font-weight:bold">&#34;title&#34;</span> <span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;Fast, Parallel, or Reliable: Pick 3, a tour of Elixir&#34;</span><span style="color:#000;font-weight:bold">,</span>
-    <span style="color:#204a87;font-weight:bold">&#34;presenter&#34;</span> <span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;Jordan Day&#34;</span>
-  <span style="color:#000;font-weight:bold">}</span> <span style="color:#000;font-weight:bold">]</span>
-<span style="color:#000;font-weight:bold">}</span>
-</code></pre></div><h4 id="troubleshooting">Troubleshooting</h4>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-json" data-lang="json"><span style="display:flex;"><span><span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#204a87;font-weight:bold">&#34;results&#34;</span> <span style="color:#000;font-weight:bold">:</span> <span style="color:#000;font-weight:bold">[</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">&#34;title&#34;</span> <span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;Concurrency Options on the JVM&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">&#34;presenter&#34;</span> <span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;Jessica Kerr&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#000;font-weight:bold">},</span> <span style="color:#000;font-weight:bold">{</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">&#34;title&#34;</span> <span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;Fast, Parallel, or Reliable: Pick 3, a tour of Elixir&#34;</span><span style="color:#000;font-weight:bold">,</span>
+</span></span><span style="display:flex;"><span>    <span style="color:#204a87;font-weight:bold">&#34;presenter&#34;</span> <span style="color:#000;font-weight:bold">:</span> <span style="color:#4e9a06">&#34;Jordan Day&#34;</span>
+</span></span><span style="display:flex;"><span>  <span style="color:#000;font-weight:bold">}</span> <span style="color:#000;font-weight:bold">]</span>
+</span></span><span style="display:flex;"><span><span style="color:#000;font-weight:bold">}</span>
+</span></span></code></pre></div><h4 id="troubleshooting">Troubleshooting</h4>
 <p>If you get a <code>500</code> error message when trying to test the service, verify that the wiremock server is running.</p>
-<pre><code>{
-  &quot;code&quot; : 500,
-  &quot;message&quot; : &quot;There was an error processing your request. It has been logged (ID d8998189f8d4ee8c).&quot;
+<pre tabindex="0"><code>{
+  &#34;code&#34; : 500,
+  &#34;message&#34; : &#34;There was an error processing your request. It has been logged (ID d8998189f8d4ee8c).&#34;
 }
 </code></pre><h3 id="reference">Reference</h3>
 <ul>
@@ -750,7 +749,7 @@ a substring in their title, abstract, or tags. Example:</p>
         
       </div>
       <div class="col-12 col-sm-4 text-center py-2 order-sm-2">
-        <small class="text-white">&copy; 2021 - All Rights Reserved</small>
+        <small class="text-white">&copy; 2022 - All Rights Reserved</small>
         
 	
 		
@@ -778,7 +777,7 @@ a substring in their title, abstract, or tags. Example:</p>
 
 
 
-<script src="/js/main.min.f820bfc507c3ebefe17f8881ec4ee10013f3b89ad9555a50acf9bb1771e6823f.js" integrity="sha256-&#43;CC/xQfD6&#43;/hf4iB7E7hABPzuJrZVVpQrPm7F3Hmgj8=" crossorigin="anonymous"></script>
+<script src="/js/main.min.b98a3473667defb32cda6c536707346795949f52932465ac5010615f974ccd60.js" integrity="sha256-uYo0c2Z977Ms2mxTZwc0Z5WUn1KTJGWsUBBhX5dMzWA=" crossorigin="anonymous"></script>
 
 
 
