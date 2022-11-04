@@ -4,6 +4,7 @@ linkTitle: "Contributors"
 menu:
   main:
     weight: 30
+    pre: "<i class=\"fas fa-user-friends\"></i>"
 ---
 <section class="row">
     <div class="container">

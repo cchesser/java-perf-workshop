@@ -1,8 +1,5 @@
 baseURL = "https://jvmperf.net"
 
-# Hugo allows theme composition (and inheritance). The precedence is from left to right.
-theme = ["docsy"]
-
 # Will give values to .Lastmod etc.
 enableGitInfo = true
 
@@ -105,9 +102,10 @@ footer_about_disable = false
 enable = true
 
 [[menu.main]]
-    name = "GitHub"
-    weight = 20
-    url = "https://github.com/cchesser/java-perf-workshop/"
+name = "GitHub"
+weight = 20
+url = "https://github.com/cchesser/java-perf-workshop/"
+pre = "<i class=\"fa-brands fa-github\"></i>"
 
 [params.links]
 # Developer relevant links. These will show up on right side of footer and in the community page if you have one.
@@ -116,3 +114,15 @@ enable = true
 	url = "https://github.com/cchesser/java-perf-workshop"
 	icon = "fab fa-github"
         desc = "Development takes place here!"
+
+[module]
+  proxy = "direct"
+  [module.hugoVersion]
+    extended = true
+    min = "0.73.0"
+  [[module.imports]]
+    path = "github.com/google/docsy"
+    disable = false
+  [[module.imports]]
+    path = "github.com/google/docsy/dependencies"
+    disable = false
