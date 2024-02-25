@@ -190,7 +190,6 @@ In higher versions of the JDK (9+), you can enable GC logging without having to 
 
 {{< gist thomasdarimont f89fc79491241af7a064e1b3ca2757a9 >}}
 
-
 ### Parsing the log
 
 For parsing the logs, we are just going to show a simple approach using [R](https://www.r-project.org/) to parse the
