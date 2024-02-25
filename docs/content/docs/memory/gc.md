@@ -184,11 +184,12 @@ java -XX:+PrintGCDetails -XX:+PrintGCDateStamps -Xloggc:gc.log -XX:GCLogFileSize
  -jar java-perf-workshop-server/target/java-perf-workshop-server-1.1.0-SNAPSHOT.jar server server.yml 
 ```
 
-{{% alert title="JDK9+ Tip" color="info" %}}
-In higher versions of the JDK, you can enable gc logging without having to restart the JVM.
+### Enabling while JVM is running
 
-* See [this github gist](https://gist.github.com/thomasdarimont/f89fc79491241af7a064e1b3ca2757a9) for more details.
-{{% /alert %}}
+In higher versions of the JDK (9+), you can enable GC logging without having to restart the JVM (reference: [Thomas Darimont](https://github.com/thomasdarimont)):
+
+{{< gist thomasdarimont f89fc79491241af7a064e1b3ca2757a9 >}}
+
 
 ### Parsing the log
 
