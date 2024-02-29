@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="generator" content="Hugo 0.96.0" />
+<meta name="generator" content="Hugo 0.120.4">
 <meta name="robots" content="index, follow">
 
 
@@ -25,12 +25,12 @@
 <meta property="og:type" content="article" />
 <meta property="og:url" content="https://jvmperf.net/docs/memory/mat/" /><meta property="article:section" content="docs" />
 
-<meta property="article:modified_time" content="2021-03-01T08:17:48-06:00" /><meta property="og:site_name" content="jvmperf: Java Performance Workshop" />
+<meta property="article:modified_time" content="2021-03-01T08:17:48-06:00" />
 
 <meta itemprop="name" content="Eclipse MAT">
 <meta itemprop="description" content="Heap Analysis using Eclipse MAT">
 <meta itemprop="dateModified" content="2021-03-01T08:17:48-06:00" />
-<meta itemprop="wordCount" content="827">
+<meta itemprop="wordCount" content="867">
 <meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
 <meta name="twitter:title" content="Eclipse MAT"/>
 <meta name="twitter:description" content="Heap Analysis using Eclipse MAT"/>
@@ -90,7 +90,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="/offline-search-index.ea2cbc335467dd9e541000b2f2342da0.json"
+    data-offline-search-index-json-src="/offline-search-index.8857758716f07c5ed3c8ce57fb321f80.json"
     data-offline-search-base-href="/"
     data-offline-search-max-results="10"
   >
@@ -115,7 +115,7 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="/offline-search-index.ea2cbc335467dd9e541000b2f2342da0.json"
+    data-offline-search-index-json-src="/offline-search-index.8857758716f07c5ed3c8ce57fb321f80.json"
     data-offline-search-base-href="/"
     data-offline-search-max-results="10"
   >
@@ -307,7 +307,7 @@ if (!doNotTrack) {
   
 
 		
-			<p class="reading-time"><i class="fa-solid fa-clock" aria-hidden="true"></i>&nbsp; 4 minute read &nbsp;</p>
+			<p class="reading-time"><i class="fa-solid fa-clock" aria-hidden="true"></i>&nbsp; 5 minute read &nbsp;</p>
 
 		
 	</header>    
@@ -376,7 +376,7 @@ if (!doNotTrack) {
 <p>Lookup our <code>ConferenceSession</code> class type:</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">SELECT</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#ce5c00;font-weight:bold">*</span><span style="color:#f8f8f8;text-decoration:underline">
 </span></span></span><span style="display:flex;"><span><span style="color:#f8f8f8;text-decoration:underline"></span><span style="color:#204a87;font-weight:bold">FROM</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">INSTANCEOF</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#000">cchesser</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">javaperf</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">workshop</span><span style="color:#000;font-weight:bold">.</span><span style="color:#204a87;font-weight:bold">data</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">ConferenceSession</span><span style="color:#f8f8f8;text-decoration:underline">
-</span></span></span></code></pre></div><p>💡 To execute the query, you click on the red exclamation mark (❗). Alternatively, you can press <code>CTRL+Enter</code> on Windows or <code>Command+Enter</code> on macOS.</p>
+</span></span></span></code></pre></div><p>💡 To execute the query, you click on the red exclamation mark (&#x2757;). Alternatively, you can press <code>CTRL+Enter</code> on Windows or <code>Command+Enter</code> on macOS.</p>
 <p><img src="https://github.com/cchesser/java-perf-workshop/wiki/images/mat_oql_studio.png" alt="MAT OQL"></p>
 <p>By returning the raw type back, you can expand each one to further look at the contents of the object. If you wanted to just report the object with its <code>title</code> attribute and the object&rsquo;s retained sized, you could do this:</p>
 <div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-sql" data-lang="sql"><span style="display:flex;"><span><span style="color:#204a87;font-weight:bold">SELECT</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#204a87;font-weight:bold">c</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">title</span><span style="color:#000;font-weight:bold">.</span><span style="color:#000">toString</span><span style="color:#000;font-weight:bold">(),</span><span style="color:#f8f8f8;text-decoration:underline"> </span><span style="color:#204a87;font-weight:bold">c</span><span style="color:#000;font-weight:bold">.</span><span style="color:#ce5c00;font-weight:bold">@</span><span style="color:#000">retainedHeapSize</span><span style="color:#f8f8f8;text-decoration:underline"> 
@@ -452,7 +452,7 @@ In the next section, we'll continue our analysis in VisualVM.
         
       </div>
       <div class="col-12 col-sm-4 text-center py-2 order-sm-2">
-        <small class="text-white">&copy; 2022 - All Rights Reserved</small>
+        <small class="text-white">&copy; 2024 - All Rights Reserved</small>
         
 	
 		
@@ -464,7 +464,7 @@ In the next section, we'll continue our analysis in VisualVM.
 
 
     </div>
-    <script src="/js/main.min.2c5eedffe8e9b94b75ee34dd37e21d360b6e9ff02905c7aeddaad8c99b11f011.js" integrity="sha256-LF7t/&#43;jpuUt17jTdN&#43;IdNgtun/ApBceu3arYyZsR8BE=" crossorigin="anonymous"></script>
+    <script src="/js/main.min.087dc9fee1baa425872c0dd6d3b3d9870d81c22a20e70c02d6f6b1e227a750a1.js" integrity="sha256-CH3J/uG6pCWHLA3W07PZhw2Bwiog5wwC1vax4ienUKE=" crossorigin="anonymous"></script>
 <script src='/js/prism.js'></script>
 <script src='/js/tabpane-persist.js'></script>
 
