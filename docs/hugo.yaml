@@ -1,0 +1,108 @@
+baseURL: https://jvmperf.net
+title: jvmperf
+enableRobotsTXT: true
+enableGitInfo: true
+
+outputs:
+  home: [HTML]
+  page: [HTML]
+  section: [HTML, RSS, print]
+
+imaging:
+  resampleFilter: CatmullRom # cSpell:disable-line
+  quality: 75
+  anchor: smart
+
+menu:
+  main:
+    - name: GitHub
+      weight: 20
+      url: https://github.com/cchesser/java-perf-workshop/
+      pre: <i class="fa-brands fa-github"></i>
+
+languages:
+  en:
+    languageName: English
+    params:
+      title: "jvmperf: Java™ Performance Workshop"
+      description: Java™ performance workshop that leverages open-source tooling to discover how your JVM is performing
+
+markup:
+  goldmark:
+    parser:
+      attribute:
+        block: true
+    renderer:
+      unsafe: true
+  highlight:
+    noClasses: false # Required for dark-mode
+
+params:
+  copyright:
+    authors: >-
+      [jvmperf Contributors](/contributors) <br />
+      Oracle and Java are registered trademarks of Oracle and/or its affiliates. Other names may be trademarks of their respective owners.
+    from_year: 2015
+  archived_version: false
+  url_latest_version: https://example.com
+  github_repo: https://github.com/cchesser/java-perf-workshop
+  github_project_repo: https://github.com/cchesser/java-perf-workshop
+  github_subdir: userguide
+  time_format_blog: Monday, January 02, 2006
+  time_format_default: January 2, 2006
+# gcs_engine_id: "G-5EKJH4Q5P4"
+  offlineSearch: true
+  offlineSearchSummaryLength: 70
+  offlineSearchMaxResults: 10
+  prism_syntax_highlighting: false
+  search:
+    # algolia:
+  ui:
+    showLightDarkModeMenu: true
+    sidebar_cache_limit: 10
+    sidebar_menu_compact: true
+    sidebar_menu_foldable: false
+    sidebar_search_disable: false
+    feedback:
+      enable: true
+      'yes': >-
+        Glad to hear it! Please <a
+        href="https://github.com/cchesser/java-perf-workshop/issues/new">tell us how we can
+        improve</a>.
+      'no': >-
+        Sorry to hear that. Please <a
+        href="https://github.com/cchesser/java-perf-workshop/issues/new">tell us how we can
+        improve</a>.
+    readingtime:
+      enable: false
+  links:
+    developer:
+      - name: GitHub
+        url: https://github.com/cchesser/java-perf-workshop
+        icon: fa-brands fa-github
+        desc: Development takes place here!
+
+  plantuml:
+    enable: true
+    theme: default
+    svg_image_url: https://www.plantuml.com/plantuml/svg/
+    svg: false
+  print:
+    disable_toc: false
+  markmap:
+    enable: true
+  drawio:
+    enable: true
+
+taxonomies:
+  tag: tags
+  category: categories
+
+module:
+  proxy: direct
+  hugoVersion:
+    extended: true
+    min: 0.73.0
+  imports:
+    - path: github.com/google/docsy
+      disable: false
