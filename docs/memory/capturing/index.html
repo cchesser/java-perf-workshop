@@ -3,7 +3,6 @@
   <head>
     <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta name="generator" content="Hugo 0.120.4">
 <meta name="robots" content="index, follow">
 
 
@@ -18,69 +17,106 @@
 <link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
 <link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
 
-<title>Capturing Heap Dumps | jvmperf: Java Performance Workshop</title>
+<title>Capturing Heap Dumps | jvmperf: JVM Performance Workshop</title>
 <meta name="description" content="Different ways to capture a heap dump.">
-<meta property="og:title" content="Capturing Heap Dumps" />
-<meta property="og:description" content="Different ways to capture a heap dump." />
-<meta property="og:type" content="article" />
-<meta property="og:url" content="https://jvmperf.net/docs/memory/capturing/" /><meta property="article:section" content="docs" />
+<meta property="og:url" content="https://jvmperf.net/docs/memory/capturing/">
+  <meta property="og:site_name" content="jvmperf: JVM Performance Workshop">
+  <meta property="og:title" content="Capturing Heap Dumps">
+  <meta property="og:description" content="Different ways to capture a heap dump.">
+  <meta property="og:locale" content="en">
+  <meta property="og:type" content="article">
+    <meta property="article:section" content="docs">
+    <meta property="article:modified_time" content="2021-03-01T08:17:48-06:00">
 
-<meta property="article:modified_time" content="2021-03-01T08:17:48-06:00" />
-
-<meta itemprop="name" content="Capturing Heap Dumps">
-<meta itemprop="description" content="Different ways to capture a heap dump.">
-<meta itemprop="dateModified" content="2021-03-01T08:17:48-06:00" />
-<meta itemprop="wordCount" content="248">
-<meta itemprop="keywords" content="" /><meta name="twitter:card" content="summary"/>
-<meta name="twitter:title" content="Capturing Heap Dumps"/>
-<meta name="twitter:description" content="Different ways to capture a heap dump."/>
-
-
-
-
-<link rel="preload" href="/scss/main.min.f11b39c068737e17af6746ee94a40c12f2d22abecbe2dedc6519f62165331a10.css" as="style">
-<link href="/scss/main.min.f11b39c068737e17af6746ee94a40c12f2d22abecbe2dedc6519f62165331a10.css" rel="stylesheet" integrity="">
-
+  <meta itemprop="name" content="Capturing Heap Dumps">
+  <meta itemprop="description" content="Different ways to capture a heap dump.">
+  <meta itemprop="dateModified" content="2021-03-01T08:17:48-06:00">
+  <meta itemprop="wordCount" content="248">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Capturing Heap Dumps">
+  <meta name="twitter:description" content="Different ways to capture a heap dump.">
+<link rel="preload" href="/scss/main.min.b1a08ef06828af656c445fc3845aaa52cc36563fcda9899b8d606c2c6b27b6e5.css" as="style" integrity="sha256-saCO8Ggor2VsRF/DhFqqUsw2Vj/NqYmbjWBsLGsntuU=" crossorigin="anonymous">
+<link href="/scss/main.min.b1a08ef06828af656c445fc3845aaa52cc36563fcda9899b8d606c2c6b27b6e5.css" rel="stylesheet" integrity="sha256-saCO8Ggor2VsRF/DhFqqUsw2Vj/NqYmbjWBsLGsntuU=" crossorigin="anonymous">
 <script
-  src="https://code.jquery.com/jquery-3.6.0.min.js"
-  integrity="sha384-vtXRMe3mGCbOeY7l30aIg8H9p3GdeSe4IFlP6G8JMa7o7lXvnz3GFKzPxzJdPfGK"
+  src="https://code.jquery.com/jquery-3.7.1.min.js"
+  integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
   crossorigin="anonymous"></script>
 <script defer
   src="https://unpkg.com/lunr@2.3.9/lunr.min.js"
   integrity="sha384-203J0SNzyqHby3iU6hzvzltrWi/M41wOP5Gu+BiJMz5nwKykbkUx8Kp7iti0Lpli"
   crossorigin="anonymous"></script>
-<link rel="stylesheet" href="/css/prism.css"/>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-5EKJH4Q5P4"></script>
-<script>
-var doNotTrack = false;
-if (!doNotTrack) {
-	window.dataLayer = window.dataLayer || [];
-	function gtag(){dataLayer.push(arguments);}
-	gtag('js', new Date());
-	gtag('config', 'G-5EKJH4Q5P4');
-}
-</script>
+
   </head>
   <body class="td-page">
     <header>
-      <nav class="js-navbar-scroll navbar navbar-expand navbar-dark flex-column flex-md-row td-navbar">
-  <a class="navbar-brand" href="/"><span class="navbar-brand__logo navbar-logo"></span><span class="navbar-brand__name">
-        <i class="fas fa-cube"></i>&nbsp;&nbsp;jvmperf
-    </span></a>
-  <div class="td-navbar-nav-scroll ml-md-auto" id="main_navbar">
-    <ul class="navbar-nav mt-2 mt-lg-0">
-      <li class="nav-item mr-4 mb-2 mb-lg-0">
-        <a class="nav-link active" href="/docs/"><i class="fas fa-tools"></i><span class="active">Workshop</span></a>
+      <nav class="td-navbar js-navbar-scroll" data-bs-theme="dark">
+<div class="container-fluid flex-column flex-md-row">
+  <a class="navbar-brand" href="/"><span class="navbar-brand__logo navbar-logo"><svg viewBox="0 0 640 640" stroke-miterlimit="10" style="fill-rule:nonzero;clip-rule:evenodd;stroke-linecap:round;stroke-linejoin:round" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"><defs/><g id="Layer-1" visibility="hidden"><path d="M568434e-19 568434e-19H640V640h-640v-640z" fill="#000002" fill-rule="nonzero" opacity="1" stroke="none"/></g><g id="Untitled"><g opacity="1"><g opacity="1"><path d="M561.328 180.1C544.048 169.8 524.148 168.18 500.308 172.64 484.928 175.52 468.208 181.44 450.288 190.46 450.548 184.2 450.688 178 450.688 171.9H450.488C451.028 169.1 451.308 166.26 451.308 163.4c0-48.42-79.16-87.66-176.8-87.66-97.64.0-176.8002 39.26-176.8002 87.66C97.7078 166.26 97.9878 169.1 98.5278 171.9H98.4278C97.7478 273.7 118.708 375.7 117.088 477.4 116.308 525.78 176.468 564.26 274.048 564.26c97.58.0 146-39.4 146-86.86C420.048 470.94 420.168 464.48 420.388 457.98 471.608 460.74 514.528 437.34 544.628 404.48 575.908 370.36 595.068 326.32 599.988 285.02 604.908 243.72 595.808 200.68 561.268 180.08L561.328 180.1zm-286.14-54.94c74.5.0 134.88 20.44 134.88 45.64C410.068 171.16 410.048 171.54 410.028 171.9 410.008 172.28 409.968 172.66 409.908 173.04 409.848 173.4 409.788 173.74 409.708 174.1 409.708 174.14 409.688 174.16 409.688 174.2 409.608 174.54 409.528 174.86 409.428 175.18 409.408 175.24 409.408 175.28 409.388 175.34 409.288 175.66 409.188 175.96 409.088 176.28 409.068 176.34 409.048 176.42 409.028 176.48 408.908 176.78 408.788 177.08 408.668 177.38 408.628 177.46 408.608 177.54 408.568 177.62 408.448 177.9 408.308 178.2 408.148 178.48 408.108 178.56 408.068 178.66 408.028 178.74 407.888 179.02 407.728 179.3 407.568 179.56 407.508 179.66 407.468 179.74 407.408 179.84 407.248 180.1 407.068 180.38 406.908 180.64 406.848 180.74 406.788 180.84 406.708 180.94 406.528 181.2 406.348 181.46 406.148 181.72 406.068 181.82 406.008 181.92 405.928 182.04 405.728 182.3 405.528 182.54 405.328 182.8 405.248 182.9 405.168 183.02 405.068 183.12 404.868 183.36 404.648 183.62 404.428 183.86 404.328 183.96 404.248 184.08 404.148 184.18 403.928 184.42 403.688 184.66 403.468 184.9 403.368 185.02 403.248 185.12 403.148 185.24 402.908 185.48 402.668 185.72 402.428 185.94 402.308 186.06 402.188 186.16 402.068 186.28 401.828 186.52 401.568 186.74 401.308 186.96 401.168 187.08 401.048 187.2 400.908 187.3 400.648 187.52 400.388 187.76 400.108 187.98 399.968 188.1 399.828 188.22 399.688 188.34 399.408 188.56 399.128 188.78 398.848 189 398.688 189.12 398.548 189.24 398.388 189.36 398.108 189.58 397.808 189.8 397.508 190 397.348 190.12 397.188 190.24 397.028 190.36 396.728 190.58 396.428 190.78 396.128 190.98 395.948 191.1 395.788 191.22 395.608 191.34 395.308 191.54 394.988 191.74 394.668 191.96 394.488 192.08 394.288 192.2 394.108 192.32 393.788 192.52 393.468 192.72 393.148 192.92 392.948 193.04 392.748 193.16 392.548 193.28 392.228 193.48 391.888 193.68 391.548 193.86 391.348 193.98 391.128 194.1 390.928 194.22 390.588 194.42 390.248 194.6 389.888 194.8 389.668 194.92 389.448 195.04 389.228 195.16 388.888 195.34 388.528 195.54 388.168 195.72 387.928 195.84 387.708 195.96 387.468 196.08 387.108 196.26 386.748 196.44 386.368 196.62 386.128 196.74 385.888 196.86 385.648 196.98 385.268 197.16 384.908 197.34 384.528 197.52 384.268 197.64 384.028 197.76 383.768 197.88 383.388 198.06 383.008 198.22 382.608 198.4 382.348 198.52 382.088 198.64 381.808 198.74 381.428 198.9 381.028 199.08 380.628 199.24 380.348 199.36 380.068 199.48 379.808 199.58 379.408 199.74 379.008 199.9 378.608 200.08 378.328 200.2 378.028 200.3 377.748 200.42 377.348 200.58 376.928 200.74 376.508 200.9 376.208 201.02 375.928 201.12 375.628 201.24 375.208 201.4 374.788 201.56 374.368 201.7 374.068 201.82 373.748 201.92 373.448 202.04 373.028 202.2 372.608 202.34 372.168 202.5 371.848 202.62 371.528 202.72 371.208 202.84 370.788 202.98 370.348 203.14 369.908 203.28 369.588 203.38 369.248 203.5 368.928 203.6 368.488 203.74 368.048 203.88 367.608 204.02 367.268 204.12 366.928 204.24 366.588 204.34 366.148 204.48 365.708 204.62 365.248 204.76 364.888 204.86 364.548 204.98 364.188 205.08 363.748 205.22 363.288 205.34 362.828 205.48 362.468 205.58 362.108 205.68 361.748 205.78 361.288 205.9 360.828 206.04 360.368 206.16 359.988 206.26 359.628 206.36 359.248 206.46 358.788 206.58 358.328 206.7 357.868 206.82 357.488 206.92 357.108 207.02 356.708 207.12 356.248 207.24 355.768 207.36 355.288 207.48 354.908 207.58 354.508 207.68 354.108 207.76 353.628 207.88 353.148 208 352.668 208.1 352.268 208.2 351.868 208.28 351.468 208.38 350.988 208.5 350.508 208.6 350.028 208.72 349.628 208.82 349.208 208.9 348.788 209 348.308 209.1 347.828 209.22 347.328 209.32 346.908 209.42 346.488 209.5 346.068 209.58 345.568 209.68 345.088 209.78 344.588 209.88 344.168 209.96 343.728 210.06 343.308 210.14 342.808 210.24 342.308 210.34 341.808 210.44 341.368 210.52 340.928 210.6 340.508 210.68 340.008 210.78 339.508 210.86 338.988 210.96 338.548 211.04 338.088 211.12 337.648 211.2 337.148 211.3 336.628 211.38 336.128 211.46 335.668 211.54 335.208 211.62 334.748 211.7 334.248 211.78 333.728 211.86 333.208 211.96 332.748 212.04 332.268 212.1 331.808 212.18 331.288 212.26 330.768 212.34 330.248 212.42 329.768 212.5 329.308 212.56 328.828 212.64 328.308 212.72 327.788 212.8 327.268 212.86 326.788 212.92 326.288 213 325.808 213.06 325.288 213.14 324.768 213.2 324.248 213.28 323.748 213.34 323.248 213.4 322.748 213.48 322.228 213.54 321.708 213.62 321.168 213.68 320.668 213.74 320.168 213.8 319.668 213.86 319.148 213.92 318.608 213.98 318.088 214.04 317.588 214.1 317.068 214.16 316.568 214.2 316.028 214.26 315.508 214.32 314.968 214.38 314.448 214.44 313.928 214.48 313.428 214.54 312.888 214.6 312.348 214.64 311.808 214.7 311.288 214.74 310.768 214.8 310.248 214.84 309.708 214.88 309.168 214.94 308.608 214.98 308.048 215.02 307.528 215.06 306.988 215.12 306.448 215.16 305.928 215.2 305.388 215.26 304.848 215.32 304.268 215.34 303.708 215.38 303.188 215.42 302.668 215.46 302.128 215.5 301.568 215.54 300.988 215.58 300.428 215.62 299.908 215.66 299.368 215.68 298.848 215.72 298.268 215.76 297.688 215.78 297.088 215.82 296.568 215.84 296.048 215.88 295.528 215.9 294.928 215.94 294.328 215.96 293.728 215.98 293.208 216 292.708 216.02 292.188 216.06 291.588 216.08 290.968 216.1 290.368 216.14 289.848 216.16 289.348 216.18 288.828 216.2 288.208 216.22 287.588 216.24 286.968 216.26 286.448 216.28 285.948 216.3 285.428 216.3 284.788 216.32 284.148 216.32 283.488 216.34 282.988 216.36 282.508 216.36 282.008 216.38 281.248 216.4 280.508 216.4 279.748 216.4 279.348 216.4 278.968 216.42 278.568 216.42 277.448 216.42 276.308 216.44 275.188 216.44 275.168 216.44 275.148 216.44 275.128 216.44 273.968 216.44 272.828 216.44 271.668 216.42 271.328 216.42 270.988 216.42 270.648 216.4 269.848 216.4 269.028 216.38 268.228 216.36 267.788 216.36 267.348 216.34 266.908 216.34 266.208 216.32 265.508 216.32 264.828 216.3 264.368 216.28 263.908 216.28 263.428 216.26 262.768 216.24 262.088 216.22 261.428 216.2 260.968 216.18 260.508 216.16 260.048 216.14 259.388 216.12 258.728 216.1 258.068 216.06 257.608 216.04 257.148 216.02 256.688 216 256.028 215.96 255.388 215.94 254.728 215.9 254.268 215.88 253.808 215.84 253.328 215.82 252.688 215.78 252.048 215.76 251.408 215.72 250.928 215.7 250.468 215.66 249.988 215.62 249.368 215.58 248.748 215.54 248.128 215.5 247.648 215.46 247.188 215.44 246.708 215.4 246.088 215.36 245.468 215.32 244.868 215.26 244.388 215.22 243.908 215.18 243.428 215.14 242.828 215.1 242.248 215.04 241.648 215 241.148 214.96 240.668 214.92 240.188 214.86 239.608 214.8 239.028 214.76 238.448 214.7 237.968 214.66 237.488 214.6 237.008 214.56 236.428 214.5 235.868 214.44 235.288 214.38 234.808 214.34 234.328 214.28 233.848 214.22 233.288 214.16 232.708 214.1 232.148 214.04 231.668 213.98 231.208 213.92 230.728 213.88 230.168 213.82 229.608 213.74 229.048 213.68 228.588 213.62 228.108 213.56 227.648 213.5 227.088 213.42 226.528 213.36 225.988 213.28 225.528 213.22 225.068 213.16 224.608 213.1 224.068 213.02 223.508 212.96 222.968 212.88 222.508 212.82 222.048 212.74 221.588 212.68 221.048 212.6 220.528 212.52 219.988 212.44 219.528 212.36 219.068 212.3 218.608 212.22 218.088 212.14 217.548 212.06 217.028 211.98 216.568 211.9 216.128 211.84 215.668 211.76 215.148 211.68 214.628 211.58 214.108 211.5 213.648 211.42 213.208 211.34 212.768 211.26 212.248 211.16 211.748 211.08 211.248 210.98 210.808 210.9 210.348 210.82 209.908 210.74 209.408 210.64 208.908 210.56 208.428 210.46 207.988 210.38 207.548 210.28 207.108 210.2 206.608 210.1 206.128 210 205.648 209.9 205.208 209.82 204.788 209.72 204.348 209.64 203.868 209.54 203.368 209.44 202.908 209.34 202.488 209.24 202.048 209.16 201.628 209.06 201.148 208.96 200.688 208.86 200.208 208.74 199.788 208.64 199.368 208.54 198.928 208.44 198.468 208.34 198.008 208.22 197.548 208.12 197.128 208.02 196.708 207.92 196.288 207.82 195.828 207.7 195.388 207.6 194.928 207.48 194.508 207.38 194.108 207.28 193.708 207.16 193.268 207.04 192.808 206.92 192.368 206.82 191.968 206.72 191.568 206.6 191.168 206.5 190.728 206.38 190.288 206.26 189.868 206.14 189.468 206.02 189.068 205.92 188.668 205.8 188.248 205.68 187.828 205.56 187.408 205.44 187.008 205.32 186.628 205.22 186.228 205.1 185.808 204.98 185.388 204.86 184.988 204.72 184.608 204.6 184.228 204.48 183.828 204.36 183.428 204.24 183.028 204.1 182.628 203.98 182.228 203.86 181.868 203.74 181.488 203.62 181.088 203.5 180.708 203.36 180.308 203.24S179.568 202.98 179.188 202.86C178.808 202.72 178.428 202.6 178.048 202.46 177.668 202.32 177.328 202.2 176.948 202.08 176.568 201.94 176.208 201.82 175.848 201.68 175.488 201.54 175.128 201.42 174.768 201.28 174.408 201.14 174.048 201 173.708 200.88S173.008 200.6 172.648 200.46C172.288 200.32 171.948 200.18 171.608 200.04 171.268 199.9 170.928 199.76 170.588 199.62 170.248 199.48 169.908 199.34 169.588 199.2 169.268 199.06 168.908 198.92 168.588 198.78 168.268 198.64 167.948 198.5 167.608 198.36 167.268 198.22 166.948 198.06 166.628 197.92 166.308 197.78 166.008 197.64 165.688 197.48 165.368 197.32 165.048 197.18 164.728 197.02 164.428 196.88 164.128 196.72 163.828 196.58 163.528 196.44 163.208 196.28 162.908 196.12 162.608 195.98 162.328 195.82 162.028 195.68 161.728 195.54 161.428 195.38 161.148 195.22S160.588 194.92 160.308 194.76 159.728 194.44 159.448 194.28C159.188 194.12 158.908 193.98 158.648 193.82S158.088 193.5 157.808 193.34C157.548 193.18 157.288 193.04 157.048 192.88S156.508 192.56 156.248 192.38C156.008 192.22 155.768 192.06 155.508 191.92 155.248 191.78 154.988 191.58 154.728 191.42 154.488 191.26 154.268 191.1 154.028 190.94 153.768 190.76 153.528 190.6 153.288 190.42 153.068 190.26 152.848 190.1 152.648 189.94 152.408 189.76 152.168 189.58 151.928 189.42 151.728 189.26 151.508 189.1 151.308 188.94 151.088 188.76 150.848 188.58 150.628 188.4 150.428 188.24 150.248 188.08 150.048 187.92 149.828 187.74 149.608 187.56 149.408 187.38 149.228 187.22 149.048 187.06 148.868 186.9 148.668 186.72 148.448 186.54 148.268 186.34 148.088 186.18 147.928 186.02 147.768 185.86 147.568 185.68 147.388 185.48 147.188 185.3 147.028 185.14 146.868 184.98 146.728 184.82 146.548 184.62 146.368 184.44 146.188 184.24 146.048 184.08 145.908 183.92 145.768 183.76 145.608 183.56 145.428 183.38 145.268 183.18 145.128 183.02 145.008 182.86 144.868 182.7 144.708 182.5 144.548 182.3 144.408 182.1 144.288 181.94 144.168 181.76 144.048 181.6 143.908 181.4 143.768 181.2 143.628 181 143.508 180.84 143.408 180.66 143.308 180.5 143.188 180.3 143.048 180.1 142.928 179.9 142.828 179.74 142.748 179.58 142.648 179.4 142.528 179.2 142.408 178.98 142.308 178.78 142.228 178.62 142.148 178.46 142.068 178.28 141.968 178.06 141.868 177.86 141.768 177.64 141.688 177.48 141.628 177.32 141.568 177.16 141.488 176.94 141.388 176.74 141.308 176.52 141.248 176.36 141.208 176.2 141.148 176.04 141.068 175.82 141.008 175.6 140.928 175.4 140.888 175.24 140.848 175.08 140.808 174.92 140.748 174.7 140.688 174.48 140.648 174.26 140.608 174.1 140.588 173.94 140.568 173.78 140.528 173.56 140.468 173.32 140.448 173.1 140.428 172.94 140.408 172.8 140.388 172.64 140.368 172.4 140.328 172.16 140.308 171.94 140.288 171.56 140.268 171.18 140.268 170.82c0-25.2 60.38-45.62 134.88-45.62L275.188 125.16zm280.38 155.46C551.828 312 536.648 348.34 512.548 374.64c-23.16 25.28-52.42 40.8-89.2 38.76C428.708 355.82 439.408 298.2 445.728 244.54c51.92-33.18 80.86-33.46 93.52-25.9C552.068 226.28 559.288 249.26 555.548 280.64L555.568 280.62z" fill="#fff" fill-rule="nonzero" opacity="1" stroke="none"/></g></g></g><g id="Layer-2"><path d="M160.46 426.36l49.957-77.89 35.991 109.583 31.156-176.192L320 408.096l23.098-72.518 31.156 34.379" fill="none" opacity="1" stroke="#000002" stroke-linecap="butt" stroke-linejoin="round" stroke-width="17.1009"/></g></svg></span><span class="navbar-brand__name">jvmperf: JVM Performance Workshop</span></a>
+  <div class="td-navbar-nav-scroll ms-md-auto" id="main_navbar">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link active" href="/docs/"><i class="fas fa-tools"></i><span>Workshop</span></a>
       </li>
-      <li class="nav-item mr-4 mb-2 mb-lg-0">
-        <a class="nav-link" href="https://github.com/cchesser/java-perf-workshop/" target="_blank"><i class="fa-brands fa-github"></i><span>GitHub</span></a>
+      <li class="nav-item">
+        <a class="nav-link" href="https://github.com/cchesser/java-perf-workshop/" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i><span>GitHub</span></a>
       </li>
-      <li class="nav-item mr-4 mb-2 mb-lg-0">
+      <li class="nav-item">
         <a class="nav-link" href="/contributors/"><i class="fas fa-user-friends"></i><span>Contributors</span></a>
+      </li>
+      <li class="td-light-dark-menu nav-item dropdown">
+        <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
+  <symbol id="check2" viewBox="0 0 16 16">
+    <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
+  </symbol>
+  <symbol id="circle-half" viewBox="0 0 16 16">
+    <path d="M8 15A7 7 0 1 0 8 1v14zm0 1A8 8 0 1 1 8 0a8 8 0 0 1 0 16z"/>
+  </symbol>
+  <symbol id="moon-stars-fill" viewBox="0 0 16 16">
+    <path d="M6 .278a.768.768 0 0 1 .08.858 7.208 7.208 0 0 0-.878 3.46c0 4.021 3.278 7.277 7.318 7.277.527 0 1.04-.055 1.533-.16a.787.787 0 0 1 .81.316.733.733 0 0 1-.031.893A8.349 8.349 0 0 1 8.344 16C3.734 16 0 12.286 0 7.71 0 4.266 2.114 1.312 5.124.06A.752.752 0 0 1 6 .278z"/>
+    <path d="M10.794 3.148a.217.217 0 0 1 .412 0l.387 1.162c.173.518.579.924 1.097 1.097l1.162.387a.217.217 0 0 1 0 .412l-1.162.387a1.734 1.734 0 0 0-1.097 1.097l-.387 1.162a.217.217 0 0 1-.412 0l-.387-1.162A1.734 1.734 0 0 0 9.31 6.593l-1.162-.387a.217.217 0 0 1 0-.412l1.162-.387a1.734 1.734 0 0 0 1.097-1.097l.387-1.162zM13.863.099a.145.145 0 0 1 .274 0l.258.774c.115.346.386.617.732.732l.774.258a.145.145 0 0 1 0 .274l-.774.258a1.156 1.156 0 0 0-.732.732l-.258.774a.145.145 0 0 1-.274 0l-.258-.774a1.156 1.156 0 0 0-.732-.732l-.774-.258a.145.145 0 0 1 0-.274l.774-.258c.346-.115.617-.386.732-.732L13.863.1z"/>
+  </symbol>
+  <symbol id="sun-fill" viewBox="0 0 16 16">
+    <path d="M8 12a4 4 0 1 0 0-8 4 4 0 0 0 0 8zM8 0a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 0zm0 13a.5.5 0 0 1 .5.5v2a.5.5 0 0 1-1 0v-2A.5.5 0 0 1 8 13zm8-5a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2a.5.5 0 0 1 .5.5zM3 8a.5.5 0 0 1-.5.5h-2a.5.5 0 0 1 0-1h2A.5.5 0 0 1 3 8zm10.657-5.657a.5.5 0 0 1 0 .707l-1.414 1.415a.5.5 0 1 1-.707-.708l1.414-1.414a.5.5 0 0 1 .707 0zm-9.193 9.193a.5.5 0 0 1 0 .707L3.05 13.657a.5.5 0 0 1-.707-.707l1.414-1.414a.5.5 0 0 1 .707 0zm9.193 2.121a.5.5 0 0 1-.707 0l-1.414-1.414a.5.5 0 0 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .707zM4.464 4.465a.5.5 0 0 1-.707 0L2.343 3.05a.5.5 0 1 1 .707-.707l1.414 1.414a.5.5 0 0 1 0 .708z"/>
+  </symbol>
+</svg>
+
+<button class="btn btn-link nav-link dropdown-toggle d-flex align-items-center"
+        id="bd-theme"
+        type="button"
+        aria-expanded="false"
+        data-bs-toggle="dropdown"
+        data-bs-display="static"
+        aria-label="Toggle theme (auto)">
+  <svg class="bi my-1 theme-icon-active"><use href="#circle-half"></use></svg>
+</button>
+<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme-text">
+  <li>
+    <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="light" aria-pressed="false">
+      <svg class="bi me-2 opacity-50"><use href="#sun-fill"></use></svg>
+      Light
+      <svg class="bi ms-auto d-none"><use href="#check2"></use></svg>
+    </button>
+  </li>
+  <li>
+    <button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark" aria-pressed="false">
+      <svg class="bi me-2 opacity-50"><use href="#moon-stars-fill"></use></svg>
+      Dark
+      <svg class="bi ms-auto d-none"><use href="#check2"></use></svg>
+    </button>
+  </li>
+  <li>
+    <button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="auto" aria-pressed="true">
+      <svg class="bi me-2 opacity-50"><use href="#circle-half"></use></svg>
+      Auto
+      <svg class="bi ms-auto d-none"><use href="#check2"></use></svg>
+    </button>
+  </li>
+</ul>
+
       </li>
       </ul>
   </div>
-  <div class="navbar-nav d-none d-lg-block">
+  <div class="d-none d-lg-block">
     <div class="td-search td-search--offline">
   <div class="td-search__icon"></div>
   <input
@@ -90,13 +126,13 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="/offline-search-index.8857758716f07c5ed3c8ce57fb321f80.json"
+    data-offline-search-index-json-src="/offline-search-index.734b219fb2005f00374eb8314895945b.json"
     data-offline-search-base-href="/"
     data-offline-search-max-results="10"
   >
 </div>
-
   </div>
+</div>
 </nav>
     </header>
     <div class="container-fluid td-outer">
@@ -104,7 +140,20 @@ if (!doNotTrack) {
         <div class="row flex-xl-nowrap">
           <aside class="col-12 col-md-3 col-xl-2 td-sidebar d-print-none">
             
-<div id="td-sidebar-menu" class="td-sidebar__inner">
+  <script>
+    $(function() {
+    $("#td-section-nav a").removeClass("active");
+    $("#td-section-nav #m-docsmemorycapturing").addClass("active"); 
+    $("#td-section-nav #m-docsmemorycapturing-li span").addClass("td-sidebar-nav-active-item"); 
+    $("#td-section-nav #m-docsmemorycapturing").parents("li").addClass("active-path"); 
+    $("#td-section-nav li.active-path").addClass("show"); 
+    $("#td-section-nav li.active-path").children("input").prop('checked', true);
+    $("#td-section-nav #m-docsmemorycapturing-li").siblings("li").addClass("show");  
+    $("#td-section-nav #m-docsmemorycapturing-li").children("ul").children("li").addClass("show");  
+    $("#td-sidebar-menu").toggleClass("d-none"); 
+    });
+  </script>
+  <div id="td-sidebar-menu" class="td-sidebar__inner d-none">
   <form class="td-sidebar__search d-flex align-items-center">
     <div class="td-search td-search--offline">
   <div class="td-search__icon"></div>
@@ -115,75 +164,74 @@ if (!doNotTrack) {
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="/offline-search-index.8857758716f07c5ed3c8ce57fb321f80.json"
+    data-offline-search-index-json-src="/offline-search-index.734b219fb2005f00374eb8314895945b.json"
     data-offline-search-base-href="/"
     data-offline-search-max-results="10"
   >
 </div>
-
-    <button class="btn btn-link td-sidebar__toggle d-md-none p-0 ml-3 fas fa-bars" type="button" data-toggle="collapse" data-target="#td-section-nav" aria-controls="td-section-nav" aria-expanded="false" aria-label="Toggle section navigation">
+    <button class="btn btn-link td-sidebar__toggle d-md-none p-0 ms-3 fas fa-bars" type="button" data-bs-toggle="collapse" data-bs-target="#td-section-nav" aria-controls="td-section-nav" aria-expanded="false" aria-label="Toggle section navigation">
     </button>
   </form>
-  <nav class="collapse td-sidebar-nav" id="td-section-nav">
-    <ul class="td-sidebar-nav__section pr-md-3 ul-0">
-      <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-docs-li">
-  <a href="/docs/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section tree-root" id="m-docs"><span class="">Workshop</span></a>
+  <nav class="td-sidebar-nav collapse" id="td-section-nav">
+    <ul class="td-sidebar-nav__section pe-md-3 ul-0">
+      <li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docs-li">
+  <a href="/docs/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section tree-root" id="m-docs"><span class="">Workshop</span></a>
   <ul class="ul-1">
     <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsprereqs-li">
-  <a href="/docs/prereqs/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docsprereqs"><span class="">Prerequisites</span></a>
+  <a href="/docs/prereqs/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docsprereqs"><span class="">Prerequisites</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docssetup-li">
-  <a href="/docs/setup/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docssetup"><span class="">Setup</span></a>
+  <a href="/docs/setup/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docssetup"><span class="">Setup</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsintro-li">
-  <a href="/docs/intro/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docsintro"><span class="">Process and Threads</span></a>
+  <a href="/docs/intro/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docsintro"><span class="">Process and Threads</span></a>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsjmc-li">
-  <a href="/docs/jmc/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docsjmc"><span class="">Java Mission Control &amp; Flight Recorder</span></a>
+  <a href="/docs/jmc/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docsjmc"><span class="">JDK Mission Control &amp; Flight Recorder</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsjmc_intro_jmc7-li">
-  <a href="/docs/jmc/_intro_jmc7/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsjmc_intro_jmc7"><span class="">Introduction</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsjmcmethod_profiling-li">
-  <a href="/docs/jmc/method_profiling/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsjmcmethod_profiling"><span class="">Method Profiling</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsjmcexceptions-li">
-  <a href="/docs/jmc/exceptions/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsjmcexceptions"><span class="">Exceptions</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsjmcthreads-li">
-  <a href="/docs/jmc/threads/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsjmcthreads"><span class="">Threads</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsjmcmemory-li">
-  <a href="/docs/jmc/memory/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsjmcmemory"><span class="">Memory</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsjmcio_operations-li">
-  <a href="/docs/jmc/io_operations/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsjmcio_operations"><span class="">I/O Operations</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsjmc_references-li">
-  <a href="/docs/jmc/_references/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsjmc_references"><span class="">References</span></a>
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsjmc_intro_jmc9-li">
+  <a href="/docs/jmc/_intro_jmc9/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsjmc_intro_jmc9"><span class="">Introduction</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsjmcmethod_profiling-li">
+  <a href="/docs/jmc/method_profiling/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsjmcmethod_profiling"><span class="">Method Profiling</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsjmcexceptions-li">
+  <a href="/docs/jmc/exceptions/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsjmcexceptions"><span class="">Exceptions</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsjmcthreads-li">
+  <a href="/docs/jmc/threads/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsjmcthreads"><span class="">Threads</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsjmcmemory-li">
+  <a href="/docs/jmc/memory/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsjmcmemory"><span class="">Memory</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsjmcio_operations-li">
+  <a href="/docs/jmc/io_operations/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsjmcio_operations"><span class="">I/O Operations</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsjmc_references-li">
+  <a href="/docs/jmc/_references/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsjmc_references"><span class="">References</span></a>
 </li>
   </ul>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child active-path" id="m-docsmemory-li">
-  <a href="/docs/memory/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docsmemory"><span class="">Memory Analysis</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docsmemory-li">
+  <a href="/docs/memory/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docsmemory"><span class="">Memory Analysis</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsmemoryheap-li">
-  <a href="/docs/memory/heap/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsmemoryheap"><span class="">Memory Heap Analysis</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child active-path" id="m-docsmemorycapturing-li">
-  <a href="/docs/memory/capturing/" class="align-left pl-0 active td-sidebar-link td-sidebar-link__page" id="m-docsmemorycapturing"><span class="td-sidebar-nav-active-item">Capturing Heap Dumps</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsmemoryjoverflow-li">
-  <a href="/docs/memory/joverflow/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsmemoryjoverflow"><span class="">JOverflow</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsmemorymat-li">
-  <a href="/docs/memory/mat/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsmemorymat"><span class="">Eclipse MAT</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsmemoryvisualvm-li">
-  <a href="/docs/memory/visualvm/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsmemoryvisualvm"><span class="">Visual VM</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsmemorychallenge-li">
-  <a href="/docs/memory/challenge/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsmemorychallenge"><span class="">Memory Challenge</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docsmemorygc-li">
-  <a href="/docs/memory/gc/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docsmemorygc"><span class="">Garbage Collections</span></a>
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsmemoryheap-li">
+  <a href="/docs/memory/heap/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsmemoryheap"><span class="">Memory Heap Analysis</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsmemorycapturing-li">
+  <a href="/docs/memory/capturing/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsmemorycapturing"><span class="">Capturing Heap Dumps</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsmemoryjoverflow-li">
+  <a href="/docs/memory/joverflow/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsmemoryjoverflow"><span class="">JOverflow</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsmemorymat-li">
+  <a href="/docs/memory/mat/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsmemorymat"><span class="">Eclipse MAT</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsmemoryvisualvm-li">
+  <a href="/docs/memory/visualvm/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsmemoryvisualvm"><span class="">VisualVM</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsmemorychallenge-li">
+  <a href="/docs/memory/challenge/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsmemorychallenge"><span class="">Memory Challenge</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docsmemorygc-li">
+  <a href="/docs/memory/gc/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docsmemorygc"><span class="">Garbage Collections</span></a>
 </li>
   </ul>
 </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section with-child" id="m-docscontainers-li">
-  <a href="/docs/containers/" class="align-left pl-0 td-sidebar-link td-sidebar-link__section" id="m-docscontainers"><span class="">Containers</span></a>
+  <a href="/docs/containers/" class="align-left ps-0 td-sidebar-link td-sidebar-link__section" id="m-docscontainers"><span class="">Containers</span></a>
   <ul class="ul-2 foldable">
-    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docscontainerssetup-li">
-  <a href="/docs/containers/setup/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docscontainerssetup"><span class="">Setup</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docscontainersjava_monitoring-li">
-  <a href="/docs/containers/java_monitoring/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docscontainersjava_monitoring"><span class="">Java Monitoring Tooling</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docscontainersdocker_monitoring-li">
-  <a href="/docs/containers/docker_monitoring/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docscontainersdocker_monitoring"><span class="">Docker Tooling</span></a>
-</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child" id="m-docscontainers_references-li">
-  <a href="/docs/containers/_references/" class="align-left pl-0 td-sidebar-link td-sidebar-link__page" id="m-docscontainers_references"><span class="">References</span></a>
+    <li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docscontainerssetup-li">
+  <a href="/docs/containers/setup/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docscontainerssetup"><span class="">Setup</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docscontainersjava_monitoring-li">
+  <a href="/docs/containers/java_monitoring/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docscontainersjava_monitoring"><span class="">Java Monitoring Tooling</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docscontainersdocker_monitoring-li">
+  <a href="/docs/containers/docker_monitoring/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docscontainersdocker_monitoring"><span class="">Docker Tooling</span></a>
+</li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docscontainers_references-li">
+  <a href="/docs/containers/_references/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docscontainers_references"><span class="">References</span></a>
 </li>
   </ul>
 </li>
@@ -193,38 +241,18 @@ if (!doNotTrack) {
   </nav>
 </div>
 
+
           </aside>
           <aside class="d-none d-xl-block col-xl-2 td-sidebar-toc d-print-none">
-            
-  
-  
-  
-  
-  
-  <div class="td-page-meta ml-2 pb-1 pt-2 mb-0">
-  
-    
-    
-      
-    
-    
-    
-    
-    
-    
-    
+            <div class="td-page-meta ms-2 pb-1 pt-2 mb-0">
+<a href="https://github.com/cchesser/java-perf-workshop/tree/main/userguide/content/docs/memory/capturing.md" class="td-page-meta--view td-page-meta__view" target="_blank" rel="noopener"><i class="fa-solid fa-file-lines fa-fw"></i> View page source</a>
+  <a href="https://github.com/cchesser/java-perf-workshop/edit/main/userguide/content/docs/memory/capturing.md" class="td-page-meta--edit td-page-meta__edit" target="_blank" rel="noopener"><i class="fa-solid fa-pen-to-square fa-fw"></i> Edit this page</a>
+  <a href="https://github.com/cchesser/java-perf-workshop/new/main/userguide/content/docs/memory?filename=change-me.md&amp;value=---%0Atitle%3A&#43;%22Long&#43;Page&#43;Title%22%0AlinkTitle%3A&#43;%22Short&#43;Nav&#43;Title%22%0Aweight%3A&#43;100%0Adescription%3A&#43;%3E-%0A&#43;&#43;&#43;&#43;&#43;Page&#43;description&#43;for&#43;heading&#43;and&#43;indexes.%0A---%0A%0A%23%23&#43;Heading%0A%0AEdit&#43;this&#43;template&#43;to&#43;create&#43;your&#43;new&#43;page.%0A%0A%2A&#43;Give&#43;it&#43;a&#43;good&#43;name%2C&#43;ending&#43;in&#43;%60.md%60&#43;-&#43;e.g.&#43;%60getting-started.md%60%0A%2A&#43;Edit&#43;the&#43;%22front&#43;matter%22&#43;section&#43;at&#43;the&#43;top&#43;of&#43;the&#43;page&#43;%28weight&#43;controls&#43;how&#43;its&#43;ordered&#43;amongst&#43;other&#43;pages&#43;in&#43;the&#43;same&#43;directory%3B&#43;lowest&#43;number&#43;first%29.%0A%2A&#43;Add&#43;a&#43;good&#43;commit&#43;message&#43;at&#43;the&#43;bottom&#43;of&#43;the&#43;page&#43;%28%3C80&#43;characters%3B&#43;use&#43;the&#43;extended&#43;description&#43;field&#43;for&#43;more&#43;detail%29.%0A%2A&#43;Create&#43;a&#43;new&#43;branch&#43;so&#43;you&#43;can&#43;preview&#43;your&#43;new&#43;file&#43;and&#43;request&#43;a&#43;review&#43;via&#43;Pull&#43;Request.%0A" class="td-page-meta--child td-page-meta__child" target="_blank" rel="noopener"><i class="fa-solid fa-pen-to-square fa-fw"></i> Create child page</a>
+  <a href="https://github.com/cchesser/java-perf-workshop/issues/new?title=Capturing%20Heap%20Dumps" class="td-page-meta--issue td-page-meta__issue" target="_blank" rel="noopener"><i class="fa-solid fa-list-check fa-fw"></i> Create documentation issue</a>
+  <a href="https://github.com/cchesser/java-perf-workshop/issues/new" class="td-page-meta--project td-page-meta__project-issue" target="_blank" rel="noopener"><i class="fa-solid fa-list-check fa-fw"></i> Create project issue</a>
+  <a id="print" href="/docs/memory/_print/"><i class="fa-solid fa-print fa-fw"></i> Print entire section</a>
 
-    <a href="https://github.com/cchesser/java-perf-workshop/edit/main/docs/content/docs/memory/capturing.md" target="_blank"><i class="fa fa-edit fa-fw"></i> Edit this page</a>
-    <a href="https://github.com/cchesser/java-perf-workshop/new/main/docs/content/docs/memory/capturing.md?filename=change-me.md&amp;value=---%0Atitle%3A&#43;%22Long&#43;Page&#43;Title%22%0AlinkTitle%3A&#43;%22Short&#43;Nav&#43;Title%22%0Aweight%3A&#43;100%0Adescription%3A&#43;%3E-%0A&#43;&#43;&#43;&#43;&#43;Page&#43;description&#43;for&#43;heading&#43;and&#43;indexes.%0A---%0A%0A%23%23&#43;Heading%0A%0AEdit&#43;this&#43;template&#43;to&#43;create&#43;your&#43;new&#43;page.%0A%0A%2A&#43;Give&#43;it&#43;a&#43;good&#43;name%2C&#43;ending&#43;in&#43;%60.md%60&#43;-&#43;e.g.&#43;%60getting-started.md%60%0A%2A&#43;Edit&#43;the&#43;%22front&#43;matter%22&#43;section&#43;at&#43;the&#43;top&#43;of&#43;the&#43;page&#43;%28weight&#43;controls&#43;how&#43;its&#43;ordered&#43;amongst&#43;other&#43;pages&#43;in&#43;the&#43;same&#43;directory%3B&#43;lowest&#43;number&#43;first%29.%0A%2A&#43;Add&#43;a&#43;good&#43;commit&#43;message&#43;at&#43;the&#43;bottom&#43;of&#43;the&#43;page&#43;%28%3C80&#43;characters%3B&#43;use&#43;the&#43;extended&#43;description&#43;field&#43;for&#43;more&#43;detail%29.%0A%2A&#43;Create&#43;a&#43;new&#43;branch&#43;so&#43;you&#43;can&#43;preview&#43;your&#43;new&#43;file&#43;and&#43;request&#43;a&#43;review&#43;via&#43;Pull&#43;Request.%0A" target="_blank"><i class="fa fa-edit fa-fw"></i> Create child page</a>
-    <a href="https://github.com/cchesser/java-perf-workshop/issues/new?title=Capturing%20Heap%20Dumps" target="_blank"><i class="fab fa-github fa-fw"></i> Create documentation issue</a>
-    
-
-  
-  
-    <a id="print" href="https://jvmperf.net/docs/memory/_print/"><i class="fa fa-print fa-fw"></i> Print entire section</a>
-  
-  </div>
-
+</div>
 
             <div class="td-toc">
         <nav id="TableOfContents">
@@ -242,40 +270,19 @@ if (!doNotTrack) {
     
             
 
-	
-		
-
-
-
-  
-  
-
-	
-		
-
-
-
-  
-  
-
-	
-
           </aside>
-          <main class="col-12 col-md-9 col-xl-8 pl-md-5" role="main">
+          <main class="col-12 col-md-9 col-xl-8 ps-md-5" role="main">
             
   
 
             <nav aria-label="breadcrumb" class="td-breadcrumbs">
   <ol class="breadcrumb">
   <li class="breadcrumb-item">
-    <a href="https://jvmperf.net/docs/">Workshop</a>
-  </li>
+    <a href="/docs/">Workshop</a></li>
   <li class="breadcrumb-item">
-    <a href="https://jvmperf.net/docs/memory/">Memory Analysis</a>
-  </li>
+    <a href="/docs/memory/">Memory Analysis</a></li>
   <li class="breadcrumb-item active" aria-current="page">
-    <a href="https://jvmperf.net/docs/memory/capturing/" aria-disabled="true" class="btn-link disabled">Capturing Heap Dumps</a>
-  </li>
+    Capturing Heap Dumps</li>
   </ol>
 </nav>
             
@@ -284,38 +291,23 @@ if (!doNotTrack) {
 	<div class="lead">Different ways to capture a heap dump.</div>
 	<header class="article-meta">
 		
-
-  
-    
-
-
-  
-    
-
-
-  
-
-		
-			<p class="reading-time"><i class="fa-solid fa-clock" aria-hidden="true"></i>&nbsp; 2 minute read &nbsp;</p>
-
-		
-	</header>    
+</header>
 	<p>You may be aware by now, there are many different ways of getting data from the JVM. Here are just a few ways to get heap dump of the JVM.</p>
 <h2 id="jcmd">jcmd</h2>
 <p>With <code>jcmd</code>, you have the ability to invoke the <code>GC.heap_dump</code> command. This requires that you
 are running as the same OS user as the target JVM process.</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>jcmd &lt;PID&gt; GC.heap_dump my_little_heap_dump.hprof
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">jcmd &lt;PID&gt; GC.heap_dump my_little_heap_dump.hprof
 </span></span></code></pre></div><p><strong>Note:</strong> If a full path is not specified, the heap_dump will be created relative to the location from where the process was started (when generated with jcmd)</p>
 <h2 id="jmap">jmap</h2>
 <p>A more traditional approach is using <code>jmap</code> and invoking the command on the target process.</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>jmap -dump:format<span style="color:#ce5c00;font-weight:bold">=</span>b,file<span style="color:#ce5c00;font-weight:bold">=</span>my_little_heap_dump.hprof &lt;PID&gt;
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">jmap -dump:format<span class="o">=</span>b,file<span class="o">=</span>my_little_heap_dump.hprof &lt;PID&gt;
 </span></span></code></pre></div><h2 id="core-dump">Core Dump</h2>
 <p>You can also use <code>jmap</code> to extract a heap dump from a core dump on the process:</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-bash" data-lang="bash"><span style="display:flex;"><span>sudo gdb --pid<span style="color:#ce5c00;font-weight:bold">=</span>&lt;PID&gt;
-</span></span><span style="display:flex;"><span>gcore /tmp/jvm.core
-</span></span><span style="display:flex;"><span>detach
-</span></span><span style="display:flex;"><span>quit
-</span></span><span style="display:flex;"><span>jmap -dump:format<span style="color:#ce5c00;font-weight:bold">=</span>b,file<span style="color:#ce5c00;font-weight:bold">=</span>my_little_heap_dump.hprof /usr/bin/java /tmp/jvm.core
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">sudo gdb --pid<span class="o">=</span>&lt;PID&gt;
+</span></span><span class="line"><span class="cl">gcore /tmp/jvm.core
+</span></span><span class="line"><span class="cl">detach
+</span></span><span class="line"><span class="cl">quit
+</span></span><span class="line"><span class="cl">jmap -dump:format<span class="o">=</span>b,file<span class="o">=</span>my_little_heap_dump.hprof /usr/bin/java /tmp/jvm.core
 </span></span></code></pre></div><p>💡 Capturing a heap dump from a core dump on Java 8, you may run into this issue:
 <a href="http://bugs.java.com/bugdatabase/view_bug.do?bug_id=8073606">JDK-8073606</a>.</p>
 <h3 id="hotspot-diagnostic-mbean">HotSpot Diagnostic MBean</h3>
@@ -339,9 +331,7 @@ In the next section, we'll start analyzing our heap dump with JOverflow.
       </div>
   </div>
 
-	
-	
-	<div class="text-muted mt-5 pt-3 border-top">
+	<div class="td-page-meta__lastmod">
   Last modified March 1, 2021: <a href="https://github.com/cchesser/java-perf-workshop/commit/46ae76dd1df17ec228ab430dd5df78b16b1e3086">Add a shortcode to create a guided section (#43) (46ae76d)</a>
 </div>
 
@@ -351,47 +341,53 @@ In the next section, we'll start analyzing our heap dump with JOverflow.
           </main>
         </div>
       </div>
-      
-<footer class="bg-dark py-5 row d-print-none">
-  <div class="container-fluid mx-sm-5">
-    <div class="row">
-      <div class="col-6 col-sm-4 text-xs-center order-sm-2">
+      <footer class="td-footer row d-print-none">
+  <div class="container-fluid">
+    <div class="row mx-md-2">
+      <div class="td-footer__left col-6 col-sm-4 order-sm-1">
         
-        
-        
-      </div>
-      <div class="col-6 col-sm-4 text-right text-xs-center order-sm-3">
-        
-        
-        
-<ul class="list-inline mb-0">
+      </div><div class="td-footer__right col-6 col-sm-4 order-sm-3">
+        <ul class="td-footer__links-list">
   
-  <li class="list-inline-item mx-2 h3" data-toggle="tooltip" data-placement="top" title="GitHub" aria-label="GitHub">
-    <a class="text-white" target="_blank" rel="noopener" href="https://github.com/cchesser/java-perf-workshop" aria-label="GitHub">
-      <i class="fab fa-github"></i>
+  <li class="td-footer__links-item" data-bs-toggle="tooltip" title="GitHub" aria-label="GitHub">
+    <a target="_blank" rel="noopener" href="https://github.com/cchesser/java-perf-workshop" aria-label="GitHub">
+      <i class="fa-brands fa-github"></i>
     </a>
   </li>
   
 </ul>
 
-        
-        
-      </div>
-      <div class="col-12 col-sm-4 text-center py-2 order-sm-2">
-        <small class="text-white">&copy; 2024 - All Rights Reserved</small>
-        
-	
-		
-	
+      </div><div class="td-footer__center col-12 col-sm-4 py-2 order-sm-2">
+        <span class="td-footer__copyright">&copy;
+    2015&ndash;2025
+    <span class="td-footer__authors"><a href="/contributors/">jvmperf Contributors</a> <br /> Oracle and Java are registered trademarks of Oracle and/or its affiliates. Other names may be trademarks of their respective owners.</span></span><span class="td-footer__all_rights_reserved">All Rights Reserved</span>
       </div>
     </div>
   </div>
 </footer>
 
-
     </div>
-    <script src="/js/main.min.087dc9fee1baa425872c0dd6d3b3d9870d81c22a20e70c02d6f6b1e227a750a1.js" integrity="sha256-CH3J/uG6pCWHLA3W07PZhw2Bwiog5wwC1vax4ienUKE=" crossorigin="anonymous"></script>
-<script src='/js/prism.js'></script>
+    <style>
+.markmap > svg {
+  width: 100%;
+  height: 300px;
+}
+</style>
+<script>
+window.markmap = {
+  autoLoader: {
+      manual: true,
+      onReady() {
+        const { autoLoader, builtInPlugins } = window.markmap;
+        autoLoader.transformPlugins = builtInPlugins.filter(plugin => plugin.name !== 'prism');
+      },
+  },
+};
+</script>
+<script src="https://cdn.jsdelivr.net/npm/markmap-autoloader"></script>
+<script src='/js/deflate.js'></script>
+<script src="/js/main.min.f1db9b7a56d196a6fffb9680eca1a6ee7fa18dae438d020141d40b4e68f117a9.js" integrity="sha256-8dubelbRlqb/&#43;5aA7KGm7n&#43;hja5DjQIBQdQLTmjxF6k=" crossorigin="anonymous"></script>
+<script defer src="/js/click-to-copy.min.73478a7d4807698aed7e355eb23f9890ca18fea3158604c8471746d046702bad.js" integrity="sha256-c0eKfUgHaYrtfjVesj&#43;YkMoY/qMVhgTIRxdG0EZwK60=" crossorigin="anonymous"></script>
 <script src='/js/tabpane-persist.js'></script>
 
   </body>

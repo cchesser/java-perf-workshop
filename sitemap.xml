@@ -12,13 +12,13 @@
     <lastmod>2021-04-02T08:11:42-05:00</lastmod>
   </url><url>
     <loc>https://jvmperf.net/docs/prereqs/</loc>
-    <lastmod>2021-06-12T05:58:21+02:00</lastmod>
+    <lastmod>2025-05-15T01:02:15-05:00</lastmod>
   </url><url>
     <loc>https://jvmperf.net/docs/setup/</loc>
-    <lastmod>2021-02-14T15:48:46-06:00</lastmod>
+    <lastmod>2025-05-15T01:02:15-05:00</lastmod>
   </url><url>
-    <loc>https://jvmperf.net/docs/jmc/_intro_jmc7/</loc>
-    <lastmod>2021-06-12T05:58:21+02:00</lastmod>
+    <loc>https://jvmperf.net/docs/jmc/_intro_jmc9/</loc>
+    <lastmod>2025-05-15T01:02:15-05:00</lastmod>
   </url><url>
     <loc>https://jvmperf.net/docs/memory/heap/</loc>
     <lastmod>2021-03-01T08:17:48-06:00</lastmod>
@@ -39,7 +39,7 @@
     <lastmod>2021-03-01T08:17:48-06:00</lastmod>
   </url><url>
     <loc>https://jvmperf.net/docs/memory/joverflow/</loc>
-    <lastmod>2021-03-01T08:17:48-06:00</lastmod>
+    <lastmod>2025-05-15T01:02:15-05:00</lastmod>
   </url><url>
     <loc>https://jvmperf.net/docs/memory/mat/</loc>
     <lastmod>2021-03-01T08:17:48-06:00</lastmod>
@@ -51,7 +51,7 @@
     <lastmod>2021-03-01T08:17:48-06:00</lastmod>
   </url><url>
     <loc>https://jvmperf.net/docs/memory/visualvm/</loc>
-    <lastmod>2021-03-01T08:17:48-06:00</lastmod>
+    <lastmod>2025-05-15T01:02:15-05:00</lastmod>
   </url><url>
     <loc>https://jvmperf.net/docs/jmc/io_operations/</loc>
     <lastmod>2021-02-10T08:12:54-06:00</lastmod>
@@ -63,7 +63,7 @@
     <lastmod>2024-02-25T09:31:45-06:00</lastmod>
   </url><url>
     <loc>https://jvmperf.net/docs/jmc/</loc>
-    <lastmod>2021-01-12T22:56:46-06:00</lastmod>
+    <lastmod>2025-05-15T01:02:15-05:00</lastmod>
   </url><url>
     <loc>https://jvmperf.net/docs/jmc/_references/</loc>
     <lastmod>2021-02-10T08:12:54-06:00</lastmod>
@@ -77,10 +77,14 @@
     <loc>https://jvmperf.net/docs/containers/_references/</loc>
     <lastmod>2021-04-02T08:11:42-05:00</lastmod>
   </url><url>
+    <loc>https://jvmperf.net/categories/</loc>
+  </url><url>
     <loc>https://jvmperf.net/contributors/</loc>
     <lastmod>2022-11-03T23:43:36-05:00</lastmod>
   </url><url>
     <loc>https://jvmperf.net/</loc>
-    <lastmod>2021-06-12T05:58:21+02:00</lastmod>
+    <lastmod>2025-05-15T01:02:15-05:00</lastmod>
+  </url><url>
+    <loc>https://jvmperf.net/tags/</loc>
   </url>
 </urlset>

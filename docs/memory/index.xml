@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Memory Analysis on jvmperf: JVM Performance Workshop</title>
+    <link>https://jvmperf.net/docs/memory/</link>
+    <description>Recent content in Memory Analysis on jvmperf: JVM Performance Workshop</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <atom:link href="https://jvmperf.net/docs/memory/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Memory Heap Analysis</title>
+      <link>https://jvmperf.net/docs/memory/heap/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://jvmperf.net/docs/memory/heap/</guid>
+      <description>&lt;p&gt;In the following sections, we are going to do some analysis of the JVM&amp;rsquo;s heap dump.&lt;/p&gt;&#xA;&#xA;&#xA;&lt;div class=&#34;alert alert-info&#34; role=&#34;alert&#34;&gt;&#xA;&lt;h4 class=&#34;alert-heading&#34;&gt;Note&lt;/h4&gt;&#xA;&#xA;    Make sure you&amp;rsquo;ve gone through the &lt;a href=&#34;https://jvmperf.net/docs/prereqs/&#34;&gt;Prerequisites&lt;/a&gt;&#xA;&#xA;&lt;/div&gt;&#xA;&#xA;&lt;p&gt;First, we&amp;rsquo;ll need to capture a heap dump:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://jvmperf.net/docs/memory/capturing/&#34;&gt;Capturing a Heap Dump&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;We will then go through three common tools in which we can do some analysis of a heap dump. All of&#xA;which are free. :smiley:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://jvmperf.net/docs/memory/joverflow/&#34;&gt;JOverflow Analysis&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://jvmperf.net/docs/memory/mat/&#34;&gt;Eclipse MAT&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://jvmperf.net/docs/memory/visualvm/&#34;&gt;VisualVM&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;We will then tie all our knowledge together and attempt to solve a quick challenge:&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Capturing Heap Dumps</title>
+      <link>https://jvmperf.net/docs/memory/capturing/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://jvmperf.net/docs/memory/capturing/</guid>
+      <description>&lt;p&gt;You may be aware by now, there are many different ways of getting data from the JVM. Here are just a few ways to get heap dump of the JVM.&lt;/p&gt;&#xA;&lt;h2 id=&#34;jcmd&#34;&gt;jcmd&lt;/h2&gt;&#xA;&lt;p&gt;With &lt;code&gt;jcmd&lt;/code&gt;, you have the ability to invoke the &lt;code&gt;GC.heap_dump&lt;/code&gt; command. This requires that you&#xA;are running as the same OS user as the target JVM process.&lt;/p&gt;&#xA;&lt;div class=&#34;highlight&#34;&gt;&lt;pre tabindex=&#34;0&#34; class=&#34;chroma&#34;&gt;&lt;code class=&#34;language-bash&#34; data-lang=&#34;bash&#34;&gt;&lt;span class=&#34;line&#34;&gt;&lt;span class=&#34;cl&#34;&gt;jcmd &amp;lt;PID&amp;gt; GC.heap_dump my_little_heap_dump.hprof&#xA;&lt;/span&gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;p&gt;&lt;strong&gt;Note:&lt;/strong&gt; If a full path is not specified, the heap_dump will be created relative to the location from where the process was started (when generated with jcmd)&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>JOverflow</title>
+      <link>https://jvmperf.net/docs/memory/joverflow/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://jvmperf.net/docs/memory/joverflow/</guid>
+      <description>&lt;p&gt;Included in &lt;a href=&#34;https://www.oracle.com/java/technologies/jdk-mission-control.html&#34;&gt;JDK Mission Control&lt;/a&gt; is a plugin that used to be a separate instance, the JOverflow Heap Analyzer. This plugin now adds a context menu selection to &lt;strong&gt;Dump Heap&lt;/strong&gt; of JVMs from the JVM Browser.&lt;/p&gt;&#xA;&lt;p&gt;&lt;img src=&#34;https://jvmperf.net/joverflow/dump_heap.png&#34; alt=&#34;joverflow dump heap&#34;&gt;&lt;/p&gt;&#xA;&lt;p&gt;&lt;strong&gt;JOverflow&lt;/strong&gt; is a great tool to start our analysis with since it is tailored to identifying common anti-patterns present in most heap dumps. This should give us an idea of the kinds of problems we can see in our JVMs.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Eclipse MAT</title>
+      <link>https://jvmperf.net/docs/memory/mat/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://jvmperf.net/docs/memory/mat/</guid>
+      <description>&lt;div class=&#34;alert alert-info&#34; role=&#34;alert&#34;&gt;&#xA;&lt;h4 class=&#34;alert-heading&#34;&gt;Note&lt;/h4&gt;&#xA;&#xA;    Make sure you&amp;rsquo;ve gone through the &lt;a href=&#34;https://jvmperf.net/docs/prereqs/&#34;&gt;Prerequisites&lt;/a&gt;&#xA;&#xA;&lt;/div&gt;&#xA;&#xA;&lt;p&gt;&lt;a href=&#34;https://eclipse.org/mat/&#34;&gt;Eclipse Memory Analyzer&lt;/a&gt; is a fairly mature tool on analyzing heap dumps. It is a rich tool that includes the abilities to do OQL queries on the heap, general reporting on anti-patterns, and helpful common views (like the dominator tree). Eclipse Memory Analyzer tool is a separate install which can be a standalone install, or it can run as a plugin within Eclipse.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>VisualVM</title>
+      <link>https://jvmperf.net/docs/memory/visualvm/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://jvmperf.net/docs/memory/visualvm/</guid>
+      <description>&lt;div class=&#34;alert alert-info&#34; role=&#34;alert&#34;&gt;&#xA;&lt;h4 class=&#34;alert-heading&#34;&gt;Note&lt;/h4&gt;&#xA;&#xA;    Make sure you&amp;rsquo;ve gone through the &lt;a href=&#34;https://jvmperf.net/docs/prereqs/&#34;&gt;Prerequisites&lt;/a&gt;&#xA;&#xA;&lt;/div&gt;&#xA;&#xA;&lt;p&gt;&lt;a href=&#34;http://docs.oracle.com/javase/8/docs/technotes/guides/visualvm/&#34;&gt;VisualVM&lt;/a&gt; is a tool which used to be part of Oracle&amp;rsquo;s JDK and is now a &lt;a href=&#34;https://visualvm.github.io/&#34;&gt;standalone tool&lt;/a&gt;. This tool was spawned from the &lt;a href=&#34;https://profiler.netbeans.org/&#34;&gt;Netbeans Profiler&lt;/a&gt;, and it has some helpful tools to inspect a heap dump.&lt;/p&gt;&#xA;&lt;h2 id=&#34;opening-dumps&#34;&gt;Opening Dumps&lt;/h2&gt;&#xA;&lt;p&gt;To load the heap dump in VisualVM, you will just go to &lt;strong&gt;File&lt;/strong&gt; -&amp;gt; &lt;strong&gt;Load&amp;hellip;&lt;/strong&gt; and specify the&#xA;&lt;strong&gt;File Format&lt;/strong&gt; to be &lt;strong&gt;Heap Dumps&amp;hellip;&lt;/strong&gt;.&lt;/p&gt;&#xA;&lt;p&gt;&lt;img src=&#34;https://jvmperf.net/visualvm/load_dump.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Memory Challenge</title>
+      <link>https://jvmperf.net/docs/memory/challenge/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://jvmperf.net/docs/memory/challenge/</guid>
+      <description>&lt;p&gt;The provided WorkshopService has an intentional memory problem, use the previous sections as reference to try to pin point it.&lt;/p&gt;&#xA;&lt;h2 id=&#34;tips&#34;&gt;Tips&lt;/h2&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;With the Dominator Tree (Eclipse MAT) determine what object would free up the most memory (if we could get rid of it)&lt;/li&gt;&#xA;&lt;li&gt;With the Histogram (Eclipse MAT) determine what type of object has the most instances&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Using the Incoming Objects view, find out what&amp;rsquo;s pointing to them.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;Once you&amp;rsquo;ve found the large object, look through it&amp;rsquo;s properties and determine why this object holds on to so many other objects.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Garbage Collections</title>
+      <link>https://jvmperf.net/docs/memory/gc/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://jvmperf.net/docs/memory/gc/</guid>
+      <description>&lt;p&gt;A key piece to understanding what is happening in terms of GC cycles within your service,&#xA;is enabling GC logs. In this section, we are going to do some analysis on the JVM in regards to it&amp;rsquo;s garbage collection (GC)&#xA;cycles.&lt;/p&gt;&#xA;&#xA;&#xA;&lt;div class=&#34;alert alert-info&#34; role=&#34;alert&#34;&gt;&#xA;&lt;h4 class=&#34;alert-heading&#34;&gt;Prerequisite&lt;/h4&gt;&#xA;&#xA;    &lt;a href=&#34;https://www.r-project.org/&#34;&gt;R environment&lt;/a&gt; &lt;em&gt;(If you want to try parsing some of the logs)&lt;/em&gt;&#xA;&#xA;&lt;/div&gt;&#xA;&#xA;&lt;h2 id=&#34;gc-jvm-options&#34;&gt;GC JVM Options&lt;/h2&gt;&#xA;&lt;p&gt;Here is a set of JVM options you can enable on your service and how to interpret those logs.&lt;/p&gt;</description>
+    </item>
+  </channel>
+</rss>

@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+        <title>Open Up your JVM with Open Source Tooling</title>
+
+        <link rel="stylesheet" href="dist/reset.css">
+        <link rel="stylesheet" href="dist/reveal.css">
+        <link rel="stylesheet" href="dist/theme/black.css">
+
+        <!-- Theme used for syntax highlighted code -->
+        <link rel="stylesheet" href="plugin/highlight/monokai.css">
+
+        <style>
+            .foreground-text-light {
+                background-color: rgba(255, 255, 255, .8);
+            }
+            .foreground-text-dark {
+                background-color: rgba(25, 25, 25, .8);
+            }
+        </style>
+    </head> 
+    <body>
+        <div class="reveal">
+            <div class="slides">
+                <section>
+                    <h1 class="r-fit-text">Open Up your JVM with Open Source Tooling</h1>
+                    <img src="img/logo.svg" width="200"/>
+
+                    <table>
+                        <tr>
+                            <td style="vertical-align: middle;"><img src="img/me.png" width="100" /></td>
+                            <td style="vertical-align: middle;">
+                                Carl Chesser
+                                <br />
+                                <small><a href="https://twitter.com/che55er">@che55er</a> | <a href="https://che55er.io/">che55er.io</a></small>
+                            </td>
+                        </tr>
+                    </table>
+                </section>
+                <!-- Intro -->
+                <section data-markdown>
+                    <textarea data-template>
+                        ## Why
+                        ## 🤔
+
+                        Understanding what is occurring in your JVM is _critical_. <br />
+                        
+                        With knowledge on what tools are readily available without modifying your application, you can quickly understand effective options to diagnose your system.
+                        ---
+                        ## History
+                        ## 🙋‍♂️
+                        I began building an internal course for the company I worked at to help teams diagnose their own Java memory issues. <br />
+                        
+                        ...and the course grew.
+                    </textarea>
+                </section>
+                <section data-background-iframe="https://jvmperf.net/" data-background-interactive>
+                    <div class="foreground-text-dark">
+                        <h2>jvmperf.net</h2>
+                        Workshop focused on utilizing these tools with a poorly implemented service.
+                    </div>
+                </section>
+                <section data-markdown>
+                    <textarea data-template>
+                        ## 🧭
+                        ## Our Adventure
+                        
+                        We are going to explore three tools with rich history in Java for diagnosing different aspects of performance.
+
+                        * JDK Mission Control
+                        * Eclipse Memory Analyzer
+                        * VisualVM
+                        * Demo in jvmperf.net workshop
+                        ---
+                        ## 🧰
+                        ## Open Source Tooling
+
+                        These tools are not new.<br />
+
+                        If you are familar with these tools, we will also be sharing their updates over the years, so hopefully you can learn some new tricks on how they can used.
+                    </textarea>
+                </section>
+
+                <!-- Eclipse Memory Analyzer https://eclipse.dev/mat/ -->
+                <section data-markdown>
+                    <textarea data-template>
+                        ## Eclipse Memory Analyzer
+                        ## 🔍
+                        * Solid tool for doing Java heap dump analysis.
+                        * Has been around (1.0 landed in 2010)
+                        * One of the better tools for handling large heap dumps.
+                        * Continues to get minor updates.
+
+                        📄 License: Eclipse Public License 2.0
+                    </textarea>
+                </section>
+                <section data-markdown data-background-image="img/mat-install.png" data-background-opacity="0.4">>  
+                    <textarea data-template>
+                        Download at [eclipse.dev/mat/download](https://eclipse.dev/mat/download/).
+                    </textarea>
+                </section>
+                <section data-markdown>
+                    <textarea data-template>
+                        ## ✅
+                        ## Recap
+                        * JDK Mission Control
+                        * Eclipse Memory Analyzer
+                        * VisualVM
+                        * Learn more with [jvmperf.net](https://jvmperf.net)
+                    </textarea>
+                </section>
+                <section>
+                    <h2>Thank you! 🎉</h2>
+                    Carl Chesser
+                    <br />
+                    <small><a href="https://twitter.com/che55er">@che55er</a> | <a href="https://che55er.io/">che55er.io</a></small>
+                </section>
+            </div>
+        </div>
+
+        <script src="dist/reveal.js"></script>
+        <script src="plugin/notes/notes.js"></script>
+        <script src="plugin/markdown/markdown.js"></script>
+        <script src="plugin/highlight/highlight.js"></script>
+        <script src="plugin/mermaid/mermaid.js"></script>
+        <script>
+            // More info about initialization & config:
+            // - https://revealjs.com/initialization/
+            // - https://revealjs.com/config/
+            Reveal.initialize({
+                hash: true,
+                // Learn about plugins: https://revealjs.com/plugins/
+                plugins: [ RevealMarkdown, RevealHighlight, RevealNotes, RevealMermaid ]
+            });
+        </script>
+    </body>
+</html>

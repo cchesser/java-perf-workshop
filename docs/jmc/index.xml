@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>JDK Mission Control &amp; Flight Recorder on jvmperf: JVM Performance Workshop</title>
+    <link>https://jvmperf.net/docs/jmc/</link>
+    <description>Recent content in JDK Mission Control &amp; Flight Recorder on jvmperf: JVM Performance Workshop</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <atom:link href="https://jvmperf.net/docs/jmc/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Introduction</title>
+      <link>https://jvmperf.net/docs/jmc/_intro_jmc9/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://jvmperf.net/docs/jmc/_intro_jmc9/</guid>
+      <description>&lt;h2 id=&#34;jdk-flight-recorder&#34;&gt;JDK Flight Recorder&lt;/h2&gt;&#xA;&lt;p&gt;The JDK Flight Recorder (JFR) is a very low overhead profiling and diagnostics tool. It was inherited from the JRockit JVM, and originally was offered as part of the HotSpot JVM. It is designed to be &amp;ldquo;black box&amp;rdquo; data recorder of the the run-time, which can be used in production environments, making it an attractive tool for profiling code since it has low overhead on the JVM. In 2018, it was open-sourced and released as part of OpenJDK.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Method Profiling</title>
+      <link>https://jvmperf.net/docs/jmc/method_profiling/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://jvmperf.net/docs/jmc/method_profiling/</guid>
+      <description>&lt;p&gt;Our first look at the recording will start with finding out where we might be spending time with our code.&lt;/p&gt;&#xA;&lt;h3 id=&#34;method-profiling-page&#34;&gt;Method Profiling Page&lt;/h3&gt;&#xA;&lt;p&gt;We&amp;rsquo;ll start by taking a look at the detailed &lt;strong&gt;Method Profiling Page&lt;/strong&gt;. This page displays how often a specific method is ran based on sampling.&lt;/p&gt;&#xA;&#xA;&#xA;&lt;div class=&#34;alert alert-info&#34; role=&#34;alert&#34;&gt;&#xA;&lt;h4 class=&#34;alert-heading&#34;&gt;Note&lt;/h4&gt;&#xA;&#xA;    This page is a little bit difficult to use in JMC7, planned improvements for the data visualization will come in JMC8, see &lt;a href=&#34;https://github.com/openjdk/jmc/pull/165&#34;&gt;JMC#165&lt;/a&gt;&#xA;&#xA;&lt;/div&gt;&#xA;&#xA;&lt;p&gt;&lt;img src=&#34;https://jvmperf.net/jmc/method_profile_page.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Exceptions</title>
+      <link>https://jvmperf.net/docs/jmc/exceptions/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://jvmperf.net/docs/jmc/exceptions/</guid>
+      <description>&lt;p&gt;In this section we&amp;rsquo;ll dive into the Exceptions page and find out what information we can learn from it. Start by selecting the &lt;strong&gt;Exceptions&lt;/strong&gt; page from the Outline.&lt;/p&gt;&#xA;&lt;p&gt;This page offers the following sections:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;Overview: You can get Exceptions by Class and Count&lt;/li&gt;&#xA;&lt;li&gt;Message: View the detail messages for all exceptions and errors.&lt;/li&gt;&#xA;&lt;li&gt;Timeline/Event Log: View when a particular exception was thrown.&lt;/li&gt;&#xA;&lt;li&gt;StackTrace: Identify where the exception was thrown from.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;&lt;img src=&#34;https://jvmperf.net/jmc/exceptions_page.png&#34; alt=&#34;&#34;&gt;.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Threads</title>
+      <link>https://jvmperf.net/docs/jmc/threads/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://jvmperf.net/docs/jmc/threads/</guid>
+      <description>&lt;p&gt;The &lt;strong&gt;Threads&lt;/strong&gt; page provides a snapshot of all threads in our application, and we can use it to acquire information about computation and latency events.&lt;/p&gt;&#xA;&lt;p&gt;&lt;img src=&#34;https://jvmperf.net/jmc/threads_page.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;&#xA;&lt;h3 id=&#34;thread-chart&#34;&gt;Thread Chart&lt;/h3&gt;&#xA;&lt;p&gt;We can use the Thread Chart view to select a region of time and view the state of threads and the most common stack frames for that particular time slice:&lt;/p&gt;&#xA;&lt;p&gt;&lt;img src=&#34;https://jvmperf.net/jmc/thread_chart.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;&#xA;&lt;p&gt;We can also edit the types of events shown by the chart. Right click on the chart, and select &lt;strong&gt;Edit Thread Activity Lanes&lt;/strong&gt;&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Memory</title>
+      <link>https://jvmperf.net/docs/jmc/memory/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://jvmperf.net/docs/jmc/memory/</guid>
+      <description>&lt;p&gt;The memory page shows us the overall memory usage and garbage collection events for our recording.&lt;/p&gt;&#xA;&lt;p&gt;&lt;img src=&#34;https://jvmperf.net/jmc/memory_page.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;&#xA;&lt;p&gt;The &lt;strong&gt;Class Table&lt;/strong&gt; lets us view the total memory allocation dedicated to particular instances of that class. Selecting a particular class will allow us to view what code paths are responsible for creating those objects.&lt;/p&gt;&#xA;&lt;p&gt;&lt;img src=&#34;https://jvmperf.net/jmc/memory_class_selected.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;&#xA;&lt;p&gt;We can also filter this view to a particular range in time, for example a range where we went from low to high heap usage:&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>I/O Operations</title>
+      <link>https://jvmperf.net/docs/jmc/io_operations/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://jvmperf.net/docs/jmc/io_operations/</guid>
+      <description>&lt;p&gt;The I/O pages can provide context of what external resources you are utilizing from you code base, and relate it to other latency events.&lt;/p&gt;&#xA;&lt;p&gt;For the purpose of our workshop service, we are doing network I/O, and therefore will look at the &lt;strong&gt;Socket I/O&lt;/strong&gt; page.&lt;/p&gt;&#xA;&lt;p&gt;From this page, we can gain context of what host(s) we are calling, with what frequency, and the cost associated with those calls:&lt;/p&gt;&#xA;&lt;p&gt;&lt;img src=&#34;https://jvmperf.net/jmc/io_page.png&#34; alt=&#34;&#34;&gt;&lt;/p&gt;&#xA;&lt;p&gt;We can then filter on a particular host and port and drill down into a particular piece of code responsible for that call:&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>References</title>
+      <link>https://jvmperf.net/docs/jmc/_references/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://jvmperf.net/docs/jmc/_references/</guid>
+      <description>&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://docs.oracle.com/javacomponents/doc/JDMUG/JDMUG.pdf&#34;&gt;JDK Mission Control User Guide&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://bell-sw.com/announcements/2020/07/22/Hunting-down-code-hotspots-with-JDK-Flight-Recorder/&#34;&gt;Hunting down code hotspots with JFR&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;</description>
+    </item>
+  </channel>
+</rss>

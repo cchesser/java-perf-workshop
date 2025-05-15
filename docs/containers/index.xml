@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Containers on jvmperf: JVM Performance Workshop</title>
+    <link>https://jvmperf.net/docs/containers/</link>
+    <description>Recent content in Containers on jvmperf: JVM Performance Workshop</description>
+    <generator>Hugo</generator>
+    <language>en</language>
+    <atom:link href="https://jvmperf.net/docs/containers/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Setup</title>
+      <link>https://jvmperf.net/docs/containers/setup/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://jvmperf.net/docs/containers/setup/</guid>
+      <description>&lt;p&gt;In this section we&amp;rsquo;re going to spin up the containers needed for the workshop.&lt;/p&gt;&#xA;&#xA;&#xA;&lt;div class=&#34;alert alert-info&#34; role=&#34;alert&#34;&gt;&#xA;&lt;h4 class=&#34;alert-heading&#34;&gt;Note&lt;/h4&gt;&#xA;&#xA;    &lt;ul&gt;&#xA;&lt;li&gt;Make sure you&amp;rsquo;ve gone through the &lt;a href=&#34;https://jvmperf.net/docs/prereqs/&#34;&gt;Prerequisites&lt;/a&gt;.&lt;/li&gt;&#xA;&lt;li&gt;Make sure your Docker daemon is running.&lt;/li&gt;&#xA;&lt;li&gt;If this is the first time you&amp;rsquo;re using docker, we recommend going through &lt;a href=&#34;https://docs.docker.com/get-started/&#34;&gt;Orientation and Setup&lt;/a&gt; to quickly learn a few concepts.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&#xA;&#xA;&lt;/div&gt;&#xA;&#xA;&lt;h2 id=&#34;building&#34;&gt;Building&lt;/h2&gt;&#xA;&lt;p&gt;The maven project uses the &lt;a href=&#34;https://dmp.fabric8.io/&#34;&gt;fabric8.io/docker-maven-plugin&lt;/a&gt; to create two images:&lt;/p&gt;&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;code&gt;workshop-server&lt;/code&gt; - the docker image for the workshop service&lt;/li&gt;&#xA;&lt;li&gt;&lt;code&gt;workshop-wiremock&lt;/code&gt; - the docker image for the wiremock service&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;p&gt;Run &lt;code&gt;mvn clean package -Pdocker&lt;/code&gt; , the &lt;code&gt;docker&lt;/code&gt; profile enables the docker-maven-plugin.&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Java Monitoring Tooling</title>
+      <link>https://jvmperf.net/docs/containers/java_monitoring/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://jvmperf.net/docs/containers/java_monitoring/</guid>
+      <description>&lt;p&gt;In this section we&amp;rsquo;re going to configure our container to enable remote tooling.&lt;/p&gt;&#xA;&#xA;&#xA;&lt;div class=&#34;alert alert-info&#34; role=&#34;alert&#34;&gt;&#xA;&lt;h4 class=&#34;alert-heading&#34;&gt;Note&lt;/h4&gt;&#xA;&#xA;    &lt;ul&gt;&#xA;&lt;li&gt;Make sure you&amp;rsquo;ve gone through the &lt;a href=&#34;https://jvmperf.net/docs/prereqs/&#34;&gt;Prerequisites&lt;/a&gt;.&lt;/li&gt;&#xA;&lt;li&gt;Make sure your Docker daemon is running.&lt;/li&gt;&#xA;&lt;li&gt;If this is the first time you&amp;rsquo;re using docker, we recommend going through &lt;a href=&#34;https://docs.docker.com/get-started/&#34;&gt;Orientation and Setup&lt;/a&gt; to quickly learn a few concepts.&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&#xA;&#xA;&lt;/div&gt;&#xA;&#xA;&lt;h2 id=&#34;remote-monitoring&#34;&gt;Remote Monitoring&lt;/h2&gt;&#xA;&lt;p&gt;In previous sections of the workshop, we ran all our tooling without any configuration. In previous versions of Java you would have had to configure things even for local monitoring, this is no longer the case with Java 6+:&lt;/p&gt;</description>
+    </item>
+    <item>
+      <title>Docker Tooling</title>
+      <link>https://jvmperf.net/docs/containers/docker_monitoring/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://jvmperf.net/docs/containers/docker_monitoring/</guid>
+      <description>&lt;br/&gt;&#xA;  &lt;div class=&#34;card mb-3&#34; style=&#34;width: 80%;&#34;&gt;&#xA;      &lt;div class=&#34;card-header text-white border-info bg-info&#34;&gt;&#xA;          &lt;i class=&#34;fas fa-arrow-alt-circle-right&#34;&gt;&lt;/i&gt;&amp;nbsp;&amp;nbsp;Up Next&lt;/div&gt;&#xA;      &lt;div class=&#34;card-body&#34;&gt;&#xA;        &lt;p class=&#34;card-text&#34;&gt;&#xA;In the next section, X&#xA;&lt;/p&gt;&#xA;        &lt;a href=&#34;https://jvmperf.net/docs/containers/_references/&#34;&gt;References&lt;/a&gt;&lt;/i&gt;&#xA;      &lt;/div&gt;&#xA;  &lt;/div&gt;</description>
+    </item>
+    <item>
+      <title>References</title>
+      <link>https://jvmperf.net/docs/containers/_references/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <guid>https://jvmperf.net/docs/containers/_references/</guid>
+      <description>&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://docs.docker.com/get-started/&#34;&gt;Docker Orientation and Setup&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;JMX&#xA;&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://github.com/cstroe/java-jmx-in-docker-sample-app/blob/master/README.md#java-jmx-with-docker&#34;&gt;JMX with Docker&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;http://blog.bytecode.tech/my-notes/jmx-over-rmi/&#34;&gt;JMX over RMI&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://docs.oracle.com/javase/8/docs/technotes/guides/management/agent.html&#34;&gt;Monitoring Reference&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;&#xA;&lt;/li&gt;&#xA;&lt;/ul&gt;</description>
+    </item>
+  </channel>
+</rss>
