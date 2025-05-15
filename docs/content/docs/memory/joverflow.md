@@ -36,7 +36,7 @@ is large, and it's elements are all small collections (ex. List(1000) of List(10
 * __Duplicate Arrays__: Where an array contents are the same in another instance, but they are separate array instances.
 * __Duplicate Strings__: Same as _Duplicate Array_, where `string1.equals(string2)` and `string1 != string2`.
 
-Reference: [JOverflow: Advanced Heap Analysis in Java Mission Control](https://www.youtube.com/watch?v=b-mv9iWY8kw)
+Reference: [JOverflow: Advanced Heap Analysis in JDK Mission Control](https://www.youtube.com/watch?v=b-mv9iWY8kw)
 
 ## Filtering
 

@@ -2,28 +2,14 @@
 title: "Introduction"
 weight: 10
 description: >
-    Introduction into Java Mission Control with Flight Recorder
+    Introduction into JDK Mission Control with Flight Recorder
 ---
 
-## Java Flight Recorder
+## JDK Flight Recorder
 
-The Java Flight Recorder (JFR) is a very low overhead profiling and diagnostics tool. It was inherited from the JRockit JVM, and originally was offered as part of the HotSpot JVM. It is designed to be "black box" data recorder of the the run-time, which can be used in production environments, making it an attractive tool for profiling code since it has low overhead on the JVM.
+The JDK Flight Recorder (JFR) is a very low overhead profiling and diagnostics tool. It was inherited from the JRockit JVM, and originally was offered as part of the HotSpot JVM. It is designed to be "black box" data recorder of the the run-time, which can be used in production environments, making it an attractive tool for profiling code since it has low overhead on the JVM. In 2018, it was open-sourced and released as part of OpenJDK.
 
-Newer versions of JMC are developed as part of the OpenJDK Mission Control project. 
-
-To enable the Flight Recorder on the JVM, the following options need to be included on the JVM:
-
-```bash
--XX:+UnlockCommercialFeatures -XX:+FlightRecorder
-```
-
-:heavy_exclamation_mark: Notice that you have to include `-XX:+UnlockCommercialFeatures` first in the options listing. This is because using Flight Recorder is a feature that requires additional licensing when used in production environments. One of the following licenses is required in order to utilize this in a production environment.
-
-* Oracle Java SE Advanced
-* Oracle Java SE Suite
-
-However, you may use this in non-production environments without additional licensing.
-
+JFR is enabled by default in Java 11 and later. In previous versions, it required enabling with JVM options (ex. `-XX:+FlightRecorder`)
 
 ### Higher Fidelity on Method Profiling
 
@@ -33,15 +19,15 @@ To get better fidelity on method profiling, include the following options which 
 -XX:+UnlockDiagnosticVMOptions -XX:+DebugNonSafepoints
 ```
 
-## Java Mission Control
+## JDK Mission Control
 
-We will be using Java Mission Control to monitor and evaluate the Java flight recordings. To start up  Java Mission Control, simply executing the following in your console:
+We will be using JDK Mission Control to monitor and evaluate the Java flight recordings. To utilizes JDK Mission Control, you will need to [download the build](https://jdk.java.net/jmc/9/). To start up JDK Mission Control, simply executing the following in your console:
 
 ```bash
 jmc
 ```
 
-💡 In order to be able to invoke `jmc` (Java Mission Control) from your console, it assumes `$JAVA_HOME/bin` is on your `$PATH`. If it is not included, go ahead and update your profile to include this so you can easily invoke `jmc` from your terminal.
+💡 In order to be able to invoke `jmc` (JDK Mission Control) from your console, it assumes `$JAVA_HOME/bin` is on your `$PATH`. If it is not included, go ahead and update your profile to include this so you can easily invoke `jmc` from your terminal. Also, JMC 9.1 [requires JDK 21](https://www.oracle.com/java/technologies/javase/jmc9-install.html).
 
 ## Start Service with JFR
 
@@ -52,13 +38,8 @@ Let's start profiling our service. Start the service up by enabling JFR:
 ```bash
 # Note, if you are running this server from a different folder, consider changing the SERVER_HOME
 SERVER_HOME=java-perf-workshop-server/target
-java -XX:+UnlockCommercialFeatures -XX:+FlightRecorder -XX:+UnlockDiagnosticVMOptions -XX:+DebugNonSafepoints -jar $SERVER_HOME/java-perf-workshop-server-1.1.0-SNAPSHOT.jar server server.yml
+java -XX:+UnlockDiagnosticVMOptions -XX:+DebugNonSafepoints -jar $SERVER_HOME/java-perf-workshop-server-1.1.0-SNAPSHOT.jar server server.yml
 ```
-
-💡 Starting with Java Mission Control 5.5 _(included in Oracle Java 8u40)_, you no longer have to enable JFR prior to capturing the recording (it will dynamically enable it, after prompting about it).
-
-![](/jmc/unlock_commercial_features_dialog.png)
-
 
 ## Start Flight Recording from JMC
 
@@ -68,15 +49,15 @@ This will open a window where you apply some settings for the recording. First s
 
 For reference, these are the options for the template.
 
-![](/jmc/profile_settings.png)
+![](img/jfr-settings.png.png)
 
 First select that you want this to be a __Continuous recording__ and for Event settings we will use __Profiling on Server__.
 
-![](/jmc/start_recording_wizard.png)
+![](img/jfr-start-wizard.png.png)
 
 Once your flight recording is being captured in a _Continuous_ recording, it will show a ∞.
 
-![jmc_started](https://github.com/cchesser/java-perf-workshop/wiki/images/jmc_flight_recorder_started.png)
+![jmc_started](img/jfr-started.png)
 
 💡 You can see the JFR templates (continuous / profile) which are shipped as part of the JRE in: `$JAVA_HOME/jre/lib/jfr`. These become helpful if you are wanting to compare your settings to some of the standard ones.
 
@@ -136,53 +117,15 @@ Then you can execute similarly:
 loadtest -n 1000 -c 15 "http://localhost:8080/search?q=a"
 ```
 
-### Using gatling
-
-Alternatively, you can use [gatling](https://gatling.io/) (a performance library with a scala dsl ).
-
-This should launch the `WorkshopSimulation`.
-
-```bash
- mvn -f java-perf-workshop-tester/ gatling:test
-```
-
-Sample output while running:
-```bash
-[~/java-perf-workshop/java-perf-workshop-tester]$ mvn gatling:test
-[INFO] Scanning for projects...
-[INFO]
-[INFO] ------------------------------------------------------------------------
-[INFO] Building java-perf-workshop-tester 1.1.0-SNAPSHOT
-[INFO] ------------------------------------------------------------------------
-[INFO]
-[INFO] --- gatling-maven-plugin:2.2.4:test (default-cli) @ java-perf-workshop-tester ---
-19:12:16,662 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback-test.xml]
-19:12:16,663 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Could NOT find resource [logback.groovy]
-19:12:16,663 |-INFO in ch.qos.logback.classic.LoggerContext[default] - Found resource [logback.xml] at [file:/J:/Workspaces/java-perf-workshop/java-perf-workshop-tester/target/test-classes/logback.xml]
-19:12:16,663 |-WARN in ch.qos.logback.classic.LoggerContext[default] - Resource [logback.xml] occurs multiple times on the classpath.
-19:12:16,663 |-WARN in ch.qos.logback.classic.LoggerContext[default] - Resource [logback.xml] occurs at [file:/J:/Workspaces/java-perf-workshop/java-perf-workshop-tester/target/test-classes/logback.xml]
-19:12:16,663 |-WARN in ch.qos.logback.classic.LoggerContext[default] - Resource [logback.xml] occurs at [jar:file:/C:/Users/JMonterrubio/.m2/repository/io/gatling/gatling-maven-plugin/2.2.4/gatling-maven-plugin-2.2.4.jar!/logback.xml]
-19:12:16,727 |-INFO in ch.qos.logback.classic.joran.action.ConfigurationAction - debug attribute not set
-19:12:16,731 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - About to instantiate appender of type [ch.qos.logback.core.ConsoleAppender]
-19:12:16,737 |-INFO in ch.qos.logback.core.joran.action.AppenderAction - Naming appender as [CONSOLE]
-19:12:16,742 |-INFO in ch.qos.logback.core.joran.action.NestedComplexPropertyIA - Assuming default type [ch.qos.logback.classic.encoder.PatternLayoutEncoder] for [encoder] property
-19:12:16,781 |-INFO in ch.qos.logback.classic.joran.action.RootLoggerAction - Setting level of ROOT logger to WARN
-19:12:16,782 |-INFO in ch.qos.logback.core.joran.action.AppenderRefAction - Attaching appender named [CONSOLE] to Logger[ROOT]
-19:12:16,782 |-INFO in ch.qos.logback.classic.joran.action.ConfigurationAction - End of configuration.
-19:12:16,783 |-INFO in ch.qos.logback.classic.joran.JoranConfigurator@7a0ac6e3 - Registering current configuration as safe fallback point
-
-Simulation cchesser.javaperf.workshop.WorkshopSimulation started...
-```
-
 ## Stop Flight Recorder
 
 After you have played traffic through the service, you can then stop your flight recording from JMC.
 
-![jmc_stop](https://github.com/cchesser/java-perf-workshop/wiki/images/jmc_flight_recorder_stop.png)
+![jmc_stop](img/jfr-stop.png)
 
 Then dump the whole recording.
 
-![jmc_dump](https://github.com/cchesser/java-perf-workshop/wiki/images/jmc_flight_recorder_dump.png)
+![jmc_dump](img/jfr-dump.png)
 
 ## The Flight Recording
 

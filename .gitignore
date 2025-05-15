@@ -39,3 +39,4 @@ dumps/
 docs/resources/
 docs/public/
 docs/node_modules/
+docs/.hugo_build.lock

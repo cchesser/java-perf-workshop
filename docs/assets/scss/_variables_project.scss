@@ -1,3 +1,8 @@
+/*
+
+Add styles or override variables from the theme here.
+
+*/
 $primary: #27496d !default;
 $primary-light: lighten($primary, 75%) !default;
 $secondary: #142850 !default;
@@ -21,16 +26,3 @@ $gray-700: #495057 !default;
 $gray-800: #333 !default;
 $gray-900: #222 !default;
 $black: #000 !default;
-
-$code-color: darken($secondary, 20%) !default;
-
-// UI element colors
-
-$border-color: $gray-300 !default;
-$td-sidebar-bg-color: rgba($primary, 0.03) !default;
-$td-sidebar-border-color: $border-color !default;
-
-// Background colors for the sections on home page etc. It is a paint by number system, starting at 0, where the number is taken from the shortcode's ordinal
-// if not provided by the user.
-// These colors are all part of the theme palette, but the mix is fairly random to create variation. This can be overridden by the project if needed.
-$td-box-colors: $dark, $primary, $secondary, $info, $primary-light, $gray-600, $success, $warning, $dark, $danger, $primary, $secondary, $primary-light, $info !default;

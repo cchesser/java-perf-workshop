@@ -81,7 +81,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>1.6</version>
+                <version>3.6.0</version>
                 <configuration>
                     <createDependencyReducedPom>true</createDependencyReducedPom>
                     <filters>
@@ -115,7 +115,7 @@
             <plugin>
                 <groupId>io.fabric8</groupId>
                 <artifactId>docker-maven-plugin</artifactId>
-                <version>0.34.1</version>
+                <version>0.46.0</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -134,7 +134,7 @@
                                     <tag>latest</tag>
                                     <tag>${project.version}</tag>
                                 </tags>
-                                <from>openjdk:8</from>
+                                <from>openjdk:17</from>
                                 <assembly>
                                     <descriptor>server-assembly.xml</descriptor>
                                 </assembly>

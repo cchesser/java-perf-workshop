@@ -1,5 +1,5 @@
 ---
-title: "Visual VM"
+title: "VisualVM"
 weight: 14
 description: Heap Analysis using VisualVM
 ---

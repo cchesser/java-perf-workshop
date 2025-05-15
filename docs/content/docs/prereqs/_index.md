@@ -8,7 +8,7 @@ hide_readingtime: true
 
 ## Java Development Kit
 
-Install a Java Development Kit from Oracle or Open JDK
+Install a Java Development Kit (17+) from Oracle or OpenJDK
 
 * [Oracle](https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html)
 * [OpenJDK](https://openjdk.java.net/install/)
@@ -19,16 +19,16 @@ Install the latest available [Maven](https://maven.apache.org/).
 
 ## JDK Mission Control
 
-Install JDK mission control from [Oracle Mirror](https://www.oracle.com/java/technologies/javase/products-jmc7-downloads.html).
+Install JDK Mission Control from [Oracle Mirror](https://www.oracle.com/java/technologies/javase/products-jmc9-downloads.html).
 
-## Visual VM
+## VisualVM
 
-Install the standalone version of [Visual VM](https://visualvm.github.io/).
+Install the standalone version of [VisualVM](https://visualvm.github.io/).
 
 ## Eclipse MAT
 
 Install the standalone version of [Eclipse MAT](https://www.eclipse.org/mat/).
 
-## Docker
+## Rancher Desktop + Docker CLI
 
-Install the [Docker](https://www.docker.com/get-started) container runtime environment.
+Install the [Rancher Desktop](https://rancherdesktop.io/) container runtime environment with the Docker CLI.
