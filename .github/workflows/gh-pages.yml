@@ -23,20 +23,13 @@ jobs:
           hugo-version: '0.147.2'
           extended: true
 
-      - name: Setup Node
-        uses: actions/setup-node@v1
+      - uses: actions/setup-node@v4
         with:
-          node-version: '12.x'
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: '**/package-lock.json'
 
-      - name: Cache dependencies
-        uses: actions/cache@v1
-        with:
-          path: ~/.npm
-          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-node-
-
-      - run: npm ci
+      - run: npm install
       - run: hugo
         env:
           HUGO_ENV: production
