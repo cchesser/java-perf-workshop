@@ -3,6 +3,9 @@ title: "Introduction"
 weight: 10
 description: >
     Introduction into JDK Mission Control with Flight Recorder
+resources:
+- src: "**/*.png"
+- src: "**/*.jfc"
 ---
 
 ## JDK Flight Recorder
@@ -43,21 +46,23 @@ java -XX:+UnlockDiagnosticVMOptions -XX:+DebugNonSafepoints -jar $SERVER_HOME/ja
 
 ## Start Flight Recording from JMC
 
-![jmc_start](/jmc/start_flight_recording.png)
+{{< figure src="img/jfr-start.png" alt="JFR Start" >}}
 
-This will open a window where you apply some settings for the recording. First select that you want this to be a __Continuous recording__ and for Event settings, we will import a template to get some consistent settings for profiling. Within the __Template Manager__, select __Import Files...__ and import the `open_jdk_9_.jfc` included in the [content/docs/jmc](https://github.com/cchesser/java-perf-workshop/tree/main/docs/content/docs/jmc) folder. It should appear as _Java Performance Workshop JDK9+ Profile_. Select this as the __Event Settings__ and then click on __Finish__.
+This will open a window where you apply some settings for the recording. First select that you want this to be a __Continuous recording__ and for Event settings, we will import a template to get some consistent settings for profiling. Within the __Template Manager__, select __Import Files...__ and import the `open_jdk_9_.jfc` by [downloading it here](jfc/open_jdk_9+.jfc) folder. It should appear as _Java Performance Workshop JDK9+ Profile_. Select this as the __Event Settings__ and then click on __Finish__.
 
 For reference, these are the options for the template.
 
-![](img/jfr-settings.png.png)
+{{< figure src="img/jfr-settings.png" alt="JFR Settings" >}}
 
 First select that you want this to be a __Continuous recording__ and for Event settings we will use __Profiling on Server__.
 
-![](img/jfr-start-wizard.png.png)
+{{< figure src="img/jfr-start-wizard.png" alt="JFR Configuration" >}}
+
 
 Once your flight recording is being captured in a _Continuous_ recording, it will show a ∞.
 
-![jmc_started](img/jfr-started.png)
+{{< figure src="img/jfr-started.png" alt="JFR Started" >}}
+
 
 💡 You can see the JFR templates (continuous / profile) which are shipped as part of the JRE in: `$JAVA_HOME/jre/lib/jfr`. These become helpful if you are wanting to compare your settings to some of the standard ones.
 
@@ -121,11 +126,11 @@ loadtest -n 1000 -c 15 "http://localhost:8080/search?q=a"
 
 After you have played traffic through the service, you can then stop your flight recording from JMC.
 
-![jmc_stop](img/jfr-stop.png)
+{{< figure src="img/jfr-stop.png" alt="JFR Stop" >}}
 
 Then dump the whole recording.
 
-![jmc_dump](img/jfr-dump.png)
+{{< figure src="img/jfr-dump.png" alt="JFR Dump" >}}
 
 ## The Flight Recording
 

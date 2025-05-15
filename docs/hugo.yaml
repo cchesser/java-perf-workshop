@@ -1,7 +1,7 @@
 baseURL: https://jvmperf.net
 title: "jvmperf: JVM Performance Workshop"
 enableRobotsTXT: true
-enableGitInfo: true
+enableGitInfo: false
 
 outputs:
   home: [HTML]
