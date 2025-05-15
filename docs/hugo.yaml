@@ -1,5 +1,5 @@
 baseURL: https://jvmperf.net
-title: jvmperf
+title: "jvmperf: JVM Performance Workshop"
 enableRobotsTXT: true
 enableGitInfo: true
 
@@ -24,8 +24,8 @@ languages:
   en:
     languageName: English
     params:
-      title: "jvmperf: Java™ Performance Workshop"
-      description: Java™ performance workshop that leverages open-source tooling to discover how your JVM is performing
+      title: "jvmperf: JVM Performance Workshop"
+      description: JVM performance workshop that leverages open-source tooling to discover how your JVM is performing
 
 markup:
   goldmark:
@@ -64,7 +64,7 @@ params:
     sidebar_menu_foldable: false
     sidebar_search_disable: false
     feedback:
-      enable: true
+      enable: false
       'yes': >-
         Glad to hear it! Please <a
         href="https://github.com/cchesser/java-perf-workshop/issues/new">tell us how we can

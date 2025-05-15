@@ -28,7 +28,7 @@
 
         <!-- plugin versions -->
         <scala-maven-plugin.version>3.4.6</scala-maven-plugin.version>
-        <gatling-maven-plugin.version>4.16.3</gatling-maven-plugin.version>
+        <gatling-maven-plugin.version>3.9.0</gatling-maven-plugin.version>
     </properties>
     <scm>
         <connection>${scm.connection}</connection>
