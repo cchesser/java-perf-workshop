@@ -9,9 +9,9 @@
     <atom:link href="https://jvmperf.net/docs/jmc/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Introduction</title>
-      <link>https://jvmperf.net/docs/jmc/_intro_jmc9/</link>
+      <link>https://jvmperf.net/docs/jmc/intro-jmc9/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
-      <guid>https://jvmperf.net/docs/jmc/_intro_jmc9/</guid>
+      <guid>https://jvmperf.net/docs/jmc/intro-jmc9/</guid>
       <description>&lt;h2 id=&#34;jdk-flight-recorder&#34;&gt;JDK Flight Recorder&lt;/h2&gt;&#xA;&lt;p&gt;The JDK Flight Recorder (JFR) is a very low overhead profiling and diagnostics tool. It was inherited from the JRockit JVM, and originally was offered as part of the HotSpot JVM. It is designed to be &amp;ldquo;black box&amp;rdquo; data recorder of the the run-time, which can be used in production environments, making it an attractive tool for profiling code since it has low overhead on the JVM. In 2018, it was open-sourced and released as part of OpenJDK.&lt;/p&gt;</description>
     </item>
     <item>
@@ -54,7 +54,7 @@
       <link>https://jvmperf.net/docs/jmc/_references/</link>
       <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
       <guid>https://jvmperf.net/docs/jmc/_references/</guid>
-      <description>&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://docs.oracle.com/javacomponents/doc/JDMUG/JDMUG.pdf&#34;&gt;JDK Mission Control User Guide&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://bell-sw.com/announcements/2020/07/22/Hunting-down-code-hotspots-with-JDK-Flight-Recorder/&#34;&gt;Hunting down code hotspots with JFR&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;</description>
+      <description>&lt;ul&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://docs.oracle.com/en/java/java-components/jdk-mission-control/9/user-guide/&#34;&gt;JDK Mission Control User Guide&lt;/a&gt;&lt;/li&gt;&#xA;&lt;li&gt;&lt;a href=&#34;https://bell-sw.com/announcements/2020/07/22/Hunting-down-code-hotspots-with-JDK-Flight-Recorder/&#34;&gt;Hunting down code hotspots with JFR&lt;/a&gt;&lt;/li&gt;&#xA;&lt;/ul&gt;</description>
     </item>
   </channel>
 </rss>

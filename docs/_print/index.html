@@ -30,7 +30,6 @@
 
   <meta itemprop="name" content="Workshop">
   <meta itemprop="description" content="JVM performance workshop that leverages open-source tooling to discover how your JVM is performing">
-  <meta itemprop="dateModified" content="2022-11-03T23:43:36-05:00">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="Workshop">
   <meta name="twitter:description" content="JVM performance workshop that leverages open-source tooling to discover how your JVM is performing">
@@ -125,7 +124,7 @@
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="/offline-search-index.734b219fb2005f00374eb8314895945b.json"
+    data-offline-search-index-json-src="/offline-search-index.4bd1c7d43fdbaa020df1114218086430.json"
     data-offline-search-base-href="/"
     data-offline-search-max-results="10"
   >
@@ -244,7 +243,7 @@ This is the multi-page printable view of this section.
     
     
 	
-<li>4.1: <a href="#pg-8ee8dad6286e52b2b45f392d986ba479">Introduction</a></li>
+<li>4.1: <a href="#pg-cd8df97f939f08c95e45f8d2a4ff8b5f">Introduction</a></li>
 
 
     
@@ -797,7 +796,7 @@ java.threads.started=697
 
 <div class="td-content" style="">
     
-	<h1 id="pg-8ee8dad6286e52b2b45f392d986ba479">4.1 - Introduction</h1>
+	<h1 id="pg-cd8df97f939f08c95e45f8d2a4ff8b5f">4.1 - Introduction</h1>
     <div class="lead">Introduction into JDK Mission Control with Flight Recorder</div>
 	<h2 id="jdk-flight-recorder">JDK Flight Recorder</h2>
 <p>The JDK Flight Recorder (JFR) is a very low overhead profiling and diagnostics tool. It was inherited from the JRockit JVM, and originally was offered as part of the HotSpot JVM. It is designed to be &ldquo;black box&rdquo; data recorder of the the run-time, which can be used in production environments, making it an attractive tool for profiling code since it has low overhead on the JVM. In 2018, it was open-sourced and released as part of OpenJDK.</p>
@@ -816,14 +815,34 @@ java.threads.started=697
 </span></span><span class="line"><span class="cl"><span class="nv">SERVER_HOME</span><span class="o">=</span>java-perf-workshop-server/target
 </span></span><span class="line"><span class="cl">java -XX:+UnlockDiagnosticVMOptions -XX:+DebugNonSafepoints -jar <span class="nv">$SERVER_HOME</span>/java-perf-workshop-server-1.1.0-SNAPSHOT.jar server server.yml
 </span></span></code></pre></div><h2 id="start-flight-recording-from-jmc">Start Flight Recording from JMC</h2>
-<p><img src="/jmc/start_flight_recording.png" alt="jmc_start"></p>
-<p>This will open a window where you apply some settings for the recording. First select that you want this to be a <strong>Continuous recording</strong> and for Event settings, we will import a template to get some consistent settings for profiling. Within the <strong>Template Manager</strong>, select <strong>Import Files&hellip;</strong> and import the <code>open_jdk_9_.jfc</code> included in the <a href="https://github.com/cchesser/java-perf-workshop/tree/main/docs/content/docs/jmc">content/docs/jmc</a> folder. It should appear as <em>Java Performance Workshop JDK9+ Profile</em>. Select this as the <strong>Event Settings</strong> and then click on <strong>Finish</strong>.</p>
+
+<figure>
+    <img src="/docs/jmc/intro-jmc9/img/jfr-start.png"
+         alt="JFR Start"/> 
+</figure>
+
+<p>This will open a window where you apply some settings for the recording. First select that you want this to be a <strong>Continuous recording</strong> and for Event settings, we will import a template to get some consistent settings for profiling. Within the <strong>Template Manager</strong>, select <strong>Import Files&hellip;</strong> and import the <code>open_jdk_9_.jfc</code> by <a href="/docs/jmc/intro-jmc9/jfc/open_jdk_9&#43;.jfc">downloading it here</a> folder. It should appear as <em>Java Performance Workshop JDK9+ Profile</em>. Select this as the <strong>Event Settings</strong> and then click on <strong>Finish</strong>.</p>
 <p>For reference, these are the options for the template.</p>
-<p><img src="img/jfr-settings.png.png" alt=""></p>
+
+<figure>
+    <img src="/docs/jmc/intro-jmc9/img/jfr-settings.png"
+         alt="JFR Settings"/> 
+</figure>
+
 <p>First select that you want this to be a <strong>Continuous recording</strong> and for Event settings we will use <strong>Profiling on Server</strong>.</p>
-<p><img src="img/jfr-start-wizard.png.png" alt=""></p>
+
+<figure>
+    <img src="/docs/jmc/intro-jmc9/img/jfr-start-wizard.png"
+         alt="JFR Configuration"/> 
+</figure>
+
 <p>Once your flight recording is being captured in a <em>Continuous</em> recording, it will show a ∞.</p>
-<p><img src="img/jfr-started.png" alt="jmc_started"></p>
+
+<figure>
+    <img src="/docs/jmc/intro-jmc9/img/jfr-started.png"
+         alt="JFR Started"/> 
+</figure>
+
 <p>💡 You can see the JFR templates (continuous / profile) which are shipped as part of the JRE in: <code>$JAVA_HOME/jre/lib/jfr</code>. These become helpful if you are wanting to compare your settings to some of the standard ones.</p>
 <h2 id="generate-http-traffic-on-service">Generate HTTP traffic on service</h2>
 <p>We will want to generate some traffic on the service to measure some general characteristics of the service:</p>
@@ -862,9 +881,19 @@ java.threads.started=697
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">loadtest -n <span class="m">1000</span> -c <span class="m">15</span> <span class="s2">&#34;http://localhost:8080/search?q=a&#34;</span>
 </span></span></code></pre></div><h2 id="stop-flight-recorder">Stop Flight Recorder</h2>
 <p>After you have played traffic through the service, you can then stop your flight recording from JMC.</p>
-<p><img src="img/jfr-stop.png" alt="jmc_stop"></p>
+
+<figure>
+    <img src="/docs/jmc/intro-jmc9/img/jfr-stop.png"
+         alt="JFR Stop"/> 
+</figure>
+
 <p>Then dump the whole recording.</p>
-<p><img src="img/jfr-dump.png" alt="jmc_dump"></p>
+
+<figure>
+    <img src="/docs/jmc/intro-jmc9/img/jfr-dump.png"
+         alt="JFR Dump"/> 
+</figure>
+
 <h2 id="the-flight-recording">The Flight Recording</h2>
 <p>From a Java Flight Recording, there are several categories of information (pages) you can view from JMC:</p>
 <ul>
@@ -1213,7 +1242,7 @@ In the next section, we'll look at the I/O used by our application.
 	<h1 id="pg-e82c7a3c3eba03724a0e8df5a3ff19a3">4.7 - References</h1>
     <div class="lead">Collection of useful references used to build this guide.</div>
 	<ul>
-<li><a href="https://docs.oracle.com/javacomponents/doc/JDMUG/JDMUG.pdf">JDK Mission Control User Guide</a></li>
+<li><a href="https://docs.oracle.com/en/java/java-components/jdk-mission-control/9/user-guide/">JDK Mission Control User Guide</a></li>
 <li><a href="https://bell-sw.com/announcements/2020/07/22/Hunting-down-code-hotspots-with-JDK-Flight-Recorder/">Hunting down code hotspots with JFR</a></li>
 </ul>
 
