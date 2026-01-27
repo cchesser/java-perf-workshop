@@ -151,7 +151,7 @@
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="/offline-search-index.90575e15e15a0340386aebb6fb2d849a.json"
+    data-offline-search-index-json-src="/offline-search-index.32a6d9257c49727ca3dd437bb4a79bd8.json"
     data-offline-search-base-href="/"
     data-offline-search-max-results="10"
   >
@@ -189,7 +189,7 @@
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="/offline-search-index.90575e15e15a0340386aebb6fb2d849a.json"
+    data-offline-search-index-json-src="/offline-search-index.32a6d9257c49727ca3dd437bb4a79bd8.json"
     data-offline-search-base-href="/"
     data-offline-search-max-results="10"
   >
@@ -480,7 +480,7 @@ the JVM to still have garbage collections, but it disables them from being trigg
 <p>With our service, let&rsquo;s go ahead and start it up with GC logging enabled:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Navigate to the root directory of this project</span>
 </span></span><span class="line"><span class="cl">java -XX:+PrintGCDetails -XX:+PrintGCDateStamps -Xloggc:gc.log -XX:GCLogFileSize<span class="o">=</span>5M -XX:NumberOfGCLogFiles<span class="o">=</span><span class="m">2</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span> -jar java-perf-workshop-server/target/java-perf-workshop-server-1.1.0-SNAPSHOT.jar server server.yml 
+</span></span></span><span class="line"><span class="cl"><span class="se"></span> -jar java-perf-workshop-server/target/java-perf-workshop-server-2.0-SNAPSHOT.jar server server.yml 
 </span></span></code></pre></div><h3 id="enabling-while-jvm-is-running">Enabling while JVM is running</h3>
 <p>In higher versions of the JDK (9+), you can enable GC logging without having to restart the JVM (reference: <a href="https://github.com/thomasdarimont">Thomas Darimont</a>):</p>
 <script src="https://gist.github.com/thomasdarimont/f89fc79491241af7a064e1b3ca2757a9.js"></script>

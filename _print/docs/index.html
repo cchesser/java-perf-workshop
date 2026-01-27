@@ -151,7 +151,7 @@
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="/offline-search-index.90575e15e15a0340386aebb6fb2d849a.json"
+    data-offline-search-index-json-src="/offline-search-index.32a6d9257c49727ca3dd437bb4a79bd8.json"
     data-offline-search-base-href="/"
     data-offline-search-max-results="10"
   >
@@ -482,9 +482,9 @@ This is the multi-page printable view of this section.
 	<h1 id="pg-f3351e063429a5c5cbfec483b1ba8747">1 - Prerequisites</h1>
     <div class="lead">Instructions for acquiring the software needed for the workshop.</div>
 	<h2 id="java-development-kit">Java Development Kit</h2>
-<p>Install a Java Development Kit (17+) from Oracle or OpenJDK</p>
+<p>Install a Java Development Kit (21+) from Oracle or OpenJDK</p>
 <ul>
-<li><a href="https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html">Oracle</a></li>
+<li><a href="https://www.oracle.com/java/technologies/downloads/">Oracle</a></li>
 <li><a href="https://openjdk.java.net/install/">OpenJDK</a></li>
 </ul>
 <h2 id="maven">Maven</h2>
@@ -545,7 +545,7 @@ from <a href="http://www.kcdc.info/">kcdc.info</a>, and returns results about th
 </span></span></code></pre></div><p>💡 If you have issues with building it locally due to your setup, you can download the
 server assembly <a href="https://github.com/cchesser/java-perf-workshop/wiki/java-perf-workshop-server-1.0-SNAPSHOT.jar">here</a>.</p>
 <p>Start the workshop service:</p>
-<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">java -jar java-perf-workshop-server/target/java-perf-workshop-server-1.1.0-SNAPSHOT.jar server server.yml
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">java -jar java-perf-workshop-server/target/java-perf-workshop-server-2.0-SNAPSHOT.jar server server.yml
 </span></span></code></pre></div><h4 id="mocking-service-dependency">Mocking Service Dependency</h4>
 <p>To simulate responses of kcdc.info (as the service may change over time), we will first run a mock
 instance of this service using <a href="http://wiremock.org/">WireMock</a>.</p>
@@ -709,18 +709,18 @@ Swap:        0k total,        0k used,        0k free,   336520k cached
 <p>The <a href="https://docs.oracle.com/javase/7/docs/technotes/tools/share/jps.html">Java Virtual Machine Process Status Tool</a> can be used to see Java processes.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"> $ jps
 </span></span><span class="line"><span class="cl"><span class="m">7241</span> Jps
-</span></span><span class="line"><span class="cl"><span class="m">6059</span> java-perf-workshop-server-1.1.0-SNAPSHOT.jar
+</span></span><span class="line"><span class="cl"><span class="m">6059</span> java-perf-workshop-server-2.0-SNAPSHOT.jar
 </span></span><span class="line"><span class="cl"><span class="m">6925</span> jar
 </span></span></code></pre></div><p>You can get more insight by using some of its flags:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"> $ jps -lvm
-</span></span><span class="line"><span class="cl"><span class="m">6059</span> java-perf-workshop-server/target/java-perf-workshop-server-1.1.0-SNAPSHOT.jar server server.yml
+</span></span><span class="line"><span class="cl"><span class="m">6059</span> java-perf-workshop-server/target/java-perf-workshop-server-2.0-SNAPSHOT.jar server server.yml
 </span></span><span class="line"><span class="cl"><span class="m">6925</span> wiremock-standalone.jar --port <span class="m">9090</span> --root-dir java-perf-workshop-server/src/test/resources
 </span></span><span class="line"><span class="cl"><span class="m">7582</span> sun.tools.jps.Jps -lvm -Dapplication.home<span class="o">=</span>/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home -Xms8m
 </span></span></code></pre></div><h3 id="jcmd">jcmd</h3>
 <p>The <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/troubleshoot/tooldescr006.html">jcmd</a> utility is an attempt to consolidate other utilities into a single interface.</p>
 <p>Running the <code>jcmd</code> command should display some of the same information that <code>jps</code> showed us (similar to <code>jps -m</code>):</p>
 <pre tabindex="0"><code>$ jcmd
-6059 java-perf-workshop-server/target/java-perf-workshop-server-1.1.0-SNAPSHOT.jar server server.yml
+6059 java-perf-workshop-server/target/java-perf-workshop-server-2.0-SNAPSHOT.jar server server.yml
 6925 wiremock-standalone.jar --port 9090 --root-dir java-perf-workshop-server/src/test/resources
 7838 sun.tools.jcmd.JCmd
 </code></pre><h2 id="thread-dump">Thread Dump</h2>
@@ -834,7 +834,7 @@ java.threads.started=697
 <h3 id="start-from-the-console">Start from the console</h3>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Note, if you are running this server from a different folder, consider changing the SERVER_HOME</span>
 </span></span><span class="line"><span class="cl"><span class="nv">SERVER_HOME</span><span class="o">=</span>java-perf-workshop-server/target
-</span></span><span class="line"><span class="cl">java -XX:+UnlockDiagnosticVMOptions -XX:+DebugNonSafepoints -jar <span class="nv">$SERVER_HOME</span>/java-perf-workshop-server-1.1.0-SNAPSHOT.jar server server.yml
+</span></span><span class="line"><span class="cl">java -XX:+UnlockDiagnosticVMOptions -XX:+DebugNonSafepoints -jar <span class="nv">$SERVER_HOME</span>/java-perf-workshop-server-2.0-SNAPSHOT.jar server server.yml
 </span></span></code></pre></div><h2 id="start-flight-recording-from-jmc">Start Flight Recording from JMC</h2>
 <figure><img src="/docs/jmc/intro-jmc9/img/jfr-start.png"
     alt="JFR Start">
@@ -2159,7 +2159,7 @@ the JVM to still have garbage collections, but it disables them from being trigg
 <p>With our service, let&rsquo;s go ahead and start it up with GC logging enabled:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="c1"># Navigate to the root directory of this project</span>
 </span></span><span class="line"><span class="cl">java -XX:+PrintGCDetails -XX:+PrintGCDateStamps -Xloggc:gc.log -XX:GCLogFileSize<span class="o">=</span>5M -XX:NumberOfGCLogFiles<span class="o">=</span><span class="m">2</span> <span class="se">\
-</span></span></span><span class="line"><span class="cl"><span class="se"></span> -jar java-perf-workshop-server/target/java-perf-workshop-server-1.1.0-SNAPSHOT.jar server server.yml 
+</span></span></span><span class="line"><span class="cl"><span class="se"></span> -jar java-perf-workshop-server/target/java-perf-workshop-server-2.0-SNAPSHOT.jar server server.yml 
 </span></span></code></pre></div><h3 id="enabling-while-jvm-is-running">Enabling while JVM is running</h3>
 <p>In higher versions of the JDK (9+), you can enable GC logging without having to restart the JVM (reference: <a href="https://github.com/thomasdarimont">Thomas Darimont</a>):</p>
 <script src="https://gist.github.com/thomasdarimont/f89fc79491241af7a064e1b3ca2757a9.js"></script>
@@ -2269,9 +2269,9 @@ as <code>GCUserTime_Sec</code> is just the sum time of all the threads.</p>
 <p>Run <code>mvn clean package -Pdocker</code> , the <code>docker</code> profile enables the docker-maven-plugin.</p>
 <p>You can view the generated images with <code>docker image ls | grep workshop</code>:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">$ docker image ls <span class="p">|</span> grep workshop
-</span></span><span class="line"><span class="cl">workshop-wiremock                                                             1.1.0-SNAPSHOT                 2cc43b2348c8   <span class="m">2</span> minutes ago   657MB
+</span></span><span class="line"><span class="cl">workshop-wiremock                                                             2.0-SNAPSHOT                 2cc43b2348c8   <span class="m">2</span> minutes ago   657MB
 </span></span><span class="line"><span class="cl">workshop-wiremock                                                             latest                         2cc43b2348c8   <span class="m">2</span> minutes ago   657MB
-</span></span><span class="line"><span class="cl">workshop-server                                                               1.1.0-SNAPSHOT                 be7cfbd0735a   <span class="m">2</span> minutes ago   659MB
+</span></span><span class="line"><span class="cl">workshop-server                                                               2.0-SNAPSHOT                 be7cfbd0735a   <span class="m">2</span> minutes ago   659MB
 </span></span><span class="line"><span class="cl">workshop-server                                                               latest                         be7cfbd0735a   <span class="m">2</span> minutes ago   659MB
 </span></span></code></pre></div><h2 id="running">Running</h2>
 <p>Since our Workshop Service depends on the Wiremock Service, we&rsquo;re going to use <a href="https://docs.docker.com/compose/">docker-compose</a> to create a docker environment with both our services ready to go:</p>

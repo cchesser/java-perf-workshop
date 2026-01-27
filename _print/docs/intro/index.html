@@ -152,7 +152,7 @@
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="/offline-search-index.90575e15e15a0340386aebb6fb2d849a.json"
+    data-offline-search-index-json-src="/offline-search-index.32a6d9257c49727ca3dd437bb4a79bd8.json"
     data-offline-search-base-href="/"
     data-offline-search-max-results="10"
   >
@@ -272,18 +272,18 @@ Swap:        0k total,        0k used,        0k free,   336520k cached
 <p>The <a href="https://docs.oracle.com/javase/7/docs/technotes/tools/share/jps.html">Java Virtual Machine Process Status Tool</a> can be used to see Java processes.</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"> $ jps
 </span></span><span class="line"><span class="cl"><span class="m">7241</span> Jps
-</span></span><span class="line"><span class="cl"><span class="m">6059</span> java-perf-workshop-server-1.1.0-SNAPSHOT.jar
+</span></span><span class="line"><span class="cl"><span class="m">6059</span> java-perf-workshop-server-2.0-SNAPSHOT.jar
 </span></span><span class="line"><span class="cl"><span class="m">6925</span> jar
 </span></span></code></pre></div><p>You can get more insight by using some of its flags:</p>
 <div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"> $ jps -lvm
-</span></span><span class="line"><span class="cl"><span class="m">6059</span> java-perf-workshop-server/target/java-perf-workshop-server-1.1.0-SNAPSHOT.jar server server.yml
+</span></span><span class="line"><span class="cl"><span class="m">6059</span> java-perf-workshop-server/target/java-perf-workshop-server-2.0-SNAPSHOT.jar server server.yml
 </span></span><span class="line"><span class="cl"><span class="m">6925</span> wiremock-standalone.jar --port <span class="m">9090</span> --root-dir java-perf-workshop-server/src/test/resources
 </span></span><span class="line"><span class="cl"><span class="m">7582</span> sun.tools.jps.Jps -lvm -Dapplication.home<span class="o">=</span>/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home -Xms8m
 </span></span></code></pre></div><h3 id="jcmd">jcmd</h3>
 <p>The <a href="https://docs.oracle.com/javase/8/docs/technotes/guides/troubleshoot/tooldescr006.html">jcmd</a> utility is an attempt to consolidate other utilities into a single interface.</p>
 <p>Running the <code>jcmd</code> command should display some of the same information that <code>jps</code> showed us (similar to <code>jps -m</code>):</p>
 <pre tabindex="0"><code>$ jcmd
-6059 java-perf-workshop-server/target/java-perf-workshop-server-1.1.0-SNAPSHOT.jar server server.yml
+6059 java-perf-workshop-server/target/java-perf-workshop-server-2.0-SNAPSHOT.jar server server.yml
 6925 wiremock-standalone.jar --port 9090 --root-dir java-perf-workshop-server/src/test/resources
 7838 sun.tools.jcmd.JCmd
 </code></pre><h2 id="thread-dump">Thread Dump</h2>
