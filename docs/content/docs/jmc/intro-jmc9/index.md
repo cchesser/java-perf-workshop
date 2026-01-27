@@ -41,7 +41,7 @@ Let's start profiling our service. Start the service up by enabling JFR:
 ```bash
 # Note, if you are running this server from a different folder, consider changing the SERVER_HOME
 SERVER_HOME=java-perf-workshop-server/target
-java -XX:+UnlockDiagnosticVMOptions -XX:+DebugNonSafepoints -jar $SERVER_HOME/java-perf-workshop-server-1.1.0-SNAPSHOT.jar server server.yml
+java -XX:+UnlockDiagnosticVMOptions -XX:+DebugNonSafepoints -jar $SERVER_HOME/java-perf-workshop-server-2.0-SNAPSHOT.jar server server.yml
 ```
 
 ## Start Flight Recording from JMC

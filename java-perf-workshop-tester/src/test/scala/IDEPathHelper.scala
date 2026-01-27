@@ -1,22 +1,24 @@
-import java.nio.file.Path
+package cchesser.javaperf.workshop
 
-import io.gatling.commons.util.PathHelper._
+import java.nio.file.{Path, Paths}
 
 object IDEPathHelper {
 
-	val gatlingConfUrl: Path = getClass.getClassLoader.getResource("gatling.conf")
-	val projectRootDir = gatlingConfUrl.ancestor(3)
+	private val gatlingConfUrl = getClass.getClassLoader.getResource("gatling.conf")
+	private val gatlingConfPath: Path = Paths.get(gatlingConfUrl.toURI)
+	private def ancestor(path: Path, n: Int): Path = (1 to n).foldLeft(path)((p, _) => p.getParent)
+	val projectRootDir: Path = ancestor(gatlingConfPath, 3)
 
-	val mavenSourcesDirectory = projectRootDir / "src" / "test" / "scala"
-	val mavenResourcesDirectory = projectRootDir / "src" / "test" / "resources"
-	val mavenTargetDirectory = projectRootDir / "target"
-	val mavenBinariesDirectory = mavenTargetDirectory / "test-classes"
+	val mavenSourcesDirectory: Path = projectRootDir.resolve("src").resolve("test").resolve("scala")
+	val mavenResourcesDirectory: Path = projectRootDir.resolve("src").resolve("test").resolve("resources")
+	val mavenTargetDirectory: Path = projectRootDir.resolve("target")
+	val mavenBinariesDirectory: Path = mavenTargetDirectory.resolve("test-classes")
 
-	val dataDirectory = mavenResourcesDirectory / "data"
-	val bodiesDirectory = mavenResourcesDirectory / "bodies"
+	val dataDirectory: Path = mavenResourcesDirectory.resolve("data")
+	val bodiesDirectory: Path = mavenResourcesDirectory.resolve("bodies")
 
-	val recorderOutputDirectory = mavenSourcesDirectory
-	val resultsDirectory = mavenTargetDirectory / "gatling"
+	val recorderOutputDirectory: Path = mavenSourcesDirectory
+	val resultsDirectory: Path = mavenTargetDirectory.resolve("gatling")
 
-	val recorderConfigFile = mavenResourcesDirectory / "recorder.conf"
+	val recorderConfigFile: Path = mavenResourcesDirectory.resolve("recorder.conf")
 }

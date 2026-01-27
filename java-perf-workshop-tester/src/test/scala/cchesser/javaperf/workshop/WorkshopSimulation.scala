@@ -11,7 +11,7 @@ import scala.concurrent.duration._
 class WorkshopSimulation extends Simulation {
 
   val httpConf = http
-    .baseURL("http://localhost:8080")
+    .baseUrl("http://localhost:8080")
     .acceptHeader("text/html,application/json,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8")
     .doNotTrackHeader("1")
     .acceptLanguageHeader("en-US,en;q=0.5")

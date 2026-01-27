@@ -26,9 +26,9 @@ You can view the generated images with `docker image ls | grep workshop`:
 
 ```bash
 $ docker image ls | grep workshop
-workshop-wiremock                                                             1.1.0-SNAPSHOT                 2cc43b2348c8   2 minutes ago   657MB
+workshop-wiremock                                                             2.0-SNAPSHOT                 2cc43b2348c8   2 minutes ago   657MB
 workshop-wiremock                                                             latest                         2cc43b2348c8   2 minutes ago   657MB
-workshop-server                                                               1.1.0-SNAPSHOT                 be7cfbd0735a   2 minutes ago   659MB
+workshop-server                                                               2.0-SNAPSHOT                 be7cfbd0735a   2 minutes ago   659MB
 workshop-server                                                               latest                         be7cfbd0735a   2 minutes ago   659MB
 ```
 

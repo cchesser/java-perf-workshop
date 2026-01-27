@@ -1,13 +1,16 @@
 import io.gatling.app.Gatling
-import io.gatling.core.config.GatlingPropertiesBuilder
 
 object Engine extends App {
 
-	val props = new GatlingPropertiesBuilder()
-		.dataDirectory(IDEPathHelper.dataDirectory.toString)
-		.resultsDirectory(IDEPathHelper.resultsDirectory.toString)
-		.bodiesDirectory(IDEPathHelper.bodiesDirectory.toString)
-		.binariesDirectory(IDEPathHelper.mavenBinariesDirectory.toString)
+  // Programmatic-ish runner: construct CLI args programmatically and
+  // invoke Gatling's main entry point. This avoids direct access to the
+  // internal Runner API while still allowing control over simulation
+  // class and results directory.
 
-	Gatling.fromMap(props.build)
+  val simulationClass = "cchesser.javaperf.workshop.WorkshopSimulation"
+  val resultsDir = cchesser.javaperf.workshop.IDEPathHelper.resultsDirectory.toString
+
+  val cliArgs = Array("-s", simulationClass, "-rf", resultsDir)
+
+  Gatling.main(cliArgs)
 }

@@ -8,9 +8,9 @@ hide_readingtime: true
 
 ## Java Development Kit
 
-Install a Java Development Kit (17+) from Oracle or OpenJDK
+Install a Java Development Kit (21+) from Oracle or OpenJDK
 
-* [Oracle](https://www.oracle.com/java/technologies/javase/javase-jdk8-downloads.html)
+* [Oracle](https://www.oracle.com/java/technologies/downloads/)
 * [OpenJDK](https://openjdk.java.net/install/)
 
 ## Maven

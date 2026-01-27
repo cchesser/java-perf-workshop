@@ -109,7 +109,7 @@ The [Java Virtual Machine Process Status Tool](https://docs.oracle.com/javase/7/
 ```bash
  $ jps
 7241 Jps
-6059 java-perf-workshop-server-1.1.0-SNAPSHOT.jar
+6059 java-perf-workshop-server-2.0-SNAPSHOT.jar
 6925 jar
 ```
 
@@ -117,7 +117,7 @@ You can get more insight by using some of its flags:
 
 ```bash
  $ jps -lvm
-6059 java-perf-workshop-server/target/java-perf-workshop-server-1.1.0-SNAPSHOT.jar server server.yml
+6059 java-perf-workshop-server/target/java-perf-workshop-server-2.0-SNAPSHOT.jar server server.yml
 6925 wiremock-standalone.jar --port 9090 --root-dir java-perf-workshop-server/src/test/resources
 7582 sun.tools.jps.Jps -lvm -Dapplication.home=/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home -Xms8m
 ```
@@ -130,7 +130,7 @@ Running the `jcmd` command should display some of the same information that `jps
 
 ```
 $ jcmd
-6059 java-perf-workshop-server/target/java-perf-workshop-server-1.1.0-SNAPSHOT.jar server server.yml
+6059 java-perf-workshop-server/target/java-perf-workshop-server-2.0-SNAPSHOT.jar server server.yml
 6925 wiremock-standalone.jar --port 9090 --root-dir java-perf-workshop-server/src/test/resources
 7838 sun.tools.jcmd.JCmd
 ```
