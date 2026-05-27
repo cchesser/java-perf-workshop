@@ -1,0 +1,758 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+        <title>A Practical Guide to JVM Native Memory in Kubernetes</title>
+
+        <link rel="stylesheet" href="../_shared/reveal/dist/reset.css">
+        <link rel="stylesheet" href="../_shared/reveal/dist/reveal.css">
+        <link rel="stylesheet" href="../_shared/reveal/dist/theme/black.css">
+        <link rel="stylesheet" href="../_shared/reveal/dist/plugin/highlight/monokai.css">
+
+        <style>
+            :root {
+                --r-main-font-size: 34px;
+                --r-heading-text-transform: none;
+                --r-heading-letter-spacing: 0;
+                --r-link-color: #6ee7ff;
+                --r-selection-background-color: #1f9d8a;
+            }
+
+            .reveal .slides {
+                text-align: left;
+            }
+
+            .reveal h1,
+            .reveal h2,
+            .reveal h3 {
+                letter-spacing: 0;
+            }
+
+            .reveal h1 {
+                font-size: 2.35em;
+            }
+
+            .reveal h2 {
+                font-size: 1.6em;
+            }
+
+            .reveal ul {
+                display: block;
+            }
+
+            .reveal li {
+                margin: 0.35em 0;
+            }
+
+            .reveal .slides li.fragment {
+                transition: opacity 180ms ease, filter 180ms ease;
+            }
+
+            .reveal .slides li.fragment.visible:not(.current-fragment) {
+                filter: saturate(0.7);
+                opacity: 0.45;
+            }
+
+            .reveal .slides li.fragment.current-fragment {
+                filter: none;
+                opacity: 1;
+            }
+
+            .fragment-complete-indicator {
+                align-items: center;
+                bottom: 0.9rem;
+                color: rgba(190, 230, 255, 0.42);
+                display: none;
+                font-size: 1rem;
+                height: 1.2rem;
+                justify-content: center;
+                line-height: 1;
+                position: fixed;
+                left: 0.9rem;
+                width: 1.2rem;
+                z-index: 40;
+            }
+
+            .fragment-complete-indicator.is-visible {
+                display: flex;
+            }
+
+            .reveal code {
+                color: #9effa8;
+            }
+
+            .reveal pre code {
+                max-height: none;
+            }
+
+            .reveal pre.compact code {
+                font-size: 0.72em;
+                line-height: 1.18;
+            }
+
+            .center {
+                text-align: center;
+            }
+
+            .eyebrow {
+                color: #6ee7ff;
+                font-size: 0.72em;
+                font-weight: 700;
+                letter-spacing: 0;
+                margin-bottom: 0.75rem;
+                text-transform: uppercase;
+            }
+
+            .two-column {
+                align-items: stretch;
+                display: grid;
+                gap: 1.2rem;
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .panel {
+                border: 1px solid rgba(255, 255, 255, 0.24);
+                border-radius: 6px;
+                padding: 0.85em;
+            }
+
+            .muted {
+                color: #c8d0d6;
+            }
+
+            .metric {
+                color: #9effa8;
+                font-size: 2.2em;
+                font-weight: 800;
+                line-height: 1;
+            }
+
+            .memory-map {
+                display: grid;
+                gap: 0.55rem;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .memory-map div {
+                border-left: 4px solid #6ee7ff;
+                padding: 0.25em 0.6em;
+            }
+
+            .capacity-visual {
+                display: grid;
+                gap: 0.75rem;
+            }
+
+            .capacity-labels {
+                align-items: end;
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .capacity-total {
+                color: #6ee7ff;
+                font-size: 1.45em;
+                font-weight: 800;
+            }
+
+            .capacity-bar {
+                background: rgba(255, 255, 255, 0.1);
+                border: 2px solid rgba(255, 255, 255, 0.42);
+                border-radius: 6px;
+                display: flex;
+                height: 3.3rem;
+                overflow: hidden;
+            }
+
+            .capacity-segment {
+                align-items: center;
+                color: #05070a;
+                display: flex;
+                font-size: 0.55em;
+                font-weight: 800;
+                justify-content: center;
+                line-height: 1.1;
+                min-width: 0;
+                padding: 0 0.25rem;
+                text-align: center;
+            }
+
+            .heap-segment {
+                background: #9effa8;
+                width: 55%;
+            }
+
+            .thread-segment {
+                background: #6ee7ff;
+                width: 12%;
+            }
+
+            .meta-segment {
+                background: #ffde7a;
+                width: 9%;
+            }
+
+            .direct-segment {
+                background: #ff9f7a;
+                width: 8%;
+            }
+
+            .jvm-segment {
+                background: #d3a4ff;
+                width: 6%;
+            }
+
+            .margin-segment {
+                background: repeating-linear-gradient(
+                    135deg,
+                    rgba(255, 255, 255, 0.25),
+                    rgba(255, 255, 255, 0.25) 8px,
+                    rgba(255, 255, 255, 0.08) 8px,
+                    rgba(255, 255, 255, 0.08) 16px
+                );
+                color: #fff;
+                width: 10%;
+            }
+
+            .capacity-legend {
+                display: grid;
+                gap: 0.35rem 0.8rem;
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                font-size: 0.65em;
+            }
+
+            .capacity-legend span {
+                align-items: center;
+                display: flex;
+                gap: 0.35rem;
+            }
+
+            .swatch {
+                border-radius: 2px;
+                display: inline-block;
+                height: 0.75rem;
+                width: 0.75rem;
+            }
+
+            .tool-list {
+                display: grid;
+                gap: 0.55rem;
+            }
+
+            .tool-list div {
+                border-left: 4px solid #9effa8;
+                padding: 0.2em 0.65em;
+            }
+
+            @media (max-width: 760px) {
+                :root {
+                    --r-main-font-size: 28px;
+                }
+
+                .two-column,
+                .memory-map,
+                .capacity-legend {
+                    grid-template-columns: 1fr;
+                }
+
+                .capacity-bar {
+                    height: 2.7rem;
+                }
+
+                .capacity-segment {
+                    font-size: 0.42em;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="reveal">
+            <div class="slides">
+                <section class="center">
+                    <p class="eyebrow">Lightning talk</p>
+                    <h1>A Practical Guide to JVM Native Memory in Kubernetes</h1>
+                    <p>Carl Chesser</p>
+                    <p><small><a href="https://twitter.com/che55er">@che55er</a> | <a href="https://che55er.io/">che55er.io</a></small></p>
+                </section>
+
+                <section>
+                    <p class="eyebrow">The trap</p>
+                    <h2>Heap tuning is not container tuning</h2>
+                    <ul>
+                        <li>The heap is only one part of JVM memory.</li>
+                        <li>Kubernetes limits count the whole process.</li>
+                        <li>Native memory can quietly eat the headroom.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <p class="eyebrow">The symptom</p>
+                    <h2>More memory, same surprise</h2>
+                    <div class="two-column">
+                        <div class="panel">
+                            <div class="metric">OOMKilled</div>
+                            <p class="muted">The container crosses its memory limit, even when heap graphs look calm.</p>
+                        </div>
+                        <div class="panel">
+                            <div class="metric">$$$</div>
+                            <p class="muted">Teams raise requests and limits "just to be safe", then pay for unused capacity.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <p class="eyebrow">The real budget</p>
+                    <h2>What has to fit inside the pod limit?</h2>
+                    <div class="capacity-visual">
+                        <div class="capacity-labels">
+                            <span class="muted">0</span>
+                            <span class="capacity-total">Pod memory limit</span>
+                            <span class="muted">100%</span>
+                        </div>
+                        <div class="capacity-bar" aria-label="Pod memory capacity split across JVM memory categories">
+                            <div class="capacity-segment heap-segment">Heap</div>
+                            <div class="capacity-segment thread-segment">Threads</div>
+                            <div class="capacity-segment meta-segment">Meta</div>
+                            <div class="capacity-segment direct-segment">Direct</div>
+                            <div class="capacity-segment jvm-segment">JVM</div>
+                            <div class="capacity-segment margin-segment">Margin</div>
+                        </div>
+                        <div class="capacity-legend">
+                            <span><i class="swatch heap-segment"></i>Java heap</span>
+                            <span><i class="swatch thread-segment"></i>Thread stacks</span>
+                            <span><i class="swatch meta-segment"></i>Metaspace/classes</span>
+                            <span><i class="swatch direct-segment"></i>Direct buffers</span>
+                            <span><i class="swatch jvm-segment"></i>Code cache, GC, JIT</span>
+                            <span><i class="swatch margin-segment"></i>Safety margin</span>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <p class="eyebrow">Sizing goal</p>
+                    <h2>Use the container, do not pad it blindly</h2>
+                    <ul>
+                        <li>Oversized limits hide the problem and waste schedulable node memory.</li>
+                        <li>Undersized margins turn native growth into OOMKills.</li>
+                        <li>A good target is measured heap plus native memory plus explicit safety margin.</li>
+                        <li>Right-size after load testing, then watch cgroup usage drift in production.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <p class="eyebrow">Useful framing</p>
+                    <h2>Think in container math</h2>
+                    <pre><code data-trim>
+pod limit
+  >= heap
+   + native memory
+   + safety margin
+                    </code></pre>
+                    <p class="muted">If you only set <code>-Xmx</code>, the rest of the process still needs room.</p>
+                </section>
+
+                <section>
+                    <p class="eyebrow">Kubernetes controls</p>
+                    <h2>Requests schedule, limits enforce</h2>
+                    <pre class="compact"><code data-trim>
+resources:
+  requests:
+    memory: "768Mi"  # scheduler reserves this much node capacity
+    cpu: "500m"
+  limits:
+    memory: "1Gi"    # cgroup hard boundary for the process
+    cpu: "1"
+                    </code></pre>
+                    <p class="muted">The JVM sees the memory limit through cgroups; Kubernetes schedules mostly from the request.</p>
+                </section>
+
+                <section>
+                    <p class="eyebrow">Linux control groups</p>
+                    <h2>A cgroup is the container's resource account</h2>
+                    <ul>
+                        <li>Linux control groups group processes and track their CPU, memory, I/O, and process usage.</li>
+                        <li>The kubelet and container runtime place the container process into a cgroup.</li>
+                        <li>Kubernetes limits become cgroup settings; the kernel does the measuring and enforcement.</li>
+                        <li>The JVM reads those cgroup settings to size heap and report container metrics.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <p class="eyebrow">What gets written</p>
+                    <h2>Limits become kernel control files</h2>
+                    <pre class="compact"><code data-trim>
+# cgroup v2 examples
+memory.max = 1073741824     # 1Gi memory limit
+cpu.max    = 100000 100000  # 1 CPU quota / period
+
+# cgroup v1 names differ, but the idea is the same:
+# memory.limit_in_bytes, cpu.cfs_quota_us, cpu.cfs_period_us
+                    </code></pre>
+                    <p class="muted">This is why JVM tools report cgroup provider, memory limit, CPU quota, and active processor count.</p>
+                </section>
+
+                <section>
+                    <p class="eyebrow">Java 17+</p>
+                    <h2>The JVM now sees more of the container</h2>
+                    <ul>
+                        <li>Java 17 includes cgroups v2 support and container-aware OS metrics.</li>
+                        <li>Heap ergonomics can size from the container limit, not the node.</li>
+                        <li>JDK 23 and newer 17/21 updates expose better cgroup memory details in diagnostics.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <p class="eyebrow">First check</p>
+                    <h2>Prove the JVM sees your limit</h2>
+                    <pre><code data-trim>
+java -XshowSettings:system -version
+jcmd &lt;pid&gt; VM.info
+java -Xlog:os+container=debug -version
+                    </code></pre>
+                    <p class="muted">Use the first two for normal checks; use logging when the JVM's view looks wrong.</p>
+                </section>
+
+                <section>
+                    <p class="eyebrow">Example</p>
+                    <h2><code>-XshowSettings:system</code> surfaces cgroups</h2>
+                    <pre class="compact"><code data-trim>
+$ java -XshowSettings:system -version
+Operating System Metrics:
+    Provider: cgroupv2
+    Effective CPU Count: 2
+    CPU Quota: 200000us
+    CPU Period: 100000us
+    Memory Limit: 1.00G
+    Memory &amp; Swap Limit: 1.00G
+                    </code></pre>
+                    <p class="muted">This is the quick "am I sizing from the pod or the node?" check.</p>
+                </section>
+
+                <section>
+                    <p class="eyebrow">Read it</p>
+                    <h2>What those fields tell you</h2>
+                    <ul>
+                        <li><code>Provider: cgroupv2</code> tells you how Linux is measuring this container.</li>
+                        <li><code>Memory Limit: 1.00G</code> is the ceiling for heap plus native memory.</li>
+                        <li><code>Effective CPU Count: 2</code> influences GC threads, JIT threads, and application parallelism.</li>
+                        <li><code>CPU Quota</code> and <code>CPU Period</code> should line up with the deployment CPU limit.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <p class="eyebrow">Cgroup mental model</p>
+                    <h2>The kernel enforces the ledger</h2>
+                    <ul>
+                        <li>Memory is charged as pages are used: heap, native allocations, stacks, mappings, and cache.</li>
+                        <li>If usage crosses <code>memory.max</code>, the kernel OOM path can kill a process in that cgroup.</li>
+                        <li>CPU limits are different: the kernel throttles runtime when quota is exhausted.</li>
+                        <li>Kubernetes observes the result and reports states like <code>OOMKilled</code>.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <p class="eyebrow">Debug only</p>
+                    <h2><code>-Xlog:os+container</code> explains detection</h2>
+                    <pre class="compact"><code data-trim>
+$ java -Xlog:os+container=debug -version
+[debug][os,container] Detected cgroups v2 unified hierarchy
+[debug][os,container] Memory Limit is: 1073741824
+[debug][os,container] CPU Quota is: 200000
+[debug][os,container] CPU Period is: 100000
+                    </code></pre>
+                    <p class="muted">It shows how the JVM discovered container limits. Use it when heap size, CPU count, or <code>VM.info</code> do not match the pod spec.</p>
+                </section>
+
+                <section>
+                    <p class="eyebrow">Heap knobs</p>
+                    <h2>Prefer limit-aware sizing</h2>
+                    <div class="two-column">
+                        <div class="panel">
+                            <h3>Fixed</h3>
+                            <pre><code data-trim>-Xmx768m</code></pre>
+                            <p class="muted">Clear, repeatable, but tied to one pod shape.</p>
+                        </div>
+                        <div class="panel">
+                            <h3>Relative</h3>
+                            <pre><code data-trim>-XX:MaxRAMPercentage=60</code></pre>
+                            <p class="muted">Scales with the detected container limit.</p>
+                        </div>
+                    </div>
+                    <p class="muted"><small>Added in JDK 10 and backported to JDK 8u191; available in Java 17+.</small></p>
+                </section>
+
+                <section>
+                    <p class="eyebrow">Sizing rule</p>
+                    <h2>Assign <code>MaxRAMPercentage</code> from headroom</h2>
+                    <pre><code data-trim>
+MaxRAMPercentage
+  = (heap budget / container memory limit) * 100
+
+heap budget
+  = limit - observed native memory - safety margin
+                    </code></pre>
+                    <p class="muted">Measure native memory under load first; the percentage is the result, not the starting guess.</p>
+                </section>
+
+                <section>
+                    <p class="eyebrow">Example</p>
+                    <h2>Turn the budget into a flag</h2>
+                    <pre class="compact"><code data-trim>
+1Gi limit - 220Mi native - 190Mi margin = 614Mi heap
+
+614Mi / 1024Mi = 60%
+
+JAVA_TOOL_OPTIONS="-XX:MaxRAMPercentage=60"
+                    </code></pre>
+                    <p class="muted">Use a lower percentage for thread-heavy, Netty/direct-buffer-heavy, or agent-heavy services.</p>
+                </section>
+
+                <section>
+                    <p class="eyebrow">Guardrails</p>
+                    <h2>How high should it be?</h2>
+                    <ul>
+                        <li>HotSpot's default max heap is <code>25%</code> of detected memory.</li>
+                        <li>That conservative default leaves room for native memory and other processes.</li>
+                        <li>Start around <code>50-60%</code> when native memory is unknown.</li>
+                        <li>Move toward <code>65-75%</code> only after NMT and cgroup usage stay stable under load.</li>
+                        <li>Keep more headroom for small pods; fixed native costs consume a larger share.</li>
+                        <li>Do not set <code>-Xmx</code> at the same time; it wins over percentage-based sizing.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <p class="eyebrow">Native headroom</p>
+                    <h2>The limit is not just heap</h2>
+                    <pre><code data-trim>
+1Gi cgroup memory limit
+  - 614Mi Java heap
+  - 220Mi observed native memory
+  = 190Mi safety margin
+                    </code></pre>
+                    <p class="muted">That native line includes threads, metaspace, direct buffers, code cache, GC, JIT, and libc allocations.</p>
+                </section>
+
+                <section>
+                    <p class="eyebrow">Native threads</p>
+                    <h2>Every OS thread brings a stack</h2>
+                    <pre class="compact"><code data-trim>
+500 OS threads * 1MiB stack = 500MiB reserved
+
+# HotSpot Linux/x64 default is commonly 1024 KB per OS thread
+JAVA_TOOL_OPTIONS="-Xss512k"
+# equivalent:
+JAVA_TOOL_OPTIONS="-XX:ThreadStackSize=512"
+                    </code></pre>
+                    <p class="muted">The JVM default is intentionally roomy. Lowering <code>-Xss</code> can reclaim native headroom when a process has many OS-backed threads.</p>
+                </section>
+
+                <section>
+                    <p class="eyebrow">Thread budget</p>
+                    <h2>OS threads vs virtual threads</h2>
+                    <ul>
+                        <li>Classic Java threads map one-to-one to OS threads, so <code>-Xss</code> affects each one.</li>
+                        <li>Virtual threads are Java-managed and do not each reserve a dedicated native stack.</li>
+                        <li>Virtual threads still run on carrier OS threads; those carrier threads still have stacks.</li>
+                        <li>Use <code>jcmd Thread.print</code>, JFR, or app metrics to separate OS-backed threads from virtual-thread counts.</li>
+                        <li>Lower <code>-Xss</code> carefully; too small can turn deep call paths into <code>StackOverflowError</code>.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <p class="eyebrow">Built-in tools</p>
+                    <h2>Native Memory Tracking gives you the map</h2>
+                    <ul>
+                        <li>Enable NMT with <code>-XX:NativeMemoryTracking=summary</code>.</li>
+                        <li>Use <code>jcmd</code> against the running JVM.</li>
+                        <li>Start with the big buckets before chasing detail.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <p class="eyebrow">Java 17+ example</p>
+                    <h2>A useful NMT summary shape</h2>
+                    <pre class="compact"><code data-trim>
+$ jcmd 1 VM.native_memory summary
+Total: reserved=2161MB, committed=902MB
+
+- Java Heap (reserved=614MB, committed=614MB)
+- Class     (reserved=1040MB, committed=82MB)
+- Thread    (reserved=126MB, committed=18MB)
+- Code      (reserved=248MB, committed=55MB)
+- GC        (reserved=48MB,  committed=48MB)
+- Compiler  (reserved=3MB,   committed=3MB)
+- Internal  (reserved=18MB,  committed=18MB)
+- Other     (reserved=64MB,  committed=64MB)
+                    </code></pre>
+                    <p class="muted">Heap appears here for context; the native budget is mostly everything outside <code>Java Heap</code>.</p>
+                </section>
+
+                <section>
+                    <p class="eyebrow">Read the buckets</p>
+                    <h2>What usually moves the number?</h2>
+                    <ul>
+                        <li><code>Class</code>: many loaded classes, frameworks, proxies, or hot redeploy behavior.</li>
+                        <li><code>Thread</code>: large servlet pools, scheduler pools, Kafka consumers, or blocking I/O.</li>
+                        <li><code>Code</code>: lots of hot methods compiled by the JIT over time.</li>
+                        <li><code>GC</code>: bigger heaps, more regions, remembered sets, and collector worker data.</li>
+                        <li><code>Other</code>: direct buffers, Netty, compression, TLS, JNI, or native libraries.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <p class="eyebrow">Workflow</p>
+                    <h2>Get a picture in minutes</h2>
+                    <pre><code data-trim>
+jcmd &lt;pid&gt; VM.native_memory summary
+jcmd &lt;pid&gt; VM.native_memory baseline
+# run representative load
+jcmd &lt;pid&gt; VM.native_memory summary.diff
+                    </code></pre>
+                    <p class="muted">The goal is not perfect accounting. The goal is to stop guessing.</p>
+                </section>
+
+                <section>
+                    <p class="eyebrow">JDK toolbox</p>
+                    <h2>Use the runtime, not folklore</h2>
+                    <div class="tool-list">
+                        <div><code>jcmd VM.info</code>: detected cgroup limits and JVM ergonomics</div>
+                        <div><code>jcmd VM.native_memory</code>: native buckets and deltas</div>
+                        <div><code>jcmd JFR.start</code>: low-overhead timeline for heap, GC, allocation, and threads</div>
+                        <div><code>jcmd GC.heap_info</code>: quick heap capacity and region view</div>
+                    </div>
+                </section>
+
+                <section>
+                    <p class="eyebrow">Example</p>
+                    <h2><code>jcmd VM.info</code> ties it together</h2>
+                    <pre class="compact"><code data-trim>
+$ jcmd 1 VM.info
+container (cgroup) information:
+    container_type: cgroupv2
+    memory_limit_in_bytes: 1073741824
+    memory_and_swap_limit_in_bytes: 1073741824
+    cpu_quota: 200000
+    cpu_period: 100000
+    active_processor_count: 2
+                    </code></pre>
+                    <p class="muted">Capture this beside pod spec, heap settings, and load-test results.</p>
+                </section>
+
+                <section>
+                    <p class="eyebrow">Compare</p>
+                    <h2><code>jcmd</code> plus NMT explains the gap</h2>
+                    <pre class="compact"><code data-trim>
+$ jcmd 1 GC.heap_info
+garbage-first heap   total 629145600, used 402653184
+
+$ jcmd 1 VM.native_memory summary
+Total: reserved=1842MB, committed=832MB
+- Java Heap (reserved=614MB, committed=614MB)
+- Thread    (reserved=126MB, committed=18MB)
+- Class     (reserved=1040MB, committed=82MB)
+- Code      (reserved=248MB, committed=55MB)
+                    </code></pre>
+                    <p class="muted">NMT explains JVM categories to budget; cgroup usage is the kernel charge that decides the kill.</p>
+                </section>
+
+                <section>
+                    <p class="eyebrow">Recent diagnostics</p>
+                    <h2>RSS alone is not the kill line</h2>
+                    <ul>
+                        <li>Containers account process memory plus cache.</li>
+                        <li>JDK 23 and newer 17/21 updates add RSS and cache to <code>jcmd VM.info</code> and <code>hs_err</code> crash logs.</li>
+                        <li><code>hs_err</code> is the JVM's fatal-error report, often written as <code>hs_err_pid*.log</code>.</li>
+                        <li>That makes post-OOM evidence line up better with Kubernetes limits.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <p class="eyebrow">Example</p>
+                    <h2>Newer diagnostics show cgroup usage</h2>
+                    <pre class="compact"><code data-trim>
+container (cgroup) memory:
+    limit: 1073741824
+    usage: 812388352
+    rss: 641728512
+    cache: 170659840
+                    </code></pre>
+                    <p class="muted">That cache segment explains why process RSS can be below the cgroup usage that triggers a kill.</p>
+                </section>
+
+                <section>
+                    <p class="eyebrow">ZGC timeline</p>
+                    <h2>Generational ZGC arrived after Java 17</h2>
+                    <ul>
+                        <li>JDK 21, September 2023: available with <code>-XX:+UseZGC -XX:+ZGenerational</code>.</li>
+                        <li>JDK 23, September 2024: default mode when using <code>-XX:+UseZGC</code>.</li>
+                        <li>JDK 24: non-generational ZGC was removed.</li>
+                        <li>Why care here? Lower GC overhead can reduce the heap cushion needed for latency-sensitive services.</li>
+                        <li>Less heap cushion can mean lower pod limits and requests after validation.</li>
+                        <li>Measure total cgroup usage; a lower heap does not automatically mean a lower container bill.</li>
+                        <li>G1 remains sensible for many containers; use ZGC when latency goals justify the tradeoff.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <p class="eyebrow">Right-size loop</p>
+                    <h2>Measure, set, validate</h2>
+                    <ol>
+                        <li>Confirm the JVM detects the pod's cgroup limits.</li>
+                        <li>Measure heap and native memory under realistic load.</li>
+                        <li>Set <code>-Xmx</code> or <code>MaxRAMPercentage</code> with explicit native headroom.</li>
+                        <li>Validate RSS, cache, and cgroup usage before production traffic does it for you.</li>
+                    </ol>
+                </section>
+
+                <section>
+                    <p class="eyebrow">Takeaways</p>
+                    <h2>A simple rule</h2>
+                    <ul>
+                        <li>Heap graphs do not explain the whole container.</li>
+                        <li>Java 17+ gives you better container awareness, but you should verify it.</li>
+                        <li>NMT, <code>jcmd</code>, JFR, and cgroup metrics are already in the JDK toolbox.</li>
+                        <li>Right-sizing is cheaper when it starts with measurement.</li>
+                    </ul>
+                </section>
+
+                <section class="center">
+                    <h2>Thank you</h2>
+                    <p>Carl Chesser</p>
+                    <p><small><a href="https://twitter.com/che55er">@che55er</a> | <a href="https://che55er.io/">che55er.io</a></small></p>
+                </section>
+            </div>
+        </div>
+        <div class="fragment-complete-indicator" aria-hidden="true">👍</div>
+
+        <script src="../_shared/reveal/dist/reveal.js"></script>
+        <script src="../_shared/reveal/dist/plugin/notes.js"></script>
+        <script src="../_shared/reveal/dist/plugin/highlight.js"></script>
+        <script>
+            document
+                .querySelectorAll('.reveal .slides section ul > li, .reveal .slides section ol > li')
+                .forEach((item) => item.classList.add('fragment'));
+
+            Reveal.initialize({
+                hash: true,
+                plugins: [ RevealHighlight, RevealNotes ]
+            });
+
+            const fragmentCompleteIndicator = document.querySelector('.fragment-complete-indicator');
+
+            function updateFragmentCompleteIndicator() {
+                const currentSlide = Reveal.getCurrentSlide();
+                const fragments = currentSlide ? Array.from(currentSlide.querySelectorAll('.fragment')) : [];
+                const isComplete = fragments.length > 0 && fragments.every((fragment) => fragment.classList.contains('visible'));
+
+                fragmentCompleteIndicator.classList.toggle('is-visible', isComplete);
+            }
+
+            Reveal.on('ready', updateFragmentCompleteIndicator);
+            Reveal.on('slidechanged', updateFragmentCompleteIndicator);
+            Reveal.on('fragmentshown', updateFragmentCompleteIndicator);
+            Reveal.on('fragmenthidden', updateFragmentCompleteIndicator);
+        </script>
+    </body>
+</html>
