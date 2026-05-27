@@ -563,6 +563,23 @@ Total: reserved=2161MB, committed=902MB
 
                 <section>
                     <p class="eyebrow">Read the buckets</p>
+                    <h2>Read one NMT bucket</h2>
+                    <pre class="compact"><code data-trim>
+- Thread (reserved=59260KB, committed=5588KB)
+          (threads #29)
+          (stack: reserved=59160KB, committed=5488KB)
+          (malloc=68KB tag=Thread #175)
+                    </code></pre>
+                    <ul>
+                        <li><code>29</code> JVM and application threads exist.</li>
+                        <li>Stacks reserve about <code>58MiB</code> of address space.</li>
+                        <li>Only about <code>5.5MiB</code> is committed right now.</li>
+                        <li>Thread count and <code>-Xss</code> change this budget.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <p class="eyebrow">Read the buckets</p>
                     <h2>What usually moves the number?</h2>
                     <ul>
                         <li><code>Class</code>: many loaded classes, frameworks, proxies, or hot redeploy behavior.</li>

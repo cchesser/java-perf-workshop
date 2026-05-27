@@ -162,4 +162,48 @@ maximum number of tasks: unlimited
 current number of tasks: 29
 ```
 
+## Memory references
+
+Java exposes the operating-system view through the platform MBean named
+`java.lang:type=OperatingSystem`. The standard `java.lang.management.OperatingSystemMXBean`
+identifies that MBean name. HotSpot also exposes the extended
+`com.sun.management.OperatingSystemMXBean` attributes that are useful for memory checks:
+
+| Attribute | Meaning |
+| --- | --- |
+| `TotalMemorySize` | Total memory visible to the JVM operating environment, in bytes. Since JDK 14. |
+| `FreeMemorySize` | Free memory visible to the JVM operating environment, in bytes. Since JDK 14. |
+| `TotalPhysicalMemorySize` | Deprecated historical name for `TotalMemorySize`. |
+| `FreePhysicalMemorySize` | Deprecated historical name for `FreeMemorySize`. |
+| `CommittedVirtualMemorySize` | Virtual memory guaranteed to be available to the running JVM process, in bytes, or `-1` if unsupported. |
+| `TotalSwapSpaceSize` | Total swap space visible to the JVM operating environment, in bytes. |
+| `FreeSwapSpaceSize` | Free swap space visible to the JVM operating environment, in bytes. |
+
+Those MBean attributes are OS/container-level signals. They do not split native memory into
+JVM categories like `Thread`, `Class`, `Code`, `GC`, `Compiler`, or `Internal`. Use Native
+Memory Tracking for that breakdown:
+
+```
+kubectl exec <pod-name> -- jcmd 1 VM.native_memory summary
+```
+
+References:
+
+- `java.lang.management.OperatingSystemMXBean`: https://docs.oracle.com/en/java/javase/11/docs/api/java.management/java/lang/management/OperatingSystemMXBean.html
+- `com.sun.management.OperatingSystemMXBean`: https://docs.oracle.com/en/java/javase/25/docs/api/jdk.management/com/sun/management/OperatingSystemMXBean.html
+- Native Memory Tracking: https://docs.oracle.com/en/java/javase/11/vm/native-memory-tracking.html
+
+```
 kubectl exec java-hello-world-56765fcf5d-mx7tq -- jcmd 1 GC.heap_info
+```
+
+
+
+
+kubectl port-forward java-hello-world-57cfc8d69f-k2sfj 9091:9091
+
+```
+❯ kubectl port-forward java-hello-world-57cfc8d69f-k2sfj 9091:9091                                                                                                               ─╯
+Forwarding from 127.0.0.1:9091 -> 9091
+Forwarding from [::1]:9091 -> 9091
+```
