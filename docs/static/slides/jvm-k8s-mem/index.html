@@ -63,20 +63,24 @@
             .fragment-complete-indicator {
                 align-items: center;
                 bottom: 0.9rem;
-                color: rgba(190, 230, 255, 0.42);
                 display: none;
-                font-size: 1rem;
-                height: 1.2rem;
+                height: 1.5rem;
                 justify-content: center;
-                line-height: 1;
                 position: fixed;
                 left: 0.9rem;
-                width: 1.2rem;
+                width: 1.5rem;
                 z-index: 40;
             }
 
             .fragment-complete-indicator.is-visible {
                 display: flex;
+            }
+
+            .fragment-complete-indicator img {
+                display: block;
+                height: 100%;
+                opacity: 0.38;
+                width: 100%;
             }
 
             .reveal code {
@@ -94,6 +98,21 @@
 
             .center {
                 text-align: center;
+            }
+
+            .title-eyebrow {
+                align-items: center;
+                display: inline-flex;
+                gap: 0.45rem;
+                justify-content: center;
+            }
+
+            .title-bolt {
+                background: #6ee7ff;
+                clip-path: polygon(48% 0, 82% 0, 62% 39%, 91% 39%, 35% 100%, 48% 55%, 20% 55%);
+                display: block;
+                height: 1rem;
+                width: 0.62rem;
             }
 
             .eyebrow {
@@ -271,10 +290,23 @@
         <div class="reveal">
             <div class="slides">
                 <section class="center">
-                    <p class="eyebrow">Lightning talk</p>
-                    <h1>A Practical Guide to JVM Native Memory in Kubernetes</h1>
-                    <p>Carl Chesser</p>
-                    <p><small><a href="https://twitter.com/che55er">@che55er</a> | <a href="https://che55er.io/">che55er.io</a></small></p>
+                    <p class="eyebrow title-eyebrow">
+                        <span class="title-bolt" aria-hidden="true"></span>
+                        <span>Lightning talk</span>
+                    </p>
+                    <h2>A Practical Guide to JVM Native Memory in Kubernetes</h2>
+                    <img src="../_shared/img/logo.svg" width="200"/>
+
+                    <table>
+                        <tr>
+                            <td style="vertical-align: middle;"><img src="../_shared/img/me.png" width="100" /></td>
+                            <td style="vertical-align: middle;">
+                                Carl Chesser
+                                <br />
+                                <small><a href="https://twitter.com/che55er">@che55er</a> | <a href="https://che55er.io/">che55er.io</a></small>
+                            </td>
+                        </tr>
+                    </table>
                 </section>
 
                 <section>
@@ -282,7 +314,7 @@
                     <h2>Heap tuning is not container tuning</h2>
                     <ul>
                         <li>The heap is only one part of JVM memory.</li>
-                        <li>Kubernetes limits count the whole process.</li>
+                        <li>Kubernetes limits appl to the whole OS process.</li>
                         <li>Native memory can quietly eat the headroom.</li>
                     </ul>
                 </section>
@@ -365,32 +397,7 @@ resources:
     memory: "1Gi"    # cgroup hard boundary for the process
     cpu: "1"
                     </code></pre>
-                    <p class="muted">The JVM sees the memory limit through cgroups; Kubernetes schedules mostly from the request.</p>
-                </section>
-
-                <section>
-                    <p class="eyebrow">Linux control groups</p>
-                    <h2>A cgroup is the container's resource account</h2>
-                    <ul>
-                        <li>Linux control groups group processes and track their CPU, memory, I/O, and process usage.</li>
-                        <li>The kubelet and container runtime place the container process into a cgroup.</li>
-                        <li>Kubernetes limits become cgroup settings; the kernel does the measuring and enforcement.</li>
-                        <li>The JVM reads those cgroup settings to size heap and report container metrics.</li>
-                    </ul>
-                </section>
-
-                <section>
-                    <p class="eyebrow">What gets written</p>
-                    <h2>Limits become kernel control files</h2>
-                    <pre class="compact"><code data-trim>
-# cgroup v2 examples
-memory.max = 1073741824     # 1Gi memory limit
-cpu.max    = 100000 100000  # 1 CPU quota / period
-
-# cgroup v1 names differ, but the idea is the same:
-# memory.limit_in_bytes, cpu.cfs_quota_us, cpu.cfs_period_us
-                    </code></pre>
-                    <p class="muted">This is why JVM tools report cgroup provider, memory limit, CPU quota, and active processor count.</p>
+                    <p class="muted">Requests ask Kubernetes to place the pod where at least that much capacity is available. Limits are the hard cgroup boundary the process must stay under.</p>
                 </section>
 
                 <section>
@@ -421,8 +428,8 @@ java -Xlog:os+container=debug -version
 $ java -XshowSettings:system -version
 Operating System Metrics:
     Provider: cgroupv2
-    Effective CPU Count: 2
-    CPU Quota: 200000us
+    Effective CPU Count: 1
+    CPU Quota: 100000us
     CPU Period: 100000us
     Memory Limit: 1.00G
     Memory &amp; Swap Limit: 1.00G
@@ -434,35 +441,11 @@ Operating System Metrics:
                     <p class="eyebrow">Read it</p>
                     <h2>What those fields tell you</h2>
                     <ul>
-                        <li><code>Provider: cgroupv2</code> tells you how Linux is measuring this container.</li>
+                        <li><code>Provider: cgroupv2</code> means the JVM is reading Linux's unified cgroup hierarchy, available since Linux 4.5 in 2016.</li>
                         <li><code>Memory Limit: 1.00G</code> is the ceiling for heap plus native memory.</li>
-                        <li><code>Effective CPU Count: 2</code> influences GC threads, JIT threads, and application parallelism.</li>
+                        <li><code>Effective CPU Count: 1</code> influences GC threads, JIT threads, and application parallelism.</li>
                         <li><code>CPU Quota</code> and <code>CPU Period</code> should line up with the deployment CPU limit.</li>
                     </ul>
-                </section>
-
-                <section>
-                    <p class="eyebrow">Cgroup mental model</p>
-                    <h2>The kernel enforces the ledger</h2>
-                    <ul>
-                        <li>Memory is charged as pages are used: heap, native allocations, stacks, mappings, and cache.</li>
-                        <li>If usage crosses <code>memory.max</code>, the kernel OOM path can kill a process in that cgroup.</li>
-                        <li>CPU limits are different: the kernel throttles runtime when quota is exhausted.</li>
-                        <li>Kubernetes observes the result and reports states like <code>OOMKilled</code>.</li>
-                    </ul>
-                </section>
-
-                <section>
-                    <p class="eyebrow">Debug only</p>
-                    <h2><code>-Xlog:os+container</code> explains detection</h2>
-                    <pre class="compact"><code data-trim>
-$ java -Xlog:os+container=debug -version
-[debug][os,container] Detected cgroups v2 unified hierarchy
-[debug][os,container] Memory Limit is: 1073741824
-[debug][os,container] CPU Quota is: 200000
-[debug][os,container] CPU Period is: 100000
-                    </code></pre>
-                    <p class="muted">It shows how the JVM discovered container limits. Use it when heap size, CPU count, or <code>VM.info</code> do not match the pod spec.</p>
                 </section>
 
                 <section>
@@ -549,24 +532,13 @@ JAVA_TOOL_OPTIONS="-XX:ThreadStackSize=512"
                 </section>
 
                 <section>
-                    <p class="eyebrow">Thread budget</p>
-                    <h2>OS threads vs virtual threads</h2>
-                    <ul>
-                        <li>Classic Java threads map one-to-one to OS threads, so <code>-Xss</code> affects each one.</li>
-                        <li>Virtual threads are Java-managed and do not each reserve a dedicated native stack.</li>
-                        <li>Virtual threads still run on carrier OS threads; those carrier threads still have stacks.</li>
-                        <li>Use <code>jcmd Thread.print</code>, JFR, or app metrics to separate OS-backed threads from virtual-thread counts.</li>
-                        <li>Lower <code>-Xss</code> carefully; too small can turn deep call paths into <code>StackOverflowError</code>.</li>
-                    </ul>
-                </section>
-
-                <section>
                     <p class="eyebrow">Built-in tools</p>
                     <h2>Native Memory Tracking gives you the map</h2>
                     <ul>
                         <li>Enable NMT with <code>-XX:NativeMemoryTracking=summary</code>.</li>
+                        <li>It adds native-allocation bookkeeping overhead; <code>summary</code> is lighter than <code>detail</code>.</li>
                         <li>Use <code>jcmd</code> against the running JVM.</li>
-                        <li>Start with the big buckets before chasing detail.</li>
+                        <li>Use it in load tests or targeted production windows, then start with the big buckets.</li>
                     </ul>
                 </section>
 
@@ -614,17 +586,6 @@ jcmd &lt;pid&gt; VM.native_memory summary.diff
                 </section>
 
                 <section>
-                    <p class="eyebrow">JDK toolbox</p>
-                    <h2>Use the runtime, not folklore</h2>
-                    <div class="tool-list">
-                        <div><code>jcmd VM.info</code>: detected cgroup limits and JVM ergonomics</div>
-                        <div><code>jcmd VM.native_memory</code>: native buckets and deltas</div>
-                        <div><code>jcmd JFR.start</code>: low-overhead timeline for heap, GC, allocation, and threads</div>
-                        <div><code>jcmd GC.heap_info</code>: quick heap capacity and region view</div>
-                    </div>
-                </section>
-
-                <section>
                     <p class="eyebrow">Example</p>
                     <h2><code>jcmd VM.info</code> ties it together</h2>
                     <pre class="compact"><code data-trim>
@@ -633,9 +594,9 @@ container (cgroup) information:
     container_type: cgroupv2
     memory_limit_in_bytes: 1073741824
     memory_and_swap_limit_in_bytes: 1073741824
-    cpu_quota: 200000
+    cpu_quota: 100000
     cpu_period: 100000
-    active_processor_count: 2
+    active_processor_count: 1
                     </code></pre>
                     <p class="muted">Capture this beside pod spec, heap settings, and load-test results.</p>
                 </section>
@@ -654,7 +615,7 @@ Total: reserved=1842MB, committed=832MB
 - Class     (reserved=1040MB, committed=82MB)
 - Code      (reserved=248MB, committed=55MB)
                     </code></pre>
-                    <p class="muted">NMT explains JVM categories to budget; cgroup usage is the kernel charge that decides the kill.</p>
+                    <p class="muted"><code>GC.heap_info</code> is collector-specific; NMT explains JVM categories to budget, and cgroup usage decides the kill.</p>
                 </section>
 
                 <section>
@@ -679,20 +640,6 @@ container (cgroup) memory:
     cache: 170659840
                     </code></pre>
                     <p class="muted">That cache segment explains why process RSS can be below the cgroup usage that triggers a kill.</p>
-                </section>
-
-                <section>
-                    <p class="eyebrow">ZGC timeline</p>
-                    <h2>Generational ZGC arrived after Java 17</h2>
-                    <ul>
-                        <li>JDK 21, September 2023: available with <code>-XX:+UseZGC -XX:+ZGenerational</code>.</li>
-                        <li>JDK 23, September 2024: default mode when using <code>-XX:+UseZGC</code>.</li>
-                        <li>JDK 24: non-generational ZGC was removed.</li>
-                        <li>Why care here? Lower GC overhead can reduce the heap cushion needed for latency-sensitive services.</li>
-                        <li>Less heap cushion can mean lower pod limits and requests after validation.</li>
-                        <li>Measure total cgroup usage; a lower heap does not automatically mean a lower container bill.</li>
-                        <li>G1 remains sensible for many containers; use ZGC when latency goals justify the tradeoff.</li>
-                    </ul>
                 </section>
 
                 <section>
@@ -724,7 +671,9 @@ container (cgroup) memory:
                 </section>
             </div>
         </div>
-        <div class="fragment-complete-indicator" aria-hidden="true">👍</div>
+        <div class="fragment-complete-indicator" aria-hidden="true">
+            <img src="../_shared/img/logo.svg" alt="" />
+        </div>
 
         <script src="../_shared/reveal/dist/reveal.js"></script>
         <script src="../_shared/reveal/dist/plugin/notes.js"></script>
