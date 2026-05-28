@@ -1,0 +1,54 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: java-hello-world
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: java-hello-world
+  template:
+    metadata:
+      labels:
+        app: java-hello-world
+    spec:
+      containers:
+      - name: java-app
+        image: jvmperf.net/java-hello-world:v1
+        env:
+        - name: JAVA_TOOL_OPTIONS
+          value: >
+            -Xlog:os+container=debug
+            -XX:NativeMemoryTracking=summary
+            -XX:+UseG1GC
+            -XX:+FlightRecorder
+            -XX:StartFlightRecording=filename=/tmp/startup.jfr,dumponexit=true
+            -Dcom.sun.management.jmxremote=true
+            -Dcom.sun.management.jmxremote.port=9091
+            -Dcom.sun.management.jmxremote.rmi.port=9091
+            -Dcom.sun.management.jmxremote.authenticate=false
+            -Dcom.sun.management.jmxremote.ssl=false
+            -Djava.rmi.server.hostname=127.0.0.1
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "1Gi"
+            cpu: "1"
+        ports:
+        - containerPort: 8080
+        - containerPort: 9091
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: java-hello-world-service
+spec:
+  selector:
+    app: java-hello-world
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+  type: NodePort
