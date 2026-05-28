@@ -1,0 +1,825 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+        <title>A Practical Guide to JVM Native Memory in Kubernetes</title>
+
+        <link rel="stylesheet" href="../_shared/reveal/dist/reset.css">
+        <link rel="stylesheet" href="../_shared/reveal/dist/reveal.css">
+        <link rel="stylesheet" href="../_shared/reveal/dist/theme/black.css">
+        <link rel="stylesheet" href="../_shared/reveal/dist/plugin/highlight/monokai.css">
+
+        <style>
+            :root {
+                --r-main-font-size: 34px;
+                --r-heading-text-transform: none;
+                --r-heading-letter-spacing: 0;
+                --r-link-color: #6ee7ff;
+                --r-selection-background-color: #1f9d8a;
+            }
+
+            .reveal .slides {
+                text-align: left;
+            }
+
+            .reveal h1,
+            .reveal h2,
+            .reveal h3 {
+                letter-spacing: 0;
+            }
+
+            .reveal h1 {
+                font-size: 2.35em;
+            }
+
+            .reveal h2 {
+                font-size: 1.6em;
+            }
+
+            .reveal ul {
+                display: block;
+            }
+
+            .reveal li {
+                margin: 0.35em 0;
+            }
+
+            .reveal .slides li.fragment {
+                transition: opacity 180ms ease, filter 180ms ease;
+            }
+
+            .reveal .slides li.fragment.visible:not(.current-fragment) {
+                filter: saturate(0.7);
+                opacity: 0.45;
+            }
+
+            .reveal .slides li.fragment.current-fragment {
+                filter: none;
+                opacity: 1;
+            }
+
+            .fragment-complete-indicator {
+                align-items: center;
+                bottom: 0.9rem;
+                display: none;
+                height: 1.5rem;
+                justify-content: center;
+                position: fixed;
+                left: 0.9rem;
+                width: 1.5rem;
+                z-index: 40;
+            }
+
+            .fragment-complete-indicator.is-visible {
+                display: flex;
+            }
+
+            .fragment-complete-indicator img {
+                display: block;
+                height: 100%;
+                opacity: 0.38;
+                width: 100%;
+            }
+
+            .reveal code {
+                color: #9effa8;
+            }
+
+            .reveal pre code {
+                max-height: none;
+            }
+
+            .reveal pre.compact code {
+                font-size: 0.72em;
+                line-height: 1.18;
+            }
+
+            .center {
+                text-align: center;
+            }
+
+            .title-eyebrow {
+                align-items: center;
+                display: inline-flex;
+                gap: 0.45rem;
+                justify-content: center;
+            }
+
+            .title-bolt {
+                background: #6ee7ff;
+                clip-path: polygon(48% 0, 82% 0, 62% 39%, 91% 39%, 35% 100%, 48% 55%, 20% 55%);
+                display: block;
+                height: 1rem;
+                width: 0.62rem;
+            }
+
+            .closing-photo {
+                border-radius: 50%;
+                margin-top: 1rem;
+                width: 190px;
+            }
+
+            .celebration-title {
+                display: inline-block;
+                position: relative;
+            }
+
+            .closing-slide {
+                display: grid !important;
+                grid-template-rows: minmax(0, 0.82fr) auto auto minmax(0, 0.95fr);
+                height: 100%;
+                place-items: center;
+            }
+
+            .closing-logo {
+                grid-row: 3;
+                width: 230px;
+            }
+
+            .closing-contact {
+                grid-row: 4;
+            }
+
+            .closing-slide .celebration-title {
+                grid-row: 2;
+            }
+
+            .celebration-title::before,
+            .celebration-title::after,
+            .celebration-confetti,
+            .celebration-confetti-extra {
+                animation: confetti-sprinkle 0.95s linear infinite;
+                background:
+                    radial-gradient(circle, #6ee7ff 0 34%, transparent 36%) 2% 78% / 0.2rem 0.2rem,
+                    radial-gradient(circle, rgba(110, 231, 255, 0.72) 0 30%, transparent 32%) 10% 64% / 0.18rem 0.18rem,
+                    radial-gradient(circle, #6ee7ff 0 30%, transparent 32%) 18% 72% / 0.22rem 0.22rem,
+                    linear-gradient(45deg, transparent 35%, #6ee7ff 36% 64%, transparent 65%) 26% 58% / 0.24rem 0.24rem,
+                    radial-gradient(circle, rgba(110, 231, 255, 0.72) 0 30%, transparent 32%) 34% 80% / 0.18rem 0.18rem,
+                    radial-gradient(circle, #6ee7ff 0 34%, transparent 36%) 42% 66% / 0.2rem 0.2rem,
+                    linear-gradient(-35deg, transparent 35%, rgba(110, 231, 255, 0.72) 36% 64%, transparent 65%) 50% 74% / 0.24rem 0.24rem,
+                    radial-gradient(circle, #6ee7ff 0 30%, transparent 32%) 58% 60% / 0.2rem 0.2rem,
+                    radial-gradient(circle, rgba(110, 231, 255, 0.72) 0 30%, transparent 32%) 66% 78% / 0.18rem 0.18rem,
+                    linear-gradient(45deg, transparent 35%, #6ee7ff 36% 64%, transparent 65%) 74% 66% / 0.22rem 0.22rem,
+                    radial-gradient(circle, #6ee7ff 0 32%, transparent 34%) 82% 82% / 0.18rem 0.18rem,
+                    radial-gradient(circle, rgba(110, 231, 255, 0.72) 0 30%, transparent 32%) 90% 62% / 0.2rem 0.2rem,
+                    radial-gradient(circle, #6ee7ff 0 30%, transparent 32%) 98% 76% / 0.18rem 0.18rem;
+                background-repeat: no-repeat;
+                content: "";
+                inset: -2.4rem -3.2rem -0.5rem;
+                opacity: 0;
+                pointer-events: none;
+                position: absolute;
+            }
+
+            .celebration-title::after {
+                animation-delay: 0.38s;
+                background-position: 6% 84%, 14% 70%, 22% 62%, 30% 82%, 38% 68%, 46% 76%, 54% 60%, 62% 84%, 70% 70%, 78% 80%, 86% 64%, 94% 74%, 100% 66%;
+            }
+
+            .celebration-confetti {
+                animation-delay: 0.48s;
+                background-position: 4% 66%, 12% 82%, 20% 70%, 28% 64%, 36% 78%, 44% 58%, 52% 82%, 60% 68%, 68% 76%, 76% 60%, 84% 80%, 92% 68%, 99% 84%;
+            }
+
+            .celebration-confetti-extra {
+                animation-delay: 0.72s;
+                background-position: 1% 68%, 9% 86%, 17% 60%, 25% 76%, 33% 66%, 41% 84%, 49% 62%, 57% 74%, 65% 88%, 73% 64%, 81% 72%, 89% 84%, 97% 58%;
+            }
+
+            @keyframes confetti-sprinkle {
+                0% {
+                    opacity: 0;
+                    transform: translateY(0.25rem) scale(0.8) rotate(0deg);
+                }
+                12% {
+                    opacity: 1;
+                }
+                70% {
+                    opacity: 0.75;
+                }
+                100% {
+                    opacity: 0;
+                    transform: translateY(-1.6rem) scale(1.05) rotate(14deg);
+                }
+            }
+
+            @media (prefers-reduced-motion: reduce) {
+                .celebration-title::before,
+                .celebration-title::after,
+                .celebration-confetti,
+                .celebration-confetti-extra {
+                    animation: none;
+                    opacity: 1;
+                }
+            }
+
+            .eyebrow {
+                color: #6ee7ff;
+                font-size: 0.72em;
+                font-weight: 700;
+                letter-spacing: 0;
+                margin-bottom: 0.75rem;
+                text-transform: uppercase;
+            }
+
+            .two-column {
+                align-items: stretch;
+                display: grid;
+                gap: 1.2rem;
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .panel {
+                border: 1px solid rgba(255, 255, 255, 0.24);
+                border-radius: 6px;
+                padding: 0.85em;
+            }
+
+            .muted {
+                color: #c8d0d6;
+            }
+
+            .blue-accent {
+                color: #6ee7ff;
+            }
+
+            .icon-heading {
+                align-items: center;
+                display: flex;
+                gap: 0.5rem;
+            }
+
+            .heading-icon {
+                color: #6ee7ff;
+                font-size: 0.95em;
+                line-height: 1;
+            }
+
+            .eyebrow-icon {
+                color: #6ee7ff;
+                font-size: 0.9em;
+                margin-right: 0.3rem;
+            }
+
+            .diagnostic-grid {
+                align-items: start;
+            }
+
+            .diagnostic-grid pre {
+                margin: 0;
+                width: 100%;
+            }
+
+            .field-notes {
+                font-size: 0.72em;
+                line-height: 1.2;
+                margin-top: 0;
+            }
+
+            .reveal .slides section.wide-slide {
+                margin-left: -7.5%;
+                width: 115%;
+            }
+
+            .wide-slide .field-notes {
+                font-size: 0.86em;
+            }
+
+            .wide-slide pre.compact code {
+                font-size: 0.86em;
+            }
+
+            .reveal .slides section.video-slide {
+                align-items: center;
+                display: flex;
+                height: 100%;
+                justify-content: center;
+            }
+
+            .jmc-video {
+                background: #05070a;
+                height: 100%;
+                max-height: none;
+                max-width: none;
+                object-fit: contain;
+                width: 100%;
+            }
+
+            .reveal .slides section.jmc-video-slide {
+                position: relative;
+            }
+
+            .jmc-video-slide .jmc-video-label {
+                bottom: 0;
+                color: #05070a;
+                position: absolute;
+                right: 0;
+                text-align: right;
+                transform: none;
+                z-index: 2;
+            }
+
+            .jmc-video-slide .jmc-video-label h2,
+            .jmc-video-slide .jmc-video-label p {
+                color: inherit;
+                margin: 0;
+            }
+
+            .jmc-video-slide .jmc-video-label p {
+                font-size: 0.72em;
+                margin-top: 0.2rem;
+            }
+
+            .metric {
+                color: #9effa8;
+                font-size: 2.2em;
+                font-weight: 800;
+                line-height: 1;
+            }
+
+            .memory-map {
+                display: grid;
+                gap: 0.55rem;
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .memory-map div {
+                border-left: 4px solid #6ee7ff;
+                padding: 0.25em 0.6em;
+            }
+
+            .capacity-visual {
+                display: grid;
+                gap: 0.75rem;
+            }
+
+            .capacity-labels {
+                align-items: end;
+                display: flex;
+                justify-content: space-between;
+            }
+
+            .capacity-total {
+                color: #6ee7ff;
+                font-size: 1.45em;
+                font-weight: 800;
+            }
+
+            .capacity-bar {
+                background: rgba(255, 255, 255, 0.1);
+                border: 2px solid rgba(255, 255, 255, 0.42);
+                border-radius: 6px;
+                display: flex;
+                height: 3.3rem;
+                overflow: hidden;
+            }
+
+            .capacity-segment {
+                align-items: center;
+                color: #05070a;
+                display: flex;
+                font-size: 0.55em;
+                font-weight: 800;
+                justify-content: center;
+                line-height: 1.1;
+                min-width: 0;
+                padding: 0 0.25rem;
+                text-align: center;
+            }
+
+            .heap-segment {
+                background: #9effa8;
+                width: 55%;
+            }
+
+            .thread-segment {
+                background: #6ee7ff;
+                width: 12%;
+            }
+
+            .meta-segment {
+                background: #ffde7a;
+                width: 9%;
+            }
+
+            .direct-segment {
+                background: #ff9f7a;
+                width: 8%;
+            }
+
+            .jvm-segment {
+                background: #d3a4ff;
+                width: 6%;
+            }
+
+            .margin-segment {
+                background: repeating-linear-gradient(
+                    135deg,
+                    rgba(255, 255, 255, 0.25),
+                    rgba(255, 255, 255, 0.25) 8px,
+                    rgba(255, 255, 255, 0.08) 8px,
+                    rgba(255, 255, 255, 0.08) 16px
+                );
+                color: #fff;
+                width: 10%;
+            }
+
+            .capacity-legend {
+                display: grid;
+                gap: 0.35rem 0.8rem;
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                font-size: 0.65em;
+            }
+
+            .capacity-legend span {
+                align-items: center;
+                display: flex;
+                gap: 0.35rem;
+            }
+
+            .swatch {
+                border-radius: 2px;
+                display: inline-block;
+                height: 0.75rem;
+                width: 0.75rem;
+            }
+
+            .tool-list {
+                display: grid;
+                gap: 0.55rem;
+            }
+
+            .tool-list div {
+                border-left: 4px solid #9effa8;
+                padding: 0.2em 0.65em;
+            }
+
+            @media (max-width: 760px) {
+                :root {
+                    --r-main-font-size: 28px;
+                }
+
+                .two-column,
+                .memory-map,
+                .capacity-legend {
+                    grid-template-columns: 1fr;
+                }
+
+                .capacity-bar {
+                    height: 2.7rem;
+                }
+
+                .capacity-segment {
+                    font-size: 0.42em;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="reveal">
+            <div class="slides">
+                <section class="center">
+                    <p class="eyebrow title-eyebrow">
+                        <span class="title-bolt" aria-hidden="true"></span>
+                        <span>Lightning talk</span>
+                    </p>
+                    <h2>A Practical Guide to JVM Native Memory in Kubernetes</h2>
+                    <img src="../_shared/img/logo.svg" width="200"/>
+
+                    <table>
+                        <tr>
+                            <td style="vertical-align: middle;"><img src="../_shared/img/me.png" width="100" /></td>
+                            <td style="vertical-align: middle;">
+                                Carl Chesser
+                                <br />
+                                <small><a href="https://twitter.com/che55er">@che55er</a> | <a href="https://che55er.io/">che55er.io</a></small>
+                            </td>
+                        </tr>
+                    </table>
+                </section>
+
+                <section>
+                    <p class="eyebrow">The trap</p>
+                    <h2>Heap tuning is not container tuning</h2>
+                    <ul>
+                        <li>The heap is only one part of JVM memory.</li>
+                        <li>Kubernetes limits apply to the whole OS process.</li>
+                        <li>Native memory can quietly eat the headroom.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <p class="eyebrow">The symptom</p>
+                    <h2>More memory, same surprise</h2>
+                    <div class="two-column">
+                        <div class="panel">
+                            <div class="metric">OOMKilled</div>
+                            <p class="muted">The container crosses its memory limit, even when heap graphs look calm.</p>
+                        </div>
+                        <div class="panel">
+                            <div class="metric">$$$</div>
+                            <p class="muted">Teams raise requests and limits "just to be safe", then pay for unused capacity.</p>
+                        </div>
+                    </div>
+                </section>
+
+                <section>
+                    <p class="eyebrow">The real budget</p>
+                    <h2>What has to fit inside the pod limit?</h2>
+                    <div class="capacity-visual">
+                        <div class="capacity-labels">
+                            <span class="muted">0</span>
+                            <span class="capacity-total">Pod memory limit</span>
+                            <span class="muted">100%</span>
+                        </div>
+                        <div class="capacity-bar" aria-label="Pod memory capacity split across JVM memory categories">
+                            <div class="capacity-segment heap-segment">Heap</div>
+                            <div class="capacity-segment thread-segment">Threads</div>
+                            <div class="capacity-segment meta-segment">Meta</div>
+                            <div class="capacity-segment direct-segment">Direct Buffers</div>
+                            <div class="capacity-segment jvm-segment">Code Cache</div>
+                            <div class="capacity-segment margin-segment">Margin</div>
+                        </div>
+                        <div class="capacity-legend">
+                            <span><i class="swatch heap-segment"></i>Java heap</span>
+                            <span><i class="swatch thread-segment"></i>Thread stacks</span>
+                            <span><i class="swatch meta-segment"></i>Metaspace/classes</span>
+                            <span><i class="swatch direct-segment"></i>Direct buffers</span>
+                            <span><i class="swatch jvm-segment"></i>Code cache, GC, JIT</span>
+                            <span><i class="swatch margin-segment"></i>Safety margin</span>
+                        </div>
+                    </div>
+                    <p class="muted">Use the whole container, but keep explicit margin; padding limits blindly hides the real budget.</p>
+                </section>
+
+                <section>
+                    <p class="eyebrow">Kubernetes controls</p>
+                    <h2>Requests schedule, limits enforce</h2>
+                    <pre class="compact"><code data-trim>
+resources:
+  requests:
+    memory: "768Mi"  # scheduler reserves this much node capacity
+    cpu: "500m"
+  limits:
+    memory: "1Gi"    # cgroup hard boundary for the process
+    cpu: "1"
+                    </code></pre>
+                    <p class="muted"><span class="blue-accent">Requests</span> ask Kubernetes to place the pod where at least that much capacity is available. <span class="blue-accent">Limits</span> are the hard cgroup boundary the process must stay under.</p>
+                </section>
+
+                <section>
+                    <p class="eyebrow">Java 17+</p>
+                    <h2>The JVM now sees more of the container</h2>
+                    <ul>
+                        <li>Java 17 includes cgroups v2 support and container-aware OS metrics.</li>
+                        <li>Heap ergonomics can size from the container limit, not the node.</li>
+                        <li>JDK 23 and newer 17/21 updates expose better cgroup memory details in diagnostics.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <p class="eyebrow">First check</p>
+                    <h2>Prove the JVM sees your limit</h2>
+                    <pre><code data-trim>
+java -XshowSettings:system -version
+jcmd &lt;pid&gt; VM.info
+java -Xlog:os+container=debug -version
+                    </code></pre>
+                    <p class="muted">Use the first two for normal checks; use logging when the JVM's view looks wrong.</p>
+                </section>
+
+                <section>
+                    <p class="eyebrow">Example</p>
+                    <h2><code>-XshowSettings:system</code> surfaces cgroups</h2>
+                    <div class="two-column diagnostic-grid">
+                        <pre class="compact"><code data-trim>
+$ java -XshowSettings:system -version
+Operating System Metrics:
+    Provider: cgroupv2
+    Effective CPU Count: 1
+    CPU Quota: 100000us
+    CPU Period: 100000us
+    Memory Limit: 1.00G
+    Memory &amp; Swap Limit: 1.00G
+                        </code></pre>
+                        <ul class="field-notes">
+                            <li><code>Provider: cgroupv2</code> means the JVM is reading Linux's unified cgroup hierarchy, available since Linux 4.5 in 2016.</li>
+                            <li><code>Memory Limit: 1.00G</code> is the ceiling for heap plus native memory.</li>
+                            <li><code>Effective CPU Count: 1</code> influences GC threads, JIT threads, and application parallelism.</li>
+                            <li><code>CPU Quota</code> and <code>CPU Period</code> should line up with the deployment CPU limit.</li>
+                        </ul>
+                    </div>
+                    <p class="muted">This is the quick "am I sizing from the pod or the node?" check.</p>
+                </section>
+
+                <section>
+                    <p class="eyebrow">Example</p>
+                    <h2>Set <code>MaxRAMPercentage</code> in the pod spec</h2>
+                    <pre><code data-trim>
+# heap budget = limit - observed native memory - safety margin
+1Gi limit - 220Mi native - 190Mi margin = 614Mi heap
+
+614Mi / 1024Mi = 60%
+</code></pre>
+<pre><code data-trim>
+env:
+- name: JAVA_TOOL_OPTIONS
+  value: &gt;
+    -XX:MaxRAMPercentage=60
+                    </code></pre>
+                    <p class="muted">Measure native memory under load first; use a lower percentage (default is 25%) for thread-heavy services, then increase % as you understand native memory needs.</p>
+                </section>
+
+                <section>
+                    <p class="eyebrow">Native threads</p>
+                    <h2>Every OS thread brings a stack</h2>
+                    <p>HotSpot Linux/x64 default is commonly 1024 KB per OS thread</p>
+                    <pre><code data-trim>
+500 OS threads * 1MiB stack = 500MiB reserved
+</code></pre>
+<code><pre>
+env:
+- name: JAVA_TOOL_OPTIONS
+  value: &gt;
+    -Xss512k</code></pre>
+                    <p class="muted">The JVM default is intentionally roomy. Lowering <code>-Xss</code> can reclaim native headroom when a process has many OS-backed threads.</p>
+                </section>
+
+                <section>
+                    <p class="eyebrow">Built-in tools</p>
+                    <h2>Native Memory Tracking gives you the map</h2>
+                    <ul>
+                        <li>Enable NMT with <code>-XX:NativeMemoryTracking=summary</code>.</li>
+                        <li>It adds native-allocation bookkeeping overhead; <code>summary</code> is lighter than <code>detail</code>.</li>
+                        <li>Use <code>jcmd</code> against the running JVM.</li>
+                        <li>Use it in load tests or targeted production windows, then start with the big buckets.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <p class="eyebrow">Java 17+ example</p>
+                    <h2>A useful NMT summary shape</h2>
+                    <pre><code data-trim>
+kubectl exec hello-world-8675d6cff9-b8v6x -- jcmd 1 VM.native_memory summary</code></pre>
+                    <pre><code data-trim>
+Total: reserved=1677076KB, committed=43616KB
+
+- Java Heap (reserved=262144KB, committed=16384KB)
+- Class (reserved=1048664KB, committed=280KB)
+- Thread (reserved=30653KB, committed=1141KB)
+- Code (reserved=249735KB, committed=7735KB)
+- GC (reserved=860KB, committed=64KB)
+- Compiler (reserved=200KB, committed=200KB)
+- Internal (reserved=1228KB, committed=1228KB)
+- Other (reserved=16KB, committed=16KB)
+- Symbol (reserved=1157KB, committed=1157KB)
+- Native Memory Tracking (reserved=131KB, committed=131KB)
+                    </code></pre>
+                    <p class="muted">Heap appears here for context; the native budget is mostly everything outside the Java heap.</p>
+                </section>
+
+                <section class="wide-slide">
+                    <p class="eyebrow"><span class="eyebrow-icon" aria-hidden="true">🪣</span> Read the buckets</p>
+                    <h2>Read one NMT bucket</h2>
+                    <div class="two-column diagnostic-grid">
+                        <pre class="compact"><code data-trim>
+- Thread (reserved=59260KB, committed=5588KB)
+          (threads #29)
+          (stack: reserved=59160KB, committed=5488KB)
+          (malloc=68KB tag=Thread #175)
+                        </code></pre>
+                        <ul class="field-notes">
+                            <li><code>29</code> JVM and application threads exist.</li>
+                            <li>Stacks reserve about <code>58MB</code> of address space.</li>
+                            <li>About <code>5.5MB</code> is backed by real memory and can count toward pressure.</li>
+                            <li>Thread count and <code>-Xss</code> change this budget.</li>
+                        </ul>
+                    </div>
+                </section>
+
+                <section>
+                    <p class="eyebrow"><span class="eyebrow-icon" aria-hidden="true">🪣</span> Read the buckets</p>
+                    <h2>What usually moves the number?</h2>
+                    <ul>
+                        <li><code>Class</code>: many loaded classes, frameworks, proxies, or hot redeploy behavior.</li>
+                        <li><code>Thread</code>: large servlet pools, scheduler pools, Kafka consumers, or blocking I/O.</li>
+                        <li><code>Code</code>: lots of hot methods compiled by the JIT over time.</li>
+                        <li><code>GC</code>: bigger heaps, more regions, remembered sets, and collector worker data.</li>
+                    </ul>
+                </section>
+
+                <section>
+                    <p class="eyebrow">Workflow</p>
+                    <h2>Get a picture in minutes</h2>
+                    <pre><code data-trim>
+jcmd &lt;pid&gt; VM.native_memory summary
+jcmd &lt;pid&gt; VM.native_memory baseline
+# run representative load
+jcmd &lt;pid&gt; VM.native_memory summary.diff
+                    </code></pre>
+                    <p class="muted">The goal is not perfect accounting. The goal is to stop guessing.</p>
+                </section>
+
+                <section>
+                    <p class="eyebrow"><span class="eyebrow-icon" aria-hidden="true">🚀</span>Java Flight Recorder</p>
+                    <h2>Record heap behavior during tests</h2>
+                    <pre><code data-trim>
+env:
+- name: JAVA_TOOL_OPTIONS
+  value: &gt;
+    -XX:+FlightRecorder
+    -XX:StartFlightRecording=filename=/tmp/load-test.jfr,dumponexit=true</code></pre>
+                    <pre><code data-trim>
+kubectl exec &lt;pod&gt; -- jcmd &lt;pid&gt; JFR.dump filename=/tmp/load-test.jfr
+kubectl cp &lt;pod&gt;:/tmp/load-test.jfr ./load-test.jfr
+                    </code></pre>
+                    <p class="muted">Open the recording in JDK Mission Control to review heap usage, allocation pressure, and GC behavior across the test window.</p>
+                </section>
+
+                <section class="jmc-video-slide" data-background-video="video/jmc-example.mp4" 
+                data-background-video-loop data-background-size="cover" >
+                    <div class="jmc-video-label">
+                        <h2>JDK Mission Control</h2>
+                        <p>Utilize NMT through diagnostic calls</p>
+                    </div>
+                </section>
+
+                <section>
+                    <p class="eyebrow">Compare</p>
+                    <h2><code>jcmd</code> plus NMT explains the gap</h2>
+                    <pre><code data-trim>
+> jcmd 1 GC.heap_info
+garbage-first heap   total reserved 262144K, committed 18432K, used 2925K 
+
+> jcmd 1 VM.native_memory summary
+Total: reserved=1726277KB, committed=80765KB
+- Java Heap (reserved=262144KB, committed=18432KB)
+- Class (reserved=1048665KB, committed=281KB)
+- Thread (reserved=40867KB, committed=1219KB)
+- Code (reserved=249739KB, committed=7739KB)
+                    </code></pre>
+                    <p class="muted">For Java heap, NMT's <code>reserved</code> and <code>committed</code> match <code>GC.heap_info</code>; <code>heap_info</code> adds <code>used</code>, the live heap occupancy inside that committed space.</p>
+                </section>
+
+                <section>
+                    <p class="eyebrow">Right-size loop</p>
+                    <h2 class="icon-heading"><span class="heading-icon" aria-hidden="true">↻</span>Measure, set, validate</h2>
+                    <ol>
+                        <li>Confirm the JVM detects the pod's cgroup limits.</li>
+                        <li>Measure heap and native memory under realistic load.</li>
+                        <li>Utilize <code>MaxRAMPercentage</code> with explicit native headroom.</li>
+                        <li>Validate native memory usage before production traffic does finds the limits for you.</li>
+                    </ol>
+                </section>
+
+                <section class="center closing-slide">
+                    <h1 class="celebration-title">Thank You!<span class="celebration-confetti" aria-hidden="true"></span><span class="celebration-confetti-extra" aria-hidden="true"></span></h1>
+                    <table class="closing-contact">
+                        <tr>
+                            <td style="vertical-align: middle;"><img src="../_shared/img/me.png" width="100" /></td>
+                            <td style="vertical-align: middle;">
+                                Carl Chesser
+                                <br />
+                                <small><a href="https://twitter.com/che55er">@che55er</a> | <a href="https://che55er.io/">che55er.io</a></small>
+                            </td>
+                        </tr>
+                    </table>
+                </section>
+            </div>
+        </div>
+        <div class="fragment-complete-indicator" aria-hidden="true">
+            <img src="../_shared/img/logo.svg" alt="" />
+        </div>
+
+        <script src="../_shared/reveal/dist/reveal.js"></script>
+        <script src="../_shared/reveal/dist/plugin/notes.js"></script>
+        <script src="../_shared/reveal/dist/plugin/highlight.js"></script>
+        <script>
+            document
+                .querySelectorAll('.reveal .slides section ul > li, .reveal .slides section ol > li')
+                .forEach((item) => item.classList.add('fragment'));
+
+            Reveal.initialize({
+                hash: true,
+                plugins: [ RevealHighlight, RevealNotes ]
+            });
+
+            const fragmentCompleteIndicator = document.querySelector('.fragment-complete-indicator');
+
+            function updateFragmentCompleteIndicator() {
+                const currentSlide = Reveal.getCurrentSlide();
+                const fragments = currentSlide ? Array.from(currentSlide.querySelectorAll('.fragment')) : [];
+                const isComplete = fragments.length > 0 && fragments.every((fragment) => fragment.classList.contains('visible'));
+
+                fragmentCompleteIndicator.classList.toggle('is-visible', isComplete);
+            }
+
+            Reveal.on('ready', updateFragmentCompleteIndicator);
+            Reveal.on('slidechanged', updateFragmentCompleteIndicator);
+            Reveal.on('fragmentshown', updateFragmentCompleteIndicator);
+            Reveal.on('fragmenthidden', updateFragmentCompleteIndicator);
+        </script>
+    </body>
+</html>

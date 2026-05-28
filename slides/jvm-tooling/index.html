@@ -1,0 +1,234 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+        <title>Open Up your JVM with Open Source Tooling</title>
+
+        <link rel="stylesheet" href="../_shared/reveal/dist/reset.css">
+        <link rel="stylesheet" href="../_shared/reveal/dist/reveal.css">
+        <link rel="stylesheet" href="../_shared/reveal/dist/theme/black.css">
+
+        <!-- Theme used for syntax highlighted code -->
+        <link rel="stylesheet" href="../_shared/reveal/dist/plugin/highlight/monokai.css">
+
+        <style>
+            .foreground-text-light {
+                background-color: rgba(255, 255, 255, .8);
+            }
+            .foreground-text-dark {
+                background-color: rgba(25, 25, 25, .8);
+            }
+        </style>
+    </head> 
+    <body>
+        <div class="reveal">
+            <div class="slides">
+                <section>
+                    <h1 class="r-fit-text">Open Up your JVM with Open Source Tooling</h1>
+                    <img src="../_shared/img/logo.svg" width="200"/>
+
+                    <table>
+                        <tr>
+                            <td style="vertical-align: middle;"><img src="../_shared/img/me.png" width="100" /></td>
+                            <td style="vertical-align: middle;">
+                                Carl Chesser
+                                <br />
+                                <small><a href="https://twitter.com/che55er">@che55er</a> | <a href="https://che55er.io/">che55er.io</a></small>
+                            </td>
+                        </tr>
+                    </table>
+                </section>
+                <!-- Intro -->
+                <section data-markdown>
+                    <textarea data-template>
+                        ## Why
+                        ## 🤔
+
+                        <div class="r-fit-text">It's <em>critical</em> to understand what is occurring in your JVM.</div>
+
+                        ___
+                        
+                        <small>With knowledge on what tools are readily available without modifying your application, you can quickly understand effective options to diagnose your system.</small>
+                        ---
+                        ## History
+                        ## 🙋‍♂️
+                        I began building an internal course for the company I worked at to help teams diagnose their own Java memory issues. <br />
+                        
+                        ...and the course grew.
+                    </textarea>
+                </section>
+                <section data-background-iframe="https://jvmperf.net/" data-background-interactive data-background-opacity="0.3">
+                    <div class="foreground-text-dark">
+                        <h2>jvmperf.net</h2>
+                        Workshop focused on using open and available tooling on a poorly performing Java service.
+                    </div>
+                </section>
+                <section data-markdown>
+                    <textarea data-template>
+                        ## 🧭
+                        ## Our Adventure
+                        
+                        We are going to explore some tools with rich history in Java for diagnosing different aspects of performance.
+
+                        * JDK Mission Control
+                        * Eclipse Memory Analyzer
+                        * VisualVM
+                        * Demo in jvmperf.net workshop
+                        * OpenTelemetry
+                        ---
+                        ## 🧰
+                        ## Open Source Tooling
+
+                        These tools are not new.<br />
+
+                        If you are familar with these tools, we will also be sharing their updates over the years.
+
+                        <small>Hopefully you can learn some new tricks on how they can used.</small>
+                    </textarea>
+                </section>
+
+                <!-- JDK Mission Control -->
+                <section data-markdown>
+                    <textarea data-template>
+                        ## JDK Mission Control
+                        ## 🚀
+                        * Started out as JRockit Mission Control
+                        * Open-sourced in 2018 as part of OpenJDK
+                        * Continues to get updates / releases (latest: 9.1 - Feb 2025)
+
+                        <small>📄 License: Universal Permissive License (UPL)</small>
+                    </textarea>
+                </section>
+                <section data-markdown data-background-iframe="https://hirt.se/blog/?p=1561" data-background-opacity="0.2">
+                    <textarea data-template>
+                        ## JMC Updates
+                        ⭐️ [Additional details from Marcus Hirt's blog.](https://hirt.se/blog/)
+                    </textarea>
+                </section>
+                <section data-markdown>
+                    <textarea data-template>
+                        ## JDK Mission Control Agent
+                        ## 🚀
+                        * A bytecode transformer JVM agent
+                        * Enables users to add custom JDK Flight Recorder events without changing code
+                        * Continues to get updates / releases (latest: 9.1 - Feb 2025)
+                        * Introduced in JMC [8.0 release (March 2021)](https://hirt.se/blog/?p=1312), with Agent Plugin in [8.1 (August 2021)](https://hirt.se/blog/?p=1361)
+
+                        <small>🤔 Utilization of JAR in recent releases requires building from source.</small>
+                    </textarea>
+                </section>
+
+                <!-- Eclipse Memory Analyzer https://eclipse.dev/mat/ -->
+                <section data-markdown>
+                    <textarea data-template>
+                        ## Eclipse Memory Analyzer
+                        ## 🔍
+                        * Solid tool for doing Java heap dump analysis.
+                        * Has been around (1.0 landed in 2010)
+                        * One of the better tools for handling large heap dumps.
+                        * Continues to get minor updates (currently 1.16.0 - Dec 2024)
+
+                        <small>📄 License: Eclipse Public License 2.0</small>
+                    </textarea>
+                </section>
+                <section data-markdown data-background-image="img/mat-install.png" data-background-opacity="0.4">  
+                    <textarea data-template>
+                        Download at [eclipse.dev/mat/download](https://eclipse.dev/mat/download/).<br />
+                        ⭐️ [New and Noteworthy Updates](https://eclipse.dev/mat/1.16.0/noteworthy.html)
+                    </textarea>
+                </section>
+
+                <!-- VisualVM -->
+                <section data-markdown>
+                    <textarea data-template>
+                        ## VisualVM
+                        ## <img src="img/visualvm.png" width="150" />
+                        * Started out as part of Java 6
+                        * Built on the NetBeans Platform, now with [VS Code Extension 🤩](https://marketplace.visualstudio.com/items?itemName=oracle-labs-graalvm.visualvm-vscode)
+                        * Continues to get updates / releases (latest: 2.2 - Apr 2025)
+
+                        <small>📄 License: GNU General Public License (GPLv2)</small>
+                    </textarea>
+                </section>
+                <section data-markdown>
+                    <textarea data-template>
+                        ## VisualVM Updates
+                        ## <img src="img/visualvm.png" width="150" />
+                        * Can be utilized with other languages through GraalVM (Ruby, Javascript, Python, R)
+                        * Can load heap dumps, JDK Flight Recordings, and coredumps
+                    </textarea>
+                </section>
+                <section data-markdown data-background-iframe="https://visualvm.github.io/" data-background-opacity="0.2">
+                    <textarea data-template>
+                        ## VisualVM Updates
+                        ⭐️ See [Releases page](https://visualvm.github.io/releases.html) for noteable changes.
+                    </textarea>
+                </section>
+                
+                <!-- Jolokia -->
+                <section data-markdown data-background-iframe="https://jolokia.org/index.html" data-background-opacity="0.2">
+                    <textarea data-template>
+                        ## [Jolokia](https://jolokia.org)
+                        * Alternative to JSR-160 connectors 
+                        * Allows JMX over HTTP communication
+                        * Recent releases of JDK Mission Control 9.1 and VisualVM 2.2 have added support
+                    </textarea>
+                </section>
+
+                <!-- Demo -->
+                <section data-background-iframe="https://jvmperf.net/" data-background-opacity="0.2">
+                    <div class="foreground-text-dark">
+                        <h2><a href="https://jvmperf.net/">Demo 🚀</a></h2>
+                    </div>
+                </section>
+
+                <!-- OpenTelemetry -->
+                <section data-markdown data-background-iframe="https://opentelemetry.io" data-background-opacity="0.2">
+                    <textarea data-template>
+                        ## OpenTelemetry 🔭
+                        (shout-out) <br />
+                        ⭐️ [Java Support](https://opentelemetry.io/docs/languages/java/)
+
+                        <small>📄 License: Apache 2.0</small>
+                    </textarea>
+                </section>
+
+                <section data-markdown>
+                    <textarea data-template>
+                        ## ✅
+                        ## Recap
+                        * JDK Mission Control
+                        * Eclipse Memory Analyzer
+                        * VisualVM
+                        * OpenTelemetry
+                        * Learn more with [jvmperf.net](https://jvmperf.net)
+                    </textarea>
+                </section>
+
+                <section>
+                    <h2>Thank you! 🎉</h2>
+                    Carl Chesser
+                    <br />
+                    <small><a href="https://twitter.com/che55er">@che55er</a> | <a href="https://che55er.io/">che55er.io</a></small>
+                </section>
+            </div>
+        </div>
+
+        <script src="../_shared/reveal/dist/reveal.js"></script>
+        <script src="../_shared/reveal/dist/plugin/notes.js"></script>
+        <script src="../_shared/reveal/dist/plugin/markdown.js"></script>
+        <script src="../_shared/reveal/dist/plugin/highlight.js"></script>
+        <script>
+            // More info about initialization & config:
+            // - https://revealjs.com/initialization/
+            // - https://revealjs.com/config/
+            Reveal.initialize({
+                hash: true,
+                // Learn about plugins: https://revealjs.com/plugins/
+                plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+            });
+        </script>
+    </body>
+</html>

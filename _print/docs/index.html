@@ -151,7 +151,7 @@
     aria-label="Search this site…"
     autocomplete="off"
     
-    data-offline-search-index-json-src="/offline-search-index.32a6d9257c49727ca3dd437bb4a79bd8.json"
+    data-offline-search-index-json-src="/offline-search-index.290a053eb2a3b1b594b3b326b8463cad.json"
     data-offline-search-base-href="/"
     data-offline-search-max-results="10"
   >
@@ -447,6 +447,25 @@ This is the multi-page printable view of this section.
 <li>6.4: <a href="#pg-6362126ba5f5128b262a9fb88d5015e8">References</a></li>
 
 
+    
+  
+    
+    
+	
+<li>6.5: <a href="#pg-d1f3b925c1037f0249acf5a6ce63ce5d">Hello World Example</a></li>
+
+
+    
+    <ul>
+        
+  
+  
+  
+  
+
+  
+
+    </ul>
     
   
 
@@ -2468,6 +2487,193 @@ In the next section, X
 </div>
 
 
+
+    
+	
+  
+    
+    
+	
+    
+
+<div class="td-content" style="page-break-before: always">
+    
+	<h1 id="pg-d1f3b925c1037f0249acf5a6ce63ce5d">6.5 - Hello World Example</h1>
+    <div class="lead">Simple Java Hello World example for a container application on Kubernetes.</div>
+	<p>Here is a tiny Java HTTP service used by the JVM memory in
+Kubernetes slides. The demo is intentionally small so the commands focus on the
+container, cgroup, heap, and native-memory signals rather than application code.</p>
+<ul>
+<li><a href="/docs/containers/hello-world/HelloWorld.java">HelloWorld.java</a>: Simple single Java file that is a HTTP server</li>
+<li><a href="/docs/containers/hello-world/Dockerfile">Dockerfile</a>: Dockerfile for the application</li>
+<li><a href="/docs/containers/hello-world/k8s-deployment.yaml">k8s-deployment.yaml</a>: Kubernetes deployment manifest</li>
+</ul>
+<p>The Kubernetes manifest enables a few JVM diagnostics through
+<code>JAVA_TOOL_OPTIONS</code>:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl"><span class="nt">env</span><span class="p">:</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span>- <span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l">JAVA_TOOL_OPTIONS</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">  </span><span class="nt">value</span><span class="p">:</span><span class="w"> </span><span class="p">&gt;</span><span class="sd">
+</span></span></span><span class="line"><span class="cl"><span class="sd">    -Xlog:os+container=debug
+</span></span></span><span class="line"><span class="cl"><span class="sd">    -XX:NativeMemoryTracking=summary
+</span></span></span><span class="line"><span class="cl"><span class="sd">    -XX:+UseG1GC
+</span></span></span><span class="line"><span class="cl"><span class="sd">    -XX:+FlightRecorder
+</span></span></span><span class="line"><span class="cl"><span class="sd">    -XX:StartFlightRecording=filename=/tmp/startup.jfr,dumponexit=true</span><span class="w">
+</span></span></span></code></pre></div><p>It also exposes JMX on port <code>9091</code> for JDK Mission Control.</p>
+<h2 id="build-the-image">Build the Image</h2>
+<p>Run these commands from this directory:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">docker build -t jvmperf.net/java-hello-world:v1 .
+</span></span></code></pre></div><p>If you are using a local Kubernetes runtime such as minikube, kind, or Docker
+Desktop, make sure the image is available to that cluster before deploying.</p>
+<h2 id="deploy-to-kubernetes">Deploy to Kubernetes</h2>
+<p>Apply the deployment and service:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">kubectl apply -f k8s-deployment.yaml
+</span></span></code></pre></div><p>Wait for the pod to become ready:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">kubectl rollout status deployment/java-hello-world
+</span></span><span class="line"><span class="cl">kubectl get pods -l <span class="nv">app</span><span class="o">=</span>java-hello-world
+</span></span></code></pre></div><p>For the commands below, capture the pod name once:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">POD</span><span class="o">=</span><span class="k">$(</span>kubectl get pod -l <span class="nv">app</span><span class="o">=</span>java-hello-world -o <span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.items[0].metadata.name}&#39;</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">echo</span> <span class="s2">&#34;</span><span class="nv">$POD</span><span class="s2">&#34;</span>
+</span></span></code></pre></div><h2 id="verify-the-app">Verify the App</h2>
+<p>The service is a <code>NodePort</code>, so Kubernetes assigns a local node port for the
+HTTP endpoint:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">kubectl get svc java-hello-world-service
+</span></span></code></pre></div><p>Use the returned <code>NODE-PORT</code> value with localhost:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nv">NODE_PORT</span><span class="o">=</span><span class="k">$(</span>kubectl get svc java-hello-world-service -o <span class="nv">jsonpath</span><span class="o">=</span><span class="s1">&#39;{.spec.ports[0].nodePort}&#39;</span><span class="k">)</span>
+</span></span><span class="line"><span class="cl">curl <span class="s2">&#34;http://localhost:</span><span class="si">${</span><span class="nv">NODE_PORT</span><span class="si">}</span><span class="s2">/&#34;</span>
+</span></span></code></pre></div><p>Expected response:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Hello, World from Kubernetes!
+</span></span></code></pre></div><h2 id="check-the-jvms-container-view">Check the JVM&rsquo;s Container View</h2>
+<p>Start with <code>-XshowSettings:system</code>. This is the quick check that the JVM sees the
+pod&rsquo;s cgroup limits rather than sizing itself from the whole node:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">kubectl <span class="nb">exec</span> <span class="s2">&#34;</span><span class="nv">$POD</span><span class="s2">&#34;</span> -- java -XshowSettings:system -version
+</span></span></code></pre></div><p>Look for output shaped like this:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Operating System Metrics:
+</span></span><span class="line"><span class="cl">    Provider: cgroupv2
+</span></span><span class="line"><span class="cl">    Effective CPU Count: 1
+</span></span><span class="line"><span class="cl">    CPU Quota: 100000us
+</span></span><span class="line"><span class="cl">    CPU Period: 100000us
+</span></span><span class="line"><span class="cl">    Memory Limit: 1.00G
+</span></span><span class="line"><span class="cl">    Memory &amp; Swap Limit: 1.00G
+</span></span></code></pre></div><p>The important fields for the slides are:</p>
+<table>
+  <thead>
+      <tr>
+          <th>Field</th>
+          <th>Why it matters</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td><code>Provider</code></td>
+          <td>Shows whether the JVM is reading cgroup data.</td>
+      </tr>
+      <tr>
+          <td><code>Effective CPU Count</code></td>
+          <td>Influences GC threads, JIT threads, and app parallelism.</td>
+      </tr>
+      <tr>
+          <td><code>Memory Limit</code></td>
+          <td>The process budget for heap plus native memory.</td>
+      </tr>
+      <tr>
+          <td><code>CPU Quota</code> / <code>CPU Period</code></td>
+          <td>Should line up with the deployment CPU limit.</td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="inspect-native-memory">Inspect Native Memory</h2>
+<p>Native Memory Tracking is enabled in the manifest with
+<code>-XX:NativeMemoryTracking=summary</code>, so you can ask the running JVM for its native
+memory map:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">kubectl <span class="nb">exec</span> <span class="s2">&#34;</span><span class="nv">$POD</span><span class="s2">&#34;</span> -- jcmd <span class="m">1</span> VM.native_memory summary
+</span></span></code></pre></div><p>The top of the output gives total reserved and committed memory:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">Native Memory Tracking:
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl">Total: reserved=1677076KB, committed=43616KB
+</span></span><span class="line"><span class="cl">       malloc: 3328KB #7179, peak=3201KB #7181
+</span></span><span class="line"><span class="cl">       mmap:   reserved=1673748KB, committed=40288KB
+</span></span></code></pre></div><p>Then NMT breaks memory into JVM categories:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">- Java Heap (reserved=262144KB, committed=16384KB)
+</span></span><span class="line"><span class="cl">- Class     (reserved=1048664KB, committed=280KB)
+</span></span><span class="line"><span class="cl">- Thread    (reserved=30653KB, committed=1141KB)
+</span></span><span class="line"><span class="cl">- Code      (reserved=249735KB, committed=7735KB)
+</span></span><span class="line"><span class="cl">- GC        (reserved=860KB, committed=64KB)
+</span></span></code></pre></div><p>Use this breakdown to explain where memory outside the Java heap can come from:
+thread stacks, class metadata, code cache, GC structures, direct buffers, native
+libraries, and JVM internals.</p>
+<h2 id="compare-heap-and-nmt">Compare Heap and NMT</h2>
+<p><code>GC.heap_info</code> explains the Java heap from the collector&rsquo;s point of view:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">kubectl <span class="nb">exec</span> <span class="s2">&#34;</span><span class="nv">$POD</span><span class="s2">&#34;</span> -- jcmd <span class="m">1</span> GC.heap_info
+</span></span></code></pre></div><p>Example:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">garbage-first heap   total reserved 262144K, committed 18432K, used 2925K
+</span></span></code></pre></div><p>For the Java heap, <code>reserved</code> and <code>committed</code> should line up with the
+<code>Java Heap</code> row in NMT. <code>heap_info</code> adds <code>used</code>, which is the live heap occupancy
+inside the committed heap space.</p>
+<h2 id="inspect-vm-and-cgroup-details">Inspect VM and Cgroup Details</h2>
+<p><code>VM.info</code> gives a broader diagnostic snapshot, including the JVM&rsquo;s cgroup view:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">kubectl <span class="nb">exec</span> <span class="s2">&#34;</span><span class="nv">$POD</span><span class="s2">&#34;</span> -- jcmd <span class="m">1</span> VM.info
+</span></span></code></pre></div><p>Useful segment:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">container (cgroup) information:
+</span></span><span class="line"><span class="cl">container_type: cgroupv2
+</span></span><span class="line"><span class="cl">active_processor_count: 1
+</span></span><span class="line"><span class="cl">cpu_quota: 100000
+</span></span><span class="line"><span class="cl">cpu_period: 100000
+</span></span><span class="line"><span class="cl">memory_limit_in_bytes: 1048576 k
+</span></span><span class="line"><span class="cl">memory_and_swap_limit_in_bytes: 1048576 k
+</span></span><span class="line"><span class="cl">memory_usage_in_bytes: 118316 k
+</span></span><span class="line"><span class="cl">rss_usage_in_bytes: 116428 k
+</span></span><span class="line"><span class="cl">cache_usage_in_bytes: 64 k
+</span></span><span class="line"><span class="cl">current number of tasks: 29
+</span></span></code></pre></div><p>Capture this beside the pod spec, heap settings, and NMT output when you want to
+explain why a container is close to its limit.</p>
+<h2 id="record-heap-behavior-with-jfr">Record Heap Behavior with JFR</h2>
+<p>Java Flight Recorder is useful during load tests because it keeps the heap story
+tied to time. Use it to see heap usage, allocation pressure, and GC behavior
+across the same window where you are collecting NMT and cgroup data.</p>
+<p>The manifest starts a recording automatically:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-yaml" data-lang="yaml"><span class="line"><span class="cl">-<span class="l">XX:+FlightRecorder</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span>-<span class="l">XX:StartFlightRecording=filename=/tmp/startup.jfr,dumponexit=true</span><span class="w">
+</span></span></span></code></pre></div><p>For a specific test window, start and stop a named recording with <code>jcmd</code>:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">kubectl <span class="nb">exec</span> <span class="s2">&#34;</span><span class="nv">$POD</span><span class="s2">&#34;</span> -- jcmd <span class="m">1</span> JFR.start <span class="nv">name</span><span class="o">=</span>load-test <span class="nv">filename</span><span class="o">=</span>/tmp/load-test.jfr <span class="nv">settings</span><span class="o">=</span>profile
+</span></span><span class="line"><span class="cl"><span class="c1"># run representative load</span>
+</span></span><span class="line"><span class="cl">kubectl <span class="nb">exec</span> <span class="s2">&#34;</span><span class="nv">$POD</span><span class="s2">&#34;</span> -- jcmd <span class="m">1</span> JFR.dump <span class="nv">name</span><span class="o">=</span>load-test <span class="nv">filename</span><span class="o">=</span>/tmp/load-test.jfr
+</span></span><span class="line"><span class="cl">kubectl <span class="nb">exec</span> <span class="s2">&#34;</span><span class="nv">$POD</span><span class="s2">&#34;</span> -- jcmd <span class="m">1</span> JFR.stop <span class="nv">name</span><span class="o">=</span>load-test
+</span></span></code></pre></div><p>Copy the recording locally:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">kubectl cp <span class="s2">&#34;</span><span class="si">${</span><span class="nv">POD</span><span class="si">}</span><span class="s2">:/tmp/load-test.jfr&#34;</span> ./load-test.jfr
+</span></span></code></pre></div><p>Open <code>load-test.jfr</code> in JDK Mission Control. For heap-focused analysis, start
+with heap usage, allocation, GC pause, and GC heap summary views.</p>
+<h2 id="use-jdk-mission-control">Use JDK Mission Control</h2>
+<p>The manifest opens JMX on container port <code>9091</code>. Port-forward it to your machine:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">kubectl port-forward <span class="s2">&#34;</span><span class="nv">$POD</span><span class="s2">&#34;</span> 9091:9091
+</span></span></code></pre></div><p>Then connect JDK Mission Control to:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-text" data-lang="text"><span class="line"><span class="cl">localhost:9091
+</span></span></code></pre></div><p>This is useful when you want to show the memory story over time rather than only
+single command snapshots.</p>
+<h2 id="cleanup">Cleanup</h2>
+<p>Remove the demo resources when you are done:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">kubectl delete -f k8s-deployment.yaml
+</span></span></code></pre></div><h2 id="references">References</h2>
+<ul>
+<li><code>java.lang.management.OperatingSystemMXBean</code>: <a href="https://docs.oracle.com/en/java/javase/11/docs/api/java.management/java/lang/management/OperatingSystemMXBean.html">https://docs.oracle.com/en/java/javase/11/docs/api/java.management/java/lang/management/OperatingSystemMXBean.html</a></li>
+<li><code>com.sun.management.OperatingSystemMXBean</code>: <a href="https://docs.oracle.com/en/java/javase/25/docs/api/jdk.management/com/sun/management/OperatingSystemMXBean.html">https://docs.oracle.com/en/java/javase/25/docs/api/jdk.management/com/sun/management/OperatingSystemMXBean.html</a></li>
+<li>Native Memory Tracking: <a href="https://docs.oracle.com/en/java/javase/11/vm/native-memory-tracking.html">https://docs.oracle.com/en/java/javase/11/vm/native-memory-tracking.html</a></li>
+</ul>
+
+</div>
+
+
+
+    
+      
+  
+  
+  
+  
+
+  
+  
+
+  
 
     
 	
