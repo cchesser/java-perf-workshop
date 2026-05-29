@@ -16,7 +16,7 @@ imaging:
 menu:
   main:
     - name: GitHub
-      weight: 20
+      weight: 40
       url: https://github.com/cchesser/java-perf-workshop/
       pre: <i class="fa-brands fa-github"></i>
 
