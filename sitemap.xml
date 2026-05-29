@@ -61,5 +61,7 @@
     <loc>https://jvmperf.net/</loc>
   </url><url>
     <loc>https://jvmperf.net/tags/</loc>
+  </url><url>
+    <loc>https://jvmperf.net/docs/talks/</loc>
   </url>
 </urlset>
