@@ -110,3 +110,8 @@ module:
 security:
   allowContent:
     - '.*'
+  exec:
+    allow: 
+      - '^npx$'
+      - '^postcss$'
+      - '^dart-sass-embedded$'
