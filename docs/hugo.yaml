@@ -112,6 +112,7 @@ security:
     - '.*'
   exec:
     allow: 
+      - '^go$'
       - '^npx$'
       - '^postcss$'
       - '^dart-sass-embedded$'
