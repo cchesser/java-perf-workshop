@@ -121,4 +121,5 @@ security:
     permissions:
       allowRead:
         - .
-
+        - ..
+        - /tmp/hugo_cache_runner
