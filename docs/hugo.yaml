@@ -120,7 +120,4 @@ security:
   node:
     permissions:
       allowRead:
-        - .
-        - ..
-        - /tmp/hugo_cache_runner
-        - /home/runner/work/java-perf-workshop/java-perf-workshop
+        - '*'
