@@ -119,6 +119,6 @@ security:
       - '^dart-sass-embedded$'
   node:
     permissions:
-      allowFsRead:
-        - "."
-        - "node_modules"
+      allowRead:
+        - .
+
