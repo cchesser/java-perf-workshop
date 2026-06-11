@@ -1,0 +1,14 @@
+.td-navbar {
+  .navbar-brand__logo svg {
+    transition: filter 0.15s ease-in-out;
+  }
+}
+
+[data-bs-theme='light'] .td-navbar .navbar-brand__logo svg {
+  filter: invert(1);
+}
+
+[data-bs-theme='dark'] .td-navbar .navbar-brand__logo svg,
+.td-navbar[data-bs-theme='dark'] .navbar-brand__logo svg {
+  filter: none;
+}
