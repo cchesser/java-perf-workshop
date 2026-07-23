@@ -16,7 +16,7 @@
         <dropwizard.version>2.1.10</dropwizard.version>
         <metrics.version>4.2.38</metrics.version>
         <jackson.version>2.18.3</jackson.version>
-        <jackson.databind.version>2.18.3</jackson.databind.version>
+        <jackson.databind.version>2.18.9</jackson.databind.version>
         <!-- scm info -->
         <scm.connection>scm:git:git://github.com:cchesser/java-perf-workshop.git</scm.connection>
         <scm.developerConnection>scm:git:git@github.com:cchesser/java-perf-workshop.git</scm.developerConnection>
