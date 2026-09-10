@@ -1,0 +1,214 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <parent>
+        <groupId>cchesser.javaperf</groupId>
+        <artifactId>java-perf-workshop-parent</artifactId>
+        <version>2.0-SNAPSHOT</version>
+    </parent>
+
+    <artifactId>java-heap-mcp</artifactId>
+    <name>java-heap-mcp</name>
+    <description>MCP server for Java heap dump analysis backed by Eclipse MAT.</description>
+
+    <dependencies>
+        <!-- Official MCP protocol implementation; Jackson 2 keeps it aligned
+             with the rest of this project. -->
+        <dependency>
+            <groupId>io.modelcontextprotocol.sdk</groupId>
+            <artifactId>mcp-core</artifactId>
+            <version>${mcp.sdk.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.modelcontextprotocol.sdk</groupId>
+            <artifactId>mcp-json-jackson2</artifactId>
+            <version>${mcp.sdk.version}</version>
+        </dependency>
+        <!-- SLF4J 1.x-compatible console backend used by the Eclipse/MAT runtime. -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.7.12</version>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+        </dependency>
+        <!-- MAT is distributed as OSGi bundles and requires Eclipse Platform
+             runtime bundles when used from a regular Java classpath. -->
+        <dependency>
+            <groupId>org.eclipse.platform</groupId>
+            <artifactId>org.eclipse.core.runtime</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.platform</groupId>
+            <artifactId>org.eclipse.core.resources</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.platform</groupId>
+            <artifactId>org.eclipse.core.commands</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.ibm.icu</groupId>
+            <artifactId>icu4j</artifactId>
+        </dependency>
+        <!-- Embedded headless engine from mat-calcite-plugin. -->
+        <dependency>
+            <groupId>org.apache.calcite</groupId>
+            <artifactId>calcite-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.janino</groupId>
+            <artifactId>janino</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.codehaus.janino</groupId>
+            <artifactId>commons-compiler</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.14.0</version>
+                <executions>
+                    <execution>
+                        <id>default-compile</id>
+                        <configuration>
+                            <compilerArgs>
+                                <arg>-classpath</arg>
+                                <arg>${compile.classpath}${path.separator}${project.build.directory}/mat/org.eclipse.mat.api_${mat.distribution}.jar${path.separator}${project.build.directory}/mat/org.eclipse.mat.hprof_${mat.distribution}.jar${path.separator}${project.build.directory}/mat/org.eclipse.mat.parser_${mat.distribution}.jar${path.separator}${project.build.directory}/mat/org.eclipse.mat.report_${mat.distribution}.jar</arg>
+                            </compilerArgs>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>default-testCompile</id>
+                        <configuration>
+                            <compilerArgs>
+                                <arg>-classpath</arg>
+                                <arg>${test.classpath}${path.separator}${project.build.outputDirectory}${path.separator}${project.build.directory}/mat/org.eclipse.mat.api_${mat.distribution}.jar${path.separator}${project.build.directory}/mat/org.eclipse.mat.hprof_${mat.distribution}.jar${path.separator}${project.build.directory}/mat/org.eclipse.mat.parser_${mat.distribution}.jar${path.separator}${project.build.directory}/mat/org.eclipse.mat.report_${mat.distribution}.jar</arg>
+                            </compilerArgs>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.googlecode.maven-download-plugin</groupId>
+                <artifactId>download-maven-plugin</artifactId>
+                <version>1.6.8</version>
+                <executions>
+                    <execution>
+                        <id>download-mat-distribution</id>
+                        <phase>generate-resources</phase>
+                        <goals><goal>wget</goal></goals>
+                        <configuration>
+                            <url>https://download.eclipse.org/mat/1.16.1/MemoryAnalyzer-${mat.distribution}.zip</url>
+                            <outputDirectory>${project.build.directory}</outputDirectory>
+                            <outputFileName>mat-${mat.distribution}.zip</outputFileName>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>unpack-mat-bundles</id>
+                        <phase>generate-resources</phase>
+                        <goals><goal>run</goal></goals>
+                        <configuration>
+                            <target>
+                                <mkdir dir="${project.build.directory}/mat"/>
+                                <unzip src="${project.build.directory}/mat-${mat.distribution}.zip"
+                                       dest="${project.build.directory}/mat-unpacked"/>
+                                <copy todir="${project.build.directory}/mat" flatten="true">
+                                    <fileset dir="${project.build.directory}/mat-unpacked">
+                                        <include name="**/org.eclipse.mat.api_*.jar"/>
+                                        <include name="**/org.eclipse.mat.parser_*.jar"/>
+                                        <include name="**/org.eclipse.mat.report_*.jar"/>
+                                        <include name="**/org.eclipse.mat.hprof_*.jar"/>
+                                    </fileset>
+                                </copy>
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.8.1</version>
+                <executions>
+                    <execution>
+                        <id>build-compile-classpath</id>
+                        <phase>generate-resources</phase>
+                        <goals><goal>build-classpath</goal></goals>
+                        <configuration>
+                            <includeScope>compile</includeScope>
+                            <outputProperty>compile.classpath</outputProperty>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>build-test-classpath</id>
+                        <phase>generate-resources</phase>
+                        <goals><goal>build-classpath</goal></goals>
+                        <configuration>
+                            <includeScope>test</includeScope>
+                            <outputProperty>test.classpath</outputProperty>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.5.2</version>
+                <configuration>
+                    <useSystemClassLoader>false</useSystemClassLoader>
+                    <additionalClasspathElements>
+                        <additionalClasspathElement>${project.build.directory}/mat/org.eclipse.mat.api_${mat.distribution}.jar</additionalClasspathElement>
+                        <additionalClasspathElement>${project.build.directory}/mat/org.eclipse.mat.hprof_${mat.distribution}.jar</additionalClasspathElement>
+                        <additionalClasspathElement>${project.build.directory}/mat/org.eclipse.mat.parser_${mat.distribution}.jar</additionalClasspathElement>
+                        <additionalClasspathElement>${project.build.directory}/mat/org.eclipse.mat.report_${mat.distribution}.jar</additionalClasspathElement>
+                    </additionalClasspathElements>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.4.2</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>cchesser.javaperf.mcp.server.HeapMcpServerApplication</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

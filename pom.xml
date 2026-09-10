@@ -24,7 +24,19 @@
 
         <!-- tester dependencies -->
         <gatling.version>3.14.9</gatling.version>
-        <scala.version>2.13.12</scala.version>
+        <scala.version>2.13.17</scala.version>
+
+        <!-- java-heap-mcp dependencies -->
+        <eclipse.platform.version>3.31.0</eclipse.platform.version>
+        <eclipse.core.resources.version>3.22.0</eclipse.core.resources.version>
+        <eclipse.core.commands.version>3.12.0</eclipse.core.commands.version>
+        <icu4j.version>76.1</icu4j.version>
+        <junit.version>5.12.2</junit.version>
+        <assertj.version>3.27.3</assertj.version>
+        <calcite.version>1.41.0</calcite.version>
+        <janino.version>3.1.12</janino.version>
+        <mat.distribution>1.16.1.202501091339</mat.distribution>
+        <mcp.sdk.version>1.1.4</mcp.sdk.version>
 
         <!-- plugin versions -->
             <scala-maven-plugin.version>4.7.1</scala-maven-plugin.version>
@@ -60,6 +72,7 @@
     <modules>
         <module>java-perf-workshop-server</module>
         <module>java-perf-workshop-tester</module>
+        <module>java-heap-mcp</module>
   </modules>
     <dependencyManagement>
         <dependencies>
@@ -138,6 +151,56 @@
                 <artifactId>scala-library</artifactId>
                 <version>${scala.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.fasterxml.jackson.datatype</groupId>
+                <artifactId>jackson-datatype-jsr310</artifactId>
+                <version>${jackson.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.platform</groupId>
+                <artifactId>org.eclipse.core.runtime</artifactId>
+                <version>${eclipse.platform.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.platform</groupId>
+                <artifactId>org.eclipse.core.resources</artifactId>
+                <version>${eclipse.core.resources.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.platform</groupId>
+                <artifactId>org.eclipse.core.commands</artifactId>
+                <version>${eclipse.core.commands.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.ibm.icu</groupId>
+                <artifactId>icu4j</artifactId>
+                <version>${icu4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.calcite</groupId>
+                <artifactId>calcite-core</artifactId>
+                <version>${calcite.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.janino</groupId>
+                <artifactId>janino</artifactId>
+                <version>${janino.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.codehaus.janino</groupId>
+                <artifactId>commons-compiler</artifactId>
+                <version>${janino.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.junit.jupiter</groupId>
+                <artifactId>junit-jupiter</artifactId>
+                <version>${junit.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.assertj</groupId>
+                <artifactId>assertj-core</artifactId>
+                <version>${assertj.version}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
     <build>
@@ -167,8 +230,8 @@
                 <configuration>
                     <showDeprecation>true</showDeprecation>
                     <showWarnings>true</showWarnings>
-                    <source>21</source>
-                    <target>21</target>
+                    <source>25</source>
+                    <target>25</target>
                 </configuration>
             </plugin>
         </plugins>

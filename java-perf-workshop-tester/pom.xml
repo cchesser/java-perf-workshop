@@ -11,8 +11,8 @@
     <artifactId>java-perf-workshop-tester</artifactId>
 
     <properties>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
+        <maven.compiler.source>25</maven.compiler.source>
+        <maven.compiler.target>25</maven.compiler.target>
         <encoding>UTF-8</encoding>
     </properties>
 
@@ -47,10 +47,11 @@
                             <goal>testCompile</goal>
                         </goals>
                         <configuration>
+                            <target>25</target>
                             <args>
                                 <arg>-Jbackend:GenBCode</arg>
                                 <arg>-Jdelambdafy:method</arg>
-                                <arg>-target:jvm-21</arg>
+                                <arg>-target:jvm-25</arg>
                                 <arg>-deprecation</arg>
                                 <arg>-feature</arg>
                                 <arg>-unchecked</arg>

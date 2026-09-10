@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Java Heap MCP</title>
+  <style>
+    :root {
+      color-scheme: dark;
+      --canvas: #0d1117;
+      --canvas-subtle: #161b22;
+      --panel: #21262d;
+      --border: #30363d;
+      --ink: #f0f6fc;
+      --muted: #8b949e;
+      --accent: #2f81f7;
+      --accent-hover: #388bfd;
+      --success: #3fb950;
+      --danger: #f85149;
+      --shadow: 0 8px 24px rgba(1, 4, 9, .35);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      color: var(--ink);
+      background: var(--canvas);
+      font: 14px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+    .wrap { max-width: 1180px; margin: 0 auto; padding: 32px 24px 56px; display: grid; gap: 16px; }
+    .card { background: var(--panel); border: 1px solid var(--border); border-radius: 6px; padding: 20px; box-shadow: var(--shadow); }
+    .hero { background: linear-gradient(135deg, #161b22 0%, #21262d 100%); }
+    .hero h1 { margin: 0 0 8px; font-size: 26px; letter-spacing: -.02em; }
+    h2 { margin: 0 0 14px; font-size: 18px; }
+    .sub, .muted { color: var(--muted); }
+    .sub { margin: 0; line-height: 1.5; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; }
+    .row { display: grid; gap: 12px; }
+    label { color: var(--muted); font-size: 12px; font-weight: 600; }
+    input, textarea, select, button { width: 100%; font: inherit; border: 1px solid var(--border); border-radius: 6px; padding: 9px 10px; }
+    input, textarea, select { color: var(--ink); background: var(--canvas); }
+    input:focus, textarea:focus, select:focus { border-color: var(--accent); outline: 2px solid rgba(47,129,247,.25); }
+    textarea { min-height: 90px; resize: vertical; }
+    button { color: #fff; background: var(--accent); border-color: rgba(240,246,252,.1); cursor: pointer; font-weight: 600; }
+    button:hover { background: var(--accent-hover); }
+    button.alt { color: var(--ink); background: var(--canvas-subtle); border-color: var(--border); }
+    button.alt:hover { border-color: var(--muted); background: #30363d; }
+    button.danger { color: var(--danger); background: transparent; border-color: var(--border); }
+    .loaded { display: flex; align-items: center; gap: 10px; padding: 12px 14px; border: 1px solid rgba(63,185,80,.45); border-radius: 6px; background: rgba(46,160,67,.12); }
+    .loaded strong { color: var(--success); }
+    .loaded .mono { margin-left: auto; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { border-bottom: 1px solid var(--border); padding: 11px 8px; text-align: left; vertical-align: middle; }
+    th { color: var(--muted); font-size: 12px; font-weight: 600; }
+    tr:last-child td { border-bottom: 0; }
+    .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 12px; word-break: break-all; }
+    .actions { display: flex; gap: 8px; min-width: 150px; }
+    .actions button { width: auto; padding: 6px 10px; }
+    .empty { color: var(--muted); padding: 18px 8px; text-align: center; }
+    .error { color: var(--danger); min-height: 20px; }
+    pre { margin: 0; overflow: auto; max-height: 420px; color: #c9d1d9; background: #0d1117; border: 1px solid var(--border); border-radius: 6px; padding: 14px; font-size: 12px; }
+    @media (max-width: 700px) { .wrap { padding: 20px 12px 40px; } .loaded { align-items: flex-start; flex-direction: column; } .loaded .mono { margin-left: 0; } table { display: block; overflow-x: auto; white-space: nowrap; } }
+  </style>
+</head>
+<body>
+  <main class="wrap">
+    <section class="card hero">
+      <h1>Java Heap MCP Workspace</h1>
+      <p class="sub">Load <span class="mono">.hprof</span> dumps into memorable projects and run focused heap analysis.</p>
+    </section>
+
+    <section id="loadedContext" class="loaded" hidden>
+      <strong>Loaded project</strong>
+      <span id="loadedProject"></span>
+      <span id="loadedHandle" class="mono muted"></span>
+    </section>
+
+    <section class="card row">
+      <h2>Load heap dump</h2>
+      <div class="grid">
+        <div class="row"><label for="project">Project name <span class="muted">(optional)</span></label><input id="project" placeholder="e.g. checkout-service-prod" /></div>
+        <div class="row"><label for="file">Heap dump file</label><input id="file" type="file" accept=".hprof,application/octet-stream" /></div>
+        <div class="row"><label>&nbsp;</label><button id="load">Load dump</button></div>
+      </div>
+      <div id="status" class="muted"></div>
+    </section>
+
+    <section class="card row">
+      <h2>Projects</h2>
+      <div id="projectsEmpty" class="empty" hidden>No projects loaded yet.</div>
+      <table id="projectsTable">
+        <thead><tr><th>Project</th><th>Source</th><th>Status</th><th>Actions</th></tr></thead>
+        <tbody id="projects"></tbody>
+      </table>
+    </section>
+
+    <section class="card row">
+      <h2>Analysis</h2>
+      <div class="grid">
+        <div class="row"><label for="projectSelect">Loaded project</label><select id="projectSelect"><option value="">No loaded projects available</option></select></div>
+        <div class="row"><label for="limit">Result limit</label><input id="limit" type="number" value="25" min="1" /></div>
+        <div class="row"><label for="analysis">Analysis</label><select id="analysis"><option value="overview">Overview</option><option value="dominators">Dominator tree (top)</option><option value="histogram">Largest objects (histogram)</option><option value="leaks">Leak suspects</option></select></div>
+        <div class="row"><label>&nbsp;</label><button id="runAnalysis">Run analysis</button></div>
+      </div>
+      <textarea id="oql" placeholder="OQL query, example: SELECT * FROM java.lang.String s WHERE s.count > 1000"></textarea>
+      <button id="runOql" class="alt">Run OQL on selected project</button>
+    </section>
+
+    <section class="card row"><h2>Result</h2><div id="error" class="error"></div><pre id="result">{}</pre></section>
+  </main>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+    let activeProjects = [];
+
+    async function api(path, method = "GET", body) {
+      const response = await fetch(path, { method, headers: { "Content-Type": "application/json" }, body: body ? JSON.stringify(body) : undefined });
+      const payload = await response.json();
+      if (!response.ok || payload.error) throw new Error(payload.error || "Request failed");
+      return payload;
+    }
+    function showResult(data) { $("error").textContent = ""; $("result").textContent = JSON.stringify(data, null, 2); }
+    function showError(err) { $("error").textContent = err.message || String(err); }
+    function selectProject(project, handle) {
+      $("projectSelect").value = project || "";
+      const selected = activeProjects.find(item => item.project === project);
+      const effectiveHandle = handle || (selected && selected.activeHandle);
+      if (project && effectiveHandle) {
+        $("loadedContext").hidden = false;
+        $("loadedProject").textContent = project;
+        $("loadedHandle").textContent = effectiveHandle;
+      } else {
+        $("loadedContext").hidden = true;
+      }
+    }
+    function selectedHandle() {
+      const project = $("projectSelect").value;
+      const item = activeProjects.find(candidate => candidate.project === project);
+      if (!item || !item.activeHandle) throw new Error("Select a loaded project before running analysis");
+      return item.activeHandle;
+    }
+    async function refreshProjects(preferredProject) {
+      const projects = await api("/api/projects");
+      activeProjects = projects;
+      const tbody = $("projects"); tbody.textContent = "";
+      $("projectsEmpty").hidden = projects.length !== 0;
+      $("projectsTable").hidden = projects.length === 0;
+      for (const item of projects) {
+        const tr = document.createElement("tr");
+        const projectCell = document.createElement("td"); projectCell.innerHTML = `<strong></strong>`; projectCell.firstChild.textContent = item.project;
+        const sourceCell = document.createElement("td"); sourceCell.className = "mono"; sourceCell.textContent = item.sourcePath || "";
+        const statusCell = document.createElement("td"); statusCell.textContent = item.activeHandle ? "Loaded" : "Cached"; statusCell.className = item.activeHandle ? "" : "muted";
+        const actionsCell = document.createElement("td"); actionsCell.className = "actions";
+        const openBtn = document.createElement("button"); openBtn.textContent = item.activeHandle ? "Select" : "Open"; openBtn.className = "alt";
+        openBtn.onclick = async () => { try { const result = item.activeHandle ? item : await api("/api/open-project", "POST", { project: item.project }); selectProject(result.project, result.handle || result.activeHandle); showResult(result); await refreshProjects(result.project); } catch (err) { showError(err); } };
+        actionsCell.appendChild(openBtn);
+        if (item.activeHandle) { const unloadBtn = document.createElement("button"); unloadBtn.textContent = "Unload"; unloadBtn.className = "danger"; unloadBtn.onclick = async () => { try { showResult(await api("/api/unload", "POST", { handle: item.activeHandle })); await refreshProjects(); } catch (err) { showError(err); } }; actionsCell.appendChild(unloadBtn); }
+        tr.append(projectCell, sourceCell, statusCell, actionsCell); tbody.appendChild(tr);
+      }
+      const select = $("projectSelect"); const current = preferredProject || select.value;
+      select.textContent = "";
+      if (!projects.some(item => item.activeHandle)) { select.add(new Option("No loaded projects available", "")); select.disabled = true; $("loadedContext").hidden = true; return; }
+      select.disabled = false;
+      for (const item of projects.filter(item => item.activeHandle)) select.add(new Option(item.project, item.project));
+      const next = projects.some(item => item.project === current && item.activeHandle) ? current : projects.find(item => item.activeHandle).project;
+      select.value = next; selectProject(next);
+    }
+    $("projectSelect").onchange = () => selectProject($("projectSelect").value);
+    $("load").onclick = async () => { try {
+      const file = $("file").files && $("file").files[0]; if (!file) throw new Error("Please select a .hprof file");
+      const query = new URLSearchParams({ project: $("project").value.trim(), filename: file.name });
+      const response = await fetch(`/api/load-upload?${query}`, { method: "POST", headers: { "Content-Type": "application/octet-stream" }, body: file });
+      const result = await response.json(); if (!response.ok || result.error) throw new Error(result.error || "Request failed");
+      $("status").textContent = `Loaded ${result.project}.`; selectProject(result.project, result.handle); showResult(result); await refreshProjects(result.project);
+    } catch (err) { showError(err); } };
+    $("runAnalysis").onclick = async () => { try {
+      const handle = selectedHandle(); const limit = Number($("limit").value || 25); const kind = $("analysis").value;
+      const endpoint = kind === "overview" ? "/api/overview" : kind === "dominators" ? "/api/dominators" : kind === "histogram" ? "/api/histogram" : "/api/leaks";
+      const body = { handle, limit }; if (kind === "histogram") body.sort = "retained"; showResult(await api(endpoint, "POST", body));
+    } catch (err) { showError(err); } };
+    $("runOql").onclick = async () => { try { const handle = selectedHandle(); const query = $("oql").value.trim(); if (!query) throw new Error("OQL query is required"); showResult(await api("/api/oql", "POST", { handle, query, limit: Number($("limit").value || 25), offset: 0 })); } catch (err) { showError(err); } };
+    refreshProjects().catch(showError);
+  </script>
+</body>
+</html>

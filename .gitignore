@@ -2,6 +2,7 @@
 .classpath
 .project
 .settings
+.m2
 
 # IntelliJ project files
 .idea
@@ -24,6 +25,7 @@ pom.xml.versionsBackup
 .DS_Store
 
 *.jar
+*.hprof
 
 # Eclipse Project files
 .metadata

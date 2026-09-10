@@ -1,0 +1,31 @@
+package cchesser.javaperf.mcp.calcite;
+
+import org.eclipse.mat.snapshot.ISnapshot;
+
+import java.lang.ref.Reference;
+import java.lang.ref.WeakReference;
+import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
+
+/**
+ * Sourced from <a href="https://github.com/vlsi/mat-calcite-plugin">MAT Calcite Plugin</a>.
+ * Original class: {@code com.github.vlsi.mat.calcite.SnapshotHolder}.
+ */
+public class SnapshotHolder {
+  private static final List<Reference<ISnapshot>> SNAPSHOTS = new CopyOnWriteArrayList<>();
+
+  public static ISnapshot get(int index) {
+    return SNAPSHOTS.get(index).get();
+  }
+
+  public static synchronized int put(ISnapshot snapshot) {
+    for (int i = 0; i < SNAPSHOTS.size(); i++) {
+      Reference<ISnapshot> ref = SNAPSHOTS.get(i);
+      if (ref.get() == snapshot) {
+        return i;
+      }
+    }
+    SNAPSHOTS.add(new WeakReference<>(snapshot));
+    return SNAPSHOTS.size() - 1;
+  }
+}
