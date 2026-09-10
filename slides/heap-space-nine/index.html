@@ -1,0 +1,1380 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Heap Space Nine: Explore your Java Memory with AI</title>
+    <meta
+      name="description"
+      content="From heap-dump fundamentals to AI-assisted Java memory analysis with MCP."
+    />
+    <meta
+      property="og:url"
+      content="https://jvmperf.net/slides/heap-space-nine/"
+    />
+    <meta property="og:site_name" content="jvmperf: JVM Performance Workshop" />
+    <meta
+      property="og:title"
+      content="Heap Space Nine: Explore your Java Memory with AI"
+    />
+    <meta
+      property="og:description"
+      content="From heap-dump fundamentals to AI-assisted Java memory analysis with MCP."
+    />
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:image"
+      content="https://jvmperf.net/slides/heap-space-nine/og-image.svg"
+    />
+    <meta property="og:image:type" content="image/svg+xml" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta
+      name="twitter:image"
+      content="https://jvmperf.net/slides/heap-space-nine/og-image.svg"
+    />
+    <link rel="stylesheet" href="../_shared/reveal/dist/reset.css" />
+    <link rel="stylesheet" href="../_shared/reveal/dist/reveal.css" />
+    <link rel="stylesheet" href="../_shared/reveal/dist/theme/black.css" />
+    <link
+      rel="stylesheet"
+      href="../_shared/reveal/dist/plugin/highlight/monokai.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    />
+    <link rel="shortcut icon" href="/favicons/favicon.ico" />
+    <link
+      rel="apple-touch-icon"
+      href="/favicons/apple-touch-icon-180x180.png"
+      sizes="180x180"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      href="/favicons/favicon-16x16.png"
+      sizes="16x16"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      href="/favicons/favicon-32x32.png"
+      sizes="32x32"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      href="/favicons/android-36x36.png"
+      sizes="36x36"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      href="/favicons/android-48x48.png"
+      sizes="48x48"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      href="/favicons/android-72x72.png"
+      sizes="72x72"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      href="/favicons/android-96x96.png"
+      sizes="96x96"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      href="/favicons/android-144x144.png"
+      sizes="144x144"
+    />
+    <link
+      rel="icon"
+      type="image/png"
+      href="/favicons/android-192x192.png"
+      sizes="192x192"
+    />
+    <style>
+      :root {
+        --cyan: #6ee7ff;
+        --violet: #b99cff;
+        --lime: #a8f08a;
+        --pink: #ff8eb8;
+        --ink: #dce7ef;
+        --panel: rgba(18, 28, 40, 0.9);
+        --r-main-font-size: 32px;
+        --r-heading-text-transform: none;
+        --r-heading-letter-spacing: 0;
+      }
+      .reveal {
+        color: var(--ink);
+        background: radial-gradient(
+          circle at 75% 8%,
+          #172b3a,
+          #080d14 48%,
+          #05070b
+        );
+      }
+      .reveal .slides {
+        text-align: left;
+      }
+      .reveal h1,
+      .reveal h2,
+      .reveal h3 {
+        letter-spacing: 0;
+        text-transform: none;
+      }
+      .reveal h1 {
+        font-size: 2.25em;
+        line-height: 1.05;
+      }
+      .reveal h2 {
+        font-size: 1.55em;
+      }
+      .reveal h3 {
+        font-size: 1em;
+        color: var(--cyan);
+      }
+      .reveal a {
+        color: var(--cyan);
+      }
+      .reveal ul {
+        display: block;
+      }
+      .reveal li {
+        margin: 0.28em 0;
+      }
+      .reveal code {
+        color: var(--lime);
+      }
+      .reveal pre {
+        width: 100%;
+        box-shadow: none;
+      }
+      .reveal pre code {
+        max-height: none;
+        font-size: 1em;
+        line-height: 1.25;
+      }
+      .center {
+        text-align: center;
+      }
+      .eyebrow {
+        display: none;
+      }
+      .muted {
+        color: #a5b5c0;
+      }
+      .small {
+        font-size: 0.7em;
+      }
+      .large {
+        font-size: 1.12em;
+        line-height: 1.35;
+      }
+      .tiny {
+        font-size: 0.55em;
+      }
+      .accent {
+        color: var(--cyan);
+      }
+      .violet {
+        color: var(--violet);
+      }
+      .panel {
+        background: var(--panel);
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        border-radius: 12px;
+        padding: 0.7em 0.85em;
+      }
+      .grid2 {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.8em;
+      }
+      .grid3,
+      .cards {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.6em;
+      }
+      .card {
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 10px;
+        padding: 0.6em;
+        min-height: 3.2em;
+      }
+      .card strong {
+        display: block;
+        color: #fff;
+        font-size: 1.08em;
+        margin-bottom: 0.2em;
+      }
+      .card span {
+        color: #aebdc7;
+        font-size: 0.7em;
+      }
+      .mcp-card {
+        width: min(800px, 90%);
+        margin: 0.8em auto;
+        padding: 0;
+        border-color: var(--cyan);
+        overflow: hidden;
+        border-radius: 8px;
+      }
+      .mcp-card img {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+      .section-slide {
+        text-align: center !important;
+      }
+      .section-slide h2 {
+        font-size: 2.4em;
+      }
+      .section-slide .number {
+        color: var(--violet);
+        font-size: 3.2em;
+        font-weight: 800;
+        opacity: 0.8;
+      }
+      .quote {
+        border-left: 5px solid var(--cyan);
+        padding: 0.2em 0.8em;
+        font-size: 1.2em;
+      }
+      .flow,
+      .rootpath {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.35em;
+        flex-wrap: wrap;
+        margin: 1em 0;
+      }
+      .flow .node,
+      .rootpath span {
+        background: rgba(110, 231, 255, 0.1);
+        border: 1px solid var(--cyan);
+        border-radius: 8px;
+        padding: 0.5em 0.6em;
+        text-align: center;
+        font-size: 0.72em;
+      }
+      .flow .arrow,
+      .rootpath b {
+        color: var(--violet);
+        font-size: 1.4em;
+      }
+      .memory {
+        display: grid;
+        grid-template-columns: 1.2fr 1fr;
+        gap: 0.8em;
+        align-items: center;
+      }
+      .memory-stack {
+        border: 2px solid var(--cyan);
+        border-radius: 12px;
+        overflow: hidden;
+      }
+      .memory-stack div {
+        padding: 0.55em;
+        text-align: center;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+      }
+      .memory-stack div:last-child {
+        border: 0;
+      }
+      .heap {
+        background: rgba(110, 231, 255, 0.22);
+      }
+      .native {
+        background: rgba(185, 156, 255, 0.22);
+      }
+      .process {
+        background: rgba(255, 142, 184, 0.18);
+      }
+      .bars {
+        display: flex;
+        align-items: end;
+        height: 5em;
+        gap: 0.45em;
+        padding: 0.3em 0.5em 0;
+        border-bottom: 1px solid #60727e;
+      }
+      .bar {
+        background: linear-gradient(var(--cyan), #287f9b);
+        width: 1.5em;
+        border-radius: 5px 5px 0 0;
+        position: relative;
+      }
+      .bar:nth-child(2) {
+        background: linear-gradient(var(--violet), #68559e);
+      }
+      .bar:nth-child(3) {
+        background: linear-gradient(var(--pink), #a35074);
+      }
+      .bar:nth-child(4) {
+        background: linear-gradient(var(--lime), #5d934d);
+      }
+      .bar label {
+        position: absolute;
+        top: -1.35em;
+        font-size: 0.42em;
+        white-space: nowrap;
+      }
+      .screen {
+        border: 1px solid #647582;
+        border-radius: 8px;
+        padding: 0.25em;
+        background: #111820;
+        max-height: 9em;
+        object-fit: contain;
+        width: 100%;
+      }
+      .profile-photo {
+        border-radius: 50%;
+        vertical-align: middle;
+      }
+      .evidence {
+        border-color: var(--cyan);
+      }
+      .interpretation {
+        border-color: var(--violet);
+      }
+      .action {
+        border-color: var(--lime);
+      }
+      .evidence h3 {
+        color: var(--cyan);
+      }
+      .interpretation h3 {
+        color: var(--violet);
+      }
+      .action h3 {
+        color: var(--lime);
+      }
+      .timeline {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 0.35em;
+      }
+      .timeline div {
+        border-top: 4px solid var(--cyan);
+        background: rgba(255, 255, 255, 0.06);
+        padding: 0.4em;
+        font-size: 0.7em;
+      }
+      .timeline div:nth-child(2) {
+        border-color: var(--violet);
+      }
+      .timeline div:nth-child(3) {
+        border-color: var(--pink);
+      }
+      .timeline div:nth-child(4) {
+        border-color: var(--lime);
+      }
+      .timeline div:nth-child(5) {
+        border-color: #ffd166;
+      }
+      .command-slide pre {
+        max-width: 78%;
+        margin: 1.5em auto;
+      }
+      .command-slide pre code {
+        font-size: 1.65em;
+        line-height: 1.35;
+        text-align: center;
+      }
+      .tree {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.35em;
+        margin: 1.5em auto;
+      }
+      .tree-node {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1em;
+        align-items: center;
+        width: min(760px, 90%);
+        padding: 0.65em 0.9em;
+        border: 1px solid var(--cyan);
+        border-radius: 8px;
+        background: rgba(110, 231, 255, 0.1);
+      }
+      .tree-node span {
+        text-align: right;
+        color: #b9c8d2;
+        font-size: 0.72em;
+      }
+      .tree-branch {
+        color: var(--violet);
+        font-size: 1.3em;
+        height: 0.5em;
+      }
+      @media (max-width: 800px) {
+        .grid2,
+        .memory,
+        .grid3,
+        .cards {
+          grid-template-columns: 1fr;
+        }
+        .timeline {
+          grid-template-columns: 1fr;
+        }
+        .flow {
+          flex-wrap: wrap;
+        }
+      }
+    </style>
+    <style>
+      .memory-stack {
+        border-color: transparent;
+      }
+      .memory-stack:has(> div.fragment.visible) {
+        border-color: var(--cyan);
+      }
+      .index-stack {
+        display: grid;
+        gap: 0.5em;
+        max-width: 900px;
+        margin: 1.2em auto;
+      }
+      .index-layer {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 1em;
+        padding: 0.7em 1em;
+        border-left: 5px solid var(--cyan);
+        border-radius: 8px;
+        background: rgba(110, 231, 255, 0.1);
+      }
+      .index-layer:nth-child(2) {
+        border-color: var(--violet);
+        background: rgba(185, 156, 255, 0.1);
+      }
+      .index-layer:nth-child(3) {
+        border-color: var(--lime);
+        background: rgba(168, 240, 138, 0.1);
+      }
+      .index-layer:nth-child(4) {
+        border-color: var(--pink);
+        background: rgba(255, 142, 184, 0.1);
+      }
+      .index-layer span {
+        color: #b9c8d2;
+        font-size: 0.78em;
+        text-align: right;
+      }
+      .oql-slide .bridge-icon {
+        color: var(--cyan);
+        margin-left: 0.7em;
+        font-size: 0.82em;
+        vertical-align: 0.02em;
+      }
+      .oql-slide pre {
+        max-width: 92%;
+        margin: 1.2em auto;
+      }
+      .oql-slide pre code {
+        font-size: 1.45em;
+        line-height: 1.45;
+      }
+      .boundary-slide p:last-of-type {
+        font-size: 1.3em;
+      }
+      .heading-icon {
+        color: var(--cyan);
+        font-size: 0.82em;
+        margin-left: 0.7em;
+        vertical-align: 0.02em;
+      }
+      .outline-icon {
+        color: var(--cyan);
+        margin-left: 0.65em;
+        font-size: 0.9em;
+      }
+      .close-slide {
+        position: relative;
+        height: 100%;
+      }
+      .close-slide .closing-art {
+        display: block;
+        width: min(760px, 68vw);
+        margin: 0 auto;
+      }
+      .diagram {
+        width: min(760px, 68vw);
+      }
+      .close-slide .closing-contact {
+        position: absolute;
+        left: 0.2em;
+        bottom: 0.15em;
+        text-align: left;
+      }
+      .close-slide .closing-contact h2 {
+        margin: 0 0 0.25em;
+        font-size: 1.7em;
+      }
+      .close-slide .closing-contact table {
+        margin: 0;
+      }
+      .close-slide .closing-contact .profile-photo {
+        width: 68px;
+      }
+      .close-slide .closing-qr {
+        position: absolute;
+        right: 0.2em;
+        bottom: 0.15em;
+        width: 138px;
+        padding: 7px;
+        background: #fff;
+        border-radius: 8px;
+      }
+      .index-files {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0.45em;
+        margin-top: 0.7em;
+      }
+      .index-files div {
+        padding: 0.45em 0.55em;
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        border-radius: 7px;
+        background: rgba(255, 255, 255, 0.05);
+      }
+      .index-files strong {
+        display: block;
+        color: var(--cyan);
+        font-size: 0.68em;
+        margin-bottom: 0.18em;
+      }
+      .index-files code {
+        display: block;
+        color: #b9c8d2;
+        font-size: 0.52em;
+        line-height: 1.35;
+      }
+      .tool-catalog {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.6em;
+        margin-top: 0.7em;
+      }
+      .tool-family {
+        background: rgba(255, 255, 255, 0.06);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-top: 4px solid var(--cyan);
+        border-radius: 10px;
+        padding: 0.55em 0.65em;
+      }
+      .tool-family:nth-child(2) {
+        border-top-color: var(--violet);
+      }
+      .tool-family:nth-child(3) {
+        border-top-color: var(--lime);
+      }
+      .tool-family h3 {
+        margin: 0 0 0.35em;
+      }
+      .tool-family p {
+        margin: 0.28em 0;
+        font-size: 0.63em;
+        color: #b9c8d2;
+        line-height: 1.35;
+      }
+      .tool-family code {
+        font-size: 0.84em;
+      }
+      .tool-call {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 0.55em;
+        align-items: stretch;
+        margin: 1em 0;
+      }
+      .tool-call .node {
+        background: rgba(110, 231, 255, 0.1);
+        border: 1px solid var(--cyan);
+        border-radius: 8px;
+        padding: 0.65em 0.5em;
+        text-align: center;
+        font-size: 0.7em;
+      }
+      .tool-call .node:nth-child(2) {
+        border-color: var(--violet);
+        background: rgba(185, 156, 255, 0.1);
+      }
+      .tool-call .node:nth-child(3) {
+        border-color: var(--lime);
+        background: rgba(168, 240, 138, 0.1);
+      }
+      .tool-call small {
+        display: block;
+        color: #b9c8d2;
+        margin-top: 0.35em;
+      }
+      @media (max-width: 800px) {
+        .tool-catalog,
+        .tool-call {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <section class="center">
+          <img
+            src="img/heap-space-nine-title.png"
+            width="820"
+            alt="Heap Space Nine: Explore your Java Memory with AI"
+          />
+          <table style="margin: 0.55em auto">
+            <tr>
+              <td>
+                <img
+                  class="profile-photo"
+                  src="../_shared/img/me.png"
+                  width="82"
+                  alt="Carl Chesser"
+                />
+              </td>
+              <td
+                style="
+                  vertical-align: middle;
+                  padding-left: 0.7em;
+                  text-align: left;
+                "
+              >
+                Carl Chesser<br /><small
+                  ><a href="https://twitter.com/che55er">@che55er</a> |
+                  <a href="https://che55er.io/">che55er.io</a></small
+                >
+              </td>
+            </tr>
+          </table>
+        </section>
+        <section>
+          <h2>Today’s path</h2>
+          <div class="grid2">
+            <div class="panel fragment">
+              <h3>
+                Capture
+                <i
+                  class="fa-solid fa-terminal outline-icon"
+                  aria-hidden="true"
+                ></i>
+              </h3>
+              <p class="small">
+                Why we take a heap dump and the two common commands.
+              </p>
+            </div>
+            <div class="panel fragment">
+              <h3>
+                Understand
+                <i
+                  class="fa-solid fa-brain outline-icon"
+                  aria-hidden="true"
+                ></i>
+              </h3>
+              <p class="small">
+                What a <code>.hprof</code> contains, and why it can be huge.
+              </p>
+            </div>
+            <div class="panel fragment">
+              <h3>
+                Analyze + Extend
+                <i
+                  class="fa-solid fa-chart-line outline-icon"
+                  aria-hidden="true"
+                ></i>
+              </h3>
+              <p class="small">
+                How MAT reads, indexes, and queries the snapshot with Calcite
+                for a richer query engine.
+              </p>
+            </div>
+            <div class="panel fragment">
+              <h3>
+                Connect
+                <i class="fa-solid fa-plug outline-icon" aria-hidden="true"></i>
+              </h3>
+              <p class="small">
+                How MCP exposes heap analysis to an AI application.
+              </p>
+            </div>
+            <div class="panel fragment">
+              <h3>
+                Demonstrate
+                <i
+                  class="fa-solid fa-rocket outline-icon"
+                  aria-hidden="true"
+                ></i>
+              </h3>
+              <p class="small">A live walk through the Java heap workbench.</p>
+            </div>
+          </div>
+        </section>
+        <section class="section-slide">
+          <div class="number">Chapter #1</div>
+          <h2>Capture the evidence</h2>
+          <p class="muted">Why capture a heap dump?</p>
+        </section>
+        <section>
+          <h2>Why capture a heap dump?</h2>
+          <div class="grid2">
+            <div class="panel fragment">
+              <h3>Reactive: an incident happened</h3>
+              <p class="large"><code>OutOfMemoryError</code></p>
+              <p class="small">
+                Find which objects retained the heap and what application path
+                kept them reachable.
+              </p>
+            </div>
+            <div class="panel fragment">
+              <h3>Proactive: plan capacity</h3>
+              <p class="large">Size the container workload</p>
+              <p class="small">
+                Understand heap, object, and retention patterns before choosing
+                memory limits and headroom.
+              </p>
+            </div>
+          </div>
+          <p class="large center fragment">
+            A heap dump shows what the JVM was holding at that moment.
+          </p>
+        </section>
+        <section>
+          <div class="eyebrow">The map</div>
+          <h2>JVM memory is bigger than the heap</h2>
+          <div class="memory">
+            <div class="memory-stack">
+              <div class="heap">
+                <strong>Java heap</strong><br /><span class="small"
+                  >objects, arrays, class instances</span
+                >
+              </div>
+              <div class="native">
+                <strong>Native memory</strong><br /><span class="small"
+                  >threads, code cache, metaspace, GC structures</span
+                >
+              </div>
+              <div class="process">
+                <strong>Process + libraries</strong><br /><span class="small"
+                  >JVM, agents, mapped files, runtime overhead</span
+                >
+              </div>
+            </div>
+            <div class="panel">
+              <h3>Heap dump answers</h3>
+              <p class="small">
+                What objects existed? How large were they? What kept them
+                reachable?
+              </p>
+              <h3>It does not answer</h3>
+              <p class="small">
+                What happened first, or which request created every object.
+              </p>
+            </div>
+          </div>
+        </section>
+        <section>
+          <h2>Size is not one number</h2>
+          <div class="grid2">
+            <div class="panel evidence fragment">
+              <h3>Shallow heap</h3>
+              <p class="large">
+                The memory occupied by the object itself, excluding the objects
+                it references.
+              </p>
+            </div>
+            <div class="panel interpretation fragment">
+              <h3>Retained heap</h3>
+              <p class="large">
+                The memory that would become collectible if this object were
+                removed from the graph.
+              </p>
+            </div>
+            <div class="panel action fragment">
+              <h3>GC root</h3>
+              <p class="large">
+                A runtime-held reference, such as a thread or static field, that
+                keeps objects reachable.
+              </p>
+            </div>
+            <div class="panel fragment">
+              <h3>Object count</h3>
+              <p class="large">
+                The number of instances of a class; many small objects can
+                consume substantial memory in total.
+              </p>
+            </div>
+          </div>
+        </section>
+        <section class="command-slide">
+          <h2><code>jcmd</code>: capture a heap dump</h2>
+          <pre><code>jcmd &lt;PID&gt; GC.heap_dump \
+  /tmp/service.hprof</code></pre>
+          <p class="center small muted fragment">
+            The target JVM must generally be owned by the same OS user. Choose a
+            destination with enough free space.
+          </p>
+        </section>
+        <section class="command-slide">
+          <h2><code>jmap</code>: the traditional JDK command</h2>
+          <pre><code>jmap -dump:format=b,\
+file=/tmp/service.hprof &lt;PID&gt;</code></pre>
+          <p class="center small muted fragment">
+            This produces the same kind of binary heap-dump artifact for
+            analysis.
+          </p>
+        </section>
+        <section class="section-slide">
+          <div class="number">Chapter #2</div>
+          <h2>Understand the snapshot</h2>
+          <p class="muted">What is actually inside a <code>.hprof</code>?</p>
+        </section>
+        <section>
+          <h2>
+            What is actually inside a <code>.hprof</code>?<i
+              class="fa-solid fa-brain heading-icon"
+              aria-hidden="true"
+            ></i>
+          </h2>
+          <ul style="font-size: 1.05em; line-height: 1.55">
+            <li class="fragment">
+              A <strong>snapshot</strong> of the JVM heap at one point in time.
+            </li>
+            <li class="fragment">
+              Class metadata, object instances, arrays, references, and GC-root
+              information.
+            </li>
+            <li class="fragment">
+              Potentially <strong>sensitive data</strong>, including strings and
+              application fields.
+            </li>
+            <li class="fragment">
+              A potentially <strong>large binary file</strong>, often comparable
+              to the live heap.
+            </li>
+          </ul>
+        </section>
+        <section>
+          <h2>
+            What can read a <code>.hprof</code>?<i
+              class="fa-solid fa-toolbox heading-icon"
+              aria-hidden="true"
+            ></i>
+          </h2>
+          <div class="grid3">
+            <div class="card fragment">
+              <strong>Eclipse MAT</strong
+              ><span
+                >Deep heap analysis, reports, retained sizes, and OQL.<br /><a
+                  href="https://eclipse.dev/mat/"
+                  >https://eclipse.dev/mat/</a
+                ></span
+              >
+            </div>
+            <div class="card fragment">
+              <strong>VisualVM</strong
+              ><span
+                >Object browsing, summaries, references, and OQL.<br /><a
+                  href="https://visualvm.github.io/"
+                  >https://visualvm.github.io/</a
+                ></span
+              >
+            </div>
+            <div class="card fragment">
+              <strong>JOverflow</strong
+              ><span
+                >A JDK Mission Control plugin for common heap anti-patterns.<br /><a
+                  href="https://github.com/openjdk/jmc"
+                  >https://github.com/openjdk/jmc</a
+                ></span
+              >
+            </div>
+          </div>
+          <p class="small muted fragment">
+            These tools are covered in the
+            <a href="https://jvmperf.net/docs/memory/">memory-analysis guide</a
+            >.
+          </p>
+        </section>
+        <section>
+          <h2>Why focus on Eclipse MAT?</h2>
+          <p class="large fragment"><strong>Open source since 2008.</strong></p>
+          <p class="large fragment">
+            Mature enough for large production heap dumps.
+          </p>
+          <p class="large fragment">
+            Versatile enough for reports, object graphs, retained sizes, and
+            OQL.
+          </p>
+          <p class="large fragment">
+            Licensed under the
+            <a href="https://www.eclipse.org/legal/epl-2.0/"
+              ><strong>Eclipse Public License 2.0</strong></a
+            >.
+          </p>
+
+        </section>
+        <section>
+          <h2>How MAT handles a large <code>.hprof</code> file</h2>
+
+          <div class="index-files fragment">
+            <div>
+              <strong>Object lookup</strong
+              ><code
+                >.index<br />.o2hprof.index<br />.o2c.index<br />.idx.index</code
+              >
+            </div>
+            <div>
+              <strong>Reference graph</strong
+              ><code>.inbound.index<br />.outbound.index<br />.a2s.index</code>
+            </div>
+            <div>
+              <strong>Retention</strong
+              ><code>.domIn.index<br />.domOut.index<br />.o2ret.index</code>
+            </div>
+            <div><strong>Thread data</strong><code>.threads</code></div>
+          </div>
+          <p class="small muted fragment">
+            Creates a file-based index to assist in different forms of lookups.
+          </p>
+        </section>
+        <section class="section-slide">
+          <div class="number">Chapter #3</div>
+          <h2>Analyze + Extend</h2>
+          <p class="muted">Read, query, and extend heap analysis.</p>
+        </section>
+        <section>
+          <h2>What MAT already gives us</h2>
+          <p class="large fragment">
+            A mature engine for reading heap snapshots.
+          </p>
+          <p class="large fragment">
+            Indexes, retained sizes, dominators, references, reports, and OQL.
+          </p>
+        </section>
+        <section class="oql-slide">
+          <h2>
+            OQL is the bridge to questions<i
+              class="fa-solid fa-bridge bridge-icon"
+              aria-hidden="true"
+            ></i>
+          </h2>
+          <pre><code>SELECT c.cacheLimit, c.innerCache.size
+FROM cchesser.javaperf.workshop.cache.CleverCache c</code></pre>
+          <p class="large fragment">OQL is not standard SQL.</p>
+          <p class="large fragment">
+            MAT publishes a
+            <a
+              href="https://help.eclipse.org/latest/index.jsp?topic=%2Forg.eclipse.mat.ui.help%2Freference%2Fbnfofoql.html"
+              >BNF grammar</a
+            >
+            an agent can follow.
+          </p>
+        </section>
+        <section>
+          <h2>When OQL is not enough</h2>
+          <p class="large fragment">
+            MAT OQL provides essential capabilities for quering data; however,
+            it is quite limited.
+          </p>
+          <p class="large fragment">
+            For joins, grouping, sorting, and aggregation, add Apache Calcite
+            based on the
+            <a href="https://github.com/vlsi/mat-calcite-plugin"
+              >mat-calcite-plugin</a
+            >.
+          </p>
+        </section>
+        <section>
+          <h2>MAT + Calcite: a richer query</h2>
+          <pre><code>SELECT toString(file) AS url,
+       COUNT(*) AS copies,
+       SUM(retainedSize(this)) AS retained
+FROM java.net.URL
+GROUP BY toString(file)
+HAVING COUNT(*) &gt; 1
+ORDER BY retained DESC</code></pre>
+          <p class="large center fragment">
+            Now the agent can ask distribution and relationship questions in
+            SQL.
+          </p>
+        </section>
+        <section>
+          <h2>Calcite keeps the heap as the data source</h2>
+          <div class="grid2">
+            <div class="panel fragment">
+              <h3>MAT provides</h3>
+              <p class="large">
+                Objects, fields, references, shallow size, retained size.
+              </p>
+            </div>
+            <div class="panel fragment">
+              <h3>Calcite provides</h3>
+              <p class="large">
+                Stronger relational query layer over MAT’s heap-backed schema.
+              </p>
+            </div>
+          </div>
+          <img
+            class="screen fragment"
+            src="../../mat/calcite_tag_distributions.png"
+            alt="Calcite distribution query result"
+            style="max-height: 7em; margin-top: 0.8em"
+          />
+        </section>
+        <section class="section-slide">
+          <div class="number">Chapter #4</div>
+          <h2>Connect analysis to an agent</h2>
+          <p class="muted">
+            The workbench turns tool results into a conversation.
+          </p>
+        </section>
+        <section>
+          <h2>Why add an agent?</h2>
+          <p class="large fragment">Ask a memory question in plain language.</p>
+          <p class="large fragment">
+            Let the model choose how to resolve the question with the available
+            tools.
+          </p>
+          <p class="large fragment">
+            It can further explore the data set through a clearly defined query
+            language (OQL).
+          </p>
+        </section>
+        <section>
+          <h2>Model Context Protocol (MCP)</h2>
+          <p class="large fragment">
+            An AI application is configured with the MCP interface (server).
+          </p>
+          <p class="large fragment">
+            The MCP server describes inputs and outputs.
+          </p>
+          <p class="large fragment">
+            The model understands this protocol and then can utilize this to
+            utilize specific tools for specific use-cases.
+          </p>
+          <div class="card fragment mcp-card">
+            <img src="img/mcp.png" alt="Model Context Protocol diagram" />
+          </div>
+        </section>
+        <section>
+          <h2>
+            Meet <code>java-heap-mcp</code
+            ><i class="fa-solid fa-plug heading-icon" aria-hidden="true"></i>
+          </h2>
+          <div class="flow">
+            <div class="node">AI application</div>
+            <div class="arrow"><i class="fa-solid fa-arrow-right"></i></div>
+            <div class="node">MCP over stdio</div>
+            <div class="arrow"><i class="fa-solid fa-arrow-right"></i></div>
+            <div class="node">MAT + Calcite</div>
+          </div>
+          <div class="grid2">
+            <div class="panel fragment">
+              <h3>Server owns the session</h3>
+              <p class="small">
+                Load a hprof file into a named project, build or reuse MAT indexes,
+                and return a stable heap handle.
+              </p>
+            </div>
+            <div class="panel fragment">
+              <h3>Responses stay bounded</h3>
+              <p class="small">
+                Tools return focused JSON summaries and rows instead of sending
+                the raw <code>.hprof</code> to the model.
+              </p>
+            </div>
+          </div>
+        </section>
+        <section>
+          <h2>A request through the server</h2>
+          <div class="flow">
+            <div class="node"><code>heap_open_project</code></div>
+            <div class="arrow"><i class="fa-solid fa-arrow-right"></i></div>
+            <div class="node"><code>heap_get_overview</code></div>
+            <div class="arrow"><i class="fa-solid fa-arrow-right"></i></div>
+            <div class="node">MAT snapshot</div>
+            <div class="arrow"><i class="fa-solid fa-arrow-right"></i></div>
+            <div class="node">Results!</div>
+          </div>
+          <p class="large center fragment">
+            The model never needs direct access to the raw heap file, it is able to access
+            through well-defined MCP tools.
+          </p>
+        </section>
+        <section>
+          <h2>13 tools, three jobs</h2>
+          <div class="tool-catalog">
+            <div class="tool-family fragment">
+              <h3>Lifecycle</h3>
+              <p><code>heap_load_dump</code><br />load/index a dump</p>
+              <p><code>heap_open_project</code><br />resume a cached project</p>
+              <p>
+                <code>heap_list_projects</code> · <code>heap_list_dumps</code
+                ><br />discover cached state
+              </p>
+              <p><code>heap_unload_dump</code><br />release an active handle</p>
+            </div>
+            <div class="tool-family fragment">
+              <h3>Orient</h3>
+              <p>
+                <code>heap_get_overview</code><br />summary, top classes,
+                dominators
+              </p>
+              <p>
+                <code>heap_get_histogram</code><br />sort by
+                retained/shallow/count
+              </p>
+              <p>
+                <code>heap_get_dominators</code><br />find retained-memory roots
+              </p>
+              <p>
+                <code>heap_get_oql_grammar</code><br />learn the supported
+                SQL/OQL
+              </p>
+            </div>
+            <div class="tool-family fragment">
+              <h3>Investigate</h3>
+              <p><code>heap_run_oql</code><br />query with limit + offset</p>
+              <p><code>heap_inspect_object</code><br />fields and references</p>
+              <p>
+                <code>heap_find_path_to_gc_roots</code><br />trace reachability
+              </p>
+              <p>
+                <code>heap_find_leak_suspects</code><br />run MAT leak analysis
+              </p>
+            </div>
+          </div>
+        </section>
+        <section>
+          <h2>A tool chain follows the evidence</h2>
+          <div class="tool-call">
+            <div class="node">
+              <code>heap_get_overview</code><br />What is large?
+            </div>
+            <div class="node">
+              <code>heap_get_histogram</code><br />Which classes dominate?
+            </div>
+            <div class="node">
+              <code>heap_inspect_object</code><br />What does this object
+              retain?
+            </div>
+          </div>
+          <div class="tool-call">
+            <div class="node">
+              <code>heap_find_path_to_gc_roots</code><br />Why is it alive?
+            </div>
+            <div class="node">
+              <code>heap_run_oql</code><br />Can we test a pattern?
+            </div>
+            <div class="node">
+              <code>heap_find_leak_suspects</code><br />What does MAT flag?
+            </div>
+          </div>
+          <p class="large center fragment">
+            The model chooses the next tool from the returned evidence.
+          </p>
+        </section>
+        <section>
+          <h2>Natural language becomes a traceable run</h2>
+          <div class="flow">
+            <div class="node">Browser</div>
+            <div class="arrow"><i class="fa-solid fa-arrow-right"></i></div>
+            <div class="node">local or frontier model</div>
+            <div class="arrow"><i class="fa-solid fa-arrow-right"></i></div>
+            <div class="node">MCP</div>
+            <div class="arrow"><i class="fa-solid fa-arrow-right"></i></div>
+            <div class="node">MAT</div>
+          </div>
+        </section>
+        <section
+          class="no-heading-icon"
+          data-background-iframe="https://a2ui.org/"
+          data-background-interactive
+          data-background-opacity="0.5"
+        >
+          <div class="foreground-text-dark">
+            <h2>A2UI: Agent-to-UI</h2>
+          </div>
+        </section>
+        <section>
+          <h2>A2UI keeps the workbench simple</h2>
+          <div class="flow">
+            <div class="node">tool result</div>
+            <div class="arrow"><i class="fa-solid fa-arrow-right"></i></div>
+            <div class="node">components[]</div>
+            <div class="arrow"><i class="fa-solid fa-arrow-right"></i></div>
+            <div class="node">browser renderer</div>
+          </div>
+          <p class="large fragment">The model returns declarative JSON.</p>
+          <p class="large fragment">
+            The UI renders summaries, tables, charts, and graphs.
+          </p>
+        </section>
+        <section>
+          <h2>What A2UI makes possible</h2>
+          <p class="large fragment">The same tool result can become a table.</p>
+          <p class="large fragment">Numeric rows can become a chart.</p>
+          <p class="large fragment">References can become a graph.</p>
+        </section>
+        <section class="boundary-slide">
+          <h2>Utilize your local filesystem for heap analysis</h2>
+          <p class="large fragment">
+            Browser <i class="fa-solid fa-arrow-right"></i> local model (via ollama)
+            <i class="fa-solid fa-arrow-right"></i> MCP
+            <i class="fa-solid fa-arrow-right"></i> MAT
+            <i class="fa-solid fa-arrow-right"></i> heap dump.
+          </p>
+          <p class="large fragment">
+            You can also use any frontier model and coding agent to interact with this MCP server.
+          </p>
+          <span class="small muted fragment">
+            Just remember, your heap file contains sensitive data. <i class="fa-solid fa-user-secret"></i>
+          </span>
+        </section>
+        <section class="center">
+          <img class="diagram" src="img/simple-system-diagram.png" />
+        </section>
+        <section class="section-slide">
+          <div class="number">Chapter #5</div>
+          <h2>
+            Demo Time
+            <i class="fa-solid fa-rocket heading-icon" aria-hidden="true"></i>
+          </h2>
+        </section>
+        <section>
+          <h2>Lessons Learned</h2>
+          <ul>
+            <li>MCP server functions be fast, but having an agent iterated with it can be slow.</li>
+            <li>OQL can still be confusing to an agent without alot of sufficient guidance (system prompt, grammar context).</li>
+            <li>Enabling advanced querying capabilities with Apache Calcite can expand how you can answer general questions.</li>
+            <li>Utilizing local models help isolate what content is being analyzed, but it can be too slow on some simple operations.</li>
+          </ul>
+        </section>
+        <section class="close-slide">
+          <img
+            class="closing-art"
+            src="img/heap-space-nine-title.png"
+            alt="Heap Space Nine: Explore your Java Memory with AI"
+          />
+          <div class="closing-contact">
+            <h2>Thank You!</h2>
+            <table>
+              <tr>
+                <td>
+                  <img
+                    class="profile-photo"
+                    src="../_shared/img/me.png"
+                    alt="Carl Chesser"
+                  />
+                </td>
+                <td style="vertical-align: middle; padding-left: 0.55em">
+                  Carl Chesser<br /><small
+                    ><a href="https://twitter.com/che55er">@che55er</a> ·
+                    <a href="https://che55er.io/">che55er.io</a><br /><a
+                      href="https://jvmperf.net/"
+                      >jvmperf.net</a
+                    ></small
+                  >
+                </td>
+              </tr>
+            </table>
+          </div>
+          <img
+            class="closing-qr"
+            src="img/qr.png"
+            alt="QR code linking to more information"
+          />
+        </section>
+      </div>
+    </div>
+    <script src="../_shared/reveal/dist/reveal.js"></script>
+    <script src="../_shared/reveal/dist/plugin/notes.js"></script>
+    <script src="../_shared/reveal/dist/plugin/markdown.js"></script>
+    <script src="../_shared/reveal/dist/plugin/highlight.js"></script>
+    <script>
+      document
+        .querySelectorAll(
+          ".cards .card,.grid3 .card,.timeline>div,.memory-stack>div",
+        )
+        .forEach((element) => element.classList.add("fragment"));
+      document.querySelectorAll(".flow").forEach((flow) => {
+        let step = 0;
+        [...flow.children].forEach((element, index) => {
+          if (!element.classList.contains("node")) return;
+          if (index === 0) return;
+          step++;
+          element.classList.add("fragment");
+          element.dataset.fragmentIndex = step;
+          const arrow = element.previousElementSibling;
+          if (arrow && arrow.classList.contains("arrow")) {
+            arrow.classList.add("fragment");
+            arrow.dataset.fragmentIndex = step;
+          }
+        });
+      });
+      document.querySelectorAll(".rootpath").forEach((path) => {
+        let step = 0;
+        [...path.children].forEach((element, index) => {
+          if (!element.matches("span") || index === 0) return;
+          step++;
+          element.classList.add("fragment");
+          element.dataset.fragmentIndex = step;
+          const arrow = element.previousElementSibling;
+          if (arrow && arrow.matches("b")) {
+            arrow.classList.add("fragment");
+            arrow.dataset.fragmentIndex = step;
+          }
+        });
+      });
+      const headingIconRules = [
+        [/memory analyzer|MAT/i, "fa-microscope"],
+        [/OQL|query|Calcite/i, "fa-table-list"],
+        [/MCP|server|request|tool/i, "fa-plug"],
+        [/agent|A2UI|interactive|conversation/i, "fa-robot"],
+        [/capture|jcmd|jmap/i, "fa-terminal"],
+        [/workbench|demonstrate|questions/i, "fa-person-chalkboard"],
+        [/failure|risk/i, "fa-triangle-exclamation"],
+        [/analysis/i, "fa-laptop-code"],
+        [/lessons learned/i, "fa-lightbulb"]
+      ];
+      document.querySelectorAll("h1,h2").forEach((heading) => {
+        if (heading.closest(".no-heading-icon")) return;
+        if (heading.querySelector("i")) return;
+        const rule = headingIconRules.find(([pattern]) =>
+          pattern.test(heading.textContent),
+        );
+        if (!rule) return;
+        const icon = document.createElement("i");
+        icon.className = `fa-solid ${rule[1]} heading-icon`;
+        icon.setAttribute("aria-hidden", "true");
+        heading.appendChild(icon);
+      });
+      Reveal.initialize({
+        hash: true,
+        slideNumber: false,
+        transition: "slide",
+        controlsTutorial: false,
+        width: 1280,
+        height: 720,
+        margin: 0.06,
+        plugins: [RevealMarkdown, RevealHighlight, RevealNotes],
+      });
+    </script>
+  </body>
+</html>
