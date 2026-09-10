@@ -1,0 +1,15 @@
+Eclipse Public License - v 2.0 (EPL-2.0)
+
+Official canonical text:
+https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.txt
+
+Project-local notice:
+The Eclipse Memory Analyzer (MAT) artifacts downloaded during the build declare
+EPL-2.0 in their bundle metadata (`Bundle-License`) and plugin `about.html`
+files.
+
+Relevant artifacts:
+- org.eclipse.mat.api.jar
+- org.eclipse.mat.parser.jar
+- org.eclipse.mat.report.jar
+- org.eclipse.mat.hprof.jar

@@ -1,0 +1,4 @@
+dist/
+java-heap-mcp/.m2
+java-heap-mcp/vendor
+java-heap-mcp/*.hprof
