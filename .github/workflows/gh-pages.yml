@@ -7,7 +7,7 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-22.04
+    runs-on:  ubuntu-latest
     defaults:
       run:
         working-directory: ./docs
@@ -17,17 +17,8 @@ jobs:
           submodules: true
           fetch-depth: 0
 
-      - name: Setup Hugo
-        uses: peaceiris/actions-hugo@v2
-        with:
-          hugo-version: '0.162.1'
-          extended: true
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: '24'
-          cache: 'npm'
-          cache-dependency-path: '**/package-lock.json'
+      - name: Setup mise
+        uses: jdx/mise-action@v4
 
       - run: npm install
       - run: hugo

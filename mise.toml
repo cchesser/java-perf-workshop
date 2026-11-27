@@ -1,0 +1,7 @@
+[tools]
+java = "oracle-25"
+maven = "3.9.16"
+hugo = "0.170.1"
+go = "1.27.1"
+node = "23.11.0"
+"aqua:sass/dart-sass" = "1.108.2"

@@ -116,7 +116,7 @@ security:
       - '^node$'
       - '^npx$'
       - '^postcss$'
-      - '^dart-sass-embedded$'
+      - '^sass$'
   node:
     permissions:
       allowRead:
