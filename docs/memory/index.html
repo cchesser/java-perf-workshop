@@ -33,18 +33,6 @@
 <link rel="alternate" type="text/html" href="https://jvmperf.net/_print/docs/memory/">
 <meta name="robots" content="index, follow">
 
-
-<link rel="shortcut icon" href="/favicons/favicon.ico" >
-<link rel="apple-touch-icon" href="/favicons/apple-touch-icon-180x180.png" sizes="180x180">
-<link rel="icon" type="image/png" href="/favicons/favicon-16x16.png" sizes="16x16">
-<link rel="icon" type="image/png" href="/favicons/favicon-32x32.png" sizes="32x32">
-<link rel="icon" type="image/png" href="/favicons/android-36x36.png" sizes="36x36">
-<link rel="icon" type="image/png" href="/favicons/android-48x48.png" sizes="48x48">
-<link rel="icon" type="image/png" href="/favicons/android-72x72.png" sizes="72x72">
-<link rel="icon" type="image/png" href="/favicons/android-96x96.png" sizes="96x96">
-<link rel="icon" type="image/png" href="/favicons/android-144x144.png" sizes="144x144">
-<link rel="icon" type="image/png" href="/favicons/android-192x192.png" sizes="192x192">
-
 <title>Memory Analysis | jvmperf: JVM Performance Workshop</title>
 <meta name="description" content="Analyzing the JVM heap with available tooling.">
 <meta property="og:url" content="https://jvmperf.net/docs/memory/">
@@ -59,16 +47,13 @@
 	<meta name="twitter:card" content="summary">
 	<meta name="twitter:title" content="Memory Analysis">
 	<meta name="twitter:description" content="Analyzing the JVM heap with available tooling.">
-<link rel="preload" href="/scss/main.min.a40656429f0e1596ff39f4dccbb66f5e0f1f4383a4768ba480b0c9c6048ac179.css" as="style" integrity="sha256-pAZWQp8OFZb/OfTcy7ZvXg8fQ4OkdoukgLDJxgSKwXk=" crossorigin="anonymous">
-<link href="/scss/main.min.a40656429f0e1596ff39f4dccbb66f5e0f1f4383a4768ba480b0c9c6048ac179.css" rel="stylesheet" integrity="sha256-pAZWQp8OFZb/OfTcy7ZvXg8fQ4OkdoukgLDJxgSKwXk=" crossorigin="anonymous">
-<script
-  src="https://code.jquery.com/jquery-3.7.1.min.js"
-  integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g=="
-  crossorigin="anonymous"></script>
+<link rel="preload" href="/scss/main.min.85ac22938d31be2b1e5c039c2ce0eb963f4813bea5aa9075cf0f99335ba60c9d.css" as="style" integrity="sha256-hawik40xviseXAOcLODrlj9IE76lqpB1zw&#43;ZM1umDJ0=" crossorigin="anonymous">
+<link href="/scss/main.min.85ac22938d31be2b1e5c039c2ce0eb963f4813bea5aa9075cf0f99335ba60c9d.css" rel="stylesheet" integrity="sha256-hawik40xviseXAOcLODrlj9IE76lqpB1zw&#43;ZM1umDJ0=" crossorigin="anonymous">
 <script defer
   src="https://unpkg.com/lunr@2.3.9/lunr.min.js"
   integrity="sha384-203J0SNzyqHby3iU6hzvzltrWi/M41wOP5Gu+BiJMz5nwKykbkUx8Kp7iti0Lpli"
   crossorigin="anonymous"></script>
+<link rel="icon" type="image/svg+xml" href="/icons/logo.svg">
 
   </head>
   <body class="td-section">
@@ -112,8 +97,10 @@
         type="button"
         aria-expanded="false"
         data-bs-toggle="dropdown"
-        aria-label="Toggle theme (auto)">
+        title="Toggle theme (Auto)"
+        aria-label="Toggle theme (Auto)">
   <svg class="bi my-1 theme-icon-active"><use href="#circle-half"></use></svg>
+  <span class="visually-hidden" id="bd-theme-text">Toggle theme</span>
 </button>
 <ul class="dropdown-menu" aria-labelledby="bd-theme">
   <li>
@@ -146,7 +133,7 @@
   </div>
   <div class="td-navbar__search d-none d-lg-block">
     <div class="td-search td-search--offline">
-  <div class="td-search__icon"></div>
+  <div class="td-search__icon" aria-hidden="true"></div>
   <input
     type="search"
     name="q"
@@ -155,7 +142,7 @@
     aria-label='Search this site…'
     autocomplete="off"
     
-    data-offline-search-index-json-src="/offline-search-index.a025cab98e9f9e68f65401591d4be497.json"
+    data-offline-search-index-json-src="/offline-search-index.b3e8d4fb7ed6aeb1d34133d2326a4c94.json"
     data-offline-search-base-href="/"
     data-offline-search-max-results="10"
   >
@@ -168,24 +155,10 @@
       <div class="td-main" data-bs-spy="scroll" data-bs-target=".td-toc" data-bs-root-margin="0px 0px -10%">
         <div class="row flex-xl-nowrap">
           <aside class="col-12 col-md-3 col-xl-2 td-sidebar d-print-none">
-            
-  <script>
-    $(function() {
-    $("#td-section-nav a").removeClass("active");
-    $("#td-section-nav #m-docsmemory").addClass("active");
-    $("#td-section-nav #m-docsmemory-li span").addClass("td-sidebar-nav-active-item");
-    $("#td-section-nav #m-docsmemory").parents("li").addClass("active-path");
-    $("#td-section-nav li.active-path").addClass("show");
-    $("#td-section-nav li.active-path").children("input").prop('checked', true);
-    $("#td-section-nav #m-docsmemory-li").siblings("li").addClass("show");
-    $("#td-section-nav #m-docsmemory-li").children("ul").children("li").addClass("show");
-    $("#td-sidebar-menu").toggleClass("d-none");
-    });
-  </script>
-  <div id="td-sidebar-menu" class="td-sidebar__inner d-none">
+            <div id="td-sidebar-menu" class="td-sidebar__inner d-none">
   <form class="td-sidebar__search d-flex align-items-center">
     <div class="td-search td-search--offline">
-  <div class="td-search__icon"></div>
+  <div class="td-search__icon" aria-hidden="true"></div>
   <input
     type="search"
     name="q"
@@ -194,7 +167,7 @@
     aria-label='Search this site…'
     autocomplete="off"
     
-    data-offline-search-index-json-src="/offline-search-index.a025cab98e9f9e68f65401591d4be497.json"
+    data-offline-search-index-json-src="/offline-search-index.b3e8d4fb7ed6aeb1d34133d2326a4c94.json"
     data-offline-search-base-href="/"
     data-offline-search-max-results="10"
   >
@@ -258,8 +231,6 @@
     <a href="/docs/containers/setup/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docscontainerssetup"><span class="">Setup</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docscontainersjava_monitoring-li">
     <a href="/docs/containers/java_monitoring/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docscontainersjava_monitoring"><span class="">Java Monitoring Tooling</span></a>
-  </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docscontainersdocker_monitoring-li">
-    <a href="/docs/containers/docker_monitoring/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docscontainersdocker_monitoring"><span class="">Docker Tooling</span></a>
   </li><li class="td-sidebar-nav__section-title td-sidebar-nav__section without-child collapse" id="m-docscontainers_references-li">
     <a href="/docs/containers/_references/" class="align-left ps-0 td-sidebar-link td-sidebar-link__page" id="m-docscontainers_references"><span class="">References</span></a>
   </li>
@@ -270,16 +241,15 @@
     </ul>
   </nav>
 </div>
-
           </aside>
           <aside class="td-sidebar-toc">
             <div class="td-page-meta ms-2 pb-1 pt-2 mb-0">
-<a href="https://github.com/cchesser/java-perf-workshop/tree/main/userguide/content/docs/memory/_index.md" class="td-page-meta--view td-page-meta__view" target="_blank" rel="noopener"><i class="fa-solid fa-file-lines fa-fw"></i> View page source</a>
-  <a href="https://github.com/cchesser/java-perf-workshop/edit/main/userguide/content/docs/memory/_index.md" class="td-page-meta--edit td-page-meta__edit" target="_blank" rel="noopener"><i class="fa-solid fa-pen-to-square fa-fw"></i> Edit this page</a>
-  <a href="https://github.com/cchesser/java-perf-workshop/new/main/userguide/content/docs/memory?filename=change-me.md&amp;value=---%0Atitle%3A&#43;%22Long&#43;Page&#43;Title%22%0AlinkTitle%3A&#43;%22Short&#43;Nav&#43;Title%22%0Aweight%3A&#43;100%0Adescription%3A&#43;%3E-%0A&#43;&#43;&#43;&#43;&#43;Page&#43;description&#43;for&#43;heading&#43;and&#43;indexes.%0A---%0A%0A%23%23&#43;Heading%0A%0AEdit&#43;this&#43;template&#43;to&#43;create&#43;your&#43;new&#43;page.%0A%0A%2A&#43;Give&#43;it&#43;a&#43;good&#43;name%2C&#43;ending&#43;in&#43;%60.md%60&#43;-&#43;e.g.&#43;%60get-started.md%60%0A%2A&#43;Edit&#43;the&#43;%22front&#43;matter%22&#43;section&#43;at&#43;the&#43;top&#43;of&#43;the&#43;page&#43;%28weight&#43;controls&#43;how&#43;its&#43;ordered&#43;amongst&#43;other&#43;pages&#43;in&#43;the&#43;same&#43;directory%3B&#43;lowest&#43;number&#43;first%29.%0A%2A&#43;Add&#43;a&#43;good&#43;commit&#43;message&#43;at&#43;the&#43;bottom&#43;of&#43;the&#43;page&#43;%28%3C80&#43;characters%3B&#43;use&#43;the&#43;extended&#43;description&#43;field&#43;for&#43;more&#43;detail%29.%0A%2A&#43;Create&#43;a&#43;new&#43;branch&#43;so&#43;you&#43;can&#43;preview&#43;your&#43;new&#43;file&#43;and&#43;request&#43;a&#43;review&#43;via&#43;Pull&#43;Request.%0A" class="td-page-meta--child td-page-meta__child" target="_blank" rel="noopener"><i class="fa-solid fa-pen-to-square fa-fw"></i> Create child page</a>
-  <a href="https://github.com/cchesser/java-perf-workshop/issues/new?title=Memory%20Analysis" class="td-page-meta--issue td-page-meta__issue" target="_blank" rel="noopener"><i class="fa-solid fa-list-check fa-fw"></i> Create documentation issue</a>
-  <a href="https://github.com/cchesser/java-perf-workshop/issues/new" class="td-page-meta--project td-page-meta__project-issue" target="_blank" rel="noopener"><i class="fa-solid fa-list-check fa-fw"></i> Create project issue</a>
-  <a id="print" href="/_print/docs/memory/"><i class="fa-solid fa-print fa-fw"></i> Print entire section</a>
+<a href="https://github.com/cchesser/java-perf-workshop/tree/main/userguide/content/docs/memory/_index.md" class="td-page-meta--view td-page-meta__view" target="_blank" rel="noopener"><i class="fa-solid fa-file-lines"></i> View page source</a>
+  <a href="https://github.com/cchesser/java-perf-workshop/edit/main/userguide/content/docs/memory/_index.md" class="td-page-meta--edit td-page-meta__edit" target="_blank" rel="noopener"><i class="fa-solid fa-pen-to-square"></i> Edit this page</a>
+  <a href="https://github.com/cchesser/java-perf-workshop/new/main/userguide/content/docs/memory?filename=change-me.md&amp;value=---%0Atitle%3A&#43;%22Long&#43;Page&#43;Title%22%0AlinkTitle%3A&#43;%22Short&#43;Nav&#43;Title%22%0Aweight%3A&#43;100%0Adescription%3A&#43;%3E-%0A&#43;&#43;&#43;&#43;&#43;Page&#43;description&#43;for&#43;heading&#43;and&#43;indexes.%0A---%0A%0A%23%23&#43;Heading%0A%0AEdit&#43;this&#43;template&#43;to&#43;create&#43;your&#43;new&#43;page.%0A%0A%2A&#43;Give&#43;it&#43;a&#43;good&#43;name%2C&#43;ending&#43;in&#43;%60.md%60&#43;-&#43;e.g.&#43;%60get-started.md%60%0A%2A&#43;Edit&#43;the&#43;%22front&#43;matter%22&#43;section&#43;at&#43;the&#43;top&#43;of&#43;the&#43;page&#43;%28weight&#43;controls&#43;how&#43;its&#43;ordered&#43;amongst&#43;other&#43;pages&#43;in&#43;the&#43;same&#43;directory%3B&#43;lowest&#43;number&#43;first%29.%0A%2A&#43;Add&#43;a&#43;good&#43;commit&#43;message&#43;at&#43;the&#43;bottom&#43;of&#43;the&#43;page&#43;%28%3C80&#43;characters%3B&#43;use&#43;the&#43;extended&#43;description&#43;field&#43;for&#43;more&#43;detail%29.%0A%2A&#43;Create&#43;a&#43;new&#43;branch&#43;so&#43;you&#43;can&#43;preview&#43;your&#43;new&#43;file&#43;and&#43;request&#43;a&#43;review&#43;via&#43;Pull&#43;Request.%0A" class="td-page-meta--child td-page-meta__child" target="_blank" rel="noopener"><i class="fa-solid fa-pen-to-square"></i> Create child page</a>
+  <a href="https://github.com/cchesser/java-perf-workshop/issues/new?title=Memory%20Analysis" class="td-page-meta--issue td-page-meta__issue" target="_blank" rel="noopener"><i class="fa-solid fa-list-check"></i> Create documentation issue</a>
+  <a href="https://github.com/cchesser/java-perf-workshop/issues/new" class="td-page-meta--project td-page-meta__project-issue" target="_blank" rel="noopener"><i class="fa-solid fa-list-check"></i> Create project issue</a>
+  <a id="print" href="/_print/docs/memory/"><i class="fa-solid fa-print"></i> Print entire section</a>
 
 </div>
 
@@ -292,10 +262,10 @@
           <main class="col-12 col-md-9 col-xl-8 ps-md-5" role="main">
             
             <nav aria-label="breadcrumb" class="td-breadcrumbs">
-  <ol class="breadcrumb">
-  <li class="breadcrumb-item">
+  <ol class="td-breadcrumbs__list">
+  <li class="td-breadcrumbs__item">
     <a href="/docs/">Workshop</a></li>
-  <li class="breadcrumb-item active" aria-current="page">
+  <li class="td-breadcrumbs__item" aria-current="page">
     Memory Analysis</li>
   </ol>
 </nav>
@@ -355,30 +325,11 @@
     </div>
   </div>
 </footer>
-
     </div>
-    <style>
-.markmap > svg {
-  width: 100%;
-  height: 300px;
-}
-</style>
-<script>
-window.markmap = {
-  autoLoader: {
-      manual: true,
-      onReady() {
-        const { autoLoader, builtInPlugins } = window.markmap;
-        autoLoader.transformPlugins = builtInPlugins.filter(plugin => plugin.name !== 'prism');
-      },
-  },
-};
-</script>
-<script src="https://cdn.jsdelivr.net/npm/markmap-autoloader"></script>
-<script src='/js/deflate.js'></script>
-<script src="/js/main.min.133cd48045ffa3c1417709c736e92bff26eb699f98f012ca6da070d4381de0b2.js" integrity="sha256-EzzUgEX/o8FBdwnHNukr/ybraZ&#43;Y8BLKbaBw1Dgd4LI=" crossorigin="anonymous"></script>
-<script defer src="/js/click-to-copy.min.24576ff9fe9f85bb1948ecae52ce227cafce53757a3ad52301f2a79260f6b97d.js" integrity="sha256-JFdv&#43;f6fhbsZSOyuUs4ifK/OU3V6OtUjAfKnkmD2uX0=" crossorigin="anonymous"></script>
-<script src='/js/tabpane-persist.js'></script>
+    <script src='/js/deflate.js'></script>
+<script src="/js/main.min.20eae58cb7d1de49204bb22059430876483dad4b88d3ccf87e4b9189a927071b.js" integrity="sha256-IOrljLfR3kkgS7IgWUMIdkg9rUuI08z4fkuRiaknBxs=" crossorigin="anonymous"></script>
+<script defer src="/js/plugins/click-to-copy.3cca71c9acfa59bc8c018d6e77353b6f6a9bc6c577b6e91f31a59c8758c8a036.js" integrity="sha256-PMpxyaz6WbyMAY1udzU7b2qbxsV3tukfMaWch1jIoDY=" crossorigin="anonymous"></script>
+<script src="/js/plugins/tabpane-persist.d14334f51386faeefb7f976f7df59c450aa780ebb6abe69c77d96f28f9fe2122.js" integrity="sha256-0UM09ROG&#43;u77f5dvffWcRQqngOu2q&#43;acd9lvKPn&#43;ISI=" crossorigin="anonymous"></script>
 
   </body>
 </html>
