@@ -10,7 +10,12 @@ outputs:
 
 imaging:
   resampleFilter: CatmullRom # cSpell:disable-line
-  quality: 75
+  jpeg:
+    quality: 75
+  webp:
+    quality: 75
+  avif:
+    quality: 75
   anchor: smart
 
 menu:
@@ -22,7 +27,7 @@ menu:
 
 languages:
   en:
-    languageName: English
+    label: English
     params:
       title: "jvmperf: JVM Performance Workshop"
       description: JVM performance workshop that leverages open-source tooling to discover how your JVM is performing
@@ -89,8 +94,10 @@ params:
     svg: false
   print:
     disable_toc: false
-  markmap:
-    enable: true
+  docsy:
+    plugins:
+      markmap:
+        enable: true
   drawio:
     enable: true
 
@@ -102,9 +109,9 @@ module:
   proxy: direct
   hugoVersion:
     extended: true
-    min: 0.73.0
+    min: 0.160.1
   imports:
-    - path: github.com/google/docsy
+    - path: github.com/docsy/docsy/theme
       disable: false
 
 security:

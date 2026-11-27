@@ -1,7 +1,56 @@
+[data-bs-theme='light'] ::selection {
+  background-color: #005f93;
+  color: #fff;
+}
+
+[data-bs-theme='dark'] ::selection {
+  background-color: #b9ddf5;
+  color: #102a3a;
+}
+
+[data-bs-theme='light'] a:hover,
+[data-bs-theme='light'] a:focus-visible {
+  color: #01324f;
+}
+
+[data-bs-theme='dark'] a:hover,
+[data-bs-theme='dark'] a:focus-visible {
+  color: #b9ddf5;
+}
+
+[data-bs-theme='light'] .td-toc #TableOfContents a:hover,
+[data-bs-theme='light'] .td-toc #TableOfContents a:focus-visible {
+  color: #01324f;
+  background-color: #d6eaf6;
+}
+
+[data-bs-theme='dark'] .td-toc #TableOfContents a:hover,
+[data-bs-theme='dark'] .td-toc #TableOfContents a:focus-visible {
+  color: #b9ddf5;
+  background-color: #293e4a;
+}
+
 .td-navbar {
+  --bs-navbar-hover-color: #b9ddf5;
+  --bs-navbar-brand-hover-color: #b9ddf5;
+
+  .nav-link:hover,
+  .nav-link:focus-visible,
+  .navbar-brand:hover,
+  .navbar-brand:focus-visible {
+    color: #b9ddf5;
+  }
+
   .navbar-brand__logo svg {
     transition: filter 0.15s ease-in-out;
   }
+}
+
+[data-bs-theme='light'] .td-navbar .nav-link:hover,
+[data-bs-theme='light'] .td-navbar .nav-link:focus-visible,
+[data-bs-theme='light'] .td-navbar .navbar-brand:hover,
+[data-bs-theme='light'] .td-navbar .navbar-brand:focus-visible {
+  color: #01324f;
 }
 
 [data-bs-theme='light'] .td-navbar .navbar-brand__logo svg {

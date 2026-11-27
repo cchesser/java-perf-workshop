@@ -1,0 +1,3 @@
+{{ with resources.Get "icons/logo.svg" -}}
+<link rel="icon" type="image/svg+xml" href="{{ .RelPermalink }}">
+{{- end }}
