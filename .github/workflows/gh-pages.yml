@@ -20,8 +20,11 @@ jobs:
       - name: Setup mise
         uses: jdx/mise-action@v4
 
-      - name: Ensure Dart Sass permissions
-        run: chmod -R u+rX "$(mise where aqua:sass/dart-sass)"
+      - name: Verify Dart Sass setup
+        run: |
+          SASS_DIR="$(mise where aqua:sass/dart-sass)/dart-sass"
+          chmod u+rx "$SASS_DIR/sass" "$SASS_DIR/src/dart"
+          "$SASS_DIR/sass" --embedded --version
 
       - run: npm install
       - run: hugo
