@@ -3,7 +3,10 @@ name: github pages
 on:
   push:
     branches:
-      - main  # Set a branch to deploy
+      - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
   deploy:
@@ -22,7 +25,7 @@ jobs:
 
       - name: Verify Dart Sass setup
         run: |
-          SASS_DIR="$(mise where aqua:sass/dart-sass)/dart-sass"
+          SASS_DIR="$(mise where github:sass/dart-sass)"
           chmod u+rx "$SASS_DIR/sass" "$SASS_DIR/src/dart"
           "$SASS_DIR/sass" --embedded --version
 
@@ -32,6 +35,7 @@ jobs:
           HUGO_ENV: production
 
       - name: Deploy
+        if: github.event_name == 'push' && github.ref == 'refs/heads/main'
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
