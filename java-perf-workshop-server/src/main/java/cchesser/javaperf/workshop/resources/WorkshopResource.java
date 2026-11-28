@@ -10,8 +10,8 @@ import cchesser.javaperf.workshop.data.Searcher.SearchResult;
 import com.codahale.metrics.annotation.Timed;
 
 import javax.print.attribute.standard.Media;
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
+import jakarta.ws.rs.*;
+import jakarta.ws.rs.core.MediaType;
 import java.util.List;
 
 @Path("/")

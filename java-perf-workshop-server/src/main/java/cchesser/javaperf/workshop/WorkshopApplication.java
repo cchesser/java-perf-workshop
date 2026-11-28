@@ -3,9 +3,9 @@ package cchesser.javaperf.workshop;
 import cchesser.javaperf.workshop.health.RemoteServiceHealthCheck;
 import cchesser.javaperf.workshop.resources.WorkshopResource;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import io.dropwizard.Application;
-import io.dropwizard.setup.Bootstrap;
-import io.dropwizard.setup.Environment;
+import io.dropwizard.core.Application;
+import io.dropwizard.core.setup.Bootstrap;
+import io.dropwizard.core.setup.Environment;
 
 public class WorkshopApplication extends Application<WorkshopConfiguration> {
 

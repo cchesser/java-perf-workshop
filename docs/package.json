@@ -1,9 +1,9 @@
 {
   "devDependencies": {
-    "autoprefixer": "^10.4.21",
-    "postcss": "^8.2.10",
-    "postcss-cli": "^8.3.1",
-    "reveal.js": "^6.0.1"
+    "autoprefixer": "^10.7.1",
+    "postcss": "^8.5.34",
+    "postcss-cli": "^12.0.0",
+    "reveal.js": "^6.0.2"
   },
   "workspaces": [
     "packages/hugoautogen"

@@ -2,8 +2,8 @@ package cchesser.javaperf.workshop.cache;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 
 public class CacheConfiguration {
 

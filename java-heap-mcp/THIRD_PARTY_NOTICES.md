@@ -33,14 +33,15 @@ Links point to the upstream project or its license information.
 
 | Component | Version | License / attribution | Why it is present |
 | --- | --- | --- | --- |
-| Jackson Databind, Core, Annotations, JSR310 | 2.18.3 | Apache-2.0 | MCP and JSON serialization |
-| Eclipse Platform Runtime, Resources, Commands | 3.31.0 / 3.22.0 / 3.12.0 | EPL-2.0 | MAT runtime services |
-| ICU4J | 76.1 | ICU License | Eclipse/MAT internationalization support |
-| Apache Calcite Core | 1.41.0 | Apache-2.0 | SQL parser, planner, and execution engine |
-| Guava | 33.5.0-jre | Apache-2.0 | Embedded MAT Calcite implementation |
+| Model Context Protocol Java SDK | 2.2.0 | MIT | MCP protocol and server support |
+| Jackson Databind, Core, Annotations, JSR310 | 2.23.0 (Annotations 2.23) | Apache-2.0 | MCP and JSON serialization |
+| Eclipse Platform Runtime, Resources, Commands | 3.35.0 / 3.24.100 / 3.13.0 | EPL-2.0 | MAT runtime services |
+| ICU4J | 79.1 | ICU License | Eclipse/MAT internationalization support |
+| Apache Calcite Core | 1.42.0 | Apache-2.0 | SQL parser, planner, and execution engine |
+| Guava | 33.8.0-jre | Apache-2.0 | Embedded MAT Calcite implementation |
 | Janino and Commons Compiler | 3.1.12 | BSD-3-Clause | Calcite enumerable code generation |
-| JUnit Jupiter | 5.12.2 | EPL-2.0 | Tests only |
-| AssertJ Core | 3.27.3 | Apache-2.0 | Tests only |
+| JUnit Jupiter | 6.1.3 | EPL-2.0 | Tests only |
+| AssertJ Core | 3.27.7 | Apache-2.0 | Tests only |
 
 Calcite brings additional runtime artifacts, including Avatica, JTS, Proj4J,
 Jackson YAML, SnakeYAML, SLF4J, Apache Commons components, protobuf,
@@ -79,13 +80,13 @@ are available at the linked repository.
 
 ## Included Artifacts
 
-1. `org.eclipse.mat.api.jar` (Bundle-Version `1.16.1.202501091339`)
+1. `org.eclipse.mat.api.jar` (Bundle-Version `1.17.0.202606011933`)
    - Declared license: `EPL-2.0`
-2. `org.eclipse.mat.parser.jar` (Bundle-Version `1.16.1.202501091339`)
+2. `org.eclipse.mat.parser.jar` (Bundle-Version `1.17.0.202606011933`)
    - Declared license: `EPL-2.0`
-3. `org.eclipse.mat.report.jar` (Bundle-Version `1.16.1.202501091339`)
+3. `org.eclipse.mat.report.jar` (Bundle-Version `1.17.0.202606011933`)
    - Declared license: `EPL-2.0`
-4. `org.eclipse.mat.hprof.jar` (Bundle-Version `1.16.1.202501091339`)
+4. `org.eclipse.mat.hprof.jar` (Bundle-Version `1.17.0.202606011933`)
    - Declared licenses: `EPL-2.0`, `MIT` (for bundled DEFLATE library code)
 
 License declarations above are sourced from each JAR's `META-INF/MANIFEST.MF` (`Bundle-License`) and `about.html`.
