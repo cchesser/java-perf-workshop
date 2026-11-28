@@ -2,8 +2,8 @@ package cchesser.javaperf.workshop;
 
 import cchesser.javaperf.workshop.cache.CacheConfiguration;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import io.dropwizard.Configuration;
-import org.hibernate.validator.constraints.NotEmpty;
+import io.dropwizard.core.Configuration;
+import jakarta.validation.constraints.NotEmpty;
 
 public class WorkshopConfiguration extends Configuration {
 
